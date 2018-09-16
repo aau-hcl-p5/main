@@ -2,6 +2,45 @@
 % This section is meant to introduce single-board computers that are often used for introducing programmers to beginners.
 % The section itself might not be used a whole lot during the design and implementation, as these are not the arduino platform.
 % Still, it is good to give examples of implementations.
+\section{Embedded platform}
+In the following section will examine the embedded platforms, that will be used in the project.
+For the 5th semester of the Software education, a Lego Mindstorms kit is supplied to each project group.
+Therefore the analysis will primarily be based around the Lego Mindstorms platform, with a few additional platforms also considered.
+
+To determine the best platform, the requirements for the project will need to be considered.
+\begin{enumerate}
+	\item At the very least, the platform must be able to perform a targeting calculation, based on a machine learning model.
+	\item Be able to interface with motors, most likely Lego.
+	\item Potentially be able to train a machine learning model, which is used for the prediction on which the targeting is based.
+\end{enumerate}
+
+As image recognition is an expensive computation, the current idea is to offload this to an external server or computer, which will compute the current object position and send that to the embedded device.
+
+\subsection{Lego Mindstorms}
+Lego Mindstorms is a programmable computer kit, made by Lego.
+The platform is based around a central control computer, called the Intelligent Brick.
+It also includes a variety of sensors, motors and connection cables.
+Each generation further improves on the concept, adding more computational power and better sensors.
+
+The choices for the 5th semester are the second generation, the Lego Mindstorms NXT 2.0 kit and the third generation, the Lego Mindstorms EV3 kit.
+
+\subsection{Lego Mindstorms NXT 2.0}
+The Lego Mindstorms NXT 2.0 (NXT), is a micro computer kit, based around the NXT Intelligent Brick.
+The NXT Intelligent Brick is a micro computer based on the 32-bit ARM7 microprocessor, with 256 kbytes of flash memory and 64 kbytes of RAM\cite{nxt2userguide}.
+It includes a variety of sensors, such as touch, sound, light and ultrasonic (vision) sensors.
+On top of this it also includes servo motors and lamps.
+
+The default way to program the NXT is a graphical drag and drop interface, but a variety of compilers, for a variety of languages exist.
+
+
+
+
+
+
+
+
+
+
 
 \section{Educational single-board computers}
 While HCL is developed for the Arduino, other educational computer platforms are analyzed, to gain further inspiration.
