@@ -54,7 +54,7 @@
         *   Hvad data sender man bedst til EDevice
         *   RTS kræver: Tidsskalering, klassificering af device
     *   Undersøg sensorerne.
-        *   LEGO HACKER DAG!!!!!
+        *   LEGO HACKER DAG!!!!
         *   Dette er det første vi skal.
         *   Vi skal alle være med om det.
 *   **<span style="text-decoration:underline;">Husk:</span>**
