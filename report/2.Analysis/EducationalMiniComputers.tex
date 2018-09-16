@@ -22,26 +22,40 @@ The platform is based around a central control computer, called the Intelligent 
 It also includes a variety of sensors, motors and connection cables.
 Each generation further improves on the concept, adding more computational power and better sensors.
 
+The Lego Mindstorm platform, comes with a graphical drag and drop interface, but a variety of compilers for many different languages exist..
+
 The choices for the 5th semester are the second generation, the Lego Mindstorms NXT 2.0 kit and the third generation, the Lego Mindstorms EV3 kit.
 
-\subsection{Lego Mindstorms NXT 2.0}
-The Lego Mindstorms NXT 2.0 (NXT), is a micro computer kit, based around the NXT Intelligent Brick.
+\subsubsection{Lego Mindstorms NXT 2.0}
+The Lego Mindstorms NXT 2.0 (NXT) is the second generation Lego Mindstorms kit.
 The NXT Intelligent Brick is a micro computer based on the 32-bit ARM7 microprocessor, with 256 kbytes of flash memory and 64 kbytes of RAM\cite{nxt2userguide}.
 It includes a variety of sensors, such as touch, sound, light and ultrasonic (vision) sensors.
-On top of this it also includes servo motors and lamps.
+On top of this, the consumer kit also includes servo motors and lamps.
 
-The default way to program the NXT is a graphical drag and drop interface, but a variety of compilers, for a variety of languages exist.
+\subsubsection{Lego Mindstorms EV3}
+The  Lego Mindstorms EV3 (EV3) is the third generation of the Lego Mindstorms line.
+The EV3 mainly improves on the specifications of the second generation, adding a more powerful 300MHz ARM9 processor, running Linux, 16 MB of flash memory, which is extendable with a microSDHC card and 64MB of RAM\cite{ev3userguide}.
+On top of this, it also adds remote control and WiFi capabilities
+
+%Don't know how relevant this will actually be.
+\subsection{Single-board computers}
+Besides the Lego Mindstorms platform, which is the recommended platform for this semester, there is also the option of using single-board computers, such as the Raspberry Pi or the Arduino.
+Both of these are more general purpose computers, designed for small electronics projects.
+Both of the platforms include different models, with some being more powerful than others or having more ports.
+
+\subsubsection{Arduino}
+The Arduino is a single-board computer platform, designed for small electronics projects.
+The Arduino platform is am eco-system, comprised of different boards, that share the trait of being easily programmable in the included language, a subset of \texttt{C++}.
+Arduino boards typically includes a processor, some RAM and flash memory, as well as programmable GPIO pins\footnote{General Purpose Input Output}.
+
+\subsubsection{Raspberry Pi}
+The Raspberry Pi, the same as the Arduino platform, is a single-board computer eco-system.
+Like the Arduino, a Raspberry Pi, typically consists of a processor, RAM, flash memory and GPIO pins.
+It differs from the Arduino, as it the Raspberry's are typically more powerful, than their Arduino counterparts.
 
 
-
-
-
-
-
-
-
-
-
+%below comment means do not compile
+\iffalse
 \section{Educational single-board computers}
 While HCL is developed for the Arduino, other educational computer platforms are analyzed, to gain further inspiration.
 
@@ -90,3 +104,4 @@ For instance, it may be more rewarding for the user to get an actual lamp to bli
 The attachments will allow the user to build something robotic, which is a common desire or goal for both new and experienced developers\cite{EducationalRobotics}.
 
 Since the Arduino platform also has the ability to connect various devices through its GPIO pins, it would be ideal to incorporate some easy to use GPIO handling into HCL.
+\fi
