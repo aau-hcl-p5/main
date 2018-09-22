@@ -1,0 +1,78 @@
+% !TeX root = ../main.tex
+% This section is meant to introduce single-board computers that are often used for introducing programmers to beginners.
+% The section itself might not be used a whole lot during the design and implementation, as these are not the arduino platform.
+% Still, it is good to give examples of implementations.
+\section{Embedded platform}
+In the following section will examine the embedded platforms, that will be used in the project.
+For the 5th semester of the Software education, a Lego Mindstorms kit is supplied to each project group.
+Therefore the analysis will primarily be based around the Lego Mindstorms platform, with a few additional platforms also considered.
+
+To determine the best platform, the requirements for the project will need to be considered.
+\begin{enumerate}
+	\item At the very least, the platform must be able to perform a targeting calculation, based on a trained machine learning model.
+	\item Be able to interface with motors, most likely Lego.
+	\item Potentially be able to train a machine learning model, which is used for the prediction on which the targeting is based.
+\end{enumerate}
+
+As image recognition is an expensive computation, the current idea is to offload this to an external server or computer, which will compute the current object position and send that to the embedded device.
+
+The current idea is to use the Lego Mindstorms platform for the robotics part of the solution, and use a single-board computer for image object tracking and the machine learning model training.
+
+\subsection{Lego Mindstorms}
+Lego Mindstorms is a programmable computer kit, made by Lego.
+The platform is based around a central control computer, called the Intelligent Brick.
+It also includes a variety of sensors, motors and connection cables.
+Each generation further improves on the concept, adding more computational power and better sensors.
+
+The Lego Mindstorm platform, comes with a graphical drag and drop interface.
+However, various different compilers for many different languages exist.
+As such the choice between different generations, does not come down to language preferences.
+
+The choices for the 5th semester are the second generation, the Lego Mindstorms NXT 2.0 kit and the third generation, the Lego Mindstorms EV3 kit.
+
+\subsubsection{Lego Mindstorms NXT 2.0}
+The Lego Mindstorms NXT 2.0 (NXT) is the second generation Lego Mindstorms kit.
+The NXT Intelligent Brick is a micro computer based on the 32-bit ARM7 microprocessor, with 256 kbytes of flash memory and 64 kbytes of RAM\cite{nxt2userguide}.
+It includes a variety of sensors, such as touch, sound, light and ultrasonic (vision) sensors.
+On top of this, the consumer kit also includes servo motors and lamps.
+
+A potential major disadvantage of the NXT 2.0, is that the platform is rather old.
+This means that problems could arise, especially in regards to compatability with newer platforms.
+This will be further elaborated on in a later section
+
+\subsubsection{Lego Mindstorms EV3}
+The  Lego Mindstorms EV3 (EV3) is the third generation of the Lego Mindstorms line.
+The EV3 mainly improves on the specifications of the second generation, adding a significantly more powerful 300MHz ARM9 processor, running Linux, 16 MB of flash memory, which is extendable with a microSDHC card and 64MB of RAM\cite{ev3userguide}.
+On top of this, it also adds remote control and WiFi capabilities, as well as more recently updated compilers.
+
+The primary advantage of the EV3 is that its software is up to date and the power it brings to the table.
+The power is however also its primary disadvantage.
+As the goal of this project is to design an embedded real time system, a too powerful computer, could potentially mask some of the challenges that normally come with the development of an embedded system.
+
+%Don't know how relevant this will actually be.
+\subsection{Single-board computers}
+Besides the Lego Mindstorms platform, which is the recommended platform for this semester, there is also the option of using single-board computers, such as the Raspberry Pi or the Arduino.
+Both of these are more general purpose computers, designed for small electronics projects.
+Both of the platforms include different models, with some being more powerful than others or having more ports.
+
+\subsubsection{Arduino}
+The Arduino is a single-board computer platform, designed for small electronics projects.
+The Arduino platform is am eco-system, comprised of different boards, that share the trait of being easily programmable in the included language, a subset of \texttt{C++}.
+Arduino boards typically includes a processor, some RAM and flash memory, as well as programmable GPIO pins\footnote{General Purpose Input Output}.
+
+The primary advantage of the Arduino platform is that it is easy to work with, and very modular.
+A potential disadvantage is that it will not interface well with the Lego Mindstorms platform, potentially requiring a custom built solution.
+This should be doable though.
+
+\subsubsection{Raspberry Pi}
+The Raspberry Pi, the same as the Arduino platform, is a single-board computer eco-system.
+Like the Arduino, a Raspberry Pi, typically consists of a processor, RAM, flash memory and GPIO pins.
+It differs from the Arduino, as it the Raspberry's are typically more powerful, than their Arduino counterparts.
+In fact, Raspberry Pi's are, for all intents and purposes, just weaker desktop computers.
+
+Raspberry Pi's also typically include some form of network connectivity, whether it is a WiFi chip or a LAN port.
+It also includes USB ports, which means it can use a USB camera, which could be required for the object tracking.
+
+\subsection{Takeaways}
+Both the NXT 2.0 and the EV3 are excellent robotics platform, and the choice between the two generations, will primarily be dependent on the limits that the project group imposes on itself.
+For the image recognition platform, the Raspberry Pi seems like the best choice, as the Arduino, depending on the specific model, is only as powerful as the NXT or the EV3, rendering the Arduino a bit redundant.
