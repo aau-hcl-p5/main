@@ -4,12 +4,11 @@ The date is the start of the sprint, and every sprint, except the last one, are 
 The comment of each sprint is what we should finish at the end of the given sprint. 
 
 sprint01: 2018-09-11 - setup
-
 sprint02: 2018-09-18 - Start on analysis and theory
-sprint03: 2018-09-25
-sprint04: 2018-10-02 - Analysis done 
-sprint05: 2018-10-09 - Architecture done
-sprint06: 2018-10-16 - Theory done + Start on development + Start on documentation
+sprint03: 2018-09-25 - Analysis done 
+sprint04: 2018-10-02 - Architecture done
+sprint05: 2018-10-09 - Theory done
+sprint06: 2018-10-16 - Start on development + Start on documentation
 sprint07: 2018-10-23 - RASP -> NXT communication done.
 sprint08: 2018-10-30 - Movement-module works
 sprint09: 2018-11-06 - Basic Image recognition
