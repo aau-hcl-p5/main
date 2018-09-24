@@ -1,0 +1,47 @@
+\section{Object Tracking}
+
+To be able to track or know where the target is located, the device will require some sensors that can transmit information about the position of the desired target.
+One could easily imagine a couple of different sensors that could potentially gather information about the position of the target.
+For instance laser and sonar could both be used to gather some information about the position of a target\cite{Sensors}.
+However, since the system should be adaptable to a dynamic environment with potentially a lot of different objects in motion, one sensor was deemed the most obvious choice for this system; a camera.
+
+The camera is obviously very powerful, since images can be processed in order to determine what objects are present in the image.
+Once the location of the object is determined within the image, the direction of the target should be calculated.
+Assuming the device will shoot in the exact center of the image, the direction in which to aim, will simply be calculated based on the delta x and y coordinates of the target within the image.
+
+Unfortunately the camera does also come with a couple of cons.
+First of all, a normal camera will not be able to determine the distance to a target.
+Second of all, the camera will give a lot of excessive information, which will have to be processed in order to only keep the relevant information.
+As for the distance, the camera could potentially be used alongside a laser sensor used for the distance measuring\cite{Sensors}.
+
+\subsection{Image processing}
+As mentioned the camera outputs a lot of excessive information.
+Actually, the camera does not even provide the information needed.
+At least not directly that is.
+
+The image will have to be processed in order to figure out where the target is located within the image.
+Unfortunately it is no easy task to recognize objects in images.
+It can be extremely tedious to write an algorithm by hand, that will recognize objects in images.
+However, there are a couple of different methods that can be used when detecting objects.
+
+Object detection is a classic computer vision problem, and a lot of research exists in this field.
+Generally speaking there are two approaches to this problem.
+
+\subsubsection{Handcoded features}
+As already mentioned it may be very tedious to write an object detection algorithm by hand.
+However, if the object has some very distinct features, it may also be fairly straight forward to implement by hand.
+Imagine that an algorithm were to detect a red ball. 
+Given the two features round and red, it would probably be a manageable task to implement an algorithm that would detect a red ball.
+
+Although the handcoded algorithms may be usable given a few distinct features, it will quickly fall short given the task to detect a face or a bird.
+
+\subsubsection{Machine learning}
+Rather that trying to describe a complex object using an algorithm, an often used alternative is to let the computer figure out the features of the object itself.
+This is what is often referred to as machine learning.
+
+Machine learning is a common term used when a computer learns itself to solve a given task\cite{MachineLearningWiki}.
+There are a wide variety of tasks that are very complicated to solve using algorithms, but easy to solve simply by letting the computer learn itself how to solve them. 
+Some common examples are for instance object detection, speech recognition or learning the best tactics of games like chess.
+
+Apart from the object detection, one could also imagine that machine learning could be applied in this system to predict the motion of the object that is being tracked.
+So machine learning will be highly relevant and something to consider when developing the system.
