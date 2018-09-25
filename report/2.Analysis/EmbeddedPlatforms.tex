@@ -33,16 +33,16 @@ On top of this, it also adds remote control and WiFi capabilities, as well as mo
 
 It is also fully backwards-compatible with the NXT sensors\cite{ev3nxtcompatability}.
 
-%Don't know how relevant this will actually be.
 \subsection{Single-board computers}
 Besides the LEGO Mindstorms platform, which is the recommended platform for this semester, there is also the option of using single-board computers, such as the Raspberry Pi or the Arduino.
 Both of are a bit more akin to general purpose computers, designed for small electronics projects and both platforms include different models, with some being more powerful than others or having different features that further set them apart.
+The single-board computers, are essentially just very small computers that are programmable and has GPIO pins\footnote{General Purpose Input Output}.
+These GPIO pins can manipulate and get data from general purpose electronics parts.
 
 \subsubsection{Arduino}
 The Arduino is a single-board computer platform, designed for small electronics projects.
 The Arduino platform is an electronics eco-system, comprised of different boards, that share the trait of being easily programmable in the included language, a subset of \texttt{C++}.
-Arduino boards typically includes a processor, a small amount of RAM and flash memory, as well as the programmable GPIO pins\footnote{General Purpose Input Output}.
-These GPIO pins can manipulate and get data from general purpose electronics parts.
+The Arduino boards can only have one single program running at a time.
 
 The primary advantage of the Arduino platform is that it is easy to work with and that there are so many different boards, all of which differ in performance, meaning that one that matches our particular requirements, most likely exists.
 
@@ -55,7 +55,7 @@ It has many more input/output pins and is meant for larger scale Arduino project
 
 \subsubsection{Raspberry Pi}
 The Raspberry Pi, the same as the Arduino platform, is a single-board computer eco-system.
-Like the Arduino, a Raspberry Pi, typically consists of a processor, RAM, flash memory and GPIO pins.
+Like the Arduinos, a Raspberry Pi is a small computer with GPIO pins.
 It differs from the Arduino, as the Raspberry's are typically more powerful, than their Arduino counterparts and are for all intents and purposes, just weaker desktop computers.
 
 Raspberry Pi's also typically include some form of network connectivity, whether it is a WiFi chip or a LAN port.
