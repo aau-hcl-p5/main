@@ -1,25 +1,23 @@
 % !TeX root = ../main.tex
-% This section is meant to introduce single-board computers that are often used for introducing programmers to beginners.
-% The section itself might not be used a whole lot during the design and implementation, as these are not the arduino platform.
-% Still, it is good to give examples of implementations.
+% This section introduces the various embedded platforms that are available on the 5th semester.
 \section{Embedded platform}
 The goal of the 5th semester, is to develop an embedded system.
-The following sections examines a few different embedded platforms.
+The following sections examines a few different platforms.
 
-\subsection{Lego Mindstorms}
-Lego Mindstorms is a programmable computer kit, made by Lego.
+\subsection{LEGO Mindstorms}
+LEGO Mindstorms is a programmable computer kit, made by the LEGO Group.
 The platform is based around a central control computer, called the Intelligent Brick.
 It also includes a variety of sensors, motors and connection cables.
 
-The Lego Mindstorm platform, comes with a graphical drag and drop interface.
+The LEGO Mindstorm platform, comes with a graphical drag and drop interface.
 However, various different compilers for many different languages exist.
 As such the choice between different generations, does not come down to language preferences.
 
-On the 5th semester of Software, each group is supplied with a lego kit, consisting of both a Lego Mindstorms NXT 2.0 kit and a Lego Mindstorms EV3 kit, aswell as an assortment of sensors, motors and Legos.
+On the 5th semester, each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, aswell as an assortment of sensors, motors and LEGOs.
 On top of this, it is also possible to order other platforms and sensors.
 
-\subsubsection{Lego Mindstorms NXT 2.0}
-The Lego Mindstorms NXT 2.0 (NXT) is the second generation Lego Mindstorms kit.
+\subsubsection{LEGO Mindstorms NXT 2.0}
+The LEGO Mindstorms NXT 2.0 (NXT) is the second generation LEGO Mindstorms kit.
 The NXT Intelligent Brick is a micro computer based on the 32-bit 48 MHz ARM7 microprocessor, with 256 kbytes of flash memory and 64 kbytes of RAM\cite{nxt2userguide}\cite{nxt2ev3compare}.
 It includes a variety of sensors, such as touch, sound, light and ultrasonic (vision) sensors.
 On top of this, the consumer kit also includes servo motors and lamps.
@@ -28,8 +26,8 @@ A potential major disadvantage of the NXT 2.0, is that the platform is rather ol
 This means that problems could arise, especially in regards to compatability with newer operating systems.
 Further testing will be done and this will be further elaborated on in a later section.
 
-\subsubsection{Lego Mindstorms EV3}
-The  Lego Mindstorms EV3 (EV3) is the third generation of the Lego Mindstorms line.
+\subsubsection{LEGO Mindstorms EV3}
+The  LEGO Mindstorms EV3 (EV3) is the third generation of the LEGO Mindstorms line.
 The EV3 mainly improves on the specifications of the second generation, adding a significantly more powerful 300MHz ARM9 processor, running Linux, 16 MB of flash memory, which is extendable with a microSDHC card and 64MB of RAM\cite{ev3userguide}.
 On top of this, it also adds remote control and WiFi capabilities, as well as more recently updated compilers.
 
@@ -37,16 +35,16 @@ It is also fully backwards-compatible with the NXT sensors\cite{ev3nxtcompatabil
 
 %Don't know how relevant this will actually be.
 \subsection{Single-board computers}
-Besides the Lego Mindstorms platform, which is the recommended platform for this semester, there is also the option of using single-board computers, such as the Raspberry Pi or the Arduino.
+Besides the LEGO Mindstorms platform, which is the recommended platform for this semester, there is also the option of using single-board computers, such as the Raspberry Pi or the Arduino.
 Both of are a bit more akin to general purpose computers, designed for small electronics projects and both platforms include different models, with some being more powerful than others or having different features that further set them apart.
 
 \subsubsection{Arduino}
 The Arduino is a single-board computer platform, designed for small electronics projects.
 The Arduino platform is an electronics eco-system, comprised of different boards, that share the trait of being easily programmable in the included language, a subset of \texttt{C++}.
-Arduino boards typically includes a processor, some RAM and flash memory, as well as programmable GPIO pins\footnote{General Purpose Input Output}.
+Arduino boards typically includes a processor, a small amount of RAM and flash memory, as well as the programmable GPIO pins\footnote{General Purpose Input Output}.
+These GPIO pins can manipulate and get data from general purpose electronics parts.
 
-The primary advantage of the Arduino platform is that it is easy to work with, and very modular.
-It is comprised of many different boards, all of which differ in power, meaning that one that matches any requirements most likely exist.
+The primary advantage of the Arduino platform is that it is easy to work with and that there are so many different boards, all of which differ in performance, meaning that one that matches our particular requirements, most likely exists.
 
 The Arduino platform is comprised of a lot of different boards, all of which are built for different purposes.
 They all differ in both their processing power, aswell as their connectability
@@ -65,12 +63,13 @@ It also includes USB ports, which means it can use a USB camera, which could be 
 
 The Raspberry Pi's differ in power.
 The Raspberry PI 3 B+, which is for all intents and purposes the flagship model, features a 1.4 GHz quad core CPU, with 1 GB of ram.
-The smaller Raspberry Pi Zero, trades performance, having only a 1 GHz single core CPU, for a smaller footprint and being less power hungry.
+The smaller Raspberry Pi Zero, trades performance, having only a 1 GHz single core CPU and 512 MB of RAM, for a smaller footprint and being less power hungry.
 
 \subsection{Takeaways}
 There are a lot of different platforms, on which to build an embedded system.
-The Lego Mindstorms ecosystem offers ease of use, and easy interfacability to a variety of different sensors.
+The LEGO Mindstorms ecosystem offers ease of use, and easy interfacability to a variety of different sensors.
 Both the NXT 2.0 and the EV3 are excellent robotics platform, and the choice between the two generations, will primarily be dependent on the limits that the project group imposes on itself.
 The more traditional platforms, the Raspberry Pi and the Arduino platform are also excellent choices, with the Raspberry Pi being more akin to a traditional desktop computer, and the Arduino being focused on small systems.
+The Raspberry PI Zeros smaller processor and less amount of RAM, makes it a potentially interesting platform for this project.
 
 %Figure out if we actually wanna make a choice here, or wait till we have looked at sensors.
