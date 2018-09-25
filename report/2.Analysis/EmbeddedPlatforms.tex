@@ -1,8 +1,9 @@
 % !TeX root = ../main.tex
 % This section introduces the various embedded platforms that are available on the 5th semester.
 \section{Embedded platform}
-The goal of the 5th semester, is to develop an embedded system.
-The following sections examines a few different platforms.
+The goal of the 5th semester of the bachelor in Software, is to develop an embedded system.
+Therefore it is relevant to look into the different relevant platforms.
+The university supplies the student groups with LEGO Mindstorm, which would make it an ideal option, however it is is still interesting to look into alternatives. 
 
 \subsection{LEGO Mindstorms}
 LEGO Mindstorms is a programmable computer kit, made by the LEGO Group.
@@ -13,63 +14,74 @@ The LEGO Mindstorm platform, comes with a graphical drag and drop interface.
 However, various different compilers for many different languages exist.
 As such the choice between different generations, does not come down to language preferences.
 
-On the 5th semester, each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, aswell as an assortment of sensors, motors and LEGOs.
+Each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGOs.
 On top of this, it is also possible to order other platforms and sensors.
 
-\subsubsection{LEGO Mindstorms NXT 2.0}
+\paragraph{LEGO Mindstorms NXT 2.0}
 The LEGO Mindstorms NXT 2.0 (NXT) is the second generation LEGO Mindstorms kit.
-The NXT Intelligent Brick is a micro computer based on the 32-bit 48 MHz ARM7 microprocessor, with 256 kbytes of flash memory and 64 kbytes of RAM\cite{nxt2userguide}\cite{nxt2ev3compare}.
-It includes a variety of sensors, such as touch, sound, light and ultrasonic (vision) sensors.
-On top of this, the consumer kit also includes servo motors and lamps.
+The NXT Intelligent Brick is a micro computer based on the 32-bit 48 MHz ARM7 microprocessor, with 256 kilobytes of flash memory and 64 kilobytes of RAM \cite{nxt2userguide} \cite{nxt2ev3compare}.
+It includes a variety of sensors, such as touch, sound, light, and distance sensors, as well as servo motors and lamps.
 
-A potential major disadvantage of the NXT 2.0, is that the platform is rather old.
-This means that problems could arise, especially in regards to compatability with newer operating systems.
-Further testing will be done and this will be further elaborated on in a later section.
+A potential major disadvantage of the NXT 2.0 is it age. 
+The platform was released in 2006, meaning that the software might cause problems regarding implementation in modern day software solutions.
 
-\subsubsection{LEGO Mindstorms EV3}
+\paragraph{LEGO Mindstorms EV3}
 The  LEGO Mindstorms EV3 (EV3) is the third generation of the LEGO Mindstorms line.
-The EV3 mainly improves on the specifications of the second generation, adding a significantly more powerful 300MHz ARM9 processor, running Linux, 16 MB of flash memory, which is extendable with a microSDHC card and 64MB of RAM\cite{ev3userguide}.
-On top of this, it also adds remote control and WiFi capabilities, as well as more recently updated compilers.
+The EV3 mainly improves on the specifications of the second generation, adding a significantly more powerful 300MHz ARM9 processor, running Linux, 16 megabytes of flash memory, which is extendable with a microSDHC card and 64 megabytes of RAM \cite{ev3userguide}.
+Furthermore, it adds remote control, WiFi capabilities, and more recently updated compilers.
 
-It is also fully backwards-compatible with the NXT sensors\cite{ev3nxtcompatability}.
+It is also fully backwards-compatible with the NXT sensors \cite{ev3nxtcompatability}.
 
-\subsection{Single-board computers}
-Besides the LEGO Mindstorms platform, which is the recommended platform for this semester, there is also the option of using single-board computers, such as the Raspberry Pi or the Arduino.
+
+
+
 Both of are a bit more akin to general purpose computers, designed for small electronics projects and both platforms include different models, with some being more powerful than others or having different features that further set them apart.
-The single-board computers, are essentially just very small computers that are programmable and has GPIO pins\footnote{General Purpose Input Output}.
-These GPIO pins can manipulate and get data from general purpose electronics parts.
+
 
 \subsubsection{Arduino}
-The Arduino is a single-board computer platform, designed for small electronics projects.
-The Arduino platform is an electronics eco-system, comprised of different boards, that share the trait of being easily programmable in the included language, a subset of \texttt{C++}.
-The Arduino boards can only have one single program running at a time.
+The Arduino is a single-board computer platform, designed for small electronics projects by being easy to use from a hardware and software perspective.
+The Arduino Corporation developed a language, a subset of \texttt{C++}, which is most often used when working with the platform.
+The primary advantage of the platform is that it is easy to work with and that there are so many different boards, all of which differ in performance, meaning that one that matches our particular requirements, most likely exists.
 
-The primary advantage of the Arduino platform is that it is easy to work with and that there are so many different boards, all of which differ in performance, meaning that one that matches our particular requirements, most likely exists.
+The IO possibilities of the Arduino are GPIO\footnote{General Purpose Input Output} pins, which can connect to most types of sensors and motors, as these are, as implied by the name, general purpose.
 
-The Arduino platform is comprised of a lot of different boards, all of which are built for different purposes.
-They all differ in both their processing power, aswell as their connectability
-The Arduino Uno, is the best Arduino board to get started on, as well as the most used board in the Arduino ecosystem\cite{ArduinoUno3}.
-It has a 12 MHz ATmega328P processor and 2 kB of ram.
-A larger Arduino, the Arduino Due has an 84 MHz processor and 96 kB of Ram\cite{ArduinoDue}.
-It has many more input/output pins and is meant for larger scale Arduino projects.
+The Arduino-ecosystem is comprised of different boards, all of which are built for different purposes.
+Differences being in processing power, as well as pins.
+The Arduino Uno is most commonly used board in the ecosystem \cite{ArduinoUno3}, and has a 12 MHz ATmega328P processor and 2 kilobytes of RAM.
+A larger version, the Arduino Due has an 84 MHz processor and 96 kilobytes of RAM \cite{ArduinoDue}, and more input/output pins and is meant for larger scale Arduino projects.
 
 \subsubsection{Raspberry Pi}
-The Raspberry Pi, the same as the Arduino platform, is a single-board computer eco-system.
-Like the Arduinos, a Raspberry Pi is a small computer with GPIO pins.
-It differs from the Arduino, as the Raspberry's are typically more powerful, than their Arduino counterparts and are for all intents and purposes, just weaker desktop computers.
+The Raspberry Pi is a single-board computer eco-system which, like the Arduino, consists of small computers with GPIO pins.
+It differs from the Arduino, by having a full operating system, and generally being more powerful.
+Additionally, the majority of the Raspberry Pi computers have more processing power and memory, and the newer versions include a Wi-Fi module.
+They also come with a larger variety of ports - both USB, HDMI and jack, adding more possibilities for connectivity.
 
-Raspberry Pi's also typically include some form of network connectivity, whether it is a WiFi chip or a LAN port.
-It also includes USB ports, which means it can use a USB camera, which could be required for the object tracking.
 
-The Raspberry Pi's differ in power.
-The Raspberry PI 3 B+, which is for all intents and purposes the flagship model, features a 1.4 GHz quad core CPU, with 1 GB of ram.
-The smaller Raspberry Pi Zero, trades performance, having only a 1 GHz single core CPU and 512 MB of RAM, for a smaller footprint and being less power hungry.
+The newest version, Raspberry Pi 3 B+, features a 1.4 GHz quad-core CPU, with 1 gigabyte of RAM.
+They released a light-weight version, called the Raspberry Pi Zero, which trades performance, having only a 1 GHz single-core CPU and 512 megabytes of RAM, for a smaller footprint, being less power consuming, and a lower cost.
 
 \subsection{Takeaways}
-There are a lot of different platforms, on which to build an embedded system.
-The LEGO Mindstorms ecosystem offers ease of use, and easy interfacability to a variety of different sensors.
-Both the NXT 2.0 and the EV3 are excellent robotics platform, and the choice between the two generations, will primarily be dependent on the limits that the project group imposes on itself.
-The more traditional platforms, the Raspberry Pi and the Arduino platform are also excellent choices, with the Raspberry Pi being more akin to a traditional desktop computer, and the Arduino being focused on small systems.
-The Raspberry PI Zeros smaller processor and less amount of RAM, makes it a potentially interesting platform for this project.
+There are multiple platforms on which to build an embedded system. This data is summed up in the following table.
+
+\begin{table}[]
+	\begin{tabular}{lllll}
+		                        & Processor                          & MHz     & RAM    & Flash Memory             \\
+		LEGO MindStorms NXT 2.0 & 32-bit Atmel AT91SAM7S256 ARM7     & 48 MHz  & 64 KB  & 256 KB                   \\
+		Lego MindStorms EV3     & 32-bit TI Sitara AM1808 ARM9       & 300 MHz & 64 MB  & 16 MB and microSDHC slot \\
+		Arduino Uno             & 8-bit AVR ATmega328                & 20 MHz  & 2 kB   & 32 KB                    \\
+		Arduino Due             & 32-bit Atmel SAM3X8E               & 84 MHz  & 96 KB  & 512 KB                   \\
+		Raspberry Pi 3 B+       & 64/32 bit ARM Cortex-A53 quad core & 1.4 GHz & 1 GB   & MicroSD slot             \\
+		Raspberry Pi Zero       & 32bit ARM1176ZF single core        & 1 GHz   & 512 MB & MicroSD slot            
+	\end{tabular}
+\end{table}
+
+The Raspberry Pi system can be quite powerful a project regarding embedded systems, which can also be said about the EV3.
+This can be a disadvantage, as we aren't fully in control of the execution order.
+
+The Arduino and NXT both have less processing power than the Raspberry Pi and EV3, and thus making them more interesting choices, by limiting the hardware capabilities.
+The disadvantage of the Arduino has fewer supported programming languages, and the fact that the GPIO ports make for hardware-related challenges, which is not the purpose of this semester.
+Unlike the Arduino, the NXT offers easy to use hardware ports, and large variety of sensors and motors.
+As the NXT is supplied by the university it makes for the obvious choice, especially considering the points provided in this section.
+
 
 %Figure out if we actually wanna make a choice here, or wait till we have looked at sensors.
