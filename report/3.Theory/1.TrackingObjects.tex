@@ -1,17 +1,19 @@
 \section{Predicting a moving objects location}
 In order to predict a moving objects location a keen observation to be made is whether the object is flying i.e{.} if the object is following a ballistic trajectory or whether the object is driving i.e{.} following a linear trajectory. 
-In the following section we will elaborate on these distinctions in order to gain a deeper understanding on the subject and to be able to complete our objectivs. 
+In the following section we will elaborate on these distinctions in order to gain a deeper understanding on the subject and to be able to complete our objectives. 
 \subsection{Linear trajectory}
 Given that the target follows a linear trajectory a simple method to calculate the new location of the target can be applied. 
 By using the image processing method as descibed in Section~\ref{} locating the target is considered irrelevent for this subsection. 
-In order to predict our targets location we first need to understand some basic physics of kinematics. 
+In order to predict the targets location an understanding of basic physics of kinematics is required. 
 That is given an object is traveling with constant speed, the distance traveled by the object can be described as follows:
 \begin{equation}
 s = v \cdot t
 \end{equation}
 where $ s $ is the distance traveled, $ v $ is the velocity and $ t $ is the time passed.
 Hence an object traveling with $ 1 m/s $ for $ 1 s $ will have traveled 1 meter. 
-We can thereby calculate the speed of the target and use image reginition to establish the direction calculate the future position of the target. 
+The speed of the target can then be calculated.
+The direction of the target can be established with image recognition.
+Given the speed and direction of the target, the future position of the target can be calculated.
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Der mangler stadig %
