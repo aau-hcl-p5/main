@@ -1,0 +1,21 @@
+\section{Managing systems in Real Time}
+In order to assure that a system does in fact react its deadlines, and to ensure that a given amount of tasks, with a given periodicality will reach its goal of schedulability in an embedded system, as the Lego NXT, one must plan ahead and plan, schedule and compute this to avoid unscheduleable systems, that will not reach the goal.\citationneeded
+
+\subsection{Deadlines and periods}
+For this, the tasks/processes that are to be scheduled, are divided into different processes, with a period each in which they have to be run.
+Furthermore, the cost, or worst case execution time (WCET), of the process is calculated, and thus getting a basis of calculating its schedulability.
+
+This allows a system to react within a given timeframe, given a input.
+Systems such as an airbag that, given an input, should guarantee that within a timeframe of 5ms should eject and save a live.
+This is a critical part of a real-time system.
+In other cases, that the outcome may not be critical, but may severely reduce the quality of a system or even render it useless.\citationneeded
+
+\subsection{Schedulability}
+When you have a limited amount of CPU, and a set of tasks that have to be run,
+Another common example is a train-passing, from 5 inputs to 5 outputs, passing the same bridge.
+Trains show up every period, and have to pass the bridge, without hitting eachother.
+If this is guaranteed schedulable by schedulability analysis, the system can be defined as being able to run.\citationneeded
+
+\subsection{Reacting to external input}
+In the scenario of tracking an object in motion, such as a bird, the real-time system will have to react within a rather short timeframe, to ensure that the input data will still be valid.
+The real-time reaction in this case will only be successful within a locked timeframe, as the input data will become obsolete and useless afterwards.
