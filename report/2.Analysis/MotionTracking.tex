@@ -5,9 +5,9 @@ One could easily imagine a couple of different sensors that could potentially ga
 For instance laser and sonar could both be used to gather some information about the position of a target\cite{Sensors}.
 However, since the system should be adaptable to a dynamic environment with potentially a lot of different objects in motion, one sensor was deemed the most obvious choice for this system; a camera.
 
-The camera is obviously very powerful, since images can be processed in order to determine what objects are present in the image.
+Using a camera is powerful, since images can be processed in order to determine what objects are present in the image.
 Once the location of the object is determined within the image, the direction of the target should be calculated.
-Assuming the device will shoot in the exact center of the image, the direction in which to aim, will simply be calculated based on the delta x and y coordinates of the target within the image.
+Assuming the camera is aimed in the same direction as the laser, the direction in which to aim, will simply be calculated based on the delta x and y coordinates of the target within the image.
 
 Unfortunately the camera does also come with a couple of cons.
 First of all, a normal camera will not be able to determine the distance to a target.
@@ -15,11 +15,10 @@ Second of all, the camera will give a lot of excessive information, which will h
 As for the distance, the camera could potentially be used alongside a laser sensor used for the distance measuring\cite{Sensors}.
 
 \subsection{Image processing}
-As mentioned the camera outputs a lot of excessive information.
-Actually, the camera does not even provide the information needed.
+Not only does the camera output too much information, but furthermore, the camera does not even provide the actual information needed.
 At least not directly that is.
 
-The image will have to be processed in order to figure out where the target is located within the image.
+The image will have to be processed in order to figure out where the target is located within.
 Unfortunately it is no easy task to recognize objects in images.
 It can be extremely tedious to write an algorithm by hand, that will recognize objects in images.
 However, there are a couple of different methods that can be used when detecting objects.
@@ -40,8 +39,8 @@ Rather that trying to describe a complex object using an algorithm, an often use
 This is what is often referred to as machine learning.
 
 Machine learning is a common term used when a computer learns itself to solve a given task\cite{MachineLearningWiki}.
-There are a wide variety of tasks that are very complicated to solve using algorithms, but easy to solve simply by letting the computer learn itself how to solve them. 
+There are a wide variety of tasks that are very complicated to solve using algorithms, but easy to solve simply by letting the computer learn how to solve them. 
 Some common examples are for instance object detection, speech recognition or learning the best tactics of games like chess.
 
-Apart from the object detection, one could also imagine that machine learning could be applied in this system to predict the motion of the object that is being tracked.
+Apart from the object detection, one could also imagine that machine learning could be applied in this system to predict the trajectory of the object that is being tracked.
 So machine learning will be highly relevant and something to consider when developing the system.
