@@ -31,4 +31,5 @@ ADD nxtOSEK.tar.xz ./
 # Add build.sh and set it as entrypoint to execute when executing docker container
 COPY build.sh ./
 RUN chmod 755 ./build.sh
-ENTRYPOINT exec /home/nxtosek/build.sh
+ENTRYPOINT ["/home/nxtosek/build.sh"]
+CMD []
