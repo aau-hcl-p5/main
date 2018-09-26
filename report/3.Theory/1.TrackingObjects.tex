@@ -1,21 +1,21 @@
-\section{Predicting the location of a moving object}
-In order to predict the location of a moving object a keen observation to be made, is whether the object is flying i.e{.} if the object is following a ballistic trajectory or whether the object is driving i.e{.} following a linear trajectory. 
-In the following section we will elaborate on these distinctions in order to gain a deeper understanding on the subject and to be able to complete our objectives. 
+\section{Location prediction of a moving object}
+In order to predict the location of a moving object, an observation that has to be made is whether the object is flying, meaning that the object is following a ballistic trajectory or if the object is driving i.e{.} following a linear trajectory. 
+In the following section elaborations will be made on these distinctions, in order to gain a deeper understanding on the subject and being able to complete the previously specified objectives for the project. 
 \subsection{Linear trajectory}
-Given that the target follows a linear trajectory a simple method to calculate the new location of the target can be applied.  
-In order to predict the targets location an understanding of basic physics of kinematics is required. 
-That is given an object is traveling with constant speed, the distance traveled by the object can be described as follows:
+Given that the target follows a linear trajectory, a simple method to calculate the new location of the target can be applied.  
+In order to predict the targets future location, an understanding of basic physics of kinematics is required. 
+That is, given that an object is traveling with constant speed, the distance traveled by the object can be described as follows:
 \begin{equation}\label{eqn:Distance}
 s = v \cdot t
 \end{equation}
 where $ s $ is the distance traveled, $ v $ is the velocity and $ t $ is the time passed.
-Hence an object traveled $ 1 m/s $ for $ 1 s $ will have traveled 1 meter. 
-Based in Equation~\ref{eqn:Distance} the $ v $ can be isolated resulting in:
+Using this formula, it is easily calculated that if an object has traveled $ 1 m/s $ for $ 1 s $ will have traveled 1 meter. 
+Based on Equation~\ref{eqn:Distance} the variable $ v $ can be isolated resulting in:
 \begin{equation}\label{eqn:Speed}
 v = \cfrac{s}{t}
 \end{equation}
-By applying Equation~\ref{eqn:Speed} the speed of the target can be established. 
-In order to calculate the future position of the target, the targets previous location is needed, this will be solved using image recognition.
+By applying Equation~\ref{eqn:Speed} the speed of the target can be calculated. 
+In order to calculate the future position of the target, its previous location is needed, which will be solved using image recognition.
 
 %\subsection{Ballistic trajectory}
 %In order to not just track a flying object in front of the device, it is nessesary to gain a basic understanding of ballistic trajectories in order to predict where the object will be after a given period of time. 
