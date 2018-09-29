@@ -32,10 +32,11 @@ RUN chmod 755 ./build.sh
 # Move nxtOSEK files to home folder
 RUN useradd nxtosek
 RUN usermod --password $(echo nxtosek | openssl passwd -1 -stdin) nxtosek
-RUN chown -R nxtosek /home/nxtosek
+RUN chown -R nxtosek ./
 USER nxtosek
 ENV HOME /home/nxtosek
 ADD nxtOSEK.tar.xz ./
+ADD ecrobot.mak nxtOSEK/ecrobot
 
 # Set build.sh as entrypoint to execute when executing docker container
 ENTRYPOINT ["/home/nxtosek/build.sh"]
