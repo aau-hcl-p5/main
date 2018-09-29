@@ -6,5 +6,22 @@
 
 
 \subsection{Recurrent Neural Network}
+% Seems to be a technique used for prediction and used in video tracking.
 
 \subsection{Convolutional Neural Network}
+% Seems to be very good for still images, but not so much for video tracking https://en.wikipedia.org/wiki/Convolutional_neural_network#Video_analysis
+
+\section{Tensorflow}
+
+
+% Things to check / consider writing about
+% https://en.wikipedia.org/wiki/Computer_vision#Recognition
+% https://en.wikipedia.org/wiki/Video_tracking
+% Kernel-based tracking
+% Contour tracking
+% https://en.wikipedia.org/wiki/Kalman_filter
+% Particle filter
+% https://en.wikipedia.org/wiki/Outline_of_object_recognition
+% real-time: triangulate each frame and measure the persistence of selected triangles relative to their location in each successive frame. Microprocessors such as the raspberry pi are fast enough so that triangulation and triangle measurement can be done in a few milliseconds.
+% ^^ Few miliseconds (Sounds like maybe around 5ms, would alow for updating robot position 20 times a second (capture 20 fps from the camera too). Which could be a goal to aim at (RTS: scheduling bla bla, update canon position 20 times pr second...))
+% Would be cool in RTS part to integrate some functionality to handle if camera data is not ready within the 5 ms, or if the device is not ready to handle input after 5 ms. The MI part could be coded to update each 5 ms.
