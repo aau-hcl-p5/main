@@ -6,24 +6,24 @@ The MoSCoW model specifies which requirements \textbf{M}ust, \textbf{S}hould, \t
 
 \textbf{Must have}
 \begin{itemize}
-\item ability to recognize a moving target in front of the device using an attached camera
-\item ability to hit a target moving with a constant speed along a horizontal axis
-\item move fast enough to keep the laser on the moving target in real time
+\item ability to recognize and track a moving target in front of the device
+\item ability to follow a ball being dropped from 2 meters height at a distance of 3 to 4 meters away from the device, with a laser
+\item move fast enough to keep the laser on a moving target in real time
 \item ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
-\item ability to predict the next location of the object moving along a linear pattern
+\item ability to predict the next location of the object moving solely along the horizontal axis with a constant speed
 \item enough structural stability to be able to move without breaking
 \end{itemize}
 
 \textbf{Should have}
 \begin{itemize}
-\item ability to hit a larger moving target in the air at a low speed, such as a balloon \item ability to hit a small moving target in the air, such as red ball
+\item ability to hit a larger moving target, eg. a balloon, in the air at a low speed at a distance of 3 meters
+\item ability to hit a small moving target, eg. a ball with a diameter of approximately 10 centimeters, in the air at a low speed at a distance of 1 to 3 meters
 \item ability to predict the next location of the object moving along a non-linear path
 \end{itemize}
 
 \textbf{Could have}
 \begin{itemize}
 \item ability to calculate the distance to the target object
-\item use ballistic projectile to hit the target
 \item calculate the angle and power necessary to hit the target with a projectile
 \end{itemize}
 
@@ -33,7 +33,7 @@ The MoSCoW model specifies which requirements \textbf{M}ust, \textbf{S}hould, \t
 \item ability to differentiate between the type of object that is being observed
 \end{itemize}
 
-By fulfilling the requirements specified in the must have section, the device will be able to track a target with a rather predictable movement pattern and use the attached laser to indicate the tracking. 
-With the should have requirements the functionality of the device is extended to track more advanced movement patterns, which in a real life scenario could be drones or birds in the air while still using the laser to indicate the tracking.
-If the could have requirements are fulfilled the device will be able to calculate the distance to the observed target, calculate angle and power required to hit the target and fire a ballistic projectile at it.
-Finally, the won't have requirements are deemed outside the scope of the current project and focus on the future application of the device, which would require more efficient projectiles in order to take down the observed target and being able to differentiate between whether the object is a threat or not.
+By fulfilling the requirements specified in the \textit{must have} section, the device will be able to track a target with a rather predictable movement pattern and use the attached laser to indicate the tracking. 
+With the \textif{should have} requirements the functionality of the device is extended to track more advanced movement patterns, which in a real life scenario could be drones or birds in the air while still using the laser to indicate the tracking.
+If the \textif{could have} requirements are fulfilled the device will be able to calculate the distance to the observed target, calculate angle and power required to hit the target and fire a ballistic projectile at it.
+Finally, the \textif{won't have} requirements are deemed outside the scope of the current project and focus on the future application of the device, which would require more efficient projectiles in order to take down the observed target and being able to differentiate between whether the object is a threat or not.
