@@ -1,41 +1,42 @@
 % !TeX root = ../main.tex
 % This section introduces the various embedded platforms that are available on the 5th semester.
+
+%TODO An introduction to the analysis would be kinda cool before the first section.
+
 \section{Embedded platform}
-The goal of the 5th semester of the bachelor in Software, is to develop an embedded system.
-Therefore it is relevant to look into the different relevant platforms.
-The university supplies the student groups with LEGO Mindstorm, which would make it an ideal option, however it is is still interesting to look into alternatives.
+The goal of the 5th semester of the bachelor in Software is to develop an embedded system.
+Therefore, it is relevant to look into the different relevant platforms.
+The university supplies the student groups with a LEGO Mindstorms base set, which would make it an ideal option, however it is still deemed interesting to examine the alternatives.
 
 \subsection{LEGO Mindstorms}
-LEGO Mindstorms is a programmable computer kit, made by the LEGO Group.
-The platform is based around a central control computer, called the Intelligent Brick.
-It also includes a variety of sensors, motors and connection cables.
+LEGO Mindstorms is a programmable computer kit made by the LEGO Group.
+The platform is based around a central control computer, called the Intelligent Brick and includes a variety of sensors, motors and connection cables.
 
-The LEGO Mindstorm platform, comes with a graphical drag and drop interface.
-However, various different compilers for many different languages exist.
-As such the choice between different generations, does not come down to language preferences.
+The LEGO Mindstorm platform comes with a graphical drag and drop interface for programming.
+However, various different compilers for a variety of programming languages exist.
+As such, the choice between different generations, does not come down to language preferences.
+%TODO different generation of what?
 
-Each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGOs.
-On top of this, it is also possible to order other platforms and sensors.
+As mentioned, each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGO bricks.
+In addition to this, it is also possible to order other platforms and sensors to use in the project.
 
 \paragraph{LEGO Mindstorms NXT 2.0}
 The LEGO Mindstorms NXT 2.0 (NXT) is the second generation LEGO Mindstorms kit.
 The NXT Intelligent Brick is a micro computer based on the 32-bit 48 MHz ARM7 microprocessor, with 256 kilobytes of flash memory and 64 kilobytes of RAM \cite{nxt2userguide} \cite{nxt2ev3compare}.
 It includes a variety of sensors, such as touch, sound, light, and distance sensors, as well as servo motors and lamps.
 
-A potential major disadvantage of the NXT 2.0 is it age.
-The platform was released in 2006, meaning that the software might cause problems regarding implementation in modern day software solutions.
+A potential major disadvantage of the NXT 2.0 is its age.
+The platform was released in 2006, meaning that the software might cause problems regarding compatibility and implementation in modern day software solutions.
 
 \paragraph{LEGO Mindstorms EV3}
-The  LEGO Mindstorms EV3 (EV3) is the third generation of the LEGO Mindstorms line.
+The  LEGO Mindstorms EV3 (EV3) is the third generation of the LEGO Mindstorms series.
 The EV3 mainly improves on the specifications of the second generation, adding a significantly more powerful 300MHz ARM9 processor, running Linux, 16 megabytes of flash memory, which is extendable with a microSDHC card and 64 megabytes of RAM \cite{ev3userguide}.
 Furthermore, it adds remote control, WiFi capabilities, and more recently updated compilers.
 
-It is also fully backwards-compatible with the NXT sensors \cite{ev3nxtcompatability}.
+It is also fully backwards-compatible with the NXT sensors\cite{ev3nxtcompatability}.
 
 
-
-
-Both of are a bit more akin to general purpose computers, designed for small electronics projects and both platforms include different models, with some being more powerful than others or having different features that further set them apart.
+Both are more akin to general purpose computers, designed for small electronics projects and both platforms include different models, with some being more powerful than others or having different features that further set them apart.
 
 
 \subsubsection{Arduino}
@@ -75,14 +76,15 @@ This data is summed up in the following table.
 		Raspberry Pi Zero       & 32bit ARM1176ZF single core        & 1 GHz   & 512 MB & MicroSD slot
 	\end{tabular}
 \end{table}
+%TODO Fiks den tabel her
 
 The Raspberry Pi system can be quite powerful a project regarding embedded systems, which can also be said about the EV3.
-This can be a disadvantage, as we aren't fully in control of the execution order.
+This can be a disadvantage, as we are not fully in control of the execution order.
+%TODO Vi skal skrive noget om execution order senere, måske i RTS theory afsnittet
+%TODO Giv en reference til RTS afsnittet når det er skrevet
 
 The Arduino and NXT both have less processing power than the Raspberry Pi and EV3, and thus making them more interesting choices, by limiting the hardware capabilities.
-The disadvantage of the Arduino has fewer supported programming languages, and the fact that the GPIO ports make for hardware-related challenges, which is not the purpose of this semester.
+The disadvantage of the Arduino is that it has fewer supported programming languages, and the fact that the GPIO ports make for hardware-related challenges, which is not the purpose of this semester.
 Unlike the Arduino, the NXT offers easy to use hardware ports, and large variety of sensors and motors.
 As the NXT is supplied by the university it makes for the obvious choice, especially considering the points provided in this section.
-
-
-%Figure out if we actually wanna make a choice here, or wait till we have looked at sensors.
+%TODO Figure out if we actually wanna make a choice here, or wait till we have looked at sensors.
