@@ -6,11 +6,6 @@ Although the initial target of the device may be a simple and easily recognizabl
 Because of this, it is important to look into the science of object identification, what algorithms and methods exists, and what libraries we have at our disposal.
 
 
-\subsection{OpenCV}
-One option is to simply utilize the highly popular OpenCV library.
-OpenCV is an open source computer vision library, that comes with ready to use object tracking functionality.
-% Write more
-
 
 
 \subsection{Neural Networks}
@@ -65,8 +60,10 @@ Now the question is whether it can be used to figure out the position of the obj
 % Seems to be very good for still images, but not so much for video tracking https://en.wikipedia.org/wiki/Convolutional_neural_network#Video_analysis
 
 
+\subsubsection{Regional Convolutional Neural Network}
 
-\subsubsection{GOTURN}
+
+\subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
 Generic Object Tracking Using Regression Networks, is an algorithm based on deep learning.\cite{goturn}
 GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, whereas online learning constantly improves the model during runtime.
@@ -95,18 +92,33 @@ Based on the bounding box of the previous frame, the current frame is cropped to
 A CNN is then trained to predict the bounding box in the second frame.
 
 
-So possible problems with this algorithm is that the location of the target isn't known initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
+Some possible problems with this algorithm is that the location of the target isn't known initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
 Another possible issue would be depending on th speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
-
-
-
-\subsubsection{Regional Convolutional Neural Network}
 
 \subsection{You Only Look Once}
 You Only Look Once (YOLO) ...
 
+
+
+\subsection{OpenCV}
+One option is to simply utilize the highly popular OpenCV library.
+OpenCV is an open source computer vision library, that comes with ready to use object tracking functionality.
+% Write more
+
+
+
 \subsection{Tensorflow}
+Tensorflow is a framework for working with machine learning.
+It is made for python, and is quite beginner friendly but still with the possibilities of delving deeper into the inner workings of a given model, and the processes of it.
+
+% Mine noter af ting at skrive
+	% what is a tensor
+	% training
+	% exporting from it
+	% can be used with any alogrithm 
+	% hvorfor er det så nice at arbejde med
+	% hvordan kan vi få brug af dette
 
 
 % Things to check / consider writing about
