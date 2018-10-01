@@ -1,35 +1,34 @@
 \section{Object Recognition}
-To be able to figure out where the target is, we need to recognize its location within a video stream.
-We don't simply need to know the binary question "is there a target?" but rather "where is the target?", so this information can be processed and in turn move the motors to point the laser at the target.
+To be able to figure out where the target is, its location within the video stream has to be determined.
+It is not enough to simply answer the binary question "is a target present?" but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
 As mentioned in section \ref{sec:obj_tracking}, object recognition algorithms can be tedious to do by hand, and as a result of this, machine learning algorithms will be utilized.
-Although the initial target of the device may be a simple and easily recognizable object, the intent is to create a solution that can identify more complicated targets, in a potentially noisy environment.
+Although the initial target of the device may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy environment.
 Because of this, it is important to look into the science of object identification, what algorithms and methods exists, and what libraries we have at our disposal.
-
-
-
 
 \subsection{Neural Networks}
 
 A neural network is, as the name implies, a network of neurons.
 It is based on neuroscience, especially the inner workings of the human brain, where a network of neurons is used to make decisions.
 The difference being, whether it is a biological neural network or an artificial one, which is the case in a computer science context.
-In computer science, a neuron can be seen as a function, taking some input and doing some calculations and then transmitting a processed value to other neurons.
+In computer science, a neuron can be seen as a function, that processes some input and then transmits the processed value to connected neurons \cite{ANN}.
 
-% CITATION NEEDED UNDER MIG V-V
-Neural networks is one of the most popular technologies used within machine learning, but also relatively complicated compared to other machine intelligence concepts.
-Because of this, simpler solutions should also be considered when possible.
-One of the reasons neural networks are especially interesting in this case, is its ability to recognize patterns.
+Neural networks are a powerful but complex method of doing machine learning.
+Because of this, simpler solutions should also be considered when exploring which methods suits the task best.
+One of the reasons neural networks are especially interesting in this case, is its ability to recognize patterns \cite{ANN}.
 Pattern recognition is a fundamental part of object recognition making neural networks an obvious option.
+
 % føler godt der kan komme lidt mere kød. måske en figure der viser et eksempel? 
 % og dog. fordi vi skal jo forvente læseren har basal forståelse for faget. 
+% Ja - overvejer også, om der skal mere på, men det er bare en introduktion til NN, CNN afsnittet lige under bør gå mere i dyben
+% med CNN (som generelt er det man forbinder med et almindeligt NN i guess)
 
 \subsubsection{Convolutional Neural Network}
-Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection.
-In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN\cite{ILSVRC_Results}.  
+Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection\cite{CNN}.
+In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN \cite{ILSVRC_Results}.  
 A CNN is a neural network in which neurons are grouped into layers.
 These layers are grouped in three categories; an input layer, an output layer and a number of so called hidden layers.
 The goal of the hidden layers are to transform the input data into the expected output data.
-It does this by doing abstractions within each layer, breaking a complex problem into smaller and more trivial sub-problems.
+It does this by doing abstractions within each layer, breaking a complex problem into smaller, more trivial, sub-problems.
 
 In terms of object recognition, an example could be face recognition.
 The first layer could recognize lines, edges or similar low level features.
@@ -49,18 +48,33 @@ However, it is important to understand, that this is not necessarily the pattern
 Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face.
 But the computer will have found a correlation between these seemingly random patterns, and a face.
 
-% Mere tekst på næste sætning
-Often used along with pooling.
+CNNs are often used along with pooling \cite{CNN}.
+Pooling is a concept in which multiple outputs are combined into a single neuron in the next layer.
+This can be done in order to down-sample the input and reduce the complexity making the CNN run faster
+Some common examples of pooling is max pooling and average pooling, in which the average or max value is output from a number of input neurons.
 
 CNNs are an effective choice for classification. 
 This means it can answer yes or no to whether the image is of a car.
 Now the question is whether it can be used to figure out the position of the objects within the image.
-% hvilket nok også skal uddybes og besvares :P  medmindre det er det du gør i de næste sections haha
-
-% Seems to be very good for still images, but not so much for video tracking https://en.wikipedia.org/wiki/Convolutional_neural_network#Video_analysis
+The answer turns out to be yes.
 
 
 \subsubsection{Regional Convolutional Neural Network}
+
+A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
+It does this by applying the CNN to smaller regions of the image. 
+These regions are extracted from the image using a method called selective search.
+If the region contains an element recognized by the CNN a bounding box can be drawn around the region.
+The bounding box can at last be tightened using different methods, a popular option being a linear regression model.\cite{CNNHistory}
+
+Unfortunately RCNN in itself is not viable for real time object detection.
+However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
+One improvement is called fast RCNN and is leaning toward being feasible for real time object detection.
+
+%\subsection{You Only Look Once}
+
+%An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real time processing in mind.
+
 
 
 \subsection{GOTURN}
@@ -69,7 +83,7 @@ Generic Object Tracking Using Regression Networks, is an algorithm based on deep
 GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, whereas online learning constantly improves the model during runtime.
 It is fed a large library of videos of different objects and is taught with the help of this.
 The model is then shipped with the algorithm implementation.
-The benefit of this, is that it runs more quickly, as it doesn't have to ever modify the model or analyse whether the given result is relevant.
+The benefit of this, is that it runs faster, as it does not have to ever modify the model or analyze whether the given result is relevant.
 However, this comes at a cost. 
 The algorithm has a tendency to favor objects within the training set, even if they remain stationary.
 So, for instance, if we want to track a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving.
@@ -92,14 +106,9 @@ Based on the bounding box of the previous frame, the current frame is cropped to
 A CNN is then trained to predict the bounding box in the second frame.
 
 
-Some possible problems with this algorithm is that the location of the target isn't known initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
-Another possible issue would be depending on th speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
+Some possible problems with this algorithm is that the location of the target is not known initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
+Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
-
-\subsection{You Only Look Once}
-You Only Look Once (YOLO) ...
-
-
 
 \subsection{OpenCV}
 One option is to simply utilize the highly popular OpenCV library.
@@ -111,6 +120,8 @@ OpenCV is an open source computer vision library, that comes with ready to use o
 \subsection{Tensorflow}
 Tensorflow is a framework for working with machine learning.
 It is made for python, and is quite beginner friendly but still with the possibilities of delving deeper into the inner workings of a given model, and the processes of it.
+
+% https://github.com/tensorflow/models/tree/master/research/object_detection
 
 % Mine noter af ting at skrive
 	% what is a tensor
