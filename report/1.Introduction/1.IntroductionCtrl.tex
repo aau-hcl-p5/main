@@ -11,14 +11,14 @@ Tracking airborne objects can be quite difficult.
 This difficulty has inspired different sports and hobbies such as skeet shooting.
 Hitting a target requires tracking of it, its velocity and direction, as well as the calculation or prediction of its future trajectory.
 The trajectory can be impacted by a number of different factors, including gravity, wind, initial force, or any artificial acceleration.
-Furthermore, if the object is intelligent in any way, the path might change procedurally.
+Furthermore, if the object is intelligent it might change its path, rendering the prediction of the trajectory moot.
 %TODO procedurally is a bad word for this, isn't it?
 
 Tracking of airborne objects has multiple different applications.
 
 \subsection{Airports}
-An estimated thirteen thousand "bird strikes" happen each year, which is the event of a bird colliding with a vehicle, primarily aircrafts\cite{WikiBirdStrike}\cite{WildlifeStrikeReport}.
-%TODO can we get rid of this wikipedia source? it makes me angry
+An estimated thirteen thousand "bird strikes" happen each year, which is the event of a bird colliding with a vehicle, primarily aircrafts\cite{WildlifeStrikeReport}.
+%\cite{WikiBirdStrike}
 Although 65\% are estimated to cause somewhat insignificant damage, the damages are estimated to cost 1.2 billion dollars each year, world-wide \cite{CostOfBirdstrikes}.
 The majority of these accidents happen at low altitude, during landing or takeoff\cite{CostOfBirdstrikes}.
 Airports utilize different methods of bird control, including killing, trapping, poison and lights\cite{BirdControlAtAirports}.
@@ -46,8 +46,12 @@ Before hitting an airborne target, it is important to estimate its trajectory, a
 \end{enumerate}
 Combined, these two sub-problems means finding the spot where the travel time of the target meets the travel time of the projectile.
 
-This report is build on courses in both real-time systems as well as machine learning, and this problem works in the context of both.
+%This report is build on courses in both real-time systems as well %as machine learning, and this problem works in the context of both.
 %TODO is build on sounds a bit silly
+As the goal of this project is to apply the knowledge from the real-time systems and machine-learning courses, the problem that the project seeks to solve, should be within the domain of both.
+This is the case with the trajectory prediction problem.
+%This maybe? A bit longer but??????
+
 In regards to machine intelligence, the problem of tracking an airborne target has potential for intelligent analysis by an artificial agent.
 Likewise, it is a time-critical task to move a weapon so that it aims at the target and hits the target, before the target is out of range or hits the ground.
 

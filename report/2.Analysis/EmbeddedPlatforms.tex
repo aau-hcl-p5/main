@@ -14,8 +14,7 @@ The platform is based around a central control computer, called the Intelligent 
 
 The LEGO Mindstorm platform comes with a graphical drag and drop interface for programming.
 However, various different compilers for a variety of programming languages exist.
-As such, the choice between different generations, does not come down to language preferences.
-%TODO different generation of what?
+As such, the choice between the different Mindstorms platforms, does not come down to language preferences.
 
 As mentioned, each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGO bricks.
 In addition to this, it is also possible to order other platforms and sensors to use in the project.
@@ -65,18 +64,20 @@ They released a light-weight version, called the Raspberry Pi Zero, which trades
 There are multiple platforms on which to build an embedded system.
 This data is summed up in the following table.
 
-\begin{table}[]
-	\begin{tabular}{lllll}
-		                        & Processor                          & MHz     & RAM    & Flash Memory             \\
-		LEGO MindStorms NXT 2.0 & 32-bit Atmel AT91SAM7S256 ARM7     & 48 MHz  & 64 KB  & 256 KB                   \\
-		Lego MindStorms EV3     & 32-bit TI Sitara AM1808 ARM9       & 300 MHz & 64 MB  & 16 MB and microSDHC slot \\
-		Arduino Uno             & 8-bit AVR ATmega328                & 20 MHz  & 2 kB   & 32 KB                    \\
-		Arduino Due             & 32-bit Atmel SAM3X8E               & 84 MHz  & 96 KB  & 512 KB                   \\
-		Raspberry Pi 3 B+       & 64/32 bit ARM Cortex-A53 quad core & 1.4 GHz & 1 GB   & MicroSD slot             \\
-		Raspberry Pi Zero       & 32bit ARM1176ZF single core        & 1 GHz   & 512 MB & MicroSD slot
+\begin{table}[h]
+	\begin{adjustbox}{max width=\textwidth}
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		                & Processor                          & MHz 	& RAM in MB    & Flash Memory          	\\\hline
+		NXT 2.0 		& 32-bit Atmel AT91SAM7S256 ARM7     & 48  	& 0.0625   & 256 KB                   	\\
+		EV3     		& 32-bit TI Sitara AM1808 ARM9       & 300 	& 64   & 16 MB and microSDHC 			\\
+		Arduino Uno    	& 8-bit AVR ATmega328                & 20  	& 0.00195    & 32 KB                    \\
+		Arduino Due    	& 32-bit Atmel SAM3X8E               & 84  	& 0.09375   & 512 KB                   	\\
+		Pi 3 B+      	& 64/32 bit ARM Cortex-A53 quad core & 1400 & 1024    & MicroSD slot            	\\
+		Pi Zero       	& 32bit ARM1176ZF single core        & 1000 & 512  & MicroSD slot 					\\\hline
 	\end{tabular}
+\end{adjustbox}
 \end{table}
-%TODO Fiks den tabel her
 
 The Raspberry Pi system can be quite powerful a project regarding embedded systems, which can also be said about the EV3.
 This can be a disadvantage, as we are not fully in control of the execution order.
