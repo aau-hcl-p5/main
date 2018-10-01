@@ -1,47 +1,52 @@
 \section{Real-time systems}
-In order to guarantee that a computer systems is able function in a time critical environment i.e. car controllers and rockets its essential that the software of that computer system is true to its deadlines. 
-In the following section the different methods related to real-time systems will be elaborated.
+In order to guarantee that a computer system is able to function in a time critical environment i.e. car controllers and rockets, it is essential that the software of the system is true to its deadlines. 
+In the following section, the different methods related to real-time systems will be elaborated.
 
 \subsection{Scheduling}
-Then creating a real-time systems an essential part of making such systems is the ability to make the system schedulable.
-Being scheduable means that all tasks has to be true to their deadlines and their periods. 
-Multiple methods can be used to determine whether a system is schedulable or not, but the base principle is the same. 
+When creating a real-time systems an essential part of making such systems is the ability to make the system schedulable.
+Being scheduable means that all tasks have to be true to their deadlines and their periods. 
+%What are periods and deadlines?
+Multiple methods can be used to determine whether a system is schedulable or not, but the base principle of all the methods is the same. 
 There are tree main aspects that most general purpose scheduling algorithms emphasize:
-\paragraph{Fairness} meaning that in general purpose systems it is important that all processes is granted execution time thus preventing starvation of a given process. 
-\paragraph{Efficiency} meaning that since the scheduler is invoked very often in a general purpose operation system it needs to be efficient in order not to waste execution time on the CPU. 
+\paragraph{Fairness} meaning that in general purpose systems it is important that all processes are granted execution time thus preventing starvation of a given process. 
+\paragraph{Efficiency} meaning that since the scheduler is invoked very often in a general purpose operation system it needs to be efficient in order avoid wasting execution time on the CPU. 
 \paragraph{Throughput} meaning the number of processes completed the fastest.
-This aspect is related to efficiency hence the CPU should be on idle as little as possible. 
+%Throughput sentence is super duper heepy sketchy
+This aspect is related to efficiency since the CPU should be on idle as little as possible. 
 
-All these aspects is related to general purpose schedulers found in most commonly used operating systems. 
-However these aspects are not relevant for real-time systems since the main focus of those systems is \textit{timing} requirements of each process.
-In order to determine schedulability a real-time system it needs to have fixed set of processes which needs to be periodic in order to say that it is schedulable.
+All these aspects are related to general purpose schedulers found in the most commonly used operating systems. 
+However, these aspects are not relevant for real-time systems since the main focus of those systems is the \textit{timing} requirements of each process.
+In order to determine schedulability of a real-time system it needs to have a fixed set of processes which needs to be periodic in order to say that it is schedulable.
+%This sentence is kinda iffy piffy
 
-
-In the following some of the different methods will be elaborated. 
+In the following part, some of the different methods will be elaborated. 
 
 \subsubsection{Cyclic Executives}
-One off the simplest scheduling methods is the cyclic executives method also know as timeline scheduling.
+One of the simplest scheduling methods is the cyclic executives method, which is also known as timeline scheduling.
 This method only allows one process or task to be executed at a time. 
-Then using this method the schedule of which process is executed is determined by a \textit{major cycle} and a \textit{minor cycle}.
-The \textit{major cycle} is specified by calculating the Greatest Common Divisor (GCD) between all tasks in the system.
-While the \textit{minor cycle} is specified by the Least Common Multiple (LCD). 
+When using this method, the schedule of which a process is executed is determined by a \textit{major cycle} and a \textit{minor cycle}.
+The \textit{major cycle} is specified by calculating the Greatest Common Divisor (GCD) of all tasks in the system.
+%precision: the gcd of all periods? deadlines? something? i cannot rts right now
+While the \textit{minor cycle} is defined by the Least Common Multiple (LCD). 
 The major cycle specifies a deadline of which all process has to be completed at least once.
-The minor cycle specifies the interval of which the at least one task should have completed once. 
+The minor cycle specifies the interval of which at least one given task should have completed once. 
 
-Since cyclic executives is a very simple scheduling method it is easy to implement and to analyse it is also one of the most commonly used in real-time systems\cite{RealTimeEmbeddedSystems}. 
+Since cyclic executives is a very simple scheduling method it is easy to implement and analyse, likewise it is also one of the most commonly used schedueling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
 \subsubsection{Task-based scheduling}
 Another commonly used scheduling method in real-time systems is the task-based method. 
-This method is based on tasks with priority where the task.
+This method is based on tasks that each have a given priority.
 
-
-Then using the task-based priority scheduling method each task is given a fixed priority before run-time which can not be changed doing run-time.
+When using the task-based priority scheduling method, each task is given a fixed priority before run-time which can not be changed.
 The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system scheduable. 
+%source
 The priority of a task can be set by using a method called \textit{Earliest deadline first}.
-\textbf{Earliest deadline first} means that it is the task with the earliest absolute deadline that is allowed to execute first. 
-The next task to execute is the one with nearest deadline
+\textbf{Earliest deadline first} means that it is the task with the earliest absolute deadline that is allowed to execute first.
+%what does absolute deadline mean 
+The next task to execute is the one with nearest deadline.
+%next upcoming deadline?
 
-This scheduling method can work both with and without pre-emption of tasks. 
+This scheduling method can work both with and without pre-emption of tasks.
 Pre-emption allows a running task to be set on hold then a higher priority task is ready to run. 
-Then using this method for scheduling a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
-Given a low priority is running and a higher priority task is marked as ready, the low priority task will be pre-empted. 
+When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
+Given a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
