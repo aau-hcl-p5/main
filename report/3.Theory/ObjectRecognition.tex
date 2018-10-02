@@ -36,6 +36,7 @@ The following layers could then detect increasingly complicated facial features,
 	\includegraphics[scale=0.40]{images/cnn_face.jpg}
 	\caption{A simplified example of the abstractions within a CNN.}
 	\label{fig:face_cnn}
+	\cite{CNNStructure}
 \end{figure}
  
 However, it is important to understand, that this is not necessarily the patterns that a CNN will detect within its layers.
@@ -134,6 +135,9 @@ OpenCV is an open source computer vision library, that comes with ready to use o
 % https://en.wikipedia.org/wiki/Kalman_filter
 % Particle filter
 % https://en.wikipedia.org/wiki/Outline_of_object_recognition
-% real-time: triangulate each frame and measure the persistence of selected triangles relative to their location in each successive frame. Microprocessors such as the raspberry pi are fast enough so that triangulation and triangle measurement can be done in a few milliseconds.
-% ^^ Few miliseconds (Sounds like maybe around 5ms, would alow for updating robot position 20 times a second (capture 20 fps from the camera too). Which could be a goal to aim at (RTS: scheduling bla bla, update canon position 20 times pr second...))
-% Would be cool in RTS part to integrate some functionality to handle if camera data is not ready within the 5 ms, or if the device is not ready to handle input after 5 ms. The MI part could be coded to update each 5 ms.
+% real-time: triangulate each frame and measure the persistence of selected triangles relative to their location in each successive frame. 
+% Microprocessors such as the raspberry pi are fast enough so that triangulation and triangle measurement can be done in a few milliseconds.
+% ^^ Few miliseconds (Sounds like maybe around 5ms, would alow for updating robot position 20 times a second (capture 20 fps from the camera too). 
+% Which could be a goal to aim at (RTS: scheduling bla bla, update canon position 20 times pr second...))
+% Would be cool in RTS part to integrate some functionality to handle if camera data is not ready within the 5 ms, or if the device is not ready to handle input after 5 ms. 
+% The MI part could be coded to update each 5 ms.
