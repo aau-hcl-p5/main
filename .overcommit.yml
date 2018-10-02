@@ -15,7 +15,7 @@
 
 PreCommit:
   HardTabs:
-    enabled: true
+    enabled: false
     on_warn: fail # Treat all warnings as failures
     exclude:
       - 'report/**/*.sty'
