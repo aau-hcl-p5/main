@@ -2,7 +2,8 @@
 % this is done so we can, further down the line, explore the principles of RTS and also connect RTS to the problem statement and the conclusion
 
 \section{Managing systems in Real Time} 
-The introduction listed multiple examples of a real world problems, one of which were military defense systems, where the device would have to shoot down missiles.
+When using sensors and motors in a real world application, it is relevant to consider how time critical the actions are.
+The introduction listed multiple examples of a real world problems, one of which were military defence systems, where the device would have to shoot down missiles.
 In this case, it is important that the missile is shot down before it reaches its target.
 The same problem applies to the other example: shooting birds in airports to prevent accidents.
 Both of these examples are time critical in the sense that the given device has to continuously follow a moving target, and the target will not move slower because of latency of the system.
@@ -21,8 +22,8 @@ To achieve this, certain analytic considerations need to be made, regarding the 
 Likewise, it is relevant to consider the order in which the different tasks are executed, and estimate which tasks have the highest level of relevance.
 
 \subsection{Takeaway}
-Looking into how to optimize the different processes is important and will be elaborated upon in Section~\ref{Theory:RTS}..
+Looking into how to optimize the different processes is important and will be elaborated upon in Section~\ref{Theory:RTS}.
+% TODO make sure this ref exists at some point
 Without considering the order in which to do tasks, and the expected time frame of a task, it is impossible to interact with a moving targets and a changing world. 
 Therefore, the principles of real-time systems, are quite relevant to the problems of this project.
-Another major obstacle of the project is the process of tracking objects.
-%TODO Figure out how to go from real time to object tracking
+
