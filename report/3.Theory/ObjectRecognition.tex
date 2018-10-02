@@ -31,14 +31,9 @@ The first layer could recognize lines, edges or similar low level features.
 The following layers could then detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.40]{images/cnn_face.jpg}
-	\caption{A simplified example of the abstractions within a CNN.}
-	\label{fig:face_cnn}
-	\cite{CNNStructure}
-\end{figure}
- 
+\figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN
+	\cite{CNNStructure}.}{fig:face_cnn}
+
 However, it is important to understand, that this is not necessarily the patterns that a CNN will detect within its layers.
 Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face.
 But the computer will have found a correlation between these seemingly random patterns, and a face.
@@ -86,12 +81,7 @@ This is due to the unpredictability of what the algorithm see as a correlation b
 
 
 The GOTURN algorithm utilizes CNN, which is explained in the previous sub-section.
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.80]{images/GOTURN-architecture.jpg}
-	\caption{How the algorithm utilizes CNN \cite{goturn}.}
-	\label{fig:goturn-arch}
-\end{figure}
+\figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN cite{goturn}.}{fig:goturn-arch}
 GOTURN works by looking at two frames the first, also known as previous frame, and the second, also known as current frame.
 This is also shown on Figure~\ref{fig:goturn-arch}.
 The premise is that the location of the object is known in previous frame, and a bounding box is present.
