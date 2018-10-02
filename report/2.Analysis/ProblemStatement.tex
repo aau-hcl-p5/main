@@ -1,12 +1,134 @@
 \newpage
-\section{Problem statement}
-After a thorough analysis, based on the intitial problem statement \ref{key:initialProblem}, a concrete problem statement can be formulated:
-\begin{center}
-	\textit{Different zones, such as airports, military bases or just private properties, do not allow flying objects across their territories.}
-	\textit{The goal of this project, will be to develop a solution that can target a moving object.}
+\section{Problem definition}
+As a conclusion to the analysis, a summation of the different takeaways can be created. 
+This summation is going to create a list of requirements, a set of test cases to verify the requirements, and a problem statement.
+The requirements will help verify whether the technical part of the solution is valid according to what we wanted to create, while the problem statement will help verify whether the theoretical parts we wanted to test has been verified.
 
-\begin{itemize}
-	\item How can the communication between the different devices be designed, so that it (communication) is not delayed? 
-	\item How can accurate predictions be made, while also handling changes in trajectory?
-\end{itemize}
+\subsection{Naming}
+Due to inconsistencies regarding the naming of the device during the analysis, and to improve the communication regarding said device, the robot has been named the \texttt{F.L.A.T}, short for \texttt{Fixed Laser-guided Autonomous Turret}.
+This name will be used instead of "the device" when applicable.
+
+\subsection{Analysis takeaways}
+
+The primary takeaways from the analysis helped specify what specific platform and sensors will be needed, as well as reasoning for the usage of machine learning and the principles of real-time systems.
+
+The reasonable platform choice was concluded to be the NXT, because of the CPU limitations, that makes the project more interesting, but also because of the way it can interact with hardware components.
+In regards to projectiles, it was deemed irrelevant to hit the target with an actual projectile, but rather use a laser.
+
+This removes some of the hardware challenges regarding sensors, and because of this, all input can be gathered through a simple webcam.
+An issue arises with the use of a webcam, due to compatibility issues with the NXT, but this can be solved by using another device for the video part and simply sending the direction of the target to the NXT.
+
+The machine intelligence part of the problem is going to be twofold.
+One part is the object recognizing on the webcam, and the other is the prediction of the trajectory.
+This information is then trans-coded into a movement of a motor on either a horizontal or vertical axis.
+All these steps should happen rather fast, which opens up for interesting problems in regards to real-time systems.
+
+\subsection{Problem statement}
+Because of these takeaways, and the initial problem in Section~\ref{key:initialProblem}, a concrete problem statement can be formulated:\\~\\
+\begin{center}
+	
+	\textit{\large{How can we create a autonomous turret, that is able to track a moving target in real time?}}
+\end{center}~\\~\\
+
+The problem statement can be made more explicit through the following sub-problems:
+\begin{center}
+	\begin{itemize}
+		\item Can the NXT handle the trajectory prediction of an inanimate moving object?
+		\item How can the communication between the different devices be designed, so that it (communication) is not delayed? 
+		\item Can a software solution identify a moving target and specify it's location?
+	\end{itemize}
 \end{center}
+
+
+\subsection{Requirements}
+Along with the above problem statement, some requirements have been made with the intent of verifying whether a given solution is satisfactory.
+These requirements will serve as a guideline in the conclusion of the report and as markers throughout the project. 
+
+To formally specify the requirements, the MoSCoW analysis model will be utilized. 
+The MoSCoW model specifies which requirements \textbf{M}ust, \textbf{S}hould, \textbf{C}ould, and \textbf{W}on't be fulfilled to deem the project successful.\\
+
+Throughout this analysis, the term \textit{target} will refer to respectively; a small inanimate target, eg{.} a ball with a diameter of approximately 10 centimetres, or a large inanimate target, eg{.} an inflated balloon.
+The requirements of the system are based upon the results of the points examined in the rest of problem analysis.
+
+\textbf{Must have}
+\begin{itemize}
+	\item ability to recognize and track a moving target in front of the device
+	\item ability to follow a large target being dropped from 2 meters height at a distance of 3 to 4 meters away from the device, with a laser
+	\item move fast enough to keep the laser on a moving target in real time
+	\item ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
+	\item ability to predict the next location of the object moving solely along the horizontal axis with a constant speed
+	\item enough structural stability to be able to move without breaking
+\end{itemize}
+
+\textbf{Should have}
+\begin{itemize}
+	\item ability to hit a larger moving target in the air at a low speed at a distance of 3 meters
+	\item ability to hit a small moving target in the air at a low speed at a distance of 1 to 3 meters
+	\item ability to predict the next location of the object moving along a non-linear path, eg{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
+\end{itemize}
+
+\textbf{Could have}
+\begin{itemize}
+	\item ability to calculate the distance to the target object
+	\item calculate the angle and power necessary to hit the target with a projectile
+\end{itemize}
+
+\textbf{Won't have at this time}
+\begin{itemize}
+	\item ability to actually take down targets
+	\item ability to differentiate between the type of object that is being observed
+\end{itemize}
+
+By fulfilling the requirements specified in the \textit{must have} section, the device will be able to track a target with a rather predictable movement pattern and use the attached laser to indicate the tracking. 
+With the \textit{should have} requirements the functionality of the device is extended to track more advanced movement patterns, which in a real life scenario could be drones or birds in the air while still using the laser to indicate the tracking.
+If the \textit{could have} requirements are fulfilled the device will be able to calculate the distance to the observed target, calculate angle and power required to hit the target and fire a ballistic projectile at it.
+Finally, the \textit{won't have} requirements are deemed outside the scope of the current project and focus on the future application of the device, which would require more efficient projectiles in order to take down the observed target and being able to differentiate between whether the object is a threat or not.
+
+\subsection{Test cases}
+To test whether the most needed requirements have been fulfilled in a completely binary sense, we created a couple of test cases, or scenarios, of which the solution so be able to do. 
+This subsection will present four test cases, two \textit{need to have} and two \textit{nice to have}, and argue why these are realistic and reflect the requirements.
+When doing these tests, the target should be a color that is in contrast to the surrounding area. An ideal option is red.
+Some testcases will mention a balloon, which is 27 centimetres in diameter, while others mention a rubber ball, which is approximately 5-10 centimetres in diameter.
+All distances between the turret and the target are only based on the horizontal plane, not the actual distance taking height into account.
+
+\subsubsection{Dropping a ballon}
+\textit{A balloon is dropped from the ceiling at approximately 2 meters height.	
+The \texttt{F.L.A.T} should hit the balloon before it hits the ground.
+The \texttt{F.L.A.T} should be approximately 4 meters away from the ballon.}
+
+It can be hard to fully predict the speed at which the device will move, due to lacking knowledge about the motors as of yet, and due to no realistic way to assume the speed of the different software parts.
+This example creates some time restrictions, without it being an impossible task to do.
+The distances approximately matches the dimensions of our group room, but also creates a big enough distance that the motors doesn't have to move quick, while still imposing restrictions that also makes it possible to test within our workspace.
+
+\subsubsection{Rolling a ball}
+\textit{The \texttt{F.L.A.T} should stand on the edge of a table, approximately 80 centimetres tall.
+A ball is rolling past the table at approximately .2-.5 m/s, across the floor. 
+The distance between the turret and the target shouldn't be more than 2 meter.}
+
+This has a smaller target that will move less regularly.
+The ball and floor is not as even creating some aspects of randomness compared to dropping a balloon.
+Furthermore, rolling a ball on the floor will require the moment on more axis than simply the vertical axis, compared to the dropping of a ballon.
+This test will be more difficult than the ballon-challenge.
+The speed was chosen by rolling a ball across a distance of 120 centimetres and finding a speed that was deemed reasonable.
+
+\subsubsection{Throwing a ball}
+\textit{\textbf{[NICE TO HAVE]}}\\
+\textit{Two people throw a ball back and forth, approximately 3 meters apart, throwing in an angle of approximately 45 degrees.
+The \texttt{F.L.A.T} should hit the ball before it is caught.
+The \texttt{F.L.A.T} should be approximately 4 meters from people.}
+
+This test is more difficult in relation to the required rotation speed of the turret as well as the having a smaller time frame for hitting the target.
+Nevertheless, this is interesting in relation to further improve the efficiency of the solution, and would be an impressive achievement if possible.
+This is, however, not expected to succeed, but should be tested either way to test the limitations of the reaction-time of the turret.
+The distance between the two people and the angle was based on throwing the ball back and forth in front of a webcam to see how many frames was caught.
+The angle is relevant to make sure the ball is not thrown hard, as the angle limits the force with which the ball can be thrown for it to fly no more than 3 meters. 
+\subsubsection{Shooting a balloon}
+\textit{\textbf{[NICE TO HAVE]}}\\
+\textit{A balloon is dropped from the ceiling at approximately 2 meters height.	
+The \texttt{F.L.A.T} should to hit the balloon, with a projectile, before the ballon hits the ground.
+The \texttt{F.L.A.T} should be approximately 4 meters away from the ballon.}
+
+This is exactly the same test as \textit{dropping a ballon}, however, this introduces shooting a projectile from the turret.
+This is a \textit{could have} feature, which is closely connected to the initial problem and the reasoning behind it.
+This would take the solution from being purely theoretical into something which can be expanded into something more relevant.
+However, solving this issue also requires the consideration of distance, and some way to approximate this at real-time, which might require more hardware components.
