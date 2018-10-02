@@ -1,41 +1,44 @@
 \newpage
 \section{Problem definition}
-As a conclusion to the analysis, a summation of the different takeaways can be created. 
-This summation is going to create a list of requirements, a set of test cases to verify the requirements, and a problem statement.
-The requirements will help verify whether the technical part of the solution is valid according to what we wanted to create, while the problem statement will help verify whether the theoretical parts we wanted to test has been verified.
+As a conclusion to the analysis, a summation of the various takeaways can be created. 
+This summation will result in a list of requirements, a set of test cases that can be used to verify the requirements, and a definitive problem statement.
+The requirements are goals defined by the group, and are primarily used to define what a succesful project is, both in accordance to the learning goals of the semester, aswell as in relation to the groups own ambitions
+%The requirements will help verify whether the technical part of the solution is valid according to what we wanted to create, while the problem statement will help verify whether the theoretical parts we wanted to test has been verified.
 
 \subsection{Naming}
-Due to inconsistencies regarding the naming of the device during the analysis, and to improve the communication regarding said device, the robot has been named the \texttt{F.L.A.T}, short for \texttt{Fixed Laser-guided Autonomous Turret}.
-This name will be used instead of "the device" when applicable.
+Due to inconsistencies regarding the naming of the device during the analysis, the device will instead be named \texttt{F.L.A.T}, short for \texttt{Fixed Laser-guided Autonomous Turret}, and will be used instead of "the device", when applicable.
 
 \subsection{Analysis takeaways}
+The primary takeaways from the analysis helped specify the specific platform and sensors that will be needed in the development of a solution, as well as reasonings for the usage of machine learning and the principles of real-time systems.
 
-The primary takeaways from the analysis helped specify what specific platform and sensors will be needed, as well as reasoning for the usage of machine learning and the principles of real-time systems.
+The best platform choice was determined to be the NXT, primarily because of CPU limitations, which makes the project more interesting for the group, but also because of its interactability with hardware components.
+The project group also decided that actually hitting a target with a projectile would be irrelevant, and instead a laser will be used to determine a hit on the target.
 
-The reasonable platform choice was concluded to be the NXT, because of the CPU limitations, that makes the project more interesting, but also because of the way it can interact with hardware components.
-In regards to projectiles, it was deemed irrelevant to hit the target with an actual projectile, but rather use a laser.
+As a laser travels in a straight line, the project group can avoid working in a 3D space.
+Instead input will be gathered with a camera.
+A potential issue with the use of a camera, is incompatibility with the NXT.
+The solution here is to instead gather the video data on a secondary device, determining the position of the object on said secondary device, and then send the direction data of the target to the NXT.
 
-This removes some of the hardware challenges regarding sensors, and because of this, all input can be gathered through a simple webcam.
-An issue arises with the use of a webcam, due to compatibility issues with the NXT, but this can be solved by using another device for the video part and simply sending the direction of the target to the NXT.
-
-The machine intelligence part of the problem is going to be twofold.
-One part is the object recognizing on the webcam, and the other is the prediction of the trajectory.
+This means that the machine intelligence will be twofold.
+One will be the object recognition, i.e. determining the position of an object in an image.
+The other part will be the actual prediction of the trajectory of said object.
 This information is then trans-coded into a movement of a motor on either a horizontal or vertical axis.
-All these steps should happen rather fast, which opens up for interesting problems in regards to real-time systems.
+All these steps should happen rather fast, which creates interesting problems in regards to real-time systems.
 
 \subsection{Problem statement}
-Because of these takeaways, and the initial problem in Section~\ref{key:initialProblem}, a concrete problem statement can be formulated:\\~\\
+Based on these takeaways, and the initial problem in Section~\ref{key:initialProblem}, a concrete problem statement can be formulated:\\~\\
 \begin{center}
 	
 	\textit{\large{How can we create a autonomous turret, that is able to track a moving target in real time?}}
 \end{center}~\\~\\
 
-The problem statement can be made more explicit through the following sub-problems:
+The problem statement can be made more explicit with the following sub-problems:
 \begin{center}
 	\begin{itemize}
 		\item Can the NXT handle the trajectory prediction of an inanimate moving object?
-		\item How can the communication between the different devices be designed, so that it (communication) is not delayed? 
+		\item How can the communication between the different devices be designed, so that it (communication) is as fast as possible? 
 		\item Can a software solution identify a moving target and specify it's location?
+		\item How can quick targeting, i.e. the action of moving the turret to the target, be ensured?
 	\end{itemize}
 \end{center}
 
