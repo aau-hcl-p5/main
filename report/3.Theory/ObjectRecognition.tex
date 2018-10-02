@@ -1,65 +1,66 @@
 \section{Object Recognition}
 To be able to figure out where the target is, its location within the video stream has to be determined.
-It is not enough to simply answer the binary question "is a target present?" but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-As mentioned in section~\ref{sec:obj_tracking}, object recognition algorithms can be tedious to do by hand, and as a result of this, machine learning algorithms will be utilized.
-Although the initial target of the device may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy environment.
-Because of this, it is important to look into the science of object identification, what algorithms and methods exists, and what libraries we have at our disposal.
+It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
+As mentioned in section~\ref{sec:obj_tracking}, object recognition algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
+Although the initial target of the device may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
+Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries we have at our disposal.
 
 \subsection{Neural Networks}
 
 A neural network is, as the name implies, a network of neurons.
-It is based on neuroscience, especially the inner workings of the human brain, where a network of neurons is used to make decisions.
-The difference being, whether it is a biological neural network or an artificial one, which is the case in a computer science context.
-In computer science, a neuron can be seen as a function, that processes some input and then transmits the processed value to connected neurons \cite{ANN}.
+The idea is based on the neurons in the human brain, where the sum of the neurons are used to make more complex decisions than each individual neuron is capable of.
+The primary difference is whether it's a biological brain or an artificial one. 
+In computer science, a neuron can be seen as a function, that processes some input and then transmits the processed value to connected neurons.
 
 Neural networks are a powerful but complex method of doing machine learning.
 Because of this, simpler solutions should also be considered when exploring which methods suits the task best.
-One of the reasons neural networks are especially interesting in this case, is its ability to recognize patterns \cite{ANN}.
+One of the reasons neural networks are especially interesting in this case, is its ability to recognize patterns.
 Pattern recognition is a fundamental part of object recognition making neural networks an obvious option.
 
 
 \subsubsection{Convolutional Neural Network}
-Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection\cite{CNN}.
+\label{sec:cnn}
+Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection.
 In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN \cite{ILSVRC_Results}.  
-A CNN is a neural network in which neurons are grouped into layers.
-These layers are grouped in three categories; an input layer, an output layer and a number of so called hidden layers.
-The goal of the hidden layers are to transform the input data into the expected output data.
-It does this by doing abstractions within each layer, breaking a complex problem into smaller, more trivial, sub-problems.
+A CNN is a neural network with three categories of layers.
+The layers are of the following types; an input layer, an output layer and a number of so called hidden layers.
+The goal of the hidden layers is to transform the input data into the expected output data.
+The CNN does this by doing abstractions within each layer, breaking a complex problem into smaller, more trivial, sub-problems.
 
-In terms of object recognition, an example could be face recognition.
-The first layer could recognize lines, edges or similar low level features.
-The following layers could then detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
+An example of object recognition could be facial recognition.
+The first layer might recognize lines, edges or similar low level features.
+The following layers then, for example, detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
 
 
 \figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN
 	\cite{CNNStructure}.}{fig:face_cnn}
 
 However, it is important to understand, that this is not necessarily the patterns that a CNN will detect within its layers.
-Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face.
-But the computer will have found a correlation between these seemingly random patterns, and a face.
+Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns, and a face.
 
-CNNs are often used along with pooling \cite{CNN}.
-Pooling is a concept in which multiple outputs are combined into a single neuron in the next layer.
-This can be done in order to down-sample the input and reduce the complexity making the CNN run faster.
+CNNs are often used along with pooling.
+Pooling is a concept where multiple outputs are combined into a single neuron in the next layer.
+This can be done in order to down-sample the input and reduce the complexity, making the CNN run faster.
 Some common examples of pooling is max pooling and average pooling, in which the average or max value is output from a number of input neurons.
 
 CNNs are an effective choice for classification. 
-This means it can answer yes or no to whether the image is of a car.
+This means it can answer whether the image is of a car.
 Now the question is whether it can be used to figure out the position of the objects within the image.
-The answer turns out to be yes.
+The answer can be found by looking into Regional Convolutional Neural Network
 
 
 \subsubsection{Regional Convolutional Neural Network}
 
 A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
-It does this by applying the CNN to smaller regions of the image. 
+It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
-If the region contains an element recognized by the CNN a bounding box can be drawn around the region.
-The bounding box can at last be tightened using different methods, a popular option being a linear regression model.\cite{CNNHistory}
+If the region contains an element recognized by the CNN, a bounding box can be drawn around the region.
+The bounding box can finally be tightened using different methods, a popular option being a linear regression model.\cite{CNNHistory}
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
-One improvement is called fast RCNN and is leaning toward being feasible for real time object detection.
+An alternative is called \textit{fast RCNN}, which is leaning toward being feasible for real time object detection.
+% lacks text as well ... hvad fuck er fast RCNN ? det skal da vist også stå her bro.
 
 %\subsection{You Only Look Once}
 
@@ -70,26 +71,26 @@ One improvement is called fast RCNN and is leaning toward being feasible for rea
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
 Generic Object Tracking Using Regression Networks, is an algorithm based on deep learning\cite{goturn}.
-GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, whereas online learning constantly improves the model during run-time.
-It utilizes a large test set of videos of different objects and is taught with the help of this.
-The model is then shipped with the algorithm implementation.
+GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, which means training the model before execution time, whereas online learning constantly improves the model during run-time.
+It learns about motion tracking and object identification, by utilizing a large set of videos of different objects moving.
+The model is then shipped with the algorithm implementation, and therefore there is no need for online learning, making it more efficient.
 The benefit of this, is that it runs faster, as it does not have to ever modify the model or analyze whether the given result is relevant.
 However, this comes at a cost. 
 The algorithm has a tendency to favor objects within the training set, even if they remain stationary.
-So, for instance, if we want to track a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving.
+For instance, if we want to track a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving, if the planes were in the training set.
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
-The GOTURN algorithm utilizes CNN, which is explained in the previous sub-section.
+The GOTURN algorithm utilizes CNN, which is explained in Section~\ref{sec:cnn}.
 \figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN cite{goturn}.}{fig:goturn-arch}
-GOTURN works by looking at two frames the first, also known as previous frame, and the second, also known as current frame.
+GOTURN works by looking at two frames; the first, also known as the previous frame, and the second, also known as the current frame.
 This is also shown on Figure~\ref{fig:goturn-arch}.
 The premise is that the location of the object is known in previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
 
 
-Some possible problems with this algorithm is that the location of the target is not known initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
+Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
