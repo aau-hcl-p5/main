@@ -1,7 +1,7 @@
 \section{Object Recognition}
 To be able to figure out where the target is, its location within the video stream has to be determined.
 It is not enough to simply answer the binary question "is a target present?" but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-As mentioned in section \ref{sec:obj_tracking}, object recognition algorithms can be tedious to do by hand, and as a result of this, machine learning algorithms will be utilized.
+As mentioned in section~\ref{sec:obj_tracking}, object recognition algorithms can be tedious to do by hand, and as a result of this, machine learning algorithms will be utilized.
 Although the initial target of the device may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy environment.
 Because of this, it is important to look into the science of object identification, what algorithms and methods exists, and what libraries we have at our disposal.
 
@@ -34,9 +34,7 @@ The following layers could then detect increasingly complicated facial features,
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.40]{images/cnn_face.jpg}
-	\caption{
-		A simplified example of the abstractions within a CNN.
-	}
+	\caption{A simplified example of the abstractions within a CNN.}
 	\label{fig:face_cnn}
 \end{figure}
  
@@ -46,7 +44,7 @@ But the computer will have found a correlation between these seemingly random pa
 
 CNNs are often used along with pooling \cite{CNN}.
 Pooling is a concept in which multiple outputs are combined into a single neuron in the next layer.
-This can be done in order to down-sample the input and reduce the complexity making the CNN run faster
+This can be done in order to down-sample the input and reduce the complexity making the CNN run faster.
 Some common examples of pooling is max pooling and average pooling, in which the average or max value is output from a number of input neurons.
 
 CNNs are an effective choice for classification. 
@@ -75,28 +73,26 @@ One improvement is called fast RCNN and is leaning toward being feasible for rea
 
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
-Generic Object Tracking Using Regression Networks, is an algorithm based on deep learning.\cite{goturn}
-GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, whereas online learning constantly improves the model during runtime.
-It is fed a large library of videos of different objects and is taught with the help of this.
+Generic Object Tracking Using Regression Networks, is an algorithm based on deep learning\cite{goturn}.
+GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, whereas online learning constantly improves the model during run-time.
+It utilizes a large test set of videos of different objects and is taught with the help of this.
 The model is then shipped with the algorithm implementation.
 The benefit of this, is that it runs faster, as it does not have to ever modify the model or analyze whether the given result is relevant.
 However, this comes at a cost. 
 The algorithm has a tendency to favor objects within the training set, even if they remain stationary.
 So, for instance, if we want to track a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving.
-This is due to the unpredictable-ness of what the algorithm see as a correlation between video and a correct answer.
+This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
 The GOTURN algorithm utilizes CNN, which is explained in the previous sub-section.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.80]{images/GOTURN-architecture.jpg}
-	\caption{
-		How the algorithm utilizes CNN, source \cite{goturn}
-	}
+	\caption{How the algorithm utilizes CNN \cite{goturn}.}
 	\label{fig:goturn-arch}
 \end{figure}
 GOTURN works by looking at two frames the first, also known as previous frame, and the second, also known as current frame.
-This is also shown on Figure \ref{fig:goturn-arch}.
+This is also shown on Figure~\ref{fig:goturn-arch}.
 The premise is that the location of the object is known in previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
