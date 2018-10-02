@@ -42,7 +42,6 @@ The priority of a task can be set by using a method called \textit{Earliest dead
 \textbf{Earliest deadline first} means that it is the task with the earliest deadline that is allowed to execute first.
 The next task to execute is the one with nearest upcoming deadline.
 
-This scheduling method can work both with and without pre-emption of tasks.
-Pre-emption allows a running task to be set on hold then a higher priority task is ready to run. 
+This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
 Given a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
