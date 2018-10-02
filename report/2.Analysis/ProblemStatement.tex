@@ -3,7 +3,6 @@
 As a conclusion to the analysis, a summation of the various takeaways can be created. 
 This summation will result in a list of requirements, a set of test cases that can be used to verify the requirements, and a definitive problem statement.
 The requirements are goals defined by the group, and are primarily used to define what a succesful project is, both in accordance to the learning goals of the semester, aswell as in relation to the groups own ambitions
-%The requirements will help verify whether the technical part of the solution is valid according to what we wanted to create, while the problem statement will help verify whether the theoretical parts we wanted to test has been verified.
 
 \subsection{Naming}
 Due to inconsistencies regarding the naming of the device during the analysis, the device will instead be named \texttt{F.L.A.T}, short for \texttt{Fixed Laser-guided Autonomous Turret}, and will be used instead of "the device", when applicable.
@@ -86,33 +85,31 @@ With the \textit{should have} requirements the functionality of the device is ex
 If the \textit{could have} requirements are fulfilled the device will be able to calculate the distance to the observed target, calculate angle and power required to hit the target and fire a ballistic projectile at it.
 Finally, the \textit{won't have} requirements are deemed outside the scope of the current project and focus on the future application of the device, which would require more efficient projectiles in order to take down the observed target and being able to differentiate between whether the object is a threat or not.
 
-\subsection{Hypothesis}
-To test whether the most needed requirements have been fulfilled in a completely binary sense, we created a couple of test cases, or scenarios, of which the solution so be able to do. 
+\subsection{Test cases}
+To determine if the requirements have been fulfilled, in a completely binary sense, we created a couple of test cases, or scenarios, which the solution should be able to complete. 
 This subsection will present four test cases, two \textit{need to have} and two \textit{nice to have}, and argue why these are realistic and reflect the requirements.
-When doing these tests, the target should be a color that is in contrast to the surrounding area.
-An ideal option is red.
+When doing these tests, the target should be a color that contrasts the surrounding area.
+As our group rooms primarily have white walls, a good option is red.
 Some test-cases will mention a balloon, which is 27 centimetres in diameter, while others mention a rubber ball, which is approximately 5-10 centimetres in diameter.
-All distances between the turret and the target are only based on the horizontal plane, not the actual distance taking height into account.
+All distances between the turret and the target are only based on the horizontal plane, not the actual distance including both the horizontal distance and the vertical distance.
 
 \subsubsection{Dropping a ballon}
 \textit{A balloon is dropped from the ceiling, approximately 2-2.5 meters from the floor.	
 The \texttt{F.L.A.T} should hit the balloon before it hits the ground.
 The \texttt{F.L.A.T} should be approximately 4 meters away from the ballon.}
 
-It can be hard to fully predict the speed at which the device will move, due to lacking knowledge about the motors as of yet, and due to no realistic way to assume the speed of the different software parts.
-This example creates some time restrictions, without it being an impossible task to do.
-The distances approximately matches the dimensions of our group room, but also creates a big enough distance that the motors doesn't have to move quick, while still imposing restrictions that also makes it possible to test within our workspace.
+It can be difficult to fully predict the speed at which the device will move, due to lacking knowledge about the motors, and due to no realistic way to assume the execution speed of the different software parts.
+This example has some time restrictions, as the balloon will need to be hit before it hits the ground, however it should still be accomplishable.
 
 \subsubsection{Rolling a ball}
-\textit{The \texttt{F.L.A.T} should stand on the edge of a table, approximately 80 centimetres tall.
-A ball is rolling past the table at approximately .2-.5 m/s, across the floor. 
-The distance between the turret and the target shouldn't be more than 2 meter.}
+\textit{The \texttt{F.L.A.T} sits on the edge of a table, approximately 80 centimetres tall.
+A ball is rolling on the floor below the table at approximately .2-.5 m/s. 
+The distance between the turret and the target should not be more than 2 meter.}
 
-This has a smaller target that will move less regularly.
-The ball and floor is not as even creating some aspects of randomness compared to dropping a balloon.
-Furthermore, rolling a ball on the floor will require the moment on more axis than simply the vertical axis, compared to the dropping of a ballon.
-This test will be more difficult than the ballon-challenge.
-The speed was chosen by rolling a ball across a distance of 120 centimetres and finding a speed that was deemed reasonable.
+This test case has a smaller target, that will move less regularly.
+The ball and floor is not necessarily even, creating some aspects of randomness compared to dropping a balloon.
+Furthermore, rolling a ball on the floor will require the movement on multiple axes, rather than just the vertical axis, compared to the dropping of a ballon.
+The speed of the ball was determined by rolling a ball across a distance of 120 centimetres and finding a speed that was deemed reasonable.
 
 \subsubsection{Throwing a ball}
 \textit{\textbf{[NICE TO HAVE]}}\\
@@ -120,18 +117,21 @@ The speed was chosen by rolling a ball across a distance of 120 centimetres and 
 The \texttt{F.L.A.T} should hit the ball before it is caught.
 The \texttt{F.L.A.T} should be approximately 4 meters from people.}
 
-This test is more difficult in relation to the required rotation speed of the turret as well as the having a smaller time frame for hitting the target.
+The difficulty of this test case primarily comes from the speed at which the turret must find the target.
+Additional difficulty comes from potential irregularities in the throw by the people, as well as additional noise in the image.
 Nevertheless, this is interesting in relation to further improve the efficiency of the solution, and would be an impressive achievement if possible.
-This is, however, not expected to succeed, but should be tested either way to test the limitations of the reaction-time of the turret.
-The distance between the two people and the angle was based on throwing the ball back and forth in front of a webcam to see how many frames was caught.
-The angle is relevant to make sure the ball is not thrown hard, as the angle limits the force with which the ball can be thrown for it to fly no more than 3 meters. 
+
+This test case is \textbf{nice to have} as it is a difficult challenge, however the test should be conducted, to determine the limitations of the \texttt{F.L.A.T}.
+The distance between the two people and the angle is based on throwing the ball back and forth in front of a webcam to test the amount of frames in which the ball is visible.
+The angle is relevant to make sure the ball is not thrown too hard, as the angle limits the force with which the ball can be thrown for it to fly no more than 3 meters. 
+
 \subsubsection{Shooting a balloon}
 \textit{\textbf{[NICE TO HAVE]}}\\
 \textit{A balloon is dropped from the ceiling at approximately 2 meters height.	
 The \texttt{F.L.A.T} should to hit the balloon, with a projectile, before the ballon hits the ground.
 The \texttt{F.L.A.T} should be approximately 4 meters away from the ballon.}
 
-This is exactly the same test as \textit{dropping a ballon}, however, this introduces shooting a projectile from the turret.
+This test case is similar to the \textit{dropping a ballon} test case, with the additional introduction of a projectile being shot from the \texttt{F.L.A.T}.
 This is a \textit{could have} feature, which is closely connected to the initial problem and the reasoning behind it.
-This would take the solution from being purely theoretical into something which can be expanded into something more relevant.
-However, solving this issue also requires the consideration of distance, and some way to approximate this at real-time, which might require more hardware components.
+Completing this test case would take the solution from being a primarily theoretical implementation, to a solution with practical implementations.
+However, completeting this test case also requires the consideration of distance, and some way to approximate this at real-time, which might require additional hardware components.
