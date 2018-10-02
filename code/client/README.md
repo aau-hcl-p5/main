@@ -1,1 +1,0 @@
-[Insert readme about server]
