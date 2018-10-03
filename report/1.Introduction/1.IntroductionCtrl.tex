@@ -8,52 +8,56 @@
 \chapter{Introduction}
 
 Tracking airborne objects can be quite difficult.
-This difficulty has inspired different sports and hobbies, including skeet shooting.
-Hitting a target requires the tracking of it, it's velocity and direction, as well as the calculation or prediction of its future trajectory.
-The trajectory can be impacted by a number of different features, including gravity, wind, initial force, any artificial acceleration.
-Furthermore, if the object is intelligent in anyway, the path might change procedurally.
+This difficulty has inspired different sports and hobbies such as skeet shooting.
+Hitting a target requires tracking of it, its velocity and direction, as well as the calculation or prediction of its future trajectory.
+The trajectory can be impacted by a number of different factors, including gravity, wind, initial force, or any artificial acceleration.
+Furthermore, if the object is intelligent it might change its path, rendering the prediction of the trajectory moot.
 
 
 Tracking of airborne objects has multiple different applications.
 
 \subsection{Airports}
-Estimated thirteen thousand "bird strikes" happen each year, which is the event of a bird colliding with a vehicle, where the majority is aircrafts\cite{WikiBirdStrike}\cite{WildlifeStrikeReport}.
-Even though 65\% are estimated to cause little damage, the damages are estimated to cost 1.2 billion dollars each year, world-wide \cite{CostOfBirdstrikes}.
+An estimated thirteen thousand "bird strikes" happen each year, which is the event of a bird colliding with a vehicle, primarily aircraft\cite{WildlifeStrikeReport}.
+
+Although 65\% are estimated to cause somewhat insignificant damage, the damages are estimated to cost 1.2 billion dollars each year, world-wide \cite{CostOfBirdstrikes}.
 The majority of these accidents happen at low altitude, during landing or takeoff\cite{CostOfBirdstrikes}.
 Airports utilize different methods of bird control, including killing, trapping, poison and lights\cite{BirdControlAtAirports}.
-Shooting birds is one of the most common methods, and has been observed to be quite effective, while also reinforcing other methods.
-This both kills a singular bird, but also scares away other birds.
+Shooting birds is one of the most commonly used methods, and has been observed to be quite effective, while also reinforcing other methods.
+This both eliminates the individual bird, but also scares away other birds.
 However, it can be expensive in both salaries and effort.
 
 \subsection{Military}
-In a military setting hitting a moving airborne target is relevant in a defence context, for instance destroying incoming projectiles or shooting down hostile planes.
+In a military setting, hitting a moving airborne target is relevant in a defense context, for instance destroying incoming projectiles or shooting down hostile planes.
 Compared to the airport-case, the problem can arise at a variety of locations, both on vehicles, boats, planes and tanks, but also on stationary military installations.
-The American military developed the Phalanx CIWS, Close-in weapon system, which is a radar-guided 20mm Gatling-style rotary cannon, mounted on a base that moves on two axes\cite{PhalanxCIWS}.
+The American military developed the Phalanx CIWS, a close-in weapon system, which is a radar-guided 20mm Gatling-style rotary cannon, mounted on a base that moves on two axes.
 These are mounted on ships and can shoot incoming missiles and other airborne objects deemed a threat.
-The Dutch also developed a similar system called the Goalkeeper CIWS.
-These are both autonomous.
+Alternatives to the Phalanx exist, for example the Goalkeeper, so this is not a unique concept, and most of these rely on similar principles.
+Both the Goalkeeper and the Phalanx are autonomous.
 
 \subsection{Initial Problem}
 
-Tracking an airborne object has multiple different problem areas that makes it an interesting domain.
-This makes it interesting to research, and this report will try to look into ways of solving this problem on a smaller scale, in clinical examples, to research the different parameters.
-Before hitting an airborne target, it is important to estimate its trajectory, and the problem can therefore be simplified to two subproblems.
+Tracking an airborne object has multiple different problem areas that makes it an interesting domain to research.
+This report will try to look into ways of solving this problem on a smaller scale, in clinical examples, and to research the different parameters.
+Before hitting an airborne target, it is important to estimate its trajectory, and the problem can therefore be split into two sub-problems.
 \begin{enumerate}
-  \item Calculating how many seconds it takes before a projectile can reach the target.
-  \item Calculating where the target will be in T seconds.
+  \item Calculating the time it takes before a projectile will reach the target.
+  \item Calculating where the target will be in T (mili)seconds.
 \end{enumerate}
-Combined, these two problems means finding the spot where the travel-time of the target meets the travel-time of the projectile.
+Combined, these two sub-problems means finding the spot where the travel time of the target meets the travel time of the projectile.
 
-This report is build on courses in both real-time systems as well as machine learning, and this problem works in the context of both.
+
+As the goal of this project is to apply the knowledge from the real-time systems and machine-learning courses, the problem that the project seeks to solve, should be within the domain of both.
+This is the case with the trajectory prediction problem.
+
+
 In regards to machine intelligence, the problem of tracking an airborne target has potential for intelligent analysis by an artificial agent.
 Likewise, it is a time-critical task to move a weapon so that it aims at the target and hits the target, before the target is out of range or hits the ground.
 
-% !! COMMENTED OUT SO THIS CAN BE A CHAPTER OF IT'S OWN !!
-%As hitting the target with a projectile introduces a lot of unknown variables, this report will focus on tracking the target with a laser, as the travel time is near instant (based on the speed of light), and it's less affected by gravity.
 The report will use more simplistic targets, to remove unpredictable parameters, and to remove the possibility of harming any living creatures.
 
+These considerations creates the following initial problem, whereas the analysis will lead to a more in-depth set of requirements and a concrete problem statement.
+\label{key:initialProblem}
 
-These considerations creates the following initial problem, whereas the analysis will create a more in-depth set of requirements and a concrete problem statement.
 \begin{center}
-  \textit{\textbf{How can a software system track a moving airborne projectile}}
+  \textit{\textbf{How can a software system track a moving airborne projectile?}}
 \end{center}
