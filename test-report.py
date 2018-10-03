@@ -14,7 +14,9 @@ def get_tex_lines():
 
 def check_line(line, initial = True):
     parts = line.strip().split(". ")
-    if (len(parts) == 1):
+    if line.startswith("%"):
+        return True
+    if len(parts) == 1:
         return True if (initial or "." not in parts[0]) else any(parts[0][:-1].endswith(x) for x in white_list)
 
     newLine = ". ".join(parts[:-1])
