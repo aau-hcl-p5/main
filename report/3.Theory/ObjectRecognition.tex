@@ -62,6 +62,7 @@ However, there have been a lot of modifications and improvements of RCNN that im
 An alternative is called \textit{fast RCNN}, which is leaning toward being feasible for real time object detection.
 % lacks text as well - hvad fuck er fast RCNN ? det skal da vist også stå her bro.
 
+
 %\subsection{You Only Look Once}
 
 %An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real time processing in mind.
@@ -94,18 +95,51 @@ Some possible problems with this algorithm is that the location of the target is
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
-\subsection{OpenCV}
-One option is to simply utilize the highly popular OpenCV library.
-OpenCV is an open source computer vision library, that comes with ready to use object tracking functionality.
+
+
 % Write more
 
 
 
 \subsection{Tensorflow}
-%Tensorflow is a python framework for working with machine learning.
-%It is beginner friendly but still has the possibilities of delving deeper into the inner workings of a given model, and the processes of it.
+Tensorflow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
+The framework is developed for Python, but has recently implemented Javascript support.
+It is developed by the Google Brain team, and owned by Google Inc.\cite{tensorflow-attribution}.
+It has a high-level API, called Keras, and a low-level API, which makes it possible to use it both as at an entry-level as well as making larger systems.
+
+Tensorflow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
+
+A tensor is a mathematical entity, and the mathematical defintions are outside the scope of this project.
+In the context of tensorflow, it is enough to think of it as an entity in a mathematical process.
+This might be a constant primitive value, or a mapping from one or more primitive values to one or more primitive values.
+
+To better show the example of tensors and how Tensorflow operates, the following low-level example is used in the tensorflow tutorial, and it seems relevant here as well.
+
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a tensorflow program]
+a = tf.constant(3.0)
+b = tf.constant(4.0)
+total = a + b
+print(a)
+print(b)
+print(total)
+\end{lstlisting}
+The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \ref{lis:TensorFlowPy2}]
+Tensor("Const:0", shape=(), dtype=float32)
+Tensor("Const_1:0", shape=(), dtype=float32)
+Tensor("add:0", shape=(), dtype=float32)
+\end{lstlisting}
+This is because the $ a + b $ outputs another tensor, which can be evaluated outputting the result 7.
+This is is because $a$ or $b$ might not be a constant, but a placeholder, which would be supplied at run-time, so building these tensors creates a model that can then be supplied data and then evaulated.
+
+Tensors can also be tuples of different shapes, and when applying levels of abstraction, which is what Keras is doing, it is possible to use it for image recognition and other more complex problems.
 
 
+\subsection{OpenCV}
+OpenCV(Open Source Computer Vision Library), is a free-to-use library for C++, Python, and Java, which can be used for object tracking out of the box\cite{opencv}.
+
+OpenCV is a rather old library, but it is still useable, and interfaces with other frameworks.
+It is not a machine intelligence library, but rather a set of tools for manipulating images and doing general computer vision.
 
 % https://github.com/tensorflow/models/tree/master/research/object_detection
 
