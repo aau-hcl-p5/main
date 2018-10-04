@@ -1,13 +1,13 @@
-\documentclass[a4paper,12pt,fleqn,oneside,openright]{memoir} 	% Openright aabner kapitler paa hoejresider (openany begge)
+\documentclass[a4paper,12pt,fleqn,oneside,openright]{memoir}   % Openright aabner kapitler paa hoejresider (openany begge)
 
 \makeatletter
 %%%% PAKKER %%%%
 \usepackage[usenames,dvipsnames]{xcolor}
 % ¤¤ Oversaettelse og tegnsaetning ¤¤ %
-\usepackage[utf8]{inputenc}					% Input-indkodning af tegnsaet (UTF8)
-\usepackage[english]{babel}					% Dokumentets sprog
-\usepackage[T1]{fontenc}					% Output-indkodning af tegnsaet (T1)
-\usepackage{ragged2e,anyfontsize}			% Justering af elementer
+\usepackage[utf8]{inputenc}          % Input-indkodning af tegnsaet (UTF8)
+\usepackage[english]{babel}          % Dokumentets sprog
+\usepackage[T1]{fontenc}          % Output-indkodning af tegnsaet (T1)
+\usepackage{ragged2e,anyfontsize}      % Justering af elementer
 
 \usepackage{amsmath}
 
@@ -35,79 +35,81 @@
 \newcolumntype{L}{>{\centering\arraybackslash}m{1.75cm}}
 \newcolumntype{C}{>{\arraybackslash}m{2cm}}
 
+\usepackage{adjustbox}
+
 %Antal sider
 \usepackage{totpages}
 
 %For appendix
 \usepackage{appendix}
 % ¤¤ Figurer og tabeller (floats) ¤¤ %
-\usepackage{graphicx} 						% Haandtering af eksterne billeder (JPG, PNG, PDF)
-\usepackage{multirow}                		% Fletning af raekker og kolonner (\multicolumn og \multirow)
-\usepackage{colortbl} 						% Farver i tabeller (fx \columncolor, \rowcolor og \cellcolor)
-%\usepackage{xcolor}				            % Definer farver med \definecolor. Se mere: http://en.wikibooks.org/wiki/LaTeX/Colors
-\usepackage{flafter}						% Soerger for at floats ikke optraeder i teksten foer deres reference
-\let\newfloat\relax 						% Justering mellem float-pakken og memoir
-\usepackage{float}							% Muliggoer eksakt placering af floats, f.eks. \begin{figure}[H]
-\usepackage{wrapfig}						% Indsaettelse af figurer omsvoebt af tekst. \begin{wrapfigure}{Placering}{Stoerrelse}
+\usepackage{graphicx}             % Haandtering af eksterne billeder (JPG, PNG, PDF)
+\usepackage{multirow}                    % Fletning af raekker og kolonner (\multicolumn og \multirow)
+\usepackage{colortbl}             % Farver i tabeller (fx \columncolor, \rowcolor og \cellcolor)
+%\usepackage{xcolor}                    % Definer farver med \definecolor. Se mere: http://en.wikibooks.org/wiki/LaTeX/Colors
+\usepackage{flafter}            % Soerger for at floats ikke optraeder i teksten foer deres reference
+\let\newfloat\relax             % Justering mellem float-pakken og memoir
+\usepackage{float}              % Muliggoer eksakt placering af floats, f.eks. \begin{figure}[H]
+\usepackage{wrapfig}            % Indsaettelse af figurer omsvoebt af tekst. \begin{wrapfigure}{Placering}{Stoerrelse}
 
 \usepackage{rotating}
 \usepackage{subfig}
 
 % ¤¤ Matematik mm. ¤¤
-\usepackage{amsmath,amssymb,stmaryrd} 		% Avancerede matematik-udvidelser
-\usepackage{mathtools}						% Andre matematik- og tegnudvidelser
-\usepackage{textcomp}                 		% Symbol-udvidelser (f.eks. promille-tegn med \textperthousand )
-\usepackage{siunitx}						% Flot og konsistent praesentation af tal og enheder med \si{enhed} og \SI{tal}{enhed}
-\sisetup{output-decimal-marker = {,}}		% Opsaetning af \SI (DE for komma som decimalseparator)
-\usepackage[version=3]{mhchem} 				% Kemi-pakke til flot og let notation af formler, f.eks. \ce{Fe2O3}
+\usepackage{amsmath,amssymb,stmaryrd}     % Avancerede matematik-udvidelser
+\usepackage{mathtools}            % Andre matematik- og tegnudvidelser
+\usepackage{textcomp}                     % Symbol-udvidelser (f.eks. promille-tegn med \textperthousand )
+\usepackage{siunitx}            % Flot og konsistent praesentation af tal og enheder med \si{enhed} og \SI{tal}{enhed}
+\sisetup{output-decimal-marker = {,}}    % Opsaetning af \SI (DE for komma som decimalseparator)
+\usepackage[version=3]{mhchem}         % Kemi-pakke til flot og let notation af formler, f.eks. \ce{Fe2O3}
 
 % ¤¤ Referencer og kilder ¤¤ %
-\usepackage[danish]{varioref}				% Muliggoer bl.a. krydshenvisninger med sidetal (\vref)
-\usepackage[numbers]{natbib}							% Udvidelse med naturvidenskabelige citationsmodeller
+\usepackage[danish]{varioref}        % Muliggoer bl.a. krydshenvisninger med sidetal (\vref)
+\usepackage[numbers]{natbib}              % Udvidelse med naturvidenskabelige citationsmodeller
 \usepackage[colorlinks]{hyperref}
 \setcitestyle{number}
 
 % ¤¤ Misc. ¤¤ %
-\usepackage{listings}						% Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
+\usepackage{listings}            % Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
 % Kode-style
 \lstdefinestyle{Kotlin}{language=kotlin, frame=lr, rulecolor=\color{blue!80!black}}
-\renewcommand{\lstlistingname}{Snippet}                                            
+\renewcommand{\lstlistingname}{Snippet}
 \lstdefinelanguage{Kotlin}{
-	keywords={package, as, as?, typealias, this, super, val, var, fun, for, null, true, false, is, in, throw, return, break, continue, object, if, try, else, while, do, when, class, interface, enum, object, companion, override, public, private, get, set, import, abstract, vararg, expect, actual, where, suspend, data, internal, dynamic, final, by},
-	keywordstyle=\color{NavyBlue}\bfseries,
-	ndkeywords={@Deprecated, @JvmName, @JvmStatic, @JvmOverloads, @JvmField, @JvmSynthetic, Iterable, Int, Long, Integer, Short, Byte, Float, Double, String, Runnable, Array},
-	ndkeywordstyle=\color{BurntOrange}\bfseries,
-	emph={println, return@, forEach, map, mapNotNull, first, filter, firstOrNull, lazy, delegate},
-	emphstyle={\color{OrangeRed}},
-	identifierstyle=\color{black},
-	sensitive=true,
-	commentstyle=\color{gray}\ttfamily,
-	comment=[l]{//},
-	morecomment=[s]{/*}{*/},
-	stringstyle=\color{ForestGreen}\ttfamily,
-	morestring=[b]",
-	morestring=[s]{"""*}{*"""},
+  keywords={package, as, as?, typealias, this, super, val, var, fun, for, null, true, false, is, in, throw, return, break, continue, object, if, try, else, while, do, when, class, interface, enum, object, companion, override, public, private, get, set, import, abstract, vararg, expect, actual, where, suspend, data, internal, dynamic, final, by},
+  keywordstyle=\color{NavyBlue}\bfseries,
+  ndkeywords={@Deprecated, @JvmName, @JvmStatic, @JvmOverloads, @JvmField, @JvmSynthetic, Iterable, Int, Long, Integer, Short, Byte, Float, Double, String, Runnable, Array},
+  ndkeywordstyle=\color{BurntOrange}\bfseries,
+  emph={println, return@, forEach, map, mapNotNull, first, filter, firstOrNull, lazy, delegate},
+  emphstyle={\color{OrangeRed}},
+  identifierstyle=\color{black},
+  sensitive=true,
+  commentstyle=\color{gray}\ttfamily,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  stringstyle=\color{ForestGreen}\ttfamily,
+  morestring=[b]",
+  morestring=[s]{"""*}{*"""},
 }
 
 \lstdefinestyle{HCL}{language=hcl, frame, lr, rulecolor=\color{blue!80!black}}
 \renewcommand{\lstlistingname}{Snippet}
 \lstdefinelanguage{HCL}
 {
-	keywords={true, false, return, OUTPUT}, 
-	keywordstyle=\color{ForestGreen}\bfseries,
-	ndkeywords={none, var, txt, num, bool, tuple, list, func, value},
-	ndkeywordstyle=\color{BurntOrange}\bfseries,
-	emph={map, where, reduce, print, add, where, do, equals, then, else, thenElse, +, -, /, *, not, addNumbers, is, modifyNumber, modifyFunction, times2, isAwesome, onEach, forEach, mapFunction, SetLEDPower, delay, LedSetup}, %add all included functions here
-	emphstyle={\color{RoyalBlue}},
-	identifierstyle=\color{Aquamarine},
-	sensitive=true,
-	commentstyle=\color{Gray}\ttfamily,
-	comment=[l]{\#},
-	stringstyle=\color{black}\ttfamily,
-	morestring=[b]",	
+  keywords={true, false, return, OUTPUT},
+  keywordstyle=\color{ForestGreen}\bfseries,
+  ndkeywords={none, var, txt, num, bool, tuple, list, func, value},
+  ndkeywordstyle=\color{BurntOrange}\bfseries,
+  emph={map, where, reduce, print, add, where, do, equals, then, else, thenElse, +, -, /, *, not, addNumbers, is, modifyNumber, modifyFunction, times2, isAwesome, onEach, forEach, mapFunction, SetLEDPower, delay, LedSetup}, %add all included functions here
+  emphstyle={\color{RoyalBlue}},
+  identifierstyle=\color{Aquamarine},
+  sensitive=true,
+  commentstyle=\color{Gray}\ttfamily,
+  comment=[l]{\#},
+  stringstyle=\color{black}\ttfamily,
+  morestring=[b]",
 }
-                                       
-                                       
+
+
 \lstdefinestyle{CSharp}{language=[sharp]c, frame=lr, rulecolor=\color{blue!80!black}}
 
 \renewcommand{\lstlistingname}{Snippet}     % Listing navn
@@ -172,7 +174,7 @@ keywordstyle=[2]\color[rgb]{0.5,0.0,0.0},       %Red
 keywordstyle=[3]\color[rgb]{0.127,0.427,0.514}, %Turquoise
 keywordstyle=[4]\color[rgb]{0.4,0.4,0.4},       %Grey
 commentstyle=\color[rgb]{0.133,0.545,0.133},    %Dark green
-stringstyle=\color[rgb]{0.639,0.082,0.082}, 
+stringstyle=\color[rgb]{0.639,0.082,0.082},
 }
 \let\origthelstnumber\thelstnumber
 \belowcaptionskip=-10pt
@@ -192,13 +194,13 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
   }%
 }
 
-\usepackage{lipsum}							% Dummy text \lipsum[..]
+\usepackage{lipsum}              % Dummy text \lipsum[..]
 \usepackage{enumitem}
-%\usepackage[shortlabels]{enumitem}			% Muliggoer enkelt konfiguration af lister
-\usepackage{pdfpages}						% Goer det muligt at inkludere pdf-dokumenter med kommandoen \includepdf[pages={x-y}]{fil.pdf}
+%\usepackage[shortlabels]{enumitem}      % Muliggoer enkelt konfiguration af lister
+\usepackage{pdfpages}            % Goer det muligt at inkludere pdf-dokumenter med kommandoen \includepdf[pages={x-y}]{fil.pdf}
 \usepackage{longtable}                      % Goer det muligt at have longtables
-\pdfoptionpdfminorversion=6					% Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
-\pretolerance=2500 							% Justering af afstand mellem ord (hoejt tal, mindre orddeling og mere luft mellem ord)
+\pdfoptionpdfminorversion=6          % Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
+\pretolerance=2500               % Justering af afstand mellem ord (hoejt tal, mindre orddeling og mere luft mellem ord)
 
 % Kommentarer og rettelser med \fxnote. Med 'final' i stedet for 'draft' udloeser hver note en error i den faerdige rapport.
 \usepackage[footnote,draft,danish,silent,nomargin]{fixme}
@@ -207,85 +209,85 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
 %%%% BRUGERDEFINEREDE INDSTILLINGER %%%%
 
 % ¤¤ Marginer ¤¤ %
-\setlrmarginsandblock{3.5cm}{2.5cm}{*}		% \setlrmarginsandblock{Indbinding}{Kant}{Ratio}
-\setulmarginsandblock{2.5cm}{3.0cm}{*}		% \setulmarginsandblock{Top}{Bund}{Ratio}
-\checkandfixthelayout 						% Oversaetter vaerdier til brug for andre pakker
+\setlrmarginsandblock{3.5cm}{2.5cm}{*}    % \setlrmarginsandblock{Indbinding}{Kant}{Ratio}
+\setulmarginsandblock{2.5cm}{3.0cm}{*}    % \setulmarginsandblock{Top}{Bund}{Ratio}
+\checkandfixthelayout             % Oversaetter vaerdier til brug for andre pakker
 \raggedbottom                               % Goer at sektionerne ikke fylder op fra bunden.
-%	¤¤ Afsnitsformatering ¤¤ %
-\setlength{\parindent}{0mm}           		% Stoerrelse af indryk
-\setlength{\parskip}{3mm}          			% Afstand mellem afsnit ved brug af double Enter
-\linespread{1,1}							% Linie afstand
+%  ¤¤ Afsnitsformatering ¤¤ %
+\setlength{\parindent}{0mm}               % Stoerrelse af indryk
+\setlength{\parskip}{3mm}                % Afstand mellem afsnit ved brug af double Enter
+\linespread{1,1}              % Linie afstand
 
 % ¤¤ Litteraturlisten ¤¤ %
-%\bibpunct[,]{[}{]}{;}{a}{,}{,} 				% Definerer de 6 parametre ved Harvard henvisning (bl.a. parantestype og seperatortegn)
+%\bibpunct[,]{[}{]}{;}{a}{,}{,}         % Definerer de 6 parametre ved Harvard henvisning (bl.a. parantestype og seperatortegn)
 
-%\bibliographystyle{bibtex/harvard}			% Udseende af litteraturlisten.
-\bibliographystyle{bibtex/IEEEtran}			% Udseende af litteraturlisten.
+%\bibliographystyle{bibtex/harvard}      % Udseende af litteraturlisten.
+\bibliographystyle{bibtex/IEEEtran}      % Udseende af litteraturlisten.
 
 % ¤¤ Indholdsfortegnelse ¤¤ %
-\setsecnumdepth{subsection}		 			% Dybden af nummerede overkrifter (part/chapter/section/subsection)
-\maxsecnumdepth{subsection}					% Dokumentklassens graense for nummereringsdybde
-\settocdepth{subsection} 					% Dybden af indholdsfortegnelsen
+\setsecnumdepth{subsection}           % Dybden af nummerede overkrifter (part/chapter/section/subsection)
+\maxsecnumdepth{subsection}          % Dokumentklassens graense for nummereringsdybde
+\settocdepth{subsection}           % Dybden af indholdsfortegnelsen
 
 % ¤¤ Lister ¤¤ %
 \setlist{
-  topsep=0pt,								% Vertikal afstand mellem tekst og listen
-  itemsep=-1ex,								% Vertikal afstand mellem items
+  topsep=0pt,                % Vertikal afstand mellem tekst og listen
+  itemsep=-1ex,                % Vertikal afstand mellem items
 }
 
 
 \newcommand{\pair}[2]{\textbf{#1}: \text{#2}\\}
 
 % ¤¤ Visuelle referencer ¤¤ %
-\usepackage[colorlinks]{hyperref}			% Danner klikbare referencer (hyperlinks) i dokumentet.
-\hypersetup{colorlinks = true,				% Opsaetning af farvede hyperlinks (interne links, citeringer og URL)
+\usepackage[colorlinks]{hyperref}      % Danner klikbare referencer (hyperlinks) i dokumentet.
+\hypersetup{colorlinks = true,        % Opsaetning af farvede hyperlinks (interne links, citeringer og URL)
     linkcolor = black,
     citecolor = black,
     urlcolor = black
 }
 
 % ¤¤ Opsaetning af figur- og tabeltekst ¤¤ %
-\captionnamefont{\small\bfseries\itshape}	% Opsaetning af tekstdelen ('Figur' eller 'Tabel')
-\captiontitlefont{\small}					% Opsaetning af nummerering
-\captiondelim{. }							% Seperator mellem nummerering og figurtekst
-\hangcaption								% Venstrejusterer flere-liniers figurtekst under hinanden
-%\captionwidth{\linewidth}					% Bredden af figurteksten
-\setlength{\belowcaptionskip}{0pt}			% Afstand under figurteksten
+\captionnamefont{\small\bfseries\itshape}  % Opsaetning af tekstdelen ('Figur' eller 'Tabel')
+\captiontitlefont{\small}          % Opsaetning af nummerering
+\captiondelim{. }              % Seperator mellem nummerering og figurtekst
+\hangcaption                % Venstrejusterer flere-liniers figurtekst under hinanden
+%\captionwidth{\linewidth}          % Bredden af figurteksten
+\setlength{\belowcaptionskip}{0pt}      % Afstand under figurteksten
 
 % ¤¤ Opsaetning af listings ¤¤ %
 \definecolor{commentGreen}{RGB}{34,139,24}
 \definecolor{stringPurple}{RGB}{208,76,239}
 
-\lstset{language=Matlab,					% Sprog
-	basicstyle=\ttfamily\scriptsize,		% Opsaetning af teksten
-	keywords={for,if,while,else,elseif,		% Noegleord at fremhaeve
-			  end,break,return,case,
-			  switch,function},
-	keywordstyle=\color{blue},				% Opsaetning af noegleord
-	commentstyle=\color{commentGreen},		% Opsaetning af kommentarer
-	stringstyle=\color{stringPurple},		% Opsaetning af strenge
-	showstringspaces=false,					% Mellemrum i strenge enten vist eller blanke
-	numbers=left, numberstyle=\tiny,		% Linjenumre
-	extendedchars=true, 					% Tillader specielle karakterer
-	columns=flexible,						% Kolonnejustering
-	breaklines, breakatwhitespace=true,		% Bryd lange linjer
+\lstset{language=Matlab,          % Sprog
+  basicstyle=\ttfamily\scriptsize,    % Opsaetning af teksten
+  keywords={for,if,while,else,elseif,    % Noegleord at fremhaeve
+        end,break,return,case,
+        switch,function},
+  keywordstyle=\color{blue},        % Opsaetning af noegleord
+  commentstyle=\color{commentGreen},    % Opsaetning af kommentarer
+  stringstyle=\color{stringPurple},    % Opsaetning af strenge
+  showstringspaces=false,          % Mellemrum i strenge enten vist eller blanke
+  numbers=left, numberstyle=\tiny,    % Linjenumre
+  extendedchars=true,           % Tillader specielle karakterer
+  columns=flexible,            % Kolonnejustering
+  breaklines, breakatwhitespace=true,    % Bryd lange linjer
 }
 
 % ¤¤ Navngivning ¤¤ %
 \addto\captionsdanish{
-	\renewcommand\appendixname{Appendiks}
-	\renewcommand\contentsname{Indholdsfortegnelse}
-	\renewcommand\appendixpagename{Appendiks}
-	\renewcommand\appendixtocname{Appendiks}
-	\renewcommand\cftchaptername{\chaptername~}				% Skriver "Kapitel" foran kapitlerne i indholdsfortegnelsen
-	\renewcommand\cftappendixname{\appendixname~}			% Skriver "Appendiks" foran appendiks i indholdsfortegnelsen
+  \renewcommand\appendixname{Appendiks}
+  \renewcommand\contentsname{Indholdsfortegnelse}
+  \renewcommand\appendixpagename{Appendiks}
+  \renewcommand\appendixtocname{Appendiks}
+  \renewcommand\cftchaptername{\chaptername~}        % Skriver "Kapitel" foran kapitlerne i indholdsfortegnelsen
+  \renewcommand\cftappendixname{\appendixname~}      % Skriver "Appendiks" foran appendiks i indholdsfortegnelsen
 }
 
 % ¤¤ Kapiteludssende ¤¤ %
-\definecolor{numbercolor}{gray}{0.7}		% Definerer en farve til brug til kapiteludseende
+\definecolor{numbercolor}{gray}{0.7}    % Definerer en farve til brug til kapiteludseende
 \newif\ifchapternonum
 
-\makechapterstyle{jenor}{					% Definerer kapiteludseende frem til ...
+\makechapterstyle{jenor}{          % Definerer kapiteludseende frem til ...
   \renewcommand\beforechapskip{0pt}
   \renewcommand\printchaptername{}
   \renewcommand\printchapternum{}
@@ -306,50 +308,50 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
     \par\vskip2mm\hrule
     \fi
   }
-}											% ... her
+}                      % ... her
 
-\chapterstyle{jenor}						% Valg af kapiteludseende - Google 'memoir chapter styles' for alternativer
+\chapterstyle{jenor}            % Valg af kapiteludseende - Google 'memoir chapter styles' for alternativer
 
 % ¤¤ Sidehoved/sidefod ¤¤ %
 
-\makepagestyle{Uni}							% Definerer sidehoved og sidefod udseende frem til ...
+\makepagestyle{Uni}              % Definerer sidehoved og sidefod udseende frem til ...
 \makepsmarks{Uni}{%
-	\createmark{chapter}{left}{shownumber}{}{. \ }
-	\createmark{section}{right}{shownumber}{}{. \ }
-	\createplainmark{toc}{both}{\contentsname}
-	\createplainmark{lof}{both}{\listfigurename}
-	\createplainmark{lot}{both}{\listtablename}
-	\createplainmark{bib}{both}{\bibname}
-	\createplainmark{index}{both}{\indexname}
-	\createplainmark{glossary}{both}{\glossaryname}
+  \createmark{chapter}{left}{shownumber}{}{. \ }
+  \createmark{section}{right}{shownumber}{}{. \ }
+  \createplainmark{toc}{both}{\contentsname}
+  \createplainmark{lof}{both}{\listfigurename}
+  \createplainmark{lot}{both}{\listtablename}
+  \createplainmark{bib}{both}{\bibname}
+  \createplainmark{index}{both}{\indexname}
+  \createplainmark{glossary}{both}{\glossaryname}
 }
-\nouppercaseheads											% Ingen Caps oenskes
+\nouppercaseheads                      % Ingen Caps oenskes
 
-\makeevenhead{Uni}{Group ds310e17}{}{\leftmark}			    % Lige siders sidehoved (\makeevenhead{Navn}{Venstre}{Center}{Hoejre})
-\makeoddhead{Uni}{\rightmark}{}{Aalborg University}			%Ulige siders sidehoved (\makeoddhead{Navn}{Venstre}{Center}{Hoejre})
-\makeevenfoot{Uni}{}{}{\thepage}							% Lige siders sidefod (\makeevenfoot{Navn}{Venstre}{Center}{Hoejre})
-\makeoddfoot{Uni}{}{}{\thepage}								% Ulige siders sidefod (\makeoddfoot{Navn}{Venstre}{Center}{Hoejre})
-\makeheadrule{Uni}{\textwidth}{0.5pt}						% Tilfoejer en streg under sidehovedets indhold
-\makefootrule{Uni}{\textwidth}{0.5pt}{1mm}					% Tilfoejer en streg under sidefodens indhold
+\makeevenhead{Uni}{Group ds310e17}{}{\leftmark}          % Lige siders sidehoved (\makeevenhead{Navn}{Venstre}{Center}{Hoejre})
+\makeoddhead{Uni}{\rightmark}{}{Aalborg University}      %Ulige siders sidehoved (\makeoddhead{Navn}{Venstre}{Center}{Hoejre})
+\makeevenfoot{Uni}{}{}{\thepage}              % Lige siders sidefod (\makeevenfoot{Navn}{Venstre}{Center}{Hoejre})
+\makeoddfoot{Uni}{}{}{\thepage}                % Ulige siders sidefod (\makeoddfoot{Navn}{Venstre}{Center}{Hoejre})
+\makeheadrule{Uni}{\textwidth}{0.5pt}            % Tilfoejer en streg under sidehovedets indhold
+\makefootrule{Uni}{\textwidth}{0.5pt}{1mm}          % Tilfoejer en streg under sidefodens indhold
 
-%\copypagestyle{Unichap}{Uni}								% Sidehoved defineres som blank på kapitelsider
+%\copypagestyle{Unichap}{Uni}                % Sidehoved defineres som blank på kapitelsider
 %\makeoddhead{Unichap}{}{}{}
 %\makeevenhead{Unichap}{}{}{}
 %\makeheadrule{Unichap}{\textwidth}{0pt}
-%\aliaspagestyle{chapter}{Unichap}							% Den ny style vaelges til at gaelde for chapters
-															% ... her
+%\aliaspagestyle{chapter}{Unichap}              % Den ny style vaelges til at gaelde for chapters
+                              % ... her
 
-\pagestyle{Uni}												% Valg af sidehoved og sidefod (benyt "plain" for ingen sidehoved/fod)
+\pagestyle{Uni}                        % Valg af sidehoved og sidefod (benyt "plain" for ingen sidehoved/fod)
 
 %%%% EGNE KOMMANDOER %%%%
 
-% ¤¤ Billede hack ¤¤ %										% Indsaet figurer nemt med \figur{Stoerrelse}{Fil}{Figurtekst}{Label}
+% ¤¤ Billede hack ¤¤ %                    % Indsaet figurer nemt med \figur{Stoerrelse}{Fil}{Figurtekst}{Label}
 \newcommand{\figur}[4]{
-		\begin{figure}[H] \centering
-			\includegraphics[width=#1\textwidth]{#2}
-			\caption{#3}
-			\label{#4}
-		\end{figure}
+    \begin{figure}[H] \centering
+      \includegraphics[width=#1\textwidth]{#2}
+      \caption{#3}
+      \label{#4}
+    \end{figure}
 }
 
 % ¤¤ Specielle tegn ¤¤ %
@@ -394,3 +396,5 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
 \usepackage{verbatim}
 \usepackage{multicol}
 \usepackage{tombstone}
+
+\newcommand{\citationneeded}[1][]{\textsuperscript{\color{blue} [citation needed: #1]}}
