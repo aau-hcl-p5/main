@@ -1,0 +1,29 @@
+\section{System Architecture}
+Before the implementation and building phases can begin, it is essential to give some thought towards the design of the system, both software and hardware wise.
+In order to do so, a component architecture diagram was constructed, which can be seen on Figure~\ref{fig:comparch}.
+%TODO Insert figure
+
+As seen on the diagram, the system will consist of two platforms: the LEGO NXT for handling the real time handling, and a Raspberry Pi for handling the machine intelligence.
+Each platform is split into two groups, a hardware group consisting of whatever hardware is connected to it and a software group which contains a series of classes that must be implemented for the device to function.
+Both the hardware and software requirements are defined with a high level of abstraction, since the diagram should be accurate regardless of implementation details or choice of hardware to a large extend.
+ 
+\subsection*{Dependencies}
+The striped black arrows indicate the dependency between one or more elements of the chart. 
+For example, the method \textit{MoveTo} depends on the vertical and horizontal motors that are grouped together as \textit{motors} in order to function and are thus marked with a dependency arrow.
+However, some software methods also depend on other methods to finish before they can execute, which can be seen in the software grouping in the Raspberry Pi.
+Since the Raspberry Pi is responsible for the machine intelligence part of the system, the methods hereof mostly consist of image recognition, which has to happen in a given sequence:
+\begin{enumerate}
+\item Get data from camera
+\item Run image recognition algorithm
+\item Send result data to NXT
+\end{enumerate}
+
+Due to the dependencies of these methods, none of them can run independently without the result of the prior method, since it would simply lead to re-sending the same information twice.
+Furthermore, it is important to notice that the diagram contains methods for both shooting a laser, and a projectile as mentioned in the requirements, Section~\ref{sec:moscow}.
+%TODO lav et label ved moscow
+As the projectile firing model requires additional calculations, the device will function with merely the laser methods and hardware. 
+The methods required projectile firing are colored red to indicate this.
+%TODO fix colors
+With the architecture in place, it is now possible to foxus on the details of what is required for implementing each part of the architecture.
+In the following part, the details regarding [----] will be eluded upon.
+%TODO Replace [----] with whatever part follows.
