@@ -59,14 +59,25 @@ The bounding box can finally be tightened using different methods, a popular opt
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
-An alternative is called \textit{fast RCNN}, which is leaning toward being feasible for real time object detection.
-% lacks text as well - hvad fuck er fast RCNN ? det skal da vist også stå her bro.
+An improved version is called \textit{faster RCNN}, which is leaning toward being feasible for real time object detection, since it improves the performance of RCNN considerably\cite{fasterRCNN}.
 
-%\subsection{You Only Look Once}
+\subsection{You Only Look Once}
 
-%An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real time processing in mind.
+An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real-time processing in mind.
+Benchmarks shows, that YOLO can do real-time object detection using modern high-end consumer GPU's.
+Furthermore the performance of YOLO beats that of faster RCNN\cite{odDetection}.
 
+YOLO also uses CNN like RCNN, but takes a fundamentally different approach to the object detection.
+YOLO will partition the image into $S\times S$ tiles, where each tile should determine $N$ bounding boxes along with a confidence level for the given bounding box, signifying the confidence that a given bounding box actually contains an object.
+YOLO will use a CNN in order to obtain a classification score for each bounding box.
+The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box.\cite{odDetection}
 
+As a result of this a total of $S\times S\times N$ tiles are given a probability score.
+In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
+
+The process is visualized in Figure~\ref{fig:yolo}.
+
+\figur{0.9}{images/yolo.jpg}{A visual representation of YOLO\cite{odDetection}.}{fig:yolo}
 
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
