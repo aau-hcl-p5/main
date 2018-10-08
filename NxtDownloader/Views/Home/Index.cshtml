@@ -1,0 +1,56 @@
+﻿@using NxtDownloader.Controllers
+@model IEnumerable<Branch>
+
+<h1>NXT downloader</h1>
+<div class="grid">
+    <div class="row">
+        <div class="col-6">
+            <div>
+                <h2>Select branch</h2>
+                <select id="branchSelect">
+                    <option selected>develop</option>
+                    @foreach (Branch branch in Model)
+                    {
+                        if (branch.name != "develop")
+                        {
+                            <option value=@branch.name>@branch.name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
+            <div>
+                <h2>From url</h2>
+                <input type="text" id="downloadUrl"/>
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>
+<button type="button" class="btn btn-primary btn-lg" onclick="handleSubmit()">Download</button>
+<hr/>
+<pre id="downloadOutput" class="text-left"></pre>
+
+<script>
+    function handleSubmit() {
+        var download = document.getElementById("downloadUrl").value;
+        if (download === "") {
+            download = document.getElementById("branchSelect").value;
+        }
+        var downloadOutput = document.getElementById("downloadOutput");
+        downloadOutput.innerText = "Downloading from " + download + " to NXT...\n==================================\n";
+        download = "http://" + window.location.host + '/Home/Download/' + window.btoa(download);
+
+        $.get(download,
+            function(data) {
+                downloadOutput.innerText += data;
+            })
+            .fail(function(data) {
+                    console.log(data);
+                    console.log(download);
+                downloadOutput.innerText += "Error!";
+            }
+        );
+    }
+</script>
