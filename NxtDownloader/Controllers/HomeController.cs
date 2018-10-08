@@ -32,6 +32,7 @@ namespace NxtDownloader.Controllers
         
         public IActionResult Download(string downloadString)
         {
+            System.Diagnostics.Debug.WriteLine("BLALBLA");
             var res = new StringBuilder();
             var data = Convert.FromBase64String(downloadString);
             var decodedString = Encoding.UTF8.GetString(data);
@@ -48,7 +49,6 @@ namespace NxtDownloader.Controllers
                   Uri.EscapeDataString(decodedString);
             
             res.AppendLine("Downloading from url: " + downloadUrl + "...");
-            
             using (var client = new WebClient())
             {
                 try
@@ -58,7 +58,8 @@ namespace NxtDownloader.Controllers
                     {
                         StartInfo =
                         {
-                            FileName = "/bin/bash",
+                            FileName = "cmd.exe",
+                            Arguments = "/C NeXTTool.exe /COM=usb -download=nxt_OSEK.rxe",
                             RedirectStandardInput = true,
                             RedirectStandardOutput = true,
                             CreateNoWindow = true,
@@ -66,7 +67,6 @@ namespace NxtDownloader.Controllers
                         }
                     };
                     cmd.Start();
-                    cmd.StandardInput.WriteLine("cat nxt_OSEK.rxe");
                     cmd.StandardInput.Flush();
                     cmd.StandardInput.Close();
                     cmd.WaitForExit();
