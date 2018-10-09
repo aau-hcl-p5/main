@@ -59,15 +59,24 @@ The bounding box can finally be tightened using different methods, a popular opt
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
-An alternative is called \textit{fast RCNN}, which is leaning toward being feasible for real time object detection.
-% lacks text as well - hvad fuck er fast RCNN ? det skal da vist også stå her bro.
+An improved version is called \textit{faster RCNN}, which is leaning towards being feasible for real time object detection, as it improves the performance of RCNN considerably\cite{fasterRCNN}.
 
+\subsection{You Only Look Once}
+An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real-time processing in mind.
+Benchmarks shows, that YOLO can do real-time object detection using modern high-end consumer GPU's.
+Furthermore the performance of YOLO beats that of \textit{faster RCNN}\cite{odDetection}.
 
-%\subsection{You Only Look Once}
+YOLO also uses CNN like RCNN, but takes a fundamentally different approach to object detection.
+YOLO will partition the image into $S\times S$ tiles, where each tile should determine $N$ bounding boxes, along with a confidence level for the given bounding box, signifying the confidence that a given bounding box actually contains an object.
+YOLO will use a CNN in order to obtain a classification score for each bounding box.
+The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box.\cite{odDetection}
 
-%An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real time processing in mind.
+As a result of this a total of $S\times S\times N$ tiles are given a probability score.
+In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
 
+The process is visualized in Figure~\ref{fig:yolo}.
 
+\figur{0.9}{images/yolo.jpg}{A visual representation of YOLO\cite{odDetection}.}{fig:yolo}
 
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
@@ -94,11 +103,6 @@ A CNN is then trained to predict the bounding box in the second frame.
 Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
-
-
-
-% Write more
-
 
 
 \subsection{Tensorflow}
@@ -141,16 +145,6 @@ OpenCV(Open Source Computer Vision Library), is a free-to-use library for C++, P
 OpenCV is a popular library and also interfaces with other frameworks.
 It is not a machine intelligence library, but rather a set of tools for manipulating images and doing general computer vision.
 Its ability to interact with other frameworks along with all of its ready to use tools makes it very relevant when dealing with various computer vision tasks.
-
-% https://github.com/tensorflow/models/tree/master/research/object_detection
-
-% Mine noter af ting at skrive
-	% what is a tensor
-	% training
-	% exporting from it
-	% can be used with any alogrithm 
-	% hvorfor er det så nice at arbejde med
-	% hvordan kan vi få brug af dette
 
 
 % Things to check / consider writing about
