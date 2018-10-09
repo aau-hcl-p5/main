@@ -3,9 +3,9 @@ Before the implementation and building phases can begin, it is essential to give
 In order to do so, a component architecture diagram was constructed, which can be seen on Figure~\ref{fig:comparch}.
 %TODO Insert figure
 
-As seen on the diagram, the system will consist of two platforms: the LEGO NXT for handling the real time handling, and a Raspberry Pi for handling the machine intelligence.
-Each platform is split into two groups, a hardware group consisting of whatever hardware is connected to it and a software group which contains a series of classes that must be implemented for the device to function.
-Both the hardware and software requirements are defined with a high level of abstraction, since the diagram should be accurate regardless of implementation details or choice of hardware to a large extend.
+As seen on the diagram, the system will consist of two platforms: the LEGO NXT for handling the real time processing, and a Raspberry Pi for handling the machine intelligence.
+Each platform is split into two groups: a hardware group containing the hardware which is connected to it and a software group containing a series of classes that must be implemented for the device to function.
+Both the hardware and software requirements are defined with a high level of abstraction, since the diagram should be accurate regardless of implementation details or choice of hardware.
  
 \subsection*{Dependencies}
 The striped black arrows indicate the dependency between one or more elements of the chart. 
@@ -22,8 +22,7 @@ Due to the dependencies of these methods, none of them can run independently wit
 Furthermore, it is important to notice that the diagram contains methods for both shooting a laser, and a projectile as mentioned in the requirements, Section~\ref{sec:moscow}.
 %TODO lav et label ved moscow
 As the projectile firing model requires additional calculations, the device will function with merely the laser methods and hardware. 
-The methods required projectile firing are colored red to indicate this.
-%TODO fix colors
-With the architecture in place, it is now possible to foxus on the details of what is required for implementing each part of the architecture.
+The methods required for projectile firing are colored red to indicate this.
+With the architecture in place, it is now possible to focus on the details of what is required for implementing each part of the architecture.
 In the following part, the details regarding [----] will be eluded upon.
 %TODO Replace [----] with whatever part follows.
