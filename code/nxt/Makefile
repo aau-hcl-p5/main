@@ -1,8 +1,10 @@
 # Target specific macros
 TARGET = nxt_OSEK
 TARGET_SOURCES = \
-	nxt.c
+	./src/nxt.c \
+	./src/logic.c
 TOPPERS_OSEK_OIL_SOURCE = ./nxt.oil
+USER_INC_PATH = ./inc
 
 # Don't modify below part
 O_PATH ?= build
