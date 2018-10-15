@@ -45,3 +45,21 @@ The next task to execute is the one with nearest upcoming deadline.
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
 Given a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
+
+\section{Response time analysis}
+Response time analysis is an exact schedulability test for an fixed-priority  assignment scheme on a single-processor system. 
+The response time analysis allows for prediction of the worst-case response time for each task which depends on the interference due to execution of higher priority tasks. 
+The worst-case response times are then compared to with the corresponding tasks deadlines to evaluate whether all tasks meets their deadlines. 
+
+Doing execution of a task, the task can be pre-empted if a higher priority task is released. 
+For this reason the response time of lower priority tasks suffer a certain amount of interference from the higher priority tasks during their execution. 
+Therefore the worst-case response time $R_i$ of a task $\tau_i$ is computed as the sum of its computation time $C_i$ and the worst-case interference $I_i$ it experiences, this is represented as follows:
+\begin{equation}
+R_i = C_i + I_i
+\end{equation}
+
+The contribution of each higher priority task to the overall worst-case interference has to be evaluated individually by considering the interference of a single task $\tau_j$ of higher priority than $\tau_i$.
+The exact number of releases can be computed by means of the ceiling function as follows:
+\begin{equation}
+
+\end{equation}
