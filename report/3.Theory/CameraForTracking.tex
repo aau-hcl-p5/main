@@ -24,3 +24,6 @@ When comparing the two frames, as seen on c, it is easily seen that everything b
 With this information, it is possible to estimate the next position of the ball, indicated by the blue ball in d, using the assumption that the ball keeps moving in the same direction with the same speed.
 However, this will seldomly be the case, due to the acceleration of the tracked object.
 Since this variable will likely be based upon experience, a solution to estimate the next position of the ball is to use a neural network for object recognition.
+
+Since the first edition of the system will be using a laser as its shooting mechanism, the only information needed to hit the object is the relative distance between two frames in the image stream provided by the camera. 
+Then knowing the relative distance between to frames it should be fairly simple to move the robot accordingly.
