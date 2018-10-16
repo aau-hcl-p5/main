@@ -5,7 +5,7 @@ but rather tests subsets of the process in smaller simplistic cases
 """
 import unittest
 
-from algorithms import Yolo, Goturn
+from algorithms import Goturn
 
 
 class TestGoturnAlgorithms(unittest.TestCase):

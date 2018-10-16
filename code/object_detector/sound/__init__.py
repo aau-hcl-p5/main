@@ -7,9 +7,7 @@ Source:  http://p1.portal2sounds.com/#w=turret
 """
 from enum import Enum
 from random import random
-
-from pydub import AudioSegment
-from pydub.playback import play
+from typing import List, Dict
 
 
 class SoundType(Enum):
@@ -35,7 +33,7 @@ def play_random_sound(sound_type: SoundType) -> None:
 
 
 def _get_sound_file_from_type(sound_type: SoundType) -> str:
-    files = {
+    files: Dict[SoundType, List[str]] = {
         SoundType.FOUND_TARGET: [
 
         ],
@@ -57,6 +55,5 @@ def _get_sound_file_from_type(sound_type: SoundType) -> str:
 
 
 def _play_sound(file: str):
-    AudioSegment.from_file(file, 'mp3')
-    play(file)
+    print(f"we are now playing '{file}'")
     raise NotImplementedError
