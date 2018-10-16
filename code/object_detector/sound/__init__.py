@@ -9,9 +9,6 @@ from enum import Enum
 from random import random
 from typing import List, Dict
 
-from pydub import AudioSegment
-from pydub.playback import play
-
 
 class SoundType(Enum):
     """
@@ -58,6 +55,5 @@ def _get_sound_file_from_type(sound_type: SoundType) -> str:
 
 
 def _play_sound(file: str):
-    AudioSegment.from_file(file, 'mp3')
-    play(file)
+    print(f"we are now playing '{file}'")
     raise NotImplementedError
