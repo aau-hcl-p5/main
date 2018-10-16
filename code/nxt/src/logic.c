@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 #include "nxt.h"
+#include "target_location.h"
 
 // TODO: Not global var
 bool laser_state = false;
