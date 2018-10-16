@@ -44,4 +44,39 @@ The next task to execute is the one with nearest upcoming deadline.
 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
-Given a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
+Given that a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
+
+\section{Response time analysis}
+Response time analysis is an exact schedulability test for a fixed-priority assignment scheme on a single-processor system. 
+The response time analysis allows for prediction of the worst-case response time for each task which depends on the interference due to execution of higher priority tasks. 
+The worst-case response times are then compared to the corresponding tasks deadlines to evaluate whether all tasks meets their deadlines. 
+
+During execution of a task, the task can be pre-empted if a higher priority task is released thereby delaying the response time of the task. 
+For this reason the response time of lower priority tasks suffer a certain amount of interference from the higher priority tasks during their execution. 
+Therefore the worst-case response time $R_i$ of a task $\tau_i$ is computed as the sum of its computation time $C_i$ and the worst-case interference $I_i$ it experiences, this is represented as follows:
+\begin{equation}\label{eq:responsetime}
+R_i = C_i + I_i
+\end{equation}
+
+The contribution of each higher priority task to the overall worst-case interference has to be evaluated individually by considering the interference of a single task $\tau_j$ of higher priority than $\tau_i$.
+The exact number of releases can be computed by means of the ceiling function and since each release of $\tau_J$ will impose on $\tau_i$ an interference of $C_j$ the worst-case interference imposed on $tau_i$ by $\tau_j$ is as follows:
+\begin{equation}
+\ceil*{\frac{R_i}{T_j}} \cdot C_j
+\end{equation}
+Since all tasks with a higher priority have an impact on the worst-case interference of a lower priority task all the higher priority tasks interference need to be taken into account thus resulting in the following equation:
+\begin{equation}
+I_i = \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
+\end{equation}
+When combined with Equation~\ref{eq:responsetime} it is seen we get the following recursive relation for the worst-case response time $R_i$ for $\tau_i$:
+\begin{equation}
+R_i = C_i + \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
+\end{equation}
+Since this is a recursive definition the equation may have more then one solution, hence the smallest solution to the equation is also the actual worst-case response time. 
+The simplest way of solving this recursive equation is by transforming it into the form of a recurrence relationship as follows where $hp(i)$ is any higher priority task:
+\begin{equation}
+w^{(k+1)}_{i} = C_i + \sum_{j\in hp(i)} \cdot \ceil*{\frac{w^{k}_{i}}{T_j}} \cdot C_j
+\end{equation}
+When using this recurrence relationship to evaluate the worst-case response time the result from the latest evaluation is fed back into the recurrence relationship until a fix point has been found where the input is equal to the output. 
+
+When the worst-case response time has been calculated for all given tasks of a system, the worst-case response times are verified against the deadlines of the task itself.
+If any worst-case response time of a task is greater than the deadline of that task the task is not schedulable, hence the entire system is not schedulable. 
