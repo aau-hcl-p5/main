@@ -1,5 +1,6 @@
 #ifndef NXT_H
 #define NXT_H
+#include <stdbool.h>
 
 #ifndef TEST
 #include "kernel.h"
