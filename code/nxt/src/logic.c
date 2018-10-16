@@ -5,6 +5,6 @@
  #include "nxt.h"
 
  void main_loop() {
-    ecrobot_status_monitor("OSEK World Hello!");
+    ecrobot_status_monitor("OSEK HelloWorld!");
     systick_wait_ms(500); /* 500msec wait */
  }
