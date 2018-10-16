@@ -9,6 +9,6 @@ extern bool move_to(uint32_t motor_id, int32_t degrees_x, int32_t degrees_y);
 extern bool toggle_laser();
 extern bool standby();
 extern uint32_t get_distance(uint32_t sensor_id);
-extern uint32_t predict_trajectory(T_TARGET_LOCATION point);
+extern bool predict_trajectory(T_TARGET_LOCATION point);
 
 #endif

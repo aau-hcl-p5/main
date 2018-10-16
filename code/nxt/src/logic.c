@@ -32,7 +32,7 @@ uint32_t get_distance(uint32_t sensor_id) {
     return 0;
 }
 
-uint32_t predict_trajectory(T_TARGET_LOCATION point){
+bool predict_trajectory(T_TARGET_LOCATION point){
     return 0;
 }
 
