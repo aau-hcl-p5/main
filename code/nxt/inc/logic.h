@@ -5,10 +5,10 @@
 #include "target_location.h"
 
 extern void main_loop();
-extern bool move_to(unsigned int motor_id, int degrees_x, int degrees_y);
-extern bool toggle_laser(bool toggle);
+extern bool move_to(uint32_t motor_id, int32_t degrees_x, int32_t degrees_y);
+extern bool toggle_laser();
 extern bool standby();
-extern int get_distance(unsigned int sensor_id);
+extern uint32_t get_distance(uint32_t sensor_id);
 extern bool predict_trajectory(T_TARGET_LOCATION point);
 
 #endif
