@@ -59,14 +59,24 @@ The bounding box can finally be tightened using different methods, a popular opt
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
-An alternative is called \textit{fast RCNN}, which is leaning toward being feasible for real time object detection.
-% lacks text as well - hvad fuck er fast RCNN ? det skal da vist også stå her bro.
+An improved version is called \textit{faster RCNN}, which is leaning towards being feasible for real time object detection, as it improves the performance of RCNN considerably\cite{fasterRCNN}.
 
-%\subsection{You Only Look Once}
+\subsection{You Only Look Once}
+An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real-time processing in mind.
+Benchmarks shows, that YOLO can do real-time object detection using modern high-end consumer GPU's.
+Furthermore the performance of YOLO beats that of \textit{faster RCNN}\cite{odDetection}.
 
-%An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real time processing in mind.
+YOLO also uses CNN like RCNN, but takes a fundamentally different approach to object detection.
+YOLO will partition the image into $S\times S$ tiles, where each tile should determine $N$ bounding boxes, along with a confidence level for the given bounding box, signifying the confidence that a given bounding box actually contains an object.
+YOLO will use a CNN in order to obtain a classification score for each bounding box.
+The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box.\cite{odDetection}
 
+As a result of this a total of $S\times S\times N$ tiles are given a probability score.
+In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
 
+The process is visualized in Figure~\ref{fig:yolo}.
+
+\figur{0.9}{images/yolo.jpg}{A visual representation of YOLO\cite{odDetection}.}{fig:yolo}
 
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
@@ -94,28 +104,47 @@ Some possible problems with this algorithm is that the location of the target is
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
-\subsection{OpenCV}
-One option is to simply utilize the highly popular OpenCV library.
-OpenCV is an open source computer vision library, that comes with ready to use object tracking functionality.
-% Write more
-
-
 
 \subsection{Tensorflow}
-%Tensorflow is a python framework for working with machine learning.
-%It is beginner friendly but still has the possibilities of delving deeper into the inner workings of a given model, and the processes of it.
+Tensorflow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
+The framework was initially developed for Python, but has recently implemented support for other languages.
+It is developed by the Google Brain team, and owned by Google Inc.\cite{tensorflow-attribution}.
+It has a high-level API, called Keras, and a low-level API, which makes it possible to use it both as at an entry-level, which makes it ideal for hobby and educational purposes, but it is also usable for complex production-level applications.
+
+Tensorflow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
+
+A tensor is a mathematical entity, and the mathematical defintions are outside the scope of this project.
+In the context of tensorflow, it is enough to think of it as an entity in a mathematical process.
+This might be a constant primitive value, or a mapping from one or more primitive values to one or more primitive values.
+
+To better show the example of tensors and how Tensorflow operates, the following low-level example is used in the tensorflow tutorial, and it seems relevant here as well.
+
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a tensorflow program]
+a = tf.constant(3.0)
+b = tf.constant(4.0)
+total = a + b
+print(a)
+print(b)
+print(total)
+\end{lstlisting}
+The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \ref{lis:TensorFlowPy2}]
+Tensor("Const:0", shape=(), dtype=float32)
+Tensor("Const_1:0", shape=(), dtype=float32)
+Tensor("add:0", shape=(), dtype=float32)
+\end{lstlisting}
+This is because the $ a + b $ outputs another tensor, which can be evaluated outputting the result 7.
+This is is because $a$ or $b$ might not be a constant, but a placeholder, which would be supplied at run-time, so building these tensors creates a model that can then be supplied data and then evaulated.
+
+Tensors can also be tuples of different shapes, and when applying levels of abstraction, which is what Keras does, it is possible to use it for image recognition and other more complex problems.
 
 
+\subsection{OpenCV}
+OpenCV(Open Source Computer Vision Library), is a free-to-use library for C++, Python, and Java, which can be used for a lot of common computer vision tasks out of the box\cite{opencv}.
 
-% https://github.com/tensorflow/models/tree/master/research/object_detection
-
-% Mine noter af ting at skrive
-	% what is a tensor
-	% training
-	% exporting from it
-	% can be used with any alogrithm 
-	% hvorfor er det så nice at arbejde med
-	% hvordan kan vi få brug af dette
+OpenCV is a popular library and also interfaces with other frameworks.
+It is not a machine intelligence library, but rather a set of tools for manipulating images and doing general computer vision.
+Its ability to interact with other frameworks along with all of its ready to use tools makes it very relevant when dealing with various computer vision tasks.
 
 
 % Things to check / consider writing about
