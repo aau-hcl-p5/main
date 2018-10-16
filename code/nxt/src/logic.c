@@ -35,3 +35,4 @@ uint32_t get_distance(uint32_t sensor_id) {
 int predict_trajectory(int32_t pos_x, int32_t pos_y){
     return 0;
 }
+
