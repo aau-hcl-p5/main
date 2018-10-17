@@ -7,17 +7,17 @@
 
 #include "nxt.h"
 #include "target_location.h"
+#include "movement.h"
+#include "movement.c"
 
 // TODO: Not global var
 bool laser_state = false;
 
 void main_loop() {
     ecrobot_status_monitor("HCL-P5 READY!");
+    move('r', 20);
     systick_wait_ms(500); /* 500msec wait */
-}
-
-bool move_to(uint32_t motor_id, int32_t degrees_x, int32_t degrees_y) {
-    return true;
+    move('l', 30);
 }
 
 bool toggle_laser() {
