@@ -14,7 +14,10 @@
 bool laser_state = false;
 
 void main_loop() {
+    move('l', 200);
+    move('r', 200);
     move('l', 50);
+    move('r', 50);
 }
 
 bool toggle_laser() {
