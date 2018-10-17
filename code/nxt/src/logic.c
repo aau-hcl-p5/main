@@ -14,10 +14,7 @@
 bool laser_state = false;
 
 void main_loop() {
-    ecrobot_status_monitor("HCL-P5 READY!");
-    move('r', 20);
-    systick_wait_ms(500); /* 500msec wait */
-    move('l', 30);
+    move('l', 50);
 }
 
 bool toggle_laser() {

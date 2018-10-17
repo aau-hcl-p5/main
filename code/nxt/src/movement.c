@@ -12,17 +12,31 @@ bool init_motor(uint8_t motor_id, char orientation){
     current_x = get_position(x_motor);
     ecrobot_set_motor_speed(x_motor, 0);
     return true;
-	}else if(orientation = 'y'){
+	}
+	else if(orientation = 'y'){
     y_motor = motor_id;
     current_y = get_position(y_motor);
     ecrobot_set_motor_speed(y_motor, 0);
     return true;
+
   }
+
   return false;
 }
 
 bool move_to(uint8_t motor_id, int32_t degrees){
+	if(degrees < 0){
+		ecrobot_status_monitor("NORMAL!");
+		ecrobot_set_motor_speed(motor_id, -100);
+	}
+	else{
+		ecrobot_status_monitor("REVERSE!");
+		ecrobot_set_motor_speed(motor_id, 100);
+	}
+
   nxt_motor_set_count(motor_id, degrees);
+	systick_wait_ms(500);
+	ecrobot_set_motor_speed(motor_id, 0);
   return true;
 }
 
@@ -32,13 +46,18 @@ uint32_t get_position(){
 }
 
 bool move(char direction, int32_t degrees){
+    ecrobot_status_monitor("Moving: ");
 	if(direction = 'r'){
+    ecrobot_status_monitor("Moving: Right");
 		current_x += degrees;
-		move_to(x_motor, current_x);
+		move_to(x_motor, degrees);
+    ecrobot_status_monitor("Moving Right Done");
 	}
 	else if(direction = 'l'){
+    ecrobot_status_monitor("Moving: Left");
 		current_x -= degrees;
-		move_to(x_motor, current_x);
+		move_to(x_motor, -degrees);
+    ecrobot_status_monitor("Moving Left Done");
 	}
 	else if(direction = 'u'){
 		current_y += degrees;
@@ -48,11 +67,12 @@ bool move(char direction, int32_t degrees){
 		current_y -= degrees;
 		move_to(y_motor, current_y);
 	}
+	systick_wait_ms(500);
   return false;
 }
 
 // Should probably check whether motor_id is in use.
 bool release_motor(uint8_t motor_id){
-  ecrobot_set_motor_speed(motor_id, 0);
+  nxt_motor_set_speed(motor_id, 0, 1);
   return true;
 }
