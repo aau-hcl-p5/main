@@ -4,9 +4,18 @@
 
 DeclareCounter(SysTimerCnt);
 DeclareTask(OSEK_Task_Background);
+DeclareTask(SET_MOTOR);
+DeclareResource(x_motor);
+DeclareEvent(EVENT_COORDS);
 
 /* nxtOSEK hook to be invoked from an ISR in category 2 */
-void user_1ms_isr_type2(void){ /* do nothing */ }
+void user_1ms_isr_type2(void){ 
+    StatusType ercd;
+    ercd = SignalCounter(SysTimerCnt); // Increment alarm counter
+    if(ercd != E_OK){
+        ShutdownOS(ercd);
+    }
+ }
 
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void){
@@ -25,4 +34,13 @@ TASK(OSEK_Task_Background)
     {
         main_loop();
     }
+    TerminateTask();
+}
+
+TASK(SET_MOTOR){
+    while(1){
+        move('r', 95);
+        move('l', 50);
+    }
+    TerminateTask();
 }

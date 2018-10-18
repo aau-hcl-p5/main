@@ -18,6 +18,7 @@ CPU ATMEL_AT91SAM7S256
   /* Definition of application mode */
   APPMODE appmode1{}; 
 
+
   /* Definition of OSEK_Task_Background */
   TASK OSEK_Task_Background
   {
@@ -30,5 +31,43 @@ CPU ATMEL_AT91SAM7S256
     SCHEDULE = FULL;
     STACKSIZE = 512;
   };
+
+  TASK SET_MOTOR
+  {
+    AUTOSTART = FALSE;
+    PRIORITY = 2; /* lowest priority */
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+    RESOURCE = x_motor;
+  };
+
+  RESOURCE x_motor
+  {
+    RESOURCEPROPERTY = STANDARD;
+  };
+
+  ALARM cyclic_alarm_SET_MOTOR
+  {
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = SET_MOTOR;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 5000; 
+      APPMODE = appmode1;
+    };
+  };
+
+  COUNTER SysTimerCnt
+  {
+    MINCYCLE = 1;
+    MAXALLOWEDVALUE = 10000;
+    TICKSPERBASE = 1;
+  };
+
 };
 
