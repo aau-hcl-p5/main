@@ -11,7 +11,7 @@ Each algorithm inherits from the same baseclass (@GenericAlgorithm)
 from algorithms.generic_algorithm import GenericAlgorithm
 from algorithms.goturn import Goturn
 from algorithms.yolo import Yolo
-from algorithms.result import Result
+from algorithms.zone_avg import ZoneAvgController
 
 
 def get_from_str(alg_name: str) -> GenericAlgorithm:

@@ -12,10 +12,15 @@ which will handle movement of motors etc.
 
 """
 import argparse
+from typing import Callable
+
+import cv2
+import numpy as np
 
 import algorithms
-from algorithms.generic_algorithm import GenericAlgorithm
 import webcam
+from algorithms.utilities import Vector
+from communication.screen_debugger import screen_debug_wrapper
 
 
 class FlatController:
@@ -24,7 +29,7 @@ class FlatController:
     the NXT. This is the primary controller of the project
     """
 
-    def __init__(self, algorithm: GenericAlgorithm) -> None:
+    def __init__(self, algorithm: Callable[[np.ndarray], Vector]) -> None:
         """
         :param algorithm: The algorithm to use for image processing
         """
@@ -35,6 +40,11 @@ class FlatController:
         Start a separate thread for running the 'run' method,
         and continuously run this.
         """
+        while 1:
+            self._get_next_location()
+            k = cv2.waitKey(5) & 0xFF
+            if k == 27:
+                break
         pass
 
     def stop(self) -> None:
@@ -46,8 +56,8 @@ class FlatController:
     def _run(self):
         pass
 
-    def _get_next_location(self):
-        return self._algorithm.predict(webcam.get_current_frame())
+    def _get_next_location(self) -> Vector:
+        return screen_debug_wrapper(self._algorithm, webcam.get_current_frame())
 
 
 # check if this file is run directly.
@@ -63,5 +73,4 @@ if __name__ == "__main__":
         help="Choose which algorithm to run ['goturn', 'yolo']. default='goturn'")
 
     ARGS = PARSER.parse_args()
-
-    FlatController(algorithms.get_from_str(ARGS.alg_name)).start()
+    FlatController(algorithms.ZoneAvgController().zone_avg).start()

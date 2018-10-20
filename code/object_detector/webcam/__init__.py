@@ -4,18 +4,23 @@ This outputs the data needed for the algorithms
 The controller interfacing with the physical device of the webcam.
 This need to serve one frame at a time.
 """
+import cv2
 
-CAMERA = None
+import numpy as np
 
 
-def get_current_frame() -> str:
+CAMERA = cv2.VideoCapture(0) # pylint: disable=no-member
+
+
+def get_current_frame() -> np.ndarray:
     """
     Gets the current frame of the webcam.
     This doesn't utilize queuing, but will simply pop the current frame
     TODO: change type so it actually utilizes something tensorflow can handle
     :return: A representation of the current picture
     """
-    raise NotImplementedError
+    _, frame = CAMERA.read()
+    return frame
 
 
 def connect_camera() -> None:
