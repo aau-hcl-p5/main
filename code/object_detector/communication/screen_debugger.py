@@ -25,12 +25,9 @@ def screen_debug_wrapper(algorithm: Callable[[np.ndarray], Vector], frame: np.nd
     if target:
         for x in range(-10, 10):
             for y in range(-10, 10):
-                new_x = target.x + x
-                new_y = target.y + y
-
-                if 0 < new_y < frame.shape[1] and 0 < new_x < frame.shape[0]:
-                    old_color = frame[target.x + x, target.y + y]
-                    frame[target.x + x, target.y + y] = [old_color[0] + 50, old_color[1] + 50, 0]
+                new_x = int(target.x + x)
+                new_y = int(target.y + y)
+                frame[new_y, new_x] = [0, 0x70, 0]
 
     cv2.imshow('hottie', frame) # pylint: disable=no-member
 

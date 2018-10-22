@@ -74,7 +74,7 @@ class Vector:
         return self.x == other.x and self.y == other.y
 
     def __hash__(self):
-        return self.x ** self.y
+        return (self.x, self.y).__hash__()
 
     def __str__(self):
         return f"Vector({self.x},{self.y})"

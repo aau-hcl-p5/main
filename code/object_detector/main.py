@@ -19,7 +19,9 @@ import numpy as np
 
 import algorithms
 import webcam
+from algorithms.result import Result
 from algorithms.utilities import Vector
+from communication.nxt_usb import NxtUsb
 from communication.screen_debugger import screen_debug_wrapper
 
 
@@ -39,6 +41,7 @@ class FlatController:
         """
         self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
+        self.usb_connection = NxtUsb()
 
     def start(self) -> None:
         """
@@ -56,13 +59,18 @@ class FlatController:
         """
         stop the thread running the FLAT object recognition
         """
-        pass
+        self.usb_connection.disconnect()
 
     def _run(self):
         pass
 
     def _get_next_location(self) -> Vector:
-        return screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
+        res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
+        try:
+            self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
+        except:
+            pass
+        return res
 
 
 # check if this file is run directly.
@@ -78,4 +86,4 @@ if __name__ == "__main__":
         help="Choose which algorithm to run ['goturn', 'yolo']. default='goturn'")
 
     ARGS = PARSER.parse_args()
-    FlatController(algorithms.ZoneAvgController().zone_avg).start()
+    FlatController(algorithms.ObjectFillController().locate_center).start()
