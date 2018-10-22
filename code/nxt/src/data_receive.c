@@ -11,7 +11,6 @@
 DeclareTask(Task_ts1);
 DeclareTask(Task_usb_read);
 DeclareResource(USB_Rx);
-DeclareCounter(SysTimerCnt);
 
 #define MAX_NUM_OF_CHAR 16
 #define MAX_NUM_OF_LINE 8
@@ -55,12 +54,6 @@ void ecrobot_device_terminate()
 	ecrobot_term_usb(); /* terminate USB */
 }
 
-/* nxtOSEK hook to be invoked from an ISR in category 2 */
-void user_1ms_isr_type2(void)
-{
-	/* Increment System Timer Count to activate periodical Tasks */
-	(void)SignalCounter(SysTimerCnt);
-}
 
 /* 1msec periodical Task */
 TASK(Task_ts1)
