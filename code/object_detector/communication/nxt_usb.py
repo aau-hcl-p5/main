@@ -29,7 +29,7 @@ class NxtUsb:
             intf,
             # match the first OUT endpoint
             custom_match=lambda e: usb.util.endpoint_direction(e.bEndpointAddress) == usb.util.ENDPOINT_OUT)
-
+        # handshake with nxt device ("are you ready?")
         assert self.ep is not None
         self.ep.write(b'\x01\xFF')
 
