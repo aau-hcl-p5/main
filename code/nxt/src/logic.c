@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 #include "nxt.h"
+#include "target_location.h"
 
 // TODO: Not global var
 bool laser_state = false;
@@ -15,7 +16,7 @@ void main_loop() {
     systick_wait_ms(500); /* 500msec wait */
 }
 
-bool move_to(uint32_t motor_id, int32_t degrees) {
+bool move_to(uint32_t motor_id, int32_t degrees_x, int32_t degrees_y) {
     return true;
 }
 
@@ -23,7 +24,7 @@ bool toggle_laser() {
     return (laser_state = !laser_state);
 }
 
-bool standby(bool standby) {
+bool standby() {
     // Do actual stuff here
     return standby;
 }
@@ -32,7 +33,7 @@ uint32_t get_distance(uint32_t sensor_id) {
     return 0;
 }
 
-int predict_trajectory(int32_t pos_x, int32_t pos_y){
+bool predict_trajectory(T_TARGET_LOCATION point){
     return 0;
 }
 
