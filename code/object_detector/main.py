@@ -64,6 +64,7 @@ class FlatController:
     def _run(self):
         pass
 
+
     def _get_next_location(self) -> Vector:
         res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
         try:
@@ -71,7 +72,6 @@ class FlatController:
         except:
             pass
         return res
-
 
 # check if this file is run directly.
 if __name__ == "__main__":

@@ -4,9 +4,9 @@
 #include <stdint.h>
 
 typedef struct {
-  int32_t x : 10;
-  int32_t y : 10;
-  uint32_t timestamp : 12;
+  int32_t x : 8;
+  int32_t y : 8;
+  uint32_t timestamp : 16;
 } T_TARGET_LOCATION;
 
 #endif

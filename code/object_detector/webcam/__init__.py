@@ -8,9 +8,8 @@ This need to serve one frame at a time.
 from enum import Enum
 from typing import Union
 
-import cv2
+import cv2 # pylint: disable=import-error
 import numpy as np
-
 
 class CaptureDeviceType(Enum):
     """
