@@ -32,8 +32,7 @@ class FlatController:
         :param algorithm: The algorithm to use for image processing
         :param capture_type: What type the capturing device should be.
         """
-        webcam.initialize_capture_device(capture_type)
-
+        self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
 
     def start(self) -> None:
@@ -53,7 +52,7 @@ class FlatController:
         pass
 
     def _get_next_location(self):
-        return self._algorithm.predict(webcam.get_current_frame())
+        return self._algorithm.predict(self.video_controller.get_current_frame())
 
 
 # check if this file is run directly.

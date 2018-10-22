@@ -6,23 +6,10 @@ The controller interfacing with the physical device of the webcam.
 This need to serve one frame at a time.
 """
 from enum import Enum
+from typing import Union
 
 import cv2
-
 import numpy as np
-
-# Is of type returned by cv2.VideoCapture
-# however cv2 doesn't utilize typing yet. those fuckers.
-capture_device = None
-
-
-class CaptureDeviceNotSetError(Exception):
-    """
-    The Exception to raise when the initialize_webcam_type hasn't been run.
-    """
-
-    def __init__(self):
-        super().__init__("Cannot get frame without setting the _capture_device")
 
 
 class CaptureDeviceType(Enum):
@@ -33,31 +20,31 @@ class CaptureDeviceType(Enum):
     FILES = 1
 
 
-def initialize_capture_device(camera_type: CaptureDeviceType) -> None:
+class VideoController:
     """
-    Set the type of input device, depending on whether we are running against a dataset or a live video feed.
-    it automatically releases existing capture devices if existing
-    :param camera_type: The type of input device
+    The controller of a given input video stream.
+    This abstracts away whether we connect with a webcam or a video file
     """
-    global capture_device
-    if capture_device is not None:
-        capture_device.release()
-    if camera_type is CaptureDeviceType.CAMERA:
-        capture_device = cv2.VideoCapture(0)  # pylint: disable=no-member
-    elif camera_type is CaptureDeviceType.FILES:
-        capture_device = cv2.VideoCapture('webcam/testing_videos/fall_video.mp4')  # pylint: disable=no-member
-    else:
-        raise NotImplementedError
 
+    def __init__(self, camera_type: CaptureDeviceType) -> None:
+        if camera_type is CaptureDeviceType.CAMERA:
+            input_device: Union[str, int] = 0  # pylint: disable=no-member
+        elif camera_type is CaptureDeviceType.FILES:
+            input_device = 'webcam/testing_videos/fall_video.mp4'
+        else:
+            raise NotImplementedError
 
-def get_current_frame() -> np.ndarray:
-    """
-    Gets the current frame of the capture device.
-    This doesn't utilize queuing, but will simply pop the current frame
-    :return: A representation of the current picture
-    """
-    if capture_device is None:
-        raise CaptureDeviceNotSetError()
+        self.capture_device = cv2.VideoCapture(input_device)  # pylint: disable=no-member
 
-    _, frame = capture_device.read()
-    return frame
+    def get_current_frame(self) -> np.ndarray:
+        """
+        Gets the current frame of the capture device.
+        This doesn't utilize queuing, but will simply pop the current frame
+        :return: A representation of the current picture
+        """
+
+        _, frame = self.capture_device.read()
+        return frame
+
+    def __del__(self):
+        self.capture_device.release()
