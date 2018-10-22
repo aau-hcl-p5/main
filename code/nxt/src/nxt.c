@@ -5,8 +5,8 @@
 DeclareCounter(SysTimerCnt);
 DeclareTask(OSEK_Task_Background);
 DeclareTask(SET_MOTOR);
-DeclareResource(x_motor);
-DeclareEvent(EVENT_COORDS);
+DeclareEvent(WrongLocationEvent);
+DeclareEvent(RightLocationEvent);
 
 /* nxtOSEK hook to be invoked from an ISR in category 2 */
 void user_1ms_isr_type2(void){ 
@@ -15,7 +15,7 @@ void user_1ms_isr_type2(void){
     if(ercd != E_OK){
         ShutdownOS(ercd);
     }
- }
+}
 
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void){
@@ -37,10 +37,26 @@ TASK(OSEK_Task_Background)
     TerminateTask();
 }
 
-TASK(SET_MOTOR){
-    while(1){
-        move('r', 95);
-        move('l', 50);
-    }
+TASK(CHECK_LOCATION)
+{
+    //if(target_x != current_x){
+     //   SetEvent(SET_MOTOR, WrongLocationEvent);
+   // }
+    //else if(current_x == target_x){
+     //   SetEvent(SET_MOTOR, RightLocationEvent);
+    //}
+
     TerminateTask();
+}
+
+TASK(SET_MOTOR)
+{
+    WaitEvent(WrongLocationEvent);
+    ClearEvent(WrongLocationEvent);
+    move('x', 50);
+
+    WaitEvent(RightLocationEvent);
+    ClearEvent(RightLocationEvent);
+    nxt_motor_set_speed(NXT_PORT_A, 0, 1);
+TerminateTask();
 }

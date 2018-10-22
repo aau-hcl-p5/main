@@ -14,7 +14,14 @@
 bool laser_state = false;
 
 void main_loop() {
-    systick_wait_ms(500);
+    if(ecrobot_is_ENTER_button_pressed()){
+        move('x', 50);
+    }
+    /*    move_to('x', 50);
+    ecrobot_debug1(target_x, 0, 0);
+    move_to('x', -50);
+    ecrobot_debug1(target_x, 0 ,0); */
+    //systick_wait_ms(500);
 }
 
 bool toggle_laser() {

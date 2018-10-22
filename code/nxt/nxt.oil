@@ -35,11 +35,33 @@ CPU ATMEL_AT91SAM7S256
   TASK SET_MOTOR
   {
     AUTOSTART = FALSE;
-    PRIORITY = 2; /* lowest priority */
+    PRIORITY = 12; /* lowest priority */
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512;
     RESOURCE = x_motor;
+  };
+
+  TASK CHECK_LOCATION
+  {
+    AUTOSTART = TRUE
+    {
+      APPMODE = appmode1;
+    };
+    PRIORITY = 5;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+  };
+
+  EVENT WrongLocationEvent
+  {
+    MASK = AUTO;
+  };
+
+  EVENT RightLocationEvent
+  {
+    MASK = AUTO;
   };
 
   RESOURCE x_motor
@@ -47,7 +69,7 @@ CPU ATMEL_AT91SAM7S256
     RESOURCEPROPERTY = STANDARD;
   };
 
-  ALARM cyclic_alarm_SET_MOTOR
+  ALARM cyclic_alarm_CHECK_LOCATION
   {
     COUNTER = SysTimerCnt;
     ACTION = ACTIVATETASK
@@ -57,7 +79,7 @@ CPU ATMEL_AT91SAM7S256
     AUTOSTART = TRUE
     {
       ALARMTIME = 1;
-      CYCLETIME = 5000; 
+      CYCLETIME = 300; 
       APPMODE = appmode1;
     };
   };

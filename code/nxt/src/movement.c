@@ -3,12 +3,15 @@
 
 uint32_t current_x = 0;
 uint32_t current_y = 0;
+uint32_t target_x = 0;
+uint32_t target_y = 0;
+
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
 
 // This method is solely for debugging and should be removed.
 void display_show(int32_t data){
-	ecrobot_status_monitor("STATUS");
+	//ecrobot_status_monitor("STATUS");
 	
 	display_clear(1);
 	display_goto_xy(0,0);
@@ -17,9 +20,9 @@ void display_show(int32_t data){
 	display_int(data, 7);
 
 	display_goto_xy(0,2);
-	display_string("Get_pos: ");
+	display_string("Target_x: ");
 	display_goto_xy(0,3);
-	display_int(get_position(), 7);
+	display_int(target_x, 7);
 
 	display_goto_xy(0,4);
 	display_string("Current_x: ");
@@ -49,26 +52,21 @@ bool init_motor(uint8_t motor_id, char orientation){
 
 // This is called by move() and does the interaction with the motor
 bool move_to(uint8_t motor_id, int32_t degrees){
-	y_motor++;
-	display_show(y_motor);
-	GetResource(x_motor);
+	// GetResource(x_motor);
+	//display_show(degrees);
 	get_position();
-	if(degrees < 0){
-		ecrobot_set_motor_mode_speed(motor_id, 1, 100);
-		//degrees = -degrees;
-	}
-	else{
-		ecrobot_set_motor_mode_speed(motor_id, 1, -100);
-	}
-
-	if(current_x <= degrees - 5 || current_x >= degrees + 5){
-		display_show(666);
-		ecrobot_set_motor_speed(motor_id, degrees);
-		systick_wait_ms(500);
-  }
-		ecrobot_set_motor_mode_speed(motor_id, 1, 0);
-		ReleaseResource(x_motor);
-		TerminateTask();
+	display_show(degrees);
+		if(current_x < target_x){
+			ecrobot_set_motor_mode_speed(motor_id, 1, 100);
+		}
+		else{
+			ecrobot_set_motor_mode_speed(motor_id, 1, -100);
+		}
+  systick_wait_ms(500);
+	//Stop motion.
+	//ecrobot_set_motor_mode_speed(motor_id, 1, 0);
+	//ReleaseResource(x_motor);
+	//TerminateTask();
 	
   return true;
 }
@@ -80,20 +78,16 @@ uint32_t get_position(){
   return current_x;
 }
 
-// This is the method that should be called to move, the input is a direction (right, left, up or down) and an amount of degrees.
-// Discuss: Should this just have negative values for left / down instead of a char?
+// This is the method that should be called to move, the input is a direction (x or y) and an amount of degrees.
 bool move(char direction, int32_t degrees){
-	if(direction == 'r'){
+	get_position();
+	if(direction == 'x'){
+		target_x = degrees;
 		move_to(x_motor, degrees);
 	}
-	else if(direction == 'l'){
-		move_to(x_motor, -degrees);
-	}
-	else if(direction == 'u'){
-		move_to(y_motor, degrees);	
-	}
-	else if(direction == 'd'){
-		move_to(y_motor, -degrees);
+	else if(direction == 'y'){
+		target_y += degrees;	
+		move_to(y_motor, degrees);
 	}
   return false;
 }
