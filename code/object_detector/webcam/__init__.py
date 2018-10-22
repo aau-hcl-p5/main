@@ -9,8 +9,7 @@ from enum import Enum
 from typing import Union
 
 import numpy as np
-import cv2
-
+import cv2  # pylint: disable=import-error
 
 
 class CaptureDeviceType(Enum):
