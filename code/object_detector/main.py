@@ -24,10 +24,16 @@ class FlatController:
     the NXT. This is the primary controller of the project
     """
 
-    def __init__(self, algorithm: GenericAlgorithm) -> None:
+    def __init__(self,
+                 algorithm: GenericAlgorithm,
+                 capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA) -> None:
         """
+        Initializes the controller
         :param algorithm: The algorithm to use for image processing
+        :param capture_type: What type the capturing device should be.
         """
+        webcam.initialize_capture_device(capture_type)
+
         self._algorithm = algorithm
 
     def start(self) -> None:
