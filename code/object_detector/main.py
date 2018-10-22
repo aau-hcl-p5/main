@@ -29,10 +29,15 @@ class FlatController:
     the NXT. This is the primary controller of the project
     """
 
-    def __init__(self, algorithm: Callable[[np.ndarray], Vector]) -> None:
+    def __init__(self,
+                 algorithm: Callable[[np.ndarray], Vector],
+                 capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA) -> None:
         """
+        Initializes the controller
         :param algorithm: The algorithm to use for image processing
+        :param capture_type: What type the capturing device should be.
         """
+        self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
 
     def start(self) -> None:
@@ -57,7 +62,7 @@ class FlatController:
         pass
 
     def _get_next_location(self) -> Vector:
-        return screen_debug_wrapper(self._algorithm, webcam.get_current_frame())
+        return screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
 
 
 # check if this file is run directly.
