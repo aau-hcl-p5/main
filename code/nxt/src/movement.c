@@ -1,97 +1,137 @@
 #include "movement.h"
 #include "nxt.h"
 
-uint32_t current_x = 0;
-uint32_t current_y = 0;
-uint32_t target_x = 0;
-uint32_t target_y = 0;
-
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
+uint16_t x_motor_speed = 0;
+uint16_t y_motor_speed = 0;
 
-// This method is solely for debugging and should be removed.
-void display_show(int32_t data){
-	//ecrobot_status_monitor("STATUS");
-	
-	display_clear(1);
-	display_goto_xy(0,0);
-	display_string("Data: ");
-	display_goto_xy(0,1);
-	display_int(data, 7);
+T_TARGET_LOCATION target_location;
+T_TARGET_LOCATION current_location;
 
-	display_goto_xy(0,2);
-	display_string("Target_x: ");
-	display_goto_xy(0,3);
-	display_int(target_x, 7);
+/*--------------------------------------------------------------------------*/
+/* Get_current_location:                                                    */
+/* ------------------------------------------------------------------------ */
+/* Description: This method is used to find the current location that the 	*/
+/*							robot is aiming at.															            */
+/* Params  : None                                                           */
+/* Returns : Returns current location, so that it can be accessed from      */
+/*           the outside.                                                   */
+/*--------------------------------------------------------------------------*/
 
-	display_goto_xy(0,4);
-	display_string("Current_x: ");
-	display_goto_xy(0,5);
-	display_int(current_x, 7);
+T_TARGET_LOCATION get_current_location(){
+	return current_location;
 }
 
-// This method initializes motors and sets their speed and current position.
-bool init_motor(uint8_t motor_id, char orientation){
+/*--------------------------------------------------------------------------*/
+/* Get_target_location:                                                     */
+/* ------------------------------------------------------------------------ */
+/* Description: This method is used to find the current location of 				*/
+/*							the target.                                                 */
+/* Params  : None                                                           */
+/* Returns : Returns target location, so that it can be accessed from       */
+/*           the outside.                                                   */
+/*--------------------------------------------------------------------------*/
+		
+T_TARGET_LOCATION get_target_location(){
+	return target_location;
+}
+
+/*--------------------------------------------------------------------------*/
+/* move_to:                                                                 */
+/* ------------------------------------------------------------------------ */
+/* Description: This method evaluates if the robot can hit the target.      */
+/* Params  : T_TARGET_LOCATION target: Information about the target         */
+/*              location.                                                   */
+/* Returns : A boolean value based on whether the move is possible in       */
+/*            relation to the max_x and max_y values.                       */
+/*--------------------------------------------------------------------------*/
+
+bool move_to(T_TARGET_LOCATION target){
+    target_location = target;
+	return true;
+}
+
+
+/*--------------------------------------------------------------------------*/
+/* move_motors:                                                             */
+/* ------------------------------------------------------------------------ */
+/* Description: The method that interacts with the motors, should be called */
+/*               whenever the target_location is updated.                   */
+/*               Updates the current location before each run.              */
+/* Params  : None                                                           */
+/* Returns : None                                                           */
+/*--------------------------------------------------------------------------*/
+
+void move_motors(){
+	current_location.x = ecrobot_get_motor_rev(x_motor);
+	current_location.y = ecrobot_get_motor_rev(y_motor);
+
+	if(current_location.x > target_location.x){
+		ecrobot_set_motor_speed(x_motor, -x_motor_speed);
+	}
+	else if(current_location.x < target_location.x){
+		ecrobot_set_motor_speed(x_motor, x_motor_speed);
+	}
+	if(current_location.y > target_location.y){
+		ecrobot_set_motor_speed(y_motor, -y_motor_speed);
+	}
+	else if(current_location.y < target_location.y){
+		ecrobot_set_motor_speed(y_motor, y_motor_speed);
+	}
+}
+
+/*--------------------------------------------------------------------------*/
+/* init_motor:                                                              */
+/* ------------------------------------------------------------------------ */
+/* Description: Used to initialize a motor before it is used the first time.*/
+/* Params  : motor_id: The ID of the motor. Value should be NXT_PORT_(port).*/
+/*           orientation: Specifies if the motor handles horizontal (x) or  */
+/*                        vertical (y) movement.                            */
+/*           speed: The speed of the motor. Value between 0 and 100.        */
+/* Returns : None                                                           */
+/*--------------------------------------------------------------------------*/
+
+bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
   if(orientation == 'x'){
   	x_motor = motor_id;
+		x_motor_speed = speed;
     ecrobot_set_motor_speed(x_motor, 0);
-	  nxt_motor_set_count(x_motor, 0);
-    current_x = get_position(x_motor);
+		nxt_motor_set_count(x_motor, 0);
+    current_location.x = ecrobot_get_motor_rev(motor_id);
     return true;
 	}
 	else if(orientation == 'y'){
     y_motor = motor_id;
+		y_motor_speed = speed;
     ecrobot_set_motor_speed(y_motor, 0);
-	  nxt_motor_set_count(y_motor, 0);
-    current_y = get_position(y_motor);
+		nxt_motor_set_count(y_motor, 0);
+    current_location.y = ecrobot_get_motor_rev(motor_id);
     return true;
   }
-
   return false;
 }
 
-// This is called by move() and does the interaction with the motor
-bool move_to(uint8_t motor_id, int32_t degrees){
-	// GetResource(x_motor);
-	//display_show(degrees);
-	get_position();
-	display_show(degrees);
-		if(current_x < target_x){
-			ecrobot_set_motor_mode_speed(motor_id, 1, 100);
-		}
-		else{
-			ecrobot_set_motor_mode_speed(motor_id, 1, -100);
-		}
-  systick_wait_ms(500);
-	//Stop motion.
-	//ecrobot_set_motor_mode_speed(motor_id, 1, 0);
-	//ReleaseResource(x_motor);
-	//TerminateTask();
-	
-  return true;
+/*--------------------------------------------------------------------------*/
+/* stop_motors:                                                             */
+/* ------------------------------------------------------------------------ */
+/* Description: Is used to stop all motion on the motors.                   */
+/* Params  : None                                                           */
+/* Returns : None                                                           */
+/*--------------------------------------------------------------------------*/
+
+void stop_motors(){
+  nxt_motor_set_speed(x_motor, 0, 1);
+  nxt_motor_set_speed(y_motor, 0, 1);
 }
 
-// Gets current motor revolution value in degrees.
-// This should save both the x and y coords when another motor works.
-uint32_t get_position(){
-	current_x = nxt_motor_get_count(x_motor);
-  return current_x;
-}
-
-// This is the method that should be called to move, the input is a direction (x or y) and an amount of degrees.
-bool move(char direction, int32_t degrees){
-	get_position();
-	if(direction == 'x'){
-		target_x = degrees;
-		move_to(x_motor, degrees);
-	}
-	else if(direction == 'y'){
-		target_y += degrees;	
-		move_to(y_motor, degrees);
-	}
-  return false;
-}
-
+/*--------------------------------------------------------------------------*/
+/* release_motors:                                                          */
+/* ------------------------------------------------------------------------ */
+/* Description: Used to release the motors when they are no longer in use.  */
+/* Params  : motor_id specifies witch motor is released.                    */
+/* Returns : returns true if the release was succesful.                     */
+/*--------------------------------------------------------------------------*/
 // Should probably check whether motor_id is in use. But it releases the motor.
 bool release_motor(uint8_t motor_id){
   nxt_motor_set_speed(motor_id, 0, 1);
