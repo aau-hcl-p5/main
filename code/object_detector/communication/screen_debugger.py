@@ -11,7 +11,10 @@ import numpy as np
 from algorithms.utilities import Vector
 
 
-def screen_debug_wrapper(algorithm: Callable[[np.ndarray], Vector], frame: np.ndarray) -> Vector:
+def screen_debug_wrapper(
+        algorithm: Callable[[np.ndarray], Vector],
+        frame: np.ndarray
+) -> Vector:  # pragma: no cover
     """
     A wrapper that takes a algorithm as input and runs it,
     and then displays the output to a image renderer
@@ -29,6 +32,6 @@ def screen_debug_wrapper(algorithm: Callable[[np.ndarray], Vector], frame: np.nd
                 new_y = int(target.y + y)
                 frame[new_y, new_x] = [0, 0x70, 0]
 
-    cv2.imshow('hottie', frame) # pylint: disable=no-member
+    cv2.imshow('hottie', frame)  # pylint: disable=no-member
 
     return target

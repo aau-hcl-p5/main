@@ -3,7 +3,6 @@ helper methods for the algorithm module
 This contains classes and methods that can help with the action of algorithms
 
 """
-from numbers import Real
 from typing import Iterator, Union
 
 NumberType = Union[int, float]
@@ -78,18 +77,6 @@ class Vector:
 
     def __str__(self):
         return f"Vector({self.x},{self.y})"
-
-
-def vector_range(vector: Vector) -> Iterator[Vector]:
-    """
-    a two dimensional generator, that, instead of getting a scalar
-    value out, returns all points from 0 up to a vector
-    :param vector: the vector from which to iterate up to
-    :return:
-    """
-    for x in range(0, int(vector.x)):
-        for y in range(0, int(vector.y)):
-            yield Vector(x, y)
 
 
 # normally i would use is_instance(val, numbers.Number)

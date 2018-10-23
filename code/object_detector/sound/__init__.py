@@ -23,7 +23,7 @@ class SoundType(Enum):
     ERROR = 4
 
 
-def play_random_sound(sound_type: SoundType) -> None:
+def play_random_sound(sound_type: SoundType) -> None:  # pragma: no cover
     """
     Play a random sound based on the requested type.
     The sound_type reflects the current state of the object detector
@@ -32,7 +32,7 @@ def play_random_sound(sound_type: SoundType) -> None:
     _play_sound(_get_sound_file_from_type(sound_type))
 
 
-def _get_sound_file_from_type(sound_type: SoundType) -> str:
+def _get_sound_file_from_type(sound_type: SoundType) -> str:  # pragma: no cover
     files: Dict[SoundType, List[str]] = {
         SoundType.FOUND_TARGET: [
 
@@ -54,6 +54,6 @@ def _get_sound_file_from_type(sound_type: SoundType) -> str:
     return sounds[int(random() * len(sounds))]
 
 
-def _play_sound(file: str):
+def _play_sound(file: str):  # pragma: no cover
     print(f"we are now playing '{file}'")
     raise NotImplementedError
