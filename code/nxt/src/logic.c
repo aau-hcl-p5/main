@@ -19,31 +19,31 @@ T_TARGET_LOCATION info;
 
 
 void main_loop() {
-	// Everything in here should be replaced with receiving data from USB.
-	if(test < 5*10000){
-		info.x = 0;
-		info.y = 0;
-	}
-	else if(test > 5*10000 && test < 10*10000){
-		info.x = -30;
-	}
-	else if(test > 10*10000 && test < 15*10000){
-		info.y = -30;
-	}
-	else if(test > 15*10000 && test < 20*10000){
-		info.x = 30;
-	}
-	else if(test > 20*10000 && test < 25*10000){
-		info.y = 30;
-	}
+  // Everything in here should be replaced with receiving data from USB.
+  if(test < 5*10000){
+    info.x = 0;
+    info.y = 0;
+  }
+  else if(test > 5*10000 && test < 10*10000){
+    info.x = -30;
+  }
+  else if(test > 10*10000 && test < 15*10000){
+    info.y = -30;
+  }
+  else if(test > 15*10000 && test < 20*10000){
+    info.x = 30;
+  }
+  else if(test > 20*10000 && test < 25*10000){
+    info.y = 30;
+  }
 
 
-	if(test < 25*10000)
-		test++;
-	else
-		test = 0;
+  if(test < 25*10000)
+    test++;
+  else
+    test = 0;
 
-	move_to(info);
+  move_to(info);
 }
 
 bool toggle_laser() {
@@ -51,15 +51,15 @@ bool toggle_laser() {
 }
 
 bool standby() {
-    T_TARGET_LOCATION standby = { standby.x = 0, standby.y = 0 };
-	move_to(standby);
-	return true;
+  T_TARGET_LOCATION standby = { standby.x = 0, standby.y = 0 };
+  move_to(standby);
+  return true;
 }
 
 uint32_t get_distance(uint32_t sensor_id) {
-    return 0;
+  return 0;
 }
 
 bool predict_trajectory(T_TARGET_LOCATION point){
-    return 0;
+  return 0;
 }

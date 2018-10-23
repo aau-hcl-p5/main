@@ -20,7 +20,7 @@ T_TARGET_LOCATION current_location;
 /*--------------------------------------------------------------------------*/
 
 T_TARGET_LOCATION get_current_location(){
-	return current_location;
+  return current_location;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -32,9 +32,9 @@ T_TARGET_LOCATION get_current_location(){
 /* Returns : Returns target location, so that it can be accessed from       */
 /*           the outside.                                                   */
 /*--------------------------------------------------------------------------*/
-		
+    
 T_TARGET_LOCATION get_target_location(){
-	return target_location;
+  return target_location;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -49,7 +49,7 @@ T_TARGET_LOCATION get_target_location(){
 
 bool move_to(T_TARGET_LOCATION target){
     target_location = target;
-	return true;
+  return true;
 }
 
 
@@ -64,21 +64,21 @@ bool move_to(T_TARGET_LOCATION target){
 /*--------------------------------------------------------------------------*/
 
 void move_motors(){
-	current_location.x = ecrobot_get_motor_rev(x_motor);
-	current_location.y = ecrobot_get_motor_rev(y_motor);
+  current_location.x = ecrobot_get_motor_rev(x_motor);
+  current_location.y = ecrobot_get_motor_rev(y_motor);
 
-	if(current_location.x > target_location.x){
-		ecrobot_set_motor_speed(x_motor, -x_motor_speed);
-	}
-	else if(current_location.x < target_location.x){
-		ecrobot_set_motor_speed(x_motor, x_motor_speed);
-	}
-	if(current_location.y > target_location.y){
-		ecrobot_set_motor_speed(y_motor, -y_motor_speed);
-	}
-	else if(current_location.y < target_location.y){
-		ecrobot_set_motor_speed(y_motor, y_motor_speed);
-	}
+  if(current_location.x > target_location.x){
+    ecrobot_set_motor_speed(x_motor, -x_motor_speed);
+  }
+  else if(current_location.x < target_location.x){
+    ecrobot_set_motor_speed(x_motor, x_motor_speed);
+  }
+  if(current_location.y > target_location.y){
+    ecrobot_set_motor_speed(y_motor, -y_motor_speed);
+  }
+  else if(current_location.y < target_location.y){
+    ecrobot_set_motor_speed(y_motor, y_motor_speed);
+  }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -94,18 +94,18 @@ void move_motors(){
 
 bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
   if(orientation == 'x'){
-  	x_motor = motor_id;
-		x_motor_speed = speed;
+    x_motor = motor_id;
+    x_motor_speed = speed;
     ecrobot_set_motor_speed(x_motor, 0);
-		nxt_motor_set_count(x_motor, 0);
+    nxt_motor_set_count(x_motor, 0);
     current_location.x = ecrobot_get_motor_rev(motor_id);
     return true;
-	}
-	else if(orientation == 'y'){
+  }
+  else if(orientation == 'y'){
     y_motor = motor_id;
-		y_motor_speed = speed;
+    y_motor_speed = speed;
     ecrobot_set_motor_speed(y_motor, 0);
-		nxt_motor_set_count(y_motor, 0);
+    nxt_motor_set_count(y_motor, 0);
     current_location.y = ecrobot_get_motor_rev(motor_id);
     return true;
   }
