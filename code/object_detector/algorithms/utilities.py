@@ -40,7 +40,7 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x // other.x, self.y // other.y)
 
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def __truediv__(self, other):
         if _is_num(other):
@@ -48,7 +48,7 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)
 
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def __mul__(self, other):
         if isinstance(other, Vector):
@@ -57,19 +57,20 @@ class Vector:
         if _is_num(other):
             return Vector(self.x * other, self.y * other)
 
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def __sub__(self, other):
         if isinstance(other, Vector):
             return Vector(self.x - other.x, self.y - other.y)
         if _is_num(other):
             return Vector(self.x - other, self.y - other)
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def __eq__(self, other):
         if other is None:
             return False
-
+        if not isinstance(other, Vector):
+            return False
         return self.x == other.x and self.y == other.y
 
     def __hash__(self):
