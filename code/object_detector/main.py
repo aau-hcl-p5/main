@@ -19,10 +19,9 @@ import numpy as np
 
 import algorithms
 import webcam
-from algorithms.result import Result
-from algorithms.utilities import Vector
-from communication.nxt_usb import NxtUsb
-from communication.screen_debugger import screen_debug_wrapper
+from algorithms import Result, Vector
+from communication import NxtUsb
+from communication import screen_debug_wrapper
 
 
 class FlatController:
@@ -66,12 +65,12 @@ class FlatController:
     def _run(self):
         pass
 
-
     def _get_next_location(self) -> Vector:
         res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
         if res:
             self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
         return res
+
 
 # check if this file is run directly.
 if __name__ == "__main__":
