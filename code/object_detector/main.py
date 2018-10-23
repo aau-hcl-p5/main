@@ -48,12 +48,14 @@ class FlatController:
         Start a separate thread for running the 'run' method,
         and continuously run this.
         """
-        while 1:
-            self._get_next_location()
-            k = cv2.waitKey(5) & 0xFF
-            if k == 27:
-                break
-        pass
+        try:
+            while 1:
+                self._get_next_location()
+                k = cv2.waitKey(5) & 0xFF
+                if k == 27:
+                    break
+        except:
+            self.stop()
 
     def stop(self) -> None:
         """
@@ -67,10 +69,8 @@ class FlatController:
 
     def _get_next_location(self) -> Vector:
         res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
-        try:
+        if res:
             self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
-        except:
-            pass
         return res
 
 # check if this file is run directly.

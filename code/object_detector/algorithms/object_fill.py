@@ -61,8 +61,8 @@ class ObjectFillController:  # pylint: disable=too-few-public-methods
         return None
 
     def _get_neighbours(self, x: int, y: int, image_size: (int, int)) -> {Vector}:
-        if x - self.fill_step_size < 0 or image_size[0] - self.fill_step_size <= x + self.fill_step_size or \
-           y - self.fill_step_size < 0 or image_size[1] - self.fill_step_size <= y + self.fill_step_size:
+        if x - self.fill_step_size < 0 or image_size[0] - self.fill_step_size <= x + self.fill_step_size + 1 or \
+           y - self.fill_step_size < 0 or image_size[1] - self.fill_step_size <= y + self.fill_step_size + 1:
             return set()
 
         return {Vector(x - self.fill_step_size, y), Vector(x + self.fill_step_size, y),
@@ -84,10 +84,7 @@ class ObjectFillController:  # pylint: disable=too-few-public-methods
                 sum_outline_y += element.y
                 total_elements_in_outline += 1
                 if self.debug:
-                    try:
-                        frame[int(element.y), int(element.x)] = [0, 255, 0]
-                    except:
-                        pass
+                    frame[int(element.y), int(element.x)] = [0, 255, 0]
                 continue
 
             for neighbour in self._get_neighbours(element.x, element.y, image_size) - visited:
