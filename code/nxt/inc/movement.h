@@ -6,7 +6,6 @@
 
 // actual methods
 extern T_TARGET_LOCATION get_current_location();
-extern T_TARGET_LOCATION get_target_location();
 
 extern bool init_motor(uint8_t motor_id, char orientation, uint16_t speed);
 extern bool release_motor(uint8_t motor_id);
