@@ -66,7 +66,7 @@ It will:
         step_size = self.find_step_size
         bound = step_size * 2 + 1
         for y in range(0, int(image_size.y), step_size):
-            for x in range(0, int(image_size.x), bound):
+            for x in range(0, int(image_size.x) - 3 * step_size, bound):
                 if y + self._last_center.y < image_size.y:
                     current_y = int(y + self._last_center.y)
                     if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
