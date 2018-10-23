@@ -47,7 +47,7 @@ void main_loop() {
 }
 
 bool toggle_laser() {
-    return (laser_state = !laser_state);
+  return laser_state = !laser_state;
 }
 
 bool standby() {
