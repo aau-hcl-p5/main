@@ -1,1 +1,1 @@
-pylint */ -r n && mypy **/*.py --ignore-missing-import
+pylint . -r n && mypy **/*.py --ignore-missing-import

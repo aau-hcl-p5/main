@@ -12,10 +12,16 @@ which will handle movement of motors etc.
 
 """
 import argparse
+from typing import Callable
+
+import cv2
+import numpy as np
 
 import algorithms
-from algorithms.generic_algorithm import GenericAlgorithm
 import webcam
+from algorithms import Result, Vector
+from communication import NxtUsb
+from communication import screen_debug_wrapper
 
 
 class FlatController:
@@ -25,7 +31,7 @@ class FlatController:
     """
 
     def __init__(self,
-                 algorithm: GenericAlgorithm,
+                 algorithm: Callable[[np.ndarray], Vector],
                  capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA) -> None:
         """
         Initializes the controller
@@ -34,25 +40,36 @@ class FlatController:
         """
         self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
+        self.usb_connection = NxtUsb()
 
     def start(self) -> None:
         """
         Start a separate thread for running the 'run' method,
         and continuously run this.
         """
-        pass
+        try:
+            while 1:
+                self._get_next_location()
+                k = cv2.waitKey(5) & 0xFF
+                if k == 27:
+                    break
+        except:
+            self.stop()
 
     def stop(self) -> None:
         """
         stop the thread running the FLAT object recognition
         """
-        pass
+        self.usb_connection.disconnect()
 
     def _run(self):
         pass
 
-    def _get_next_location(self):
-        return self._algorithm.predict(self.video_controller.get_current_frame())
+    def _get_next_location(self) -> Vector:
+        res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
+        if res:
+            self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
+        return res
 
 
 # check if this file is run directly.
@@ -68,5 +85,4 @@ if __name__ == "__main__":
         help="Choose which algorithm to run ['goturn', 'yolo']. default='goturn'")
 
     ARGS = PARSER.parse_args()
-
-    FlatController(algorithms.get_from_str(ARGS.alg_name)).start()
+    FlatController(algorithms.ObjectFillController().locate_center).start()
