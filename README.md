@@ -3,6 +3,7 @@
 <a href="http://hcl.codes/teamcity/viewType.html?buildTypeId=P5_Build&guest=1">
 <img src="http://hcl.codes/teamcity/app/rest/builds/buildType:(id:P5_Build)/statusIcon"/>
 </a>
+
 [coverage](http://hcl.codes/teamcity/guestAuth/repository/download/P5_Build/.lastSuccessful/htmlcov/index.html?branch=develop)
 
 [![jira sprint](https://img.shields.io/badge/Jira-sprint-ff69b4.svg)](http://hcl.codes/jira/secure/RapidBoard.jspa?rapidView=2&view=detail)
