@@ -53,11 +53,20 @@ class ObjectFillController:  # pylint: disable=too-few-public-methods
         return self._last_center
 
     def _locate_object(self, frame: np.ndarray, image_size: (int, int)) -> Optional[Vector]:
-        for y in range(self.find_step_size, image_size[1], self.find_step_size):
-            for x in range(self.find_step_size, image_size[0], self.find_step_size * self.required_steps_for_find + 1):
-                find_range = range(x, x + self.find_step_size * self.required_steps_for_find + 1, self.find_step_size)
-                if all(self._is_red(z, y, frame) for z in find_range):
-                    return Vector(x + (self.find_step_size * self.required_steps_for_find) / 2, y)
+        width = image_size[0]
+        height = image_size[1]
+        step_size = self.find_step_size
+        bound = step_size * 2 + 1
+        for y in range(0, height, step_size):
+            for x in range(0, width, bound):
+                if y + self._last_center.y < height:
+                    current_y = y + self._last_center.y
+                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
+                        return Vector(x + step_size, current_y)
+                if self._last_center.y - y > 0:
+                    current_y = self._last_center.y - y
+                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
+                        return Vector(x + step_size, current_y)
         return None
 
     def _get_neighbours(self, x: int, y: int, image_size: (int, int)) -> {Vector}:
@@ -94,9 +103,6 @@ class ObjectFillController:  # pylint: disable=too-few-public-methods
         return Vector(sum_outline_x / total_elements_in_outline, sum_outline_y / total_elements_in_outline)
 
     def _is_red(self, x: int, y: int, frame: np.ndarray) -> bool:
-        try:
-            x = int(x)
-            y = int(y)
-            return self.red_threshold < frame.item(y, x, 2) - frame.item(y, x, 1) - frame.item(y, x, 0)
-        except:
-            pass
+        x = int(x)
+        y = int(y)
+        return self.red_threshold < frame.item(y, x, 2) - frame.item(y, x, 1) - frame.item(y, x, 0)
