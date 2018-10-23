@@ -8,42 +8,13 @@
 #include "nxt.h"
 #include "target_location.h"
 #include "movement.h"
-#include "movement.c"
 
 // TODO: Not global var
 bool laser_state = false;
 
-//TODO: Test variables, should be replaced with receiving data from USB.
-int test = 0;
-T_TARGET_LOCATION info;
-
-
 void main_loop() {
-  // Everything in here should be replaced with receiving data from USB.
-  if(test < 5*10000){
-    info.x = 0;
-    info.y = 0;
-  }
-  else if(test > 5*10000 && test < 10*10000){
-    info.x = -30;
-  }
-  else if(test > 10*10000 && test < 15*10000){
-    info.y = -30;
-  }
-  else if(test > 15*10000 && test < 20*10000){
-    info.x = 30;
-  }
-  else if(test > 20*10000 && test < 25*10000){
-    info.y = 30;
-  }
-
-
-  if(test < 25*10000)
-    test++;
-  else
-    test = 0;
-
-  move_to(info);
+  ecrobot_status_monitor("HCL-P5 READY!");
+  systick_wait_ms(500);
 }
 
 bool toggle_laser() {
@@ -51,8 +22,6 @@ bool toggle_laser() {
 }
 
 bool standby() {
-  T_TARGET_LOCATION standby = { standby.x = 0, standby.y = 0 };
-  move_to(standby);
   return true;
 }
 
