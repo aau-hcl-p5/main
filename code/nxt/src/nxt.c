@@ -16,6 +16,7 @@ void ecrobot_device_initialize(void){
 void ecrobot_device_terminate(void){
     release_motor(NXT_PORT_A);
     release_motor(NXT_PORT_B);
+}
 
 /* nxtOSEK hook to be invoked from an ISR in category 2 */
   void user_1ms_isr_type2(void)
