@@ -80,18 +80,19 @@ It will:
         return None
 
     def _is_pixel_on_border(self, pixel: Vector, image_size: Vector):
-        return x - self.fill_step_size < 0 or image_size.x - self.fill_step_size <= x + self.fill_step_size + 1 or \
-        y - self.fill_step_size < 0 or image_size.y - self.fill_step_size <= y + self.fill_step_size + 1:
+        return pixel.x - self.fill_step_size < 0 or \
+               image_size.x - self.fill_step_size <= pixel.x + self.fill_step_size + 1 or \
+               pixel.y - self.fill_step_size < 0 or \
+               image_size.y - self.fill_step_size <= pixel.y + self.fill_step_size + 1
 
     def _get_neighbours(self, pixel: Vector, image_size: Vector) -> Set[Vector]:
         if self._is_pixel_on_border(pixel, image_size):
             return set()
         x_dir_offset = Vector(self.fill_step_size, 0)
         y_dir_offset = Vector(0, self.fill_step_size)
-        return { pixel - x_dir_offset, pixel + x_dir_offset, pixel - y_dir_offset, pixel + y_dir_offset }
+        return {pixel - x_dir_offset, pixel + x_dir_offset, pixel - y_dir_offset, pixel + y_dir_offset}
 
-    def _fill_get_center(self, object_position: Vector,
-                         frame: np.ndarray, image_size: Vector) -> Vector:
+    def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Vector:
         queue = deque()
         visited = {object_position}
         for neighbour in self._get_neighbours(object_position, image_size):
