@@ -63,18 +63,16 @@ It will:
         return self._last_center
 
     def _locate_object(self, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
-        width = image_size.x
-        height = image_size.y
         step_size = self.find_step_size
         bound = step_size * 2 + 1
-        for y in range(0, height, step_size):
-            for x in range(0, width, bound):
-                if y + self._last_center.y < height:
-                    current_y = y + self._last_center.y
+        for y in range(0, int(image_size.y), step_size):
+            for x in range(0, int(image_size.x), bound):
+                if y + self._last_center.y < image_size.y:
+                    current_y = int(y + self._last_center.y)
                     if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
                         return Vector(x + step_size, current_y)
                 if self._last_center.y - y > 0:
-                    current_y = self._last_center.y - y
+                    current_y = int(self._last_center.y - y)
                     if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
                         return Vector(x + step_size, current_y)
         return None
@@ -93,7 +91,7 @@ It will:
         return {pixel - x_dir_offset, pixel + x_dir_offset, pixel - y_dir_offset, pixel + y_dir_offset}
 
     def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Vector:
-        queue = deque()
+        queue: deque = deque()
         visited = {object_position}
         for neighbour in self._get_neighbours(object_position, image_size):
             queue.append(neighbour)
