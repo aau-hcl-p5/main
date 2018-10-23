@@ -49,8 +49,6 @@ It will:
         :return: The center of the object (Can be null).
         """
         image_size = Vector(int(frame.shape[1]), frame.shape[0])
-        if not self._last_center:
-            self._last_center = Vector(image_size.x / 2, image_size.y / 2)
 
         object_position = self._locate_object(frame, image_size)
         if object_position:
@@ -65,6 +63,11 @@ It will:
     def _locate_object(self, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
         step_size = self.find_step_size
         bound = step_size * 2 + 1
+        # set to center if not already set. We this is from where we need to search,
+        # so if we have no where to search then just use the center
+        if not self._last_center:
+            self._last_center = Vector(image_size.x / 2, image_size.y / 2)
+
         for y in range(0, int(image_size.y), step_size):
             for x in range(0, int(image_size.x) - 3 * step_size, bound):
                 if y + self._last_center.y < image_size.y:
@@ -91,7 +94,7 @@ It will:
         return {pixel - x_dir_offset, pixel + x_dir_offset, pixel - y_dir_offset, pixel + y_dir_offset}
 
     def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Vector:
-        queue: deque = deque()
+        queue: Deque = deque()
         visited = {object_position}
         for neighbour in self._get_neighbours(object_position, image_size):
             queue.append(neighbour)

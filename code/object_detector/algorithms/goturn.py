@@ -4,10 +4,10 @@ Everything relating to the implementation of the GOTURN
 
 source: https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
 """
-import datetime
+import numpy as np
 
+from algorithms.utilities import Vector
 from algorithms.generic_algorithm import GenericAlgorithm
-from algorithms.result import Result
 
 
 class Goturn(GenericAlgorithm):
@@ -15,8 +15,8 @@ class Goturn(GenericAlgorithm):
     GOTURN implementation of object recognition.
     """
 
-    def predict(self, data: str) -> Result:
-        return Result(1, 5, datetime.datetime.now().timestamp())
+    def predict(self, data: np.ndarray) -> Vector:
+        return Vector(1, 5)
 
     def import_model(self, model: str) -> None:
         raise NotImplementedError

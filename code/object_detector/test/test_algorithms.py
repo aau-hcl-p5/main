@@ -35,8 +35,8 @@ class TestGoturnAlgorithms(unittest.TestCase):
         :return:
         """
         self.assertEqual(
-            (1, 5),
-            Goturn().predict(self.test_string).coordinates,
+            Vector(1, 5),
+            Goturn().predict(self.test_string),
             msg="The returned coordinates did not match the expected output"
         )
 
@@ -51,7 +51,7 @@ class TestZoneAvgAlgorithm(unittest.TestCase):
         """
         controller = ZoneAvgController()
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
-        output = controller.zone_avg(frame)
+        output = controller.locate_center(frame)
         self.assertIsNone(output)
 
     def test_detect_positive(self):
@@ -62,7 +62,7 @@ class TestZoneAvgAlgorithm(unittest.TestCase):
         """
         controller = ZoneAvgController()
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
-        output = controller.zone_avg(frame)
+        output = controller.locate_center(frame)
         print("zone detect", output)
         self.assertEqual(output.as_int(), Vector(306, 928))
 
