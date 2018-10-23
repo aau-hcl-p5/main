@@ -18,9 +18,52 @@ CPU ATMEL_AT91SAM7S256
   /* Definition of application mode */
   APPMODE appmode1{}; 
 
+  /* Definition of resource */
+  RESOURCE USB_Rx
+  {
+    RESOURCEPROPERTY = STANDARD;
+  };
 
-  /* Definition of OSEK_Task_Background */
-  TASK OSEK_Task_Background
+  /* Definitions of a periodical task: Task_ts1 */
+  TASK Task_ts1
+  {
+    AUTOSTART = FALSE;
+    PRIORITY = 2;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    RESOURCE = USB_Rx;
+    STACKSIZE = 512; /* bytes */
+  };
+  ALARM OSEK_Alarm_task_ts1
+  {
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = Task_ts1;
+    };
+    AUTOSTART = TRUE
+    {
+      APPMODE = appmode1;
+      ALARMTIME = 1;
+      CYCLETIME = 1;
+    };
+  };
+
+
+  TASK Task_usb_read
+  {
+    AUTOSTART = TRUE
+    {
+      APPMODE = appmode1;
+    };
+    PRIORITY = 1; /* lowest priority */
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    RESOURCE = USB_Rx;
+    STACKSIZE = 512;
+  };
+
+  TASK Task_background
   {
     AUTOSTART = TRUE
     {
@@ -30,6 +73,14 @@ CPU ATMEL_AT91SAM7S256
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512;
+  };
+
+  /* Definition of OSEK Alarm counter: SysTimerCnt */
+  COUNTER SysTimerCnt
+  {
+    MINCYCLE = 1;
+    MAXALLOWEDVALUE = 10000;
+    TICKSPERBASE = 1;
   };
 };
 
