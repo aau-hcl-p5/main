@@ -63,33 +63,36 @@ It will:
         return self._last_center
 
     def _locate_object(self, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
-        for y in range(self.find_step_size, int(image_size.y), self.find_step_size):
-            x_range_steps = self.find_step_size * self.required_steps_for_find + 1
-            for x in range(self.find_step_size, int(image_size.x), x_range_steps):
-                find_range_max = x + self.find_step_size * self.required_steps_for_find + 1
-                find_range = range(x, find_range_max, self.find_step_size)
-                if all(self._is_red(z, y, frame) for z in find_range):
-                    return Vector(x + (self.find_step_size * self.required_steps_for_find) / 2, y)
+        width = image_size.x
+        height = image_size.y
+        step_size = self.find_step_size
+        bound = step_size * 2 + 1
+        for y in range(0, height, step_size):
+            for x in range(0, width, bound):
+                if y + self._last_center.y < height:
+                    current_y = y + self._last_center.y
+                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
+                        return Vector(x + step_size, current_y)
+                if self._last_center.y - y > 0:
+                    current_y = self._last_center.y - y
+                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
+                        return Vector(x + step_size, current_y)
         return None
 
     def _is_pixel_on_border(self, pixel: Vector, image_size: Vector):
-
-        return pixel.x - self.fill_step_size < 0 or \
-               image_size.x - self.fill_step_size <= pixel.x + self.fill_step_size or \
-               pixel.y - self.fill_step_size < 0 or \
-               image_size.y - self.fill_step_size <= pixel.y + self.fill_step_size
+        return x - self.fill_step_size < 0 or image_size.x - self.fill_step_size <= x + self.fill_step_size + 1 or \
+        y - self.fill_step_size < 0 or image_size.y - self.fill_step_size <= y + self.fill_step_size + 1:
 
     def _get_neighbours(self, pixel: Vector, image_size: Vector) -> Set[Vector]:
         if self._is_pixel_on_border(pixel, image_size):
             return set()
         x_dir_offset = Vector(self.fill_step_size, 0)
         y_dir_offset = Vector(0, self.fill_step_size)
-        return {pixel - x_dir_offset, pixel + x_dir_offset,
-                pixel - y_dir_offset, pixel + y_dir_offset}
+        return { pixel - x_dir_offset, pixel + x_dir_offset, pixel - y_dir_offset, pixel + y_dir_offset }
 
     def _fill_get_center(self, object_position: Vector,
                          frame: np.ndarray, image_size: Vector) -> Vector:
-        queue: Deque = deque()
+        queue = deque()
         visited = {object_position}
         for neighbour in self._get_neighbours(object_position, image_size):
             queue.append(neighbour)
@@ -102,10 +105,7 @@ It will:
                 sum_outline += element
                 sum_elements_in_outline += 1
                 if self.debug:
-                    try:
-                        frame[int(element.y), int(element.x)] = [0, 255, 0]
-                    except IndexError:
-                        pass
+                    frame[int(element.y), int(element.x)] = [0, 255, 0]
                 continue
 
             for neighbour in self._get_neighbours(element, image_size) - visited:
@@ -115,10 +115,6 @@ It will:
         return sum_outline / sum_elements_in_outline
 
     def _is_red(self, x: int, y: int, frame: np.ndarray) -> bool:
-        try:
-            x = int(x)
-            y = int(y)
-            redness_score = frame.item(y, x, 2) - frame.item(y, x, 1) - frame.item(y, x, 0)
-            return self.red_threshold < redness_score
-        except IndexError:
-            return False
+        x = int(x)
+        y = int(y)
+        return self.red_threshold < frame.item(y, x, 2) - frame.item(y, x, 1) - frame.item(y, x, 0)
