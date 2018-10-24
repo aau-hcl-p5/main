@@ -13,11 +13,9 @@
 DeclareTask(Task_ts1);
 DeclareResource(USB_Rx);
 
-T_TARGET_LOCATION old_location;
-
 #define SIZEOF_USB_DATA sizeof(T_TARGET_LOCATION)
 
-T_TARGET_LOCATION get_target_location() {
+bool get_target_location(T_TARGET_LOCATION *out_location) {
 	int len;
 	U8 data[SIZEOF_USB_DATA]; /* first byte is preserved for disconnect request from host */
 
@@ -26,25 +24,21 @@ T_TARGET_LOCATION get_target_location() {
 	GetResource(USB_Rx);
 	len = ecrobot_read_usb(data, 0, SIZEOF_USB_DATA); /* read USB data */
 	ReleaseResource(USB_Rx);
-	
-	T_TARGET_LOCATION target_location = *((T_TARGET_LOCATION *)data);
 
 	if (len > 0)
 	{
-		if (*((uint32_t *)&target_location) == DISCONNECT_REQ)
+		if (*((uint32_t *)data) == DISCONNECT_REQ)
 		{
 			/* disconnect current connection */
 			ecrobot_disconnect_usb();
 			show_init_screen();
+			return false;
 		}
-		else
-		{
-			display_target_location(target_location);
-			old_location = target_location;
-		}
+		*out_location = *((T_TARGET_LOCATION *)data);
+		display_target_location(*out_location);
+		return true;
 	}
-
-	return old_location;
+	return false;
 }
 
 /* 1msec periodical Task */

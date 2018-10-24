@@ -73,8 +73,11 @@ is the Result class from the algorithms module.
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
-        self.endpoint.write(b'\xFF\xFF\xFF\xFF')
-        self.endpoint = None
+        if self.endpoint:
+            self.endpoint.write(b'\xFF\xFF\xFF\xFF')
+            self.endpoint = None
+        else:
+            print("USB already disconnected")
 
     def __del__(self):
         self.disconnect()
