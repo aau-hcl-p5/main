@@ -73,7 +73,7 @@ is the Result class from the algorithms module.
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
-        if self.endpoint:
+        if self.endpoint is not None:
             self.endpoint.write(b'\xFF\xFF\xFF\xFF')
         self.endpoint = None
 
