@@ -4,8 +4,8 @@ This is one-way and only broadcasting.
 The information this class is build for sending,
 is the Result class from the algorithms module.
 
+based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 """
-from typing import Optional
 
 import usb.core
 import usb.util
@@ -45,11 +45,11 @@ is the Result class from the algorithms module.
         # configuration will be the active one
         dev.set_configuration()
 
-        cfg = dev.get_active_configuration()
-        intf = cfg[(0, 0)]
+        config = dev.get_active_configuration()
+        interface = config[(0, 0)]
 
         self.endpoint = usb.util.find_descriptor(
-            intf,
+            interface,
             # match the first OUT endpoint
             custom_match=_is_endpoint_out)
         # handshake with nxt device ("are you ready?")
@@ -73,7 +73,8 @@ is the Result class from the algorithms module.
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
-        self.endpoint.write(b'\xFF\xFF\xFF\xFF')
+        if self.endpoint:
+            self.endpoint.write(b'\xFF\xFF\xFF\xFF')
         self.endpoint = None
 
     def __del__(self):

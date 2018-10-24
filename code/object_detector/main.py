@@ -80,9 +80,11 @@ if __name__ == "__main__":
 
     PARSER.add_argument(
         '-a', '--algorithm',
-        dest='alg_name', default='goturn',
+        dest='alg_name', default='obj_fill',
         type=str, metavar='[name]',
-        help="Choose which algorithm to run ['goturn', 'yolo']. default='goturn'")
+        help="Choose which algorithm to run "
+             f"[{', '.join(a.name for a in algorithms.AlgorithmType)}]. default='obj_fill'")
 
     ARGS = PARSER.parse_args()
-    FlatController(algorithms.ObjectFillController().locate_center).start()
+
+    FlatController(algorithms.get_from_str(ARGS.alg_name)).start()
