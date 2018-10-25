@@ -8,6 +8,8 @@ bool usb_connected = true;
 bool usb_buffer[256];
 uint32_t usb_len;
 
+uint32_t usb_processes = 0; 
+
 extern void set_usb_input(uint8_t *buffer, uint32_t len) {
     usb_connected = true;
     memcpy(usb_buffer, buffer, len);
@@ -30,5 +32,5 @@ void ecrobot_disconnect_usb() {
 }
 
 void ecrobot_process1ms_usb() {
-    
+    usb_processes++;
 }

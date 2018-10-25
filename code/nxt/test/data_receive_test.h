@@ -5,5 +5,6 @@
 
 T_TC_RESULT test_usb_read();
 T_TC_RESULT test_usb_disconnect();
+T_TC_RESULT test_task_ts1();
 
 #endif
