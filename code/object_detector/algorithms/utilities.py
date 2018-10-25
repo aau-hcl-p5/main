@@ -3,10 +3,11 @@ helper methods for the algorithm module
 This contains classes and methods that can help with the action of algorithms
 
 """
-import math
 from typing import Union
 
 import numpy as np
+
+COMMUNICATION_OUT_RANGE = 255  # 2**8
 
 NumberType = Union[int, float]
 
@@ -90,10 +91,16 @@ def _is_num(val) -> bool:
     return isinstance(val, (float, int))
 
 
-OUT_RANGE = 255  # 2**8
-
-
 def screen_location_to_relative_location(frame: np.ndarray, position: Vector) -> Vector:
-    size = Vector(frame.shape[1], frame.shape[0])/2
-    val = position / size
-    return val*val * (OUT_RANGE//2)
+    """
+    This transforms the location on the screen to a value between -127, 127
+    and does this with scaling in the sense of:
+    f(x) = (x/480)^2 * 255
+    where 480 is the input range, and 255 is the output range.
+    :param frame: the image that the position is on.
+    :param position: The position on the frame
+    :return: The output vector in range on x -y  [-127,127]
+    """
+    half_size = Vector(frame.shape[1], frame.shape[0])//2
+    val = (position-half_size) / half_size
+    return val * val * (COMMUNICATION_OUT_RANGE // 2)

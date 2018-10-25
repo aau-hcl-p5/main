@@ -12,7 +12,9 @@ which will handle movement of motors etc.
 
 """
 import argparse
-from typing import Callable
+import sys
+from threading import Thread
+from typing import Callable, Optional
 
 import cv2
 import numpy as np
@@ -41,36 +43,26 @@ class FlatController:
         self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
         self.usb_connection = NxtUsb()
+        self.terminating = False
 
-    def start(self) -> None:
+    def run(self) -> None:
         """
         Start a separate thread for running the 'run' method,
         and continuously run this.
         """
-        try:
-            while 1:
-                self._get_next_location()
-                k = cv2.waitKey(5) & 0xFF
-                if k == 27:
-                    break
-        except:
-            self.stop()
-
-    def stop(self) -> None:
-        """
-        stop the thread running the FLAT object recognition
-        """
-        self.usb_connection.disconnect()
-
-    def _run(self):
-        pass
+        while True:
+            self._get_next_location()
+            k = cv2.waitKey(5) & 0xFF  # escape char
+            if k == 27:
+                break
 
     def _get_next_location(self) -> Vector:
         res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
         if res:
             try:
                 self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
-            except: pass
+            except:
+                pass
         return res
 
 
@@ -89,4 +81,5 @@ if __name__ == "__main__":
 
     ARGS = PARSER.parse_args()
 
-    FlatController(algorithms.get_from_str(ARGS.alg_name)).start()
+    cont = FlatController(algorithms.get_from_str(ARGS.alg_name))
+    cont.run()
