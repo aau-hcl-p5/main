@@ -68,7 +68,7 @@ class FlatController:
     def _get_next_location(self) -> Vector:
         res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
         if res:
-            self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
+            self.usb_connection.write_data(Result(int(res.x / 5), int(res.y / 5), 1))
         return res
 
 
@@ -80,9 +80,11 @@ if __name__ == "__main__":
 
     PARSER.add_argument(
         '-a', '--algorithm',
-        dest='alg_name', default='goturn',
+        dest='alg_name', default='obj_fill',
         type=str, metavar='[name]',
-        help="Choose which algorithm to run ['goturn', 'yolo']. default='goturn'")
+        help="Choose which algorithm to run "
+             f"[{', '.join(a.name for a in algorithms.AlgorithmType)}]. default='obj_fill'")
 
     ARGS = PARSER.parse_args()
-    FlatController(algorithms.ObjectFillController().locate_center).start()
+
+    FlatController(algorithms.get_from_str(ARGS.alg_name)).start()

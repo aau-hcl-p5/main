@@ -33,7 +33,7 @@ class ZoneAvgController:  # pylint: disable=too-few-public-methods
         self.adjust_counter = 0
         self.last_best_zone: Optional[Vector] = None
 
-    def zone_avg(self, frame) -> Optional[Vector]:
+    def locate_center(self, frame) -> Optional[Vector]:
         """
         Takes a frame in a video feed and figures out where a target is, based on color.
         This takes the zone (subset of image) with the most distinct red color.
@@ -41,7 +41,7 @@ class ZoneAvgController:  # pylint: disable=too-few-public-methods
         :param frame: the image to search in
         :return: the target of the search. is nullable
         """
-        image_size = Vector(frame.shape[0], frame.shape[1])
+        image_size = Vector(frame.shape[1], frame.shape[0])
         size_of_zone = image_size // self.lines
 
         zones: Dict[Vector, int] = {}
@@ -52,7 +52,7 @@ class ZoneAvgController:  # pylint: disable=too-few-public-methods
 
                 if current_zone not in zones:
                     zones[current_zone] = 0
-                zones[current_zone] += _value_of_pixel(frame[pixel_loc.x, pixel_loc.y])
+                zones[current_zone] += _value_of_pixel(frame[pixel_loc.y, pixel_loc.x])
 
         zone = _get_best_zone(zones)
 
@@ -101,10 +101,10 @@ class ZoneAvgController:  # pylint: disable=too-few-public-methods
         """
         for x in range(0, size_image.x):
             for line_y in range(self.lines):
-                frame[x, size_of_zones.y * line_y] = [255, 255, 255]
+                frame[size_of_zones.y * line_y, x] = [255, 255, 255]
         for y in range(0, size_image.y):
             for line_x in range(self.lines):
-                frame[size_of_zones.x * line_x, y] = [255, 255, 255]
+                frame[y, size_of_zones.x * line_x] = [255, 255, 255]
 
 
 def _value_of_pixel(pixel) -> int:

@@ -34,7 +34,8 @@ It will:
                  fill_step_size: int = DEFAULT_FILL_STEP_SIZE,
                  required_steps_for_find: int = DEFAULT_REQUIRED_STEPS_FOR_FIND,
                  red_threshold: int = DEFAULT_RED_THRESHOLD,
-                 debug: bool = True
+                 debug: bool = True,
+                 dynamic_fill_size: bool =True
                  ) -> None:
         self.find_step_size = find_step_size
         self.fill_step_size = fill_step_size
@@ -42,6 +43,7 @@ It will:
         self.red_threshold = red_threshold
         self.debug = debug
         self._last_center: Optional[Vector] = None
+        self._dynamic_fill_size = dynamic_fill_size
 
     def locate_center(self, frame: np.ndarray) -> Optional[Vector]:
         """
@@ -49,8 +51,6 @@ It will:
         :return: The center of the object (Can be null).
         """
         image_size = Vector(int(frame.shape[1]), frame.shape[0])
-        if not self._last_center:
-            self._last_center = Vector(image_size.x / 2, image_size.y / 2)
 
         object_position = self._locate_object(frame, image_size)
         if object_position:
@@ -59,12 +59,18 @@ It will:
             if self.debug:
                 print("No red object found!")
             self._last_center = None
+            self.fill_step_size = DEFAULT_FILL_STEP_SIZE
 
         return self._last_center
 
     def _locate_object(self, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
         step_size = self.find_step_size
         bound = step_size * 2 + 1
+        # set to center if not already set. We this is from where we need to search,
+        # so if we have no where to search then just use the center
+        if not self._last_center:
+            self._last_center = Vector(image_size.x / 2, image_size.y / 2)
+
         for y in range(0, int(image_size.y), step_size):
             for x in range(0, int(image_size.x) - 3 * step_size, bound):
                 if y + self._last_center.y < image_size.y:
@@ -91,7 +97,7 @@ It will:
         return {pixel - x_dir_offset, pixel + x_dir_offset, pixel - y_dir_offset, pixel + y_dir_offset}
 
     def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Vector:
-        queue: deque = deque()
+        queue: Deque = deque()
         visited = {object_position}
         for neighbour in self._get_neighbours(object_position, image_size):
             queue.append(neighbour)
@@ -111,6 +117,10 @@ It will:
                 visited.add(neighbour)
                 queue.append(neighbour)
 
+        if self._dynamic_fill_size:
+            self.fill_step_size = max(DEFAULT_FILL_STEP_SIZE,
+                                      int(sum_elements_in_outline * self.fill_step_size / 75))
+            
         return sum_outline / sum_elements_in_outline
 
     def _is_red(self, x: int, y: int, frame: np.ndarray) -> bool:
