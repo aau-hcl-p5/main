@@ -1,6 +1,6 @@
 IDIR =../inc
 CC=gcc
-CFLAGS=-I$(IDIR)
+CFLAGS=-I$(IDIR) -I./ -fPIC -fprofile-arcs -ftest-coverage -g -lm -DTEST
 
 LIBS=-lm
 
@@ -11,11 +11,11 @@ TMPVAR := $(CSRC)
 CSRC = $(filter-out ../src/nxt.c ../src/data_receive.c ../src/movement.c ../src/init_screen.c ../src/display_data.c, $(TMPVAR))
 
 testsuite: $(CSRC)
-	$(CC) -o $@ $^ -DTEST -I./ $(CFLAGS) $(LIBS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean test
 test: testsuite
 	./testsuite
 
 clean:
-	rm -f testsuite
+	rm -f testsuite *.gcno

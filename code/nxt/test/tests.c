@@ -5,7 +5,7 @@
 
 int main() {
     T_TEST testcases[] = {
-        //{"Test main loop 1", test_main_loop},
+        {"Test main loop 1", test_main_loop},
         //{"Test main loop 2", test_main_loop}
     };
     int passes = 0;
