@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "target_location.h"
 
 #define DeclareTask(x) 
 #define DeclareResource(x) 
@@ -27,6 +28,10 @@ extern void display_update();
 extern void display_clear(uint32_t update_too);
 
 // USB
+
+extern void set_usb_input(uint8_t *buffer);
+extern void set_usb_input_to_target(T_TARGET_LOCATION target_location);
+extern bool usb_connected;
 
 extern uint32_t ecrobot_read_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len);
 extern void ecrobot_disconnect_usb();

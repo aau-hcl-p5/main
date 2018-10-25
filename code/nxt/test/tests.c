@@ -2,11 +2,13 @@
 
 #include "test_framework.h"
 #include "logic_test.h"
+#include "data_receive_test.h"
 
 int main() {
     T_TEST testcases[] = {
-        {"Test main loop 1", test_main_loop},
-        //{"Test main loop 2", test_main_loop}
+        {"Ensure sizeof target_locations is 4 byte", test_target_location_size},
+        {"Test read from usb", test_usb_read},
+        {"Test usb disconnect", test_usb_disconnect}
     };
     int passes = 0;
     int fails = 0;
