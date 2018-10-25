@@ -3,7 +3,7 @@ helper methods for the algorithm module
 This contains classes and methods that can help with the action of algorithms
 
 """
-from typing import Union
+from typing import Union, Optional
 
 import numpy as np
 
@@ -91,7 +91,7 @@ def _is_num(val) -> bool:
     return isinstance(val, (float, int))
 
 
-def screen_location_to_relative_location(frame: np.ndarray, position: Vector) -> Vector:
+def screen_location_to_relative_location(frame: np.ndarray, position: Optional[Vector]) -> Optional[Vector]:
     """
     This transforms the location on the screen to a value between -127, 127
     and does this with scaling in the sense of:
@@ -101,6 +101,14 @@ def screen_location_to_relative_location(frame: np.ndarray, position: Vector) ->
     :param position: The position on the frame
     :return: The output vector in range on x -y  [-127,127]
     """
-    half_size = Vector(frame.shape[1], frame.shape[0])//2
-    val = (position-half_size) / half_size
-    return val * val * (COMMUNICATION_OUT_RANGE // 2)
+    if position is None:
+        return None
+
+    half_size = Vector(frame.shape[1], frame.shape[0]) // 2
+
+    val = (half_size - position) / half_size
+
+    def dir_mod(input_value):
+        return -1 if input_value > 0 else 1
+
+    return Vector(val.x * val.x * dir_mod(val.x), val.y * val.y * dir_mod(val.y)) * (COMMUNICATION_OUT_RANGE // 2)

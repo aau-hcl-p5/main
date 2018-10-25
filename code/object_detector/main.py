@@ -23,9 +23,10 @@ import numpy as np
 
 import algorithms
 import webcam
-from algorithms import Result, Vector
+from algorithms import Result, Vector, screen_location_to_relative_location
 from communication import NxtUsb
 from communication import screen_debug_wrapper
+from communication.nxt_usb import DeviceNotFound
 
 
 class FlatController:
@@ -44,7 +45,11 @@ class FlatController:
         """
         self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
-        self.usb_connection = NxtUsb()
+        try:
+            self.usb_connection = NxtUsb()
+        except DeviceNotFound as e:
+            print(f"Usb initialization failed. Starting without ({e})")
+            self.usb_connection = None
         self.terminating = False
 
     def run(self) -> None:
@@ -54,8 +59,9 @@ class FlatController:
         """
         while True:
             loc = self._get_next_location()
-            if loc is not None and self.usb_connection:
-                self.usb_connection.write_data(Result(loc, int(time.time())))
+            if loc is not None and self.usb_connection is not None:
+                ts = 1  # nt(time.time())
+                self.usb_connection.write_data(Result(loc, ts))
             k = cv2.waitKey(5) & 0xFF  # escape char
             if k == 27:
                 break
@@ -66,7 +72,7 @@ class FlatController:
         :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}
         """
         frame = self.video_controller.get_current_frame()
-        res = self._algorithm(frame)
+        res = screen_location_to_relative_location(frame, self._algorithm(frame))
         screen_debug_wrapper(res, frame)
         return res
 

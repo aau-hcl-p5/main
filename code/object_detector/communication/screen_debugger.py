@@ -25,6 +25,7 @@ def screen_debug_wrapper(
     """
 
     if location:
+        location = location + Vector(frame.shape[1], frame.shape[0])//2
         for x in range(-size, size):
             for y in range(-size, size):
                 new_x = int(location.x + x)

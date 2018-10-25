@@ -15,6 +15,11 @@ from algorithms.result import Result
 ID_VENDOR_LEGO = 0x0694
 ID_PRODUCT_NXT = 0x0002
 
+class DeviceNotFound(Exception):
+    """
+    If the USB device  was not found
+    """
+    pass
 
 class NxtUsb:
     """
@@ -32,10 +37,9 @@ is the Result class from the algorithms module.
         """
         # find our device
         dev = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
-
         # was it found?
         if dev is None:
-            raise ValueError('Device not found')
+            raise DeviceNotFound('Device not found')
 
         # set the active configuration. With no arguments, the first
         # configuration will be the active one
@@ -67,7 +71,7 @@ is the Result class from the algorithms module.
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
-        if self.endpoint is not None:
+        if hasattr(self,'endpoint'):
             self.endpoint.write(b'\xFF\xFF\xFF\xFF')
         self.endpoint = None
 
