@@ -9,7 +9,6 @@ based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 
 import usb.core
 import usb.util
-from usb import Device
 
 from algorithms.result import Result
 
@@ -25,9 +24,6 @@ The information this class is build for sending,
 is the Result class from the algorithms module.
     """
     def __init__(self):
-        self.endpoint: Device = None
-
-    def init_usb_communication(self) -> None:
         """
         Initializes the usb communication,
         by finding the specific USB port based on
@@ -62,10 +58,8 @@ is the Result class from the algorithms module.
         should react upon by moving the turret
         :param data: a result data
         """
-        if not self.endpoint:
-            self.init_usb_communication()
-        self.endpoint.write(bytes([data.delta_x & 0xFF,
-                                   data.delta_y & 0xFF,
+        self.endpoint.write(bytes([data.location.x & 0xFF,
+                                   data.location.y & 0xFF,
                                    data.timestamp & 0xFF,
                                    (data.timestamp >> 8) & 0xFF]))
 

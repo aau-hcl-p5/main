@@ -12,7 +12,9 @@ which will handle movement of motors etc.
 
 """
 import argparse
+import datetime
 import sys
+import time
 from threading import Thread
 from typing import Callable, Optional
 
@@ -51,18 +53,21 @@ class FlatController:
         and continuously run this.
         """
         while True:
-            self._get_next_location()
+            loc = self._get_next_location()
+            if loc is not None and self.usb_connection:
+                self.usb_connection.write_data(Result(loc, int(time.time())))
             k = cv2.waitKey(5) & 0xFF  # escape char
             if k == 27:
                 break
 
     def _get_next_location(self) -> Vector:
-        res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
-        if res:
-            try:
-                self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
-            except:
-                pass
+        """
+
+        :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}
+        """
+        frame = self.video_controller.get_current_frame()
+        res = self._algorithm(frame)
+        screen_debug_wrapper(res, frame)
         return res
 
 

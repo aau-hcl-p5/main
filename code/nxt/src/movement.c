@@ -24,20 +24,6 @@ T_TARGET_LOCATION get_current_location(){
 }
 
 /*--------------------------------------------------------------------------*/
-/* Get_target_location:                                                     */
-/* ------------------------------------------------------------------------ */
-/* Description: This method is used to find the current location of 				*/
-/*							the target.                                                 */
-/* Params  : None                                                           */
-/* Returns : Returns target location, so that it can be accessed from       */
-/*           the outside.                                                   */
-/*--------------------------------------------------------------------------*/
-    
-T_TARGET_LOCATION get_target_location(){
-  return target_location;
-}
-
-/*--------------------------------------------------------------------------*/
 /* move_to:                                                                 */
 /* ------------------------------------------------------------------------ */
 /* Description: This method evaluates if the robot can hit the target.      */

@@ -34,7 +34,8 @@ It will:
                  fill_step_size: int = DEFAULT_FILL_STEP_SIZE,
                  required_steps_for_find: int = DEFAULT_REQUIRED_STEPS_FOR_FIND,
                  red_threshold: int = DEFAULT_RED_THRESHOLD,
-                 debug: bool = True
+                 debug: bool = True,
+                 dynamic_fill_size: bool =True
                  ) -> None:
         self.find_step_size = find_step_size
         self.fill_step_size = fill_step_size
@@ -42,6 +43,7 @@ It will:
         self.red_threshold = red_threshold
         self.debug = debug
         self._last_center: Optional[Vector] = None
+        self._dynamic_fill_size = dynamic_fill_size
 
     def locate_center(self, frame: np.ndarray) -> Optional[Vector]:
         """
@@ -57,6 +59,7 @@ It will:
             if self.debug:
                 print("No red object found!")
             self._last_center = None
+            self.fill_step_size = DEFAULT_FILL_STEP_SIZE
 
         return self._last_center
 
@@ -114,6 +117,10 @@ It will:
                 visited.add(neighbour)
                 queue.append(neighbour)
 
+        if self._dynamic_fill_size:
+            self.fill_step_size = max(DEFAULT_FILL_STEP_SIZE,
+                                      int(sum_elements_in_outline * self.fill_step_size / 75))
+            
         return sum_outline / sum_elements_in_outline
 
     def _is_red(self, x: int, y: int, frame: np.ndarray) -> bool:
