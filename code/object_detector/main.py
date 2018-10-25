@@ -68,7 +68,7 @@ class FlatController:
     def _get_next_location(self) -> Vector:
         res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
         if res:
-            self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
+            self.usb_connection.write_data(Result(int(res.x / 5), int(res.y / 5), 1))
         return res
 
 
