@@ -12,8 +12,10 @@ bool laser_state = false;
 void main_loop() {
     T_TARGET_LOCATION target_location;
     if (get_target_location(&target_location)) {
-        target_location.x -= 64;
-        target_location.y -= 48;
+
+        /*target_location.x -= 64;
+        target_location.y -= 48;*/
+
         move_to(target_location);
         move_motors();
     }

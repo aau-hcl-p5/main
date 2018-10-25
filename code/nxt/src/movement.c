@@ -53,17 +53,22 @@ void move_motors(){
   current_location.x = ecrobot_get_motor_rev(x_motor);
   current_location.y = ecrobot_get_motor_rev(y_motor);
 
+  T_TARGET_LOCATION actual_target_location = {current_location.x + target_location.x,
+                                              current_location.y + target_location.y,
+                                              target_location.timestamp};
+
   if(current_location.x > target_location.x){
-    ecrobot_set_motor_speed(x_motor, -x_motor_speed);
+
+    ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target_location.x));
   }
   else if(current_location.x < target_location.x){
-    ecrobot_set_motor_speed(x_motor, x_motor_speed);
+    ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target_location.x));
   }
   if(current_location.y > target_location.y){
-    ecrobot_set_motor_speed(y_motor, -y_motor_speed);
+    ecrobot_set_motor_speed(y_motor, get_speed_by_distance(target_location.y));
   }
   else if(current_location.y < target_location.y){
-    ecrobot_set_motor_speed(y_motor, y_motor_speed);
+    ecrobot_set_motor_speed(y_motor, get_speed_by_distance(target_location.y));
   }
 }
 
@@ -122,4 +127,18 @@ void stop_motors(){
 bool release_motor(uint8_t motor_id){
   nxt_motor_set_speed(motor_id, 0, 1);
   return true;
+}
+
+
+/*--------------------------------------------------------------------------*/
+/* get_speed_by_distance:                                                   */
+/* ------------------------------------------------------------------------ */
+/* Description: Gets the motor speed needed, based on distance on axis      */
+/* Params  : distance on a given axis from center to target                 */
+/* Returns : the motor speed (-100->100) that the motor should move         */
+/*--------------------------------------------------------------------------*/
+int get_speed_by_distance(int distance) {
+
+  int range = MOTOR_SPEED_UPPER_BOUND - MOTOR_SPEED_LOWER_BOUND
+  return -((distance - MOTOR_SPEED_LOWER_BOUND)*range)/MAX_INPUT_VALUE+MOTOR_SPEED_LOWER_BOUND
 }
