@@ -13,9 +13,12 @@ CSRC = $(filter-out ../src/nxt.c ../src/data_receive.c ../src/movement.c ../src/
 testsuite: $(CSRC)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-.PHONY: clean test
+.PHONY: clean test coverage
 test: testsuite
 	./testsuite
 
+coverage: testsuite
+	gcov * && grep "#####\|Source:" . -rh | sed -e "s/ -:    0:Source://g"
+
 clean:
-	rm -f testsuite *.gcno
+	rm -rf testsuite *.gcno *.gcda *.gcov

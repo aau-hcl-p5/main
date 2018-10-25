@@ -1,2 +1,4 @@
 testsuite
 *.gcno
+*.gcda
+*.gcov
