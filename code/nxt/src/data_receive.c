@@ -17,7 +17,7 @@ DeclareResource(USB_Rx);
 
 bool get_target_location(T_TARGET_LOCATION *out_location) {
 	int len;
-	U8 data[SIZEOF_USB_DATA]; /* first byte is preserved for disconnect request from host */
+	uint8_t data[SIZEOF_USB_DATA];
 
     memset(data, 0, SIZEOF_USB_DATA); /* flush buffer */
 	/* critical section */

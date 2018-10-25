@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "logic_stubs.h"
+#include "stubs.h"
 #include "logic_test.h"
 #include "logic.h"
 

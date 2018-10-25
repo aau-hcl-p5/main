@@ -1,21 +1,16 @@
-#include "movement.h"
+#include <stdint.h>
 
-T_TARGET_LOCATION get_current_location() {
-    T_TARGET_LOCATION loc = {0, 0, 0};
-    return loc;
-}
+#include "stubs.h"
 
-bool init_motor(uint8_t motor_id, char orientation, uint16_t speed) {
-    return true;
+uint8_t ecrobot_get_motor_rev(uint32_t motor) {
+    return 0;
 }
+void ecrobot_set_motor_speed(uint32_t motor, int speed) {
 
-bool release_motor(uint8_t motor_id) {
-    return true;
 }
-bool move_to(T_TARGET_LOCATION target_location) {
-    return true;
-}
+void nxt_motor_set_speed(uint32_t motor, int speed, int break_power) {
 
-void move_motors() {}
-void stop_motors() {}
-void move_motor(uint8_t motor_id, int32_t speed) {}
+}
+void nxt_motor_set_count(uint32_t motor, int count) {
+
+}
