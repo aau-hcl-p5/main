@@ -3,7 +3,10 @@ helper methods for the algorithm module
 This contains classes and methods that can help with the action of algorithms
 
 """
-from typing import Iterator, Union
+import math
+from typing import Union
+
+import numpy as np
 
 NumberType = Union[int, float]
 
@@ -85,3 +88,12 @@ class Vector:
 # Not sure why. but this DOES work.
 def _is_num(val) -> bool:
     return isinstance(val, (float, int))
+
+
+OUT_RANGE = 255  # 2**8
+
+
+def screen_location_to_relative_location(frame: np.ndarray, position: Vector) -> Vector:
+    size = Vector(frame.shape[1], frame.shape[0])/2
+    val = position / size
+    return val*val * (OUT_RANGE//2)
