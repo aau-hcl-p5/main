@@ -1,12 +1,13 @@
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 
-#include "target_location.h"
 #include <stdbool.h>
 
-int MOTOR_SPEED_UPPER_BOUND = 30;
-int MOTOR_SPEED_LOWER_BOUND = 15;
-int MAX_INPUT_VALUE = 127;
+#include "target_location.h"
+
+#define MOTOR_SPEED_UPPER_BOUND 30
+#define MOTOR_SPEED_LOWER_BOUND 15
+#define MAX_INPUT_VALUE 127
 
 // actual methods
 extern T_TARGET_LOCATION get_current_location();

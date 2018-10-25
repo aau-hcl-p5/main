@@ -23,10 +23,10 @@ class DeviceNotFound(Exception):
 
 class NxtUsb:
     """
-Used for USB communication with the NXT
-This is one-way and only broadcasting.
-The information this class is build for sending,
-is the Result class from the algorithms module.
+    Used for USB communication with the NXT
+    This is one-way and only broadcasting.
+    The information this class is build for sending,
+    is the Result class from the algorithms module.
     """
     def __init__(self):
         """
