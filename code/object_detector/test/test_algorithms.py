@@ -5,7 +5,10 @@ but rather tests subsets of the process in smaller simplistic cases
 """
 import unittest
 
-from algorithms import Goturn
+import numpy as np
+
+from algorithms import Goturn, ZoneAvgController, ObjectFillController, Vector
+from webcam import VideoController, CaptureDeviceType
 
 
 class TestGoturnAlgorithms(unittest.TestCase):
@@ -32,7 +35,58 @@ class TestGoturnAlgorithms(unittest.TestCase):
         :return:
         """
         self.assertEqual(
-            (1, 5),
-            Goturn().predict(self.test_string).coordinates,
+            Vector(1, 5),
+            Goturn().predict(self.test_string),
             msg="The returned coordinates did not match the expected output"
         )
+
+
+class TestZoneAvgAlgorithm(unittest.TestCase):
+
+    def test_detect_negative(self):
+        """
+        Test that the algorithm finds the correct location on the image.
+        The test frame is actually empty so it shouldn't return anything
+        TODO create positive test as well
+        """
+        controller = ZoneAvgController()
+        frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
+        output = controller.locate_center(frame)
+        self.assertIsNone(output)
+
+    def test_detect_positive(self):
+        """
+        Test that the algorithm finds the correct location on the image.
+        The initial frame is not empty so this should return a location.
+        #TODO verify that the location actually is correct.
+        """
+        controller = ZoneAvgController()
+        frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
+        output = controller.locate_center(frame)
+        goal = Vector(928,306)
+        self.assertEqual(output.as_int(), goal, f"{output.as_int()} (output) != {goal}")
+
+
+class TestObjectFillAlgorithm(unittest.TestCase):
+
+    def test_detect_negative(self):
+        """
+        Test that the algorithm finds the correct location on the image.
+        The initial frame is empty so this should return None
+        """
+        controller = ObjectFillController(debug=False)
+        frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
+        output = controller.locate_center(frame)
+        self.assertIsNone(output)
+
+    def test_detect_positive(self):
+        """
+        Test that the algorithm finds the correct location on the image.
+        The initial frame is not empty so this should return a location.
+        #TODO verify that the location actually is correct.
+        """
+        controller = ObjectFillController(debug=False)
+        frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
+        output = controller.locate_center(frame)
+        goal = Vector(912, 254)
+        self.assertEqual(output.as_int(), goal, msg=f"{output.as_int()} (output) != {goal}")

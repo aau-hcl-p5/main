@@ -308,6 +308,8 @@ function-naming-style=snake_case
 # Good variable names which should always be accepted, separated by a comma.
 good-names=i,
            j,
+           x,
+           y,
            k,
            ex,
            Run,
@@ -466,7 +468,7 @@ missing-member-max-choices=1
 [DESIGN]
 
 # Maximum number of arguments for function / method.
-max-args=5
+max-args=6
 
 # Maximum number of attributes for a class (see R0902).
 max-attributes=7

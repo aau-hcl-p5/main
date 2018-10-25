@@ -8,7 +8,7 @@ CSRC = $(wildcard ./*.c) \
        $(wildcard ../src/*.c)
 
 TMPVAR := $(CSRC)
-CSRC = $(filter-out ../src/nxt.c ../src/data_receive.c, $(TMPVAR))
+CSRC = $(filter-out ../src/nxt.c ../src/data_receive.c ../src/movement.c ../src/init_screen.c ../src/display_data.c, $(TMPVAR))
 
 testsuite: $(CSRC)
 	$(CC) -o $@ $^ -DTEST -I./ $(CFLAGS) $(LIBS)
