@@ -57,13 +57,10 @@ void move_motors(){
                                               current_location.y + target_location.y,
                                               target_location.timestamp};
 
-  if(current_location.x != actual_target_location.x){
+  // speed is 0 when distance is small enough.
+  ecrobot_set_motor_speed(x_motor, get_speed_by_distance(actual_target_location.x));
+  ecrobot_set_motor_speed(y_motor, get_speed_by_distance(actual_target_location.y));
 
-    ecrobot_set_motor_speed(x_motor, get_speed_by_distance(actual_target_location.x));
-  }
-  if(current_location.y != actual_target_location.y){
-    ecrobot_set_motor_speed(y_motor, get_speed_by_distance(actual_target_location.y));
-  }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -132,6 +129,11 @@ bool release_motor(uint8_t motor_id){
 /* Returns : the motor speed (-100->100) that the motor should move         */
 /*--------------------------------------------------------------------------*/
 int get_speed_by_distance(int distance) {
+  // 2 is a magic number that symbolizes the minimum distance for movement to be relevant.
+  if(distance < 2){
+    return 0
+  }
+
   int range = MOTOR_SPEED_UPPER_BOUND - MOTOR_SPEED_LOWER_BOUND;
   // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
   // otherwise we don't get a value in the expected range

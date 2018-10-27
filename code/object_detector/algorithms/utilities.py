@@ -7,7 +7,7 @@ from typing import Union, Optional
 
 import numpy as np
 
-COMMUNICATION_OUT_RANGE = 255  # 2**8
+COMMUNICATION_OUT_RANGE = 255  # 2**8 -1
 
 NumberType = Union[int, float]
 

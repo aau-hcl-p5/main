@@ -67,17 +67,15 @@ class NxtUsb:
                                    data.timestamp & 0xFF,
                                    (data.timestamp >> 8) & 0xFF]))
 
-    def disconnect(self) -> None:
+
+
+    def __del__(self):
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
-        if hasattr(self,'endpoint'):
+        if hasattr(self,'endpoint') and self.endpoint is not None:
             self.endpoint.write(b'\xFF\xFF\xFF\xFF')
         self.endpoint = None
-
-    def __del__(self):
-        self.disconnect()
-
 
 def _is_endpoint_out(endpoint) -> bool:
     return usb.util.endpoint_direction(endpoint.bEndpointAddress) == usb.util.ENDPOINT_OUT
