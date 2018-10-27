@@ -43,14 +43,12 @@ Pooling is a concept where multiple outputs are combined into a single neuron in
 This can be done in order to down-sample the input and reduce the complexity, making the CNN run faster.
 Some common examples of pooling is max pooling and average pooling, in which the average or max value is output from a number of input neurons.
 
-CNNs are an effective choice for classification. 
-This means it can answer whether the image is of a car.
+CNNs are an effective choice for classification, meaning that it can answer whether the image is of a car.
 Now the question is whether it can be used to figure out the position of the objects within the image.
 The answer can be found by looking into Regional Convolutional Neural Network
 
 
 \subsubsection{Regional Convolutional Neural Network}
-
 A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
 It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
@@ -98,7 +96,6 @@ This is also shown on Figure~\ref{fig:goturn-arch}.
 The premise is that the location of the object is known in the previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
-
 
 Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
