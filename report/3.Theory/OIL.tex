@@ -51,7 +51,8 @@ TASK(task1){
 
 \subsection{CPU and OS}
 The first thing specified in the OIL file is the CPU, which serves as a container for all other objects\cite{irisa25}.
-After the CPU, an OS is specified which is the object used to defined the setup of the operating system of the OSEK application. A CPU has to have exactly one OS object defined.
+After the CPU, an OS is specified which is the object used to defined the setup of the operating system of the OSEK application.
+A CPU has to have exactly one OS object defined.
 The OS has a series of attributes: 
 \subsubsection*{Status}
 Status specifies the level of error checking, which can be set to either \textit{standard} or \textit{extended}, where extended allows for additional return values for tasks, such as \textit{task is invalid} or \textit{task still occupies resources} \cite{irisa223}.\\
@@ -78,8 +79,10 @@ In the example, a task is declared with name \textit{task1} which corresponds to
 The first attribute of a task is \textbf{AUTOSTART} which defines whether the task should automatically start with the initialization of the system.
 Autostart of tasks is performed before the autostart of alarms, which will be described in Subsection~\ref{Subsec:OIL:ALARMS}\cite{irisa223}.
 As an attribute of \textit{AUTOSTART} one or more \textit{APPMODE} can be defined which defines in which application modes the task is auto-started.\\
-The \textbf{PRIORITY} of a task determines how important the scheduling of the given task is. A low number means low priority and vice versa. 
-The \textbf{ACTIVATION} attribute defines the maximum number of queued activation requests for the given task. A value of \textit{1} in the \textit{activation} attribute means that only a single activation is permitted at any time for this task.\\
+The \textbf{PRIORITY} of a task determines how important the scheduling of the given task is.
+A low number means low priority and vice versa. 
+The \textbf{ACTIVATION} attribute defines the maximum number of queued activation requests for the given task.
+A value of \textit{1} in the \textit{activation} attribute means that only a single activation is permitted at any time for this task.\\
 The \textbf{SCHEDULE} attribute defines the preemptability of the task, and can be set as either \textit{FULL} meaning that the task can be preempted or \textit{NON} meaning that it cannot.
 If the attribute is set to \textit{NON} no internal resources may be assigned to the task \cite{irisa25}.
 Finally, the attribute \textbf{STACKSIZE} defines the stack size for the given task.
@@ -113,14 +116,16 @@ An example of an alarm and counter can be seen below \cite{rms}:
   };
 \end{lstlisting}
 
-The thing that is defined in the alarm is the \textbf{counter} assigned to the alarm. At least one counter has to be assigned to the alarm.
+The first thing that is defined in the alarm is the \textbf{counter} assigned to the alarm.
+At least one counter has to be assigned to the alarm.
 The \textbf{ACTION} of the alarm is parametrised with either \textit{ActivateTask}, \textit{SetEvent}, or \textit{AlarmCallback}\cite{irisa25}.
 In this example \textit{ActivateTask} meaning that a task, in this case \textit{Task1}, has to be activated when the alarm expires. 
 Like a task, the alarm has to define whether it should auto-start or not.
 The auto-start has a property \textit{AlarmTime} which defines the time when the alarm shall expire first and \textit{CycleTime} defining the cycle time of a cyclic alarm \cite{irisa25}.
 
 \subsection{RESOURCE}
-In order to prevent multiple tasks from accessing the same critical region simultaneously, resources can be declared. Resources work as a semaphore and can be acquired and released in the code.
+In order to prevent multiple tasks from accessing the same critical region simultaneously, resources can be declared.
+Resources work as a semaphore and can be acquired and released in the code.
 A resource has a tribute called \textit{ResourceProperty}, which can be set as either:
 \begin{itemize}
 \item \textbf{Standard} meaning that the resource is not linked to another resource and is not an internal resource.
