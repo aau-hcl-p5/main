@@ -139,5 +139,9 @@ bool release_motor(uint8_t motor_id){
 /*--------------------------------------------------------------------------*/
 int get_speed_by_distance(int distance) {
   int range = MOTOR_SPEED_UPPER_BOUND - MOTOR_SPEED_LOWER_BOUND;
-  return -((distance - MOTOR_SPEED_LOWER_BOUND) * range) / MAX_INPUT_VALUE + MOTOR_SPEED_LOWER_BOUND;
+  // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
+  // otherwise we don't get a value in the expected range
+  int actual_lower_bound = MOTOR_SPEED_LOWER_BOUND * ((distance >= 0) ? 1 : -1)
+
+  return -(distance * range) / MAX_INPUT_VALUE + actual_lower_bound;
 }

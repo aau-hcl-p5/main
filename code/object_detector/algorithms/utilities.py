@@ -31,6 +31,16 @@ class Vector:
         """
         return Vector(int(self.x), int(self.y))
 
+    def dir(self) -> 'Vector':
+        """
+        Returns the direction of the vector (whether each axis is positive or negative)
+        :return: a vector with -1 or 1 on each axis.
+        """
+        return Vector(
+            1 if self.x >= 0 else -1,
+            1 if self.y >= 0 else -1,
+        )
+
     def __add__(self, other):
         if isinstance(other, Vector):
             return Vector(self.x + other.x, self.y + other.y)
@@ -51,6 +61,14 @@ class Vector:
             return Vector(self.x / other, self.y / other)
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)
+
+        raise NotImplementedError  # pragma: no cover
+
+    def __pow__(self, power, modulo=None):
+        if _is_num(power):
+            return Vector(self.x ** power, self.y ** power)
+        if isinstance(power, Vector):
+            return Vector(self.x ** power.x, self.y ** power.y)
 
         raise NotImplementedError  # pragma: no cover
 
@@ -76,6 +94,9 @@ class Vector:
         if not isinstance(other, Vector):
             return False
         return self.x == other.x and self.y == other.y
+
+    def __neg__(self):
+        return Vector(- self.x, - self.y)
 
     def __hash__(self):
         return (self.x, self.y).__hash__()
@@ -108,7 +129,6 @@ def screen_location_to_relative_location(frame: np.ndarray, position: Optional[V
 
     val = (half_size - position) / half_size
 
-    def dir_mod(input_value):
-        return -1 if input_value > 0 else 1
+    # dir is used because val.x * val.x will not keep the direction (negative or positive).
+    return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2)
 
-    return Vector(val.x * val.x * dir_mod(val.x), val.y * val.y * dir_mod(val.y)) * (COMMUNICATION_OUT_RANGE // 2)
