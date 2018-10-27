@@ -57,18 +57,12 @@ void move_motors(){
                                               current_location.y + target_location.y,
                                               target_location.timestamp};
 
-  if(current_location.x > target_location.x){
+  if(current_location.x != actual_target_location.x){
 
-    ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target_location.x));
+    ecrobot_set_motor_speed(x_motor, get_speed_by_distance(actual_target_location.x));
   }
-  else if(current_location.x < target_location.x){
-    ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target_location.x));
-  }
-  if(current_location.y > target_location.y){
-    ecrobot_set_motor_speed(y_motor, get_speed_by_distance(target_location.y));
-  }
-  else if(current_location.y < target_location.y){
-    ecrobot_set_motor_speed(y_motor, get_speed_by_distance(target_location.y));
+  if(current_location.y != actual_target_location.y){
+    ecrobot_set_motor_speed(y_motor, get_speed_by_distance(actual_target_location.y));
   }
 }
 
@@ -141,7 +135,7 @@ int get_speed_by_distance(int distance) {
   int range = MOTOR_SPEED_UPPER_BOUND - MOTOR_SPEED_LOWER_BOUND;
   // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
   // otherwise we don't get a value in the expected range
-  int actual_lower_bound = MOTOR_SPEED_LOWER_BOUND * ((distance >= 0) ? 1 : -1)
+  int actual_lower_bound = MOTOR_SPEED_LOWER_BOUND * ((distance >= 0) ? 1 : -1);
 
   return -(distance * range) / MAX_INPUT_VALUE + actual_lower_bound;
 }
