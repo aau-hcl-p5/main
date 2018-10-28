@@ -53,14 +53,18 @@ void move_motors(){
   current_location.x = ecrobot_get_motor_rev(x_motor);
   current_location.y = ecrobot_get_motor_rev(y_motor);
 
-  T_TARGET_LOCATION actual_target_location = {current_location.x + target_location.x,
-                                              current_location.y + target_location.y,
-                                              target_location.timestamp};
-
-  // speed is 0 when distance is small enough.
-  ecrobot_set_motor_speed(x_motor, get_speed_by_distance(actual_target_location.x));
-  ecrobot_set_motor_speed(y_motor, get_speed_by_distance(actual_target_location.y));
-
+  if(current_location.x > target_location.x){
+    ecrobot_set_motor_speed(x_motor, -x_motor_speed);
+  }
+  else if(current_location.x < target_location.x){
+    ecrobot_set_motor_speed(x_motor, x_motor_speed);
+  }
+  if(current_location.y > target_location.y){
+    ecrobot_set_motor_speed(y_motor, -y_motor_speed);
+  }
+  else if(current_location.y < target_location.y){
+    ecrobot_set_motor_speed(y_motor, y_motor_speed);
+  }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -118,26 +122,4 @@ void stop_motors(){
 bool release_motor(uint8_t motor_id){
   nxt_motor_set_speed(motor_id, 0, 1);
   return true;
-}
-
-
-/*--------------------------------------------------------------------------*/
-/* get_speed_by_distance:                                                   */
-/* ------------------------------------------------------------------------ */
-/* Description: Gets the motor speed needed, based on distance on axis      */
-/* Params  : distance on a given axis from center to target                 */
-/* Returns : the motor speed (-100->100) that the motor should move         */
-/*--------------------------------------------------------------------------*/
-int get_speed_by_distance(int distance) {
-  // 2 is a magic number that symbolizes the minimum distance for movement to be relevant.
-  if(distance < 2){
-    return 0;
-  }
-
-  int range = MOTOR_SPEED_UPPER_BOUND - MOTOR_SPEED_LOWER_BOUND;
-  // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
-  // otherwise we don't get a value in the expected range
-  int actual_lower_bound = MOTOR_SPEED_LOWER_BOUND * ((distance >= 0) ? 1 : -1);
-
-  return -(distance * range) / MAX_INPUT_VALUE + actual_lower_bound;
 }
