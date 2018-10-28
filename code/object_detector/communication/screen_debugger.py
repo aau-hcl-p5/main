@@ -12,29 +12,28 @@ from algorithms.utilities import Vector
 
 
 def screen_debug_wrapper(
-        algorithm: Callable[[np.ndarray], Vector],
-        frame: np.ndarray
-) -> Vector:  # pragma: no cover
+        location: Vector,
+        frame: np.ndarray,
+        size: int = 10,
+) -> None:  # pragma: no cover
     """
     A wrapper that takes a algorithm as input and runs it,
     and then displays the output to a image renderer
-    :param algorithm: The algorithm in question
-    :param frame:
-    :return:
+    :param location: location to highlight
+    :param frame: the current frame
+    :param size: the size of the debugging point
     """
-    target = algorithm(frame)
-    # target = Vector(100,100)
 
-    if target:
-        for x in range(-10, 10):
-            for y in range(-10, 10):
-                new_x = int(target.x + x)
-                new_y = int(target.y + y)
+    if location:
+        location = location + Vector(frame.shape[1], frame.shape[0])//2
+        for x in range(-size, size):
+            for y in range(-size, size):
+                new_x = int(location.x + x)
+                new_y = int(location.y + y)
                 try:
                     frame[new_y, new_x] = [0, 0x70, 0]
                 except IndexError:
                     pass
 
-    cv2.imshow('hottie', frame)  # pylint: disable=no-member
+    cv2.imshow('debug view', frame)  # pylint: disable=no-member
 
-    return target
