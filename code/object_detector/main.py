@@ -27,6 +27,7 @@ from algorithms import Result, Vector, screen_location_to_relative_location
 from communication import NxtUsb
 from communication import screen_debug_wrapper
 from communication.nxt_usb import DeviceNotFound
+from timeit import timeit
 
 
 class FlatController:
@@ -37,7 +38,8 @@ class FlatController:
 
     def __init__(self,
                  algorithm: Callable[[np.ndarray], Vector],
-                 capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA) -> None:
+                 capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA,
+                 get_next_location_wrapper=lambda f: f()) -> None:
         """
         Initializes the controller
         :param algorithm: The algorithm to use for image processing
@@ -51,6 +53,7 @@ class FlatController:
             print(f"Usb initialization failed. Starting without ({e})")
             self.usb_connection = None
         self.terminating = False
+        self._get_next_location_wrapped = lambda: get_next_location_wrapper(self._get_next_location)
 
     def run(self) -> None:
         """
@@ -58,7 +61,7 @@ class FlatController:
         and continuously run this.
         """
         while True:
-            loc = self._get_next_location()
+            loc = self._get_next_location_wrapped()
             if loc is not None and self.usb_connection is not None:
                 ts = 1  # nt(time.time())
                 self.usb_connection.write_data(Result(loc, ts))
@@ -68,7 +71,6 @@ class FlatController:
 
     def _get_next_location(self) -> Vector:
         """
-
         :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}
         """
         frame = self.video_controller.get_current_frame()
@@ -92,5 +94,6 @@ if __name__ == "__main__":
 
     ARGS = PARSER.parse_args()
 
-    cont = FlatController(algorithms.get_from_str(ARGS.alg_name))
+    cont = FlatController(algorithms.get_from_str(ARGS.alg_name), get_next_location_wrapper=lambda f:
+        print(timeit(f, number=1)))
     cont.run()
