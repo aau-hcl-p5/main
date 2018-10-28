@@ -131,7 +131,7 @@ bool release_motor(uint8_t motor_id){
 int get_speed_by_distance(int distance) {
   // 2 is a magic number that symbolizes the minimum distance for movement to be relevant.
   if(distance < 2){
-    return 0
+    return 0;
   }
 
   int range = MOTOR_SPEED_UPPER_BOUND - MOTOR_SPEED_LOWER_BOUND;

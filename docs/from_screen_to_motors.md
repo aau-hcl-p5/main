@@ -63,10 +63,10 @@ Therefore the actual range is something like -30 and -10 and 10 and 30
 These values of (-)10 and (-)30 should obviously be tweakable, but in these examples, 10 and 30 will be used for the sake of examples. 
 Input, in these constants, is the input of the function, which is the output of the USB module.
 
-`lower_bound = 10
-upper_bound = 30
-input_upperbound = 127
-range = upper_bound - lower_bound`
+	lower_bound = 10
+	upper_bound = 30
+	input_upperbound = 127
+	range = upper_bound - lower_bound
 
 normally mapping from input to output would be making the input into a range of -1 and 1, however this required floating point precision (otherwise we simply get -1, 0 or 1) so instead we do it in a bit of an other order.
 
