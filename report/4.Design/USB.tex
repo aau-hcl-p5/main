@@ -1,20 +1,20 @@
 \section{USB communication}
 \label{sec:usb}
 As described in the component diagram in section \ref{sec:architecture}, the system will consist of two seperate hardware platforms, that need to communicate.
-As the NXT is limited in communication to BlueTooth and USB, and bluetooth is too slow for a real-time system, the group has decided to use USB.
-According to the NXTOSEK documentation, the NXTOSEK library should also support built-in USB, through an easy to use API.
+As the NXT is limited in communication to Bluetooth and USB, and Bluetooth is too slow for a real-time system, the group has decided to use USB.
+According to the nxtOSEK documentation, the nxtOSEK library should also support built-in USB, through an easy to use API.
 When the group tested this functionality, it turned out that the driver for the PC/ RaspBerry no longer worked.
 
-However, since the driver is simply meant to be a translator between computers, and the devices attatched to them, the group decided to build their own driver, instead of just doing raw bit communication.
+However, since the driver is simply meant to be a translator between computers, and the devices attached to them, the group decided to build their own driver, instead of just doing raw bit communication.
 
 The driver library will consist of three parts.
 The initialization part, which will perform a handshake with the device, telling the NXT that it should expect communication.
-This part posed a bit of a challenge, as it was not documented anywhere what the handshake consisted of, or that it even existed.
-The group used a USB sniffer, attached to a working compiled program, to determine that the NXT expected two bytes x01, a 1 and xFF, 255.
+This part posed a bit of a challenge, as the handshake and its content was not documented, thus leaving us in the dark about its existence.
+The group used a USB sniffer, attached to a working compiled program, to determine that the NXT expected two bytes \texttt{x01}, a \texttt{1} and \texttt{xFF}, a \texttt{255}.
 
 The data writing part will perform the actual communication with the device, and will be concerned with sending the actual packets of data.
 
-Finally a disconnect part, which will send a message that tells the NXT to shut off the USB communication.
+Finally a disconnect part, which will send a message that tells the NXT to turn off the USB communication.
 
 The communication is described in the diagram here:
 
