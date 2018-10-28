@@ -56,8 +56,8 @@ It will:
         if object_position:
             self._last_center = self._fill_get_center(object_position, frame, image_size)
         else:
-            if self.debug:
-                print("No red object found!")
+            #if self.debug:
+                #print("No red object found!")
             self._last_center = None
             self.fill_step_size = DEFAULT_FILL_STEP_SIZE
 
