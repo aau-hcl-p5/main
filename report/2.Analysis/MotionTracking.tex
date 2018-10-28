@@ -10,16 +10,14 @@ Using a camera is powerful, since images can be processed in order to determine 
 Once the location of the object is determined within the image, the direction of the target can be calculated.
 Assuming that the camera is aimed in the same direction as the laser, the direction in which to aim will simply be calculated based on the delta x and y coordinates of the target within the image.
 
-Unfortunately the camera does also come with a couple of disadvantages.
+Unfortunately, the camera does also come with a couple of disadvantages.
 First of all, a normal camera will not be able to determine the distance to a target.
 Secondly, the camera will give a lot of excessive information, which will have to be processed in order to only keep the relevant information. 
 As a matter of fact, the relevant information is not even directly provided but rather deduced based on the information.
 As for the distance, the camera could be used along with a laser sensor used for the distance measuring\cite{Sensors}.
 
 \subsection{Image processing}
-Not only does the camera output too much information, but furthermore, the camera does not even provide the actual information needed.
-At least not directly that is.
-
+Not only does the camera output too much information, but furthermore, the camera does not even directly provide the actual information needed.
 The image will have to be processed in order to figure out where the target is located within.
 Unfortunately it is no easy task to recognize objects in images, and writing an algorithm that solves this problem can be quite tedious.
 However, there are a couple of different methods that can be used when detecting objects.
