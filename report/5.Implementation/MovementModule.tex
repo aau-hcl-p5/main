@@ -68,7 +68,7 @@ void move_motors(){
 }
 \end{lstlisting}
 Once the motors have engaged and the turret is aiming at the target, the motion should be stopped. 
-If power is simply removed from the motors the motor will loos their stiffness and the entire turret will power down. 
+If power is simply removed from the motors, they will lose their stiffness and the entire turret will power down. 
 To avoid this the motors has a function to simply set the speed of the motors to $0$ resulting in the motors locking up since they will actively try to counter act any motion. 
 As shown on Snippet~\ref{lst:StopMotors} this method is very simple but effective. 
 \begin{lstlisting}[language=CSharp,label={lst:StopMotors},caption={stop\_motors method from movement.c}]
