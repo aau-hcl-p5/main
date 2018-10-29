@@ -5,6 +5,8 @@ set -e
 if [[ $1 == "test" ]];
 then
 	make test -C test
+	make coverage -C test
+	make clean -C test
 else
 	if [[ $1 == "upload" ]];
 	then 

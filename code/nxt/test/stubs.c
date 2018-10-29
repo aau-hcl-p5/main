@@ -1,4 +1,4 @@
-#include "logic_stubs.h"
+#include "stubs.h"
 
 char *stub_ecrobot_status;
 int stub_last_delay;
