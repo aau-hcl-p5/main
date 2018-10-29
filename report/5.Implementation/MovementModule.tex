@@ -4,7 +4,7 @@ The module consists of multiple methods which is responsible for minor areas of 
 In the following subsections the movement module will be elaborated upon and some of the primary methods will be explained. 
 
 \subsection{The motors}
-Before using the Lego motors the NXT first needs to know which ports are used to each motor. 
+Before using the LEGO motors, the NXT needs to know which ports are used for each motor. 
 This is done as follows:
 \begin{lstlisting}[language=CSharp, label={lst:DeviceInit},caption={ecrobot\_device\_initialize method from movement.c}]
 void ecrobot_device_initialize(void){
@@ -12,7 +12,7 @@ void ecrobot_device_initialize(void){
   init_motor(NXT_PORT_B, 'y', 20);
 }
 \end{lstlisting}
-As it ca be seen on Snippet~\ref{lst:InitMotor} the port on the NXT is specified with an orientation and an initial speed.
+As seen on Snippet~\ref{lst:InitMotor} the port on the NXT is specified with an orientation and an initial speed.
 The \textit{init\_motor} method is declared as follows where the different parameters of the motor function is set up with initial values.
 
 \begin{lstlisting}[language=CSharp,label={lst:InitMotor},caption={init\_motor method from movement.c}]
@@ -79,5 +79,5 @@ void stop_motors(){
 \end{lstlisting}
 
 \subsection{Summery}
-Based on the methods described above the Lego turret is able to move based on the input given by the machine intelligence. 
+Based on the methods described above, the LEGO turret is able to move based on the input given by the machine intelligence. 
 Hence the purpose of the movement module is to facilitate the movement of the turret which has thereby been accomplished. 
