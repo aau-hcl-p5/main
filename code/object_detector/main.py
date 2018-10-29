@@ -12,16 +12,21 @@ which will handle movement of motors etc.
 
 """
 import argparse
-from typing import Callable
+import datetime
+import sys
+import time
+from threading import Thread
+from typing import Callable, Optional
 
 import cv2
 import numpy as np
 
 import algorithms
 import webcam
-from algorithms import Result, Vector
+from algorithms import Result, Vector, screen_location_to_relative_location
 from communication import NxtUsb
 from communication import screen_debug_wrapper
+from communication.nxt_usb import DeviceNotFound
 
 
 class FlatController:
@@ -40,35 +45,35 @@ class FlatController:
         """
         self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
-        self.usb_connection = NxtUsb()
+        try:
+            self.usb_connection = NxtUsb()
+        except DeviceNotFound as e:
+            print(f"Usb initialization failed. Starting without ({e})")
+            self.usb_connection = None
+        self.terminating = False
 
-    def start(self) -> None:
+    def run(self) -> None:
         """
         Start a separate thread for running the 'run' method,
         and continuously run this.
         """
-        try:
-            while 1:
-                self._get_next_location()
-                k = cv2.waitKey(5) & 0xFF
-                if k == 27:
-                    break
-        except:
-            self.stop()
-
-    def stop(self) -> None:
-        """
-        stop the thread running the FLAT object recognition
-        """
-        self.usb_connection.disconnect()
-
-    def _run(self):
-        pass
+        while True:
+            loc = self._get_next_location()
+            if loc is not None and self.usb_connection is not None:
+                ts = 1  # nt(time.time())
+                self.usb_connection.write_data(Result(loc, ts))
+            k = cv2.waitKey(5) & 0xFF  # escape char
+            if k == 27:
+                break
 
     def _get_next_location(self) -> Vector:
-        res = screen_debug_wrapper(self._algorithm, self.video_controller.get_current_frame())
-        if res:
-            self.usb_connection.write_data(Result(int(res.x / 10), int(res.y / 10), 1))
+        """
+
+        :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}
+        """
+        frame = self.video_controller.get_current_frame()
+        res = screen_location_to_relative_location(frame, self._algorithm(frame))
+        screen_debug_wrapper(res, frame)
         return res
 
 
@@ -80,9 +85,12 @@ if __name__ == "__main__":
 
     PARSER.add_argument(
         '-a', '--algorithm',
-        dest='alg_name', default='goturn',
+        dest='alg_name', default='obj_fill',
         type=str, metavar='[name]',
-        help="Choose which algorithm to run ['goturn', 'yolo']. default='goturn'")
+        help="Choose which algorithm to run "
+             f"[{', '.join(a.name for a in algorithms.AlgorithmType)}]. default='obj_fill'")
 
     ARGS = PARSER.parse_args()
-    FlatController(algorithms.ObjectFillController().locate_center).start()
+
+    cont = FlatController(algorithms.get_from_str(ARGS.alg_name))
+    cont.run()

@@ -49,8 +49,7 @@ CPU ATMEL_AT91SAM7S256
     };
   };
 
-
-  TASK Task_usb_read
+  TASK Task_background
   {
     AUTOSTART = TRUE
     {
@@ -60,18 +59,6 @@ CPU ATMEL_AT91SAM7S256
     ACTIVATION = 1;
     SCHEDULE = FULL;
     RESOURCE = USB_Rx;
-    STACKSIZE = 512;
-  };
-
-  TASK Task_background
-  {
-    AUTOSTART = TRUE
-    {
-      APPMODE = appmode1;
-    };
-    PRIORITY = 3; /* lowest priority */
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
     STACKSIZE = 512;
   };
 

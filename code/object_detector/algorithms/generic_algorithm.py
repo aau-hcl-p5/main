@@ -3,7 +3,9 @@ The abstract implementation of object detection algorithms.
 This exposes a lot of helper methods and generic variables,
 that are usable for implementation of specific algorithms
 """
-from algorithms.result import Result
+import numpy as np
+
+from algorithms.utilities import Vector
 
 
 class GenericAlgorithm:
@@ -13,7 +15,7 @@ class GenericAlgorithm:
     that are usable for implementation of specific algorithms
     """
 
-    def predict(self, data: str) -> Result:
+    def predict(self, data: np.ndarray) -> Vector:
         """
         this method runs through the algorithm on supplied data.
         :return: the result of the search

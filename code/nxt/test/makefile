@@ -1,21 +1,27 @@
 IDIR =../inc
 CC=gcc
-CFLAGS=-I$(IDIR)
+CFLAGS=-I$(IDIR) -I./ -fPIC -fprofile-arcs -ftest-coverage -g -lm -DTEST
 
 LIBS=-lm
 
-CSRC = $(wildcard ./*.c) \
-       $(wildcard ../src/*.c)
+SRCTEST = $(wildcard ./*.c)
 
-TMPVAR := $(CSRC)
-CSRC = $(filter-out ../src/nxt.c ../src/data_receive.c ../src/movement.c, $(TMPVAR))
+SRCC = $(wildcard ../src/*.c)
+CSRC = $(filter-out ../src/nxt.c, $(SRCC))
+COVSRC = $(CSRC:.c=.gcno)
+COV = $(COVSRC:../src/%=%)
 
-testsuite: $(CSRC)
-	$(CC) -o $@ $^ -DTEST -I./ $(CFLAGS) $(LIBS)
+SRC = $(SRCTEST) $(CSRC)
 
-.PHONY: clean test
+testsuite: $(SRC)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+.PHONY: clean test coverage
 test: testsuite
 	./testsuite
 
+coverage: testsuite
+	gcov $(COV)  && grep "#####\|Source:" . -rh | sed -e "s/ -:    0:Source://g"
+
 clean:
-	rm -f testsuite
+	rm -rf testsuite *.gcno *.gcda *.gcov
