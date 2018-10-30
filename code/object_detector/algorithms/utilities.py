@@ -130,5 +130,6 @@ def screen_location_to_relative_location(frame: np.ndarray, position: Optional[V
     val = (half_size - position) / half_size
 
     # dir is used because val.x * val.x will not keep the direction (negative or positive).
-    return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2)
+    return -val * (COMMUNICATION_OUT_RANGE // 2)
+    #return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2)
 

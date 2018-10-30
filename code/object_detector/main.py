@@ -59,9 +59,12 @@ class FlatController:
         """
         while True:
             loc = self._get_next_location()
-            if loc is not None and self.usb_connection is not None:
-                ts = 1  # nt(time.time())
-                self.usb_connection.write_data(Result(loc, ts))
+            if self.usb_connection is not None:
+                if loc is not None:
+                    ts = 1  # nt(time.time())
+                    self.usb_connection.write_data(Result(loc, ts))
+                else:
+                    self.usb_connection.write_data(None)
             k = cv2.waitKey(5) & 0xFF  # escape char
             if k == 27:
                 break

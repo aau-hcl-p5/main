@@ -60,3 +60,4 @@ def get_from_str(algorithm_name: str) -> Callable[[np.ndarray], Optional[Vector]
 
     return get_algorithm(algorithm_type)
 
+
