@@ -45,7 +45,7 @@ def get_algorithm(algorithm_type: AlgorithmType) -> Callable[[np.ndarray], Optio
     if algorithm_type is AlgorithmType.ZONE_AVG:
         return ZoneAvgController().locate_center
     if algorithm_type is AlgorithmType.OBJ_FILL:
-        return ObjectFillController(debug=True).locate_center
+        return ObjectFillController().locate_center
 
     raise NotImplementedError()
 

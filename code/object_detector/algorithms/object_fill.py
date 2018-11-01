@@ -34,7 +34,7 @@ It will:
                  fill_step_size: int = DEFAULT_FILL_STEP_SIZE,
                  required_steps_for_find: int = DEFAULT_REQUIRED_STEPS_FOR_FIND,
                  red_threshold: int = DEFAULT_RED_THRESHOLD,
-                 debug: bool = True,
+                 debug: bool = False,
                  dynamic_fill_size: bool =True
                  ) -> None:
         self.find_step_size = find_step_size
@@ -56,8 +56,6 @@ It will:
         if object_position:
             self._last_center = self._fill_get_center(object_position, frame, image_size)
         else:
-            #if self.debug:
-                #print("No red object found!")
             self._last_center = None
             self.fill_step_size = DEFAULT_FILL_STEP_SIZE
 
