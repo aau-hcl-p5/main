@@ -13,10 +13,10 @@ void display_target_location(T_TARGET_LOCATION loc)
 
   display_goto_xy(0, 1);
   display_string("dir: ");
-  display_goto_xy(5, 1);
-  display_int(loc.x, 3);
-  display_goto_xy(9, 1);
-  display_int(loc.y, 3);
+  display_goto_xy(4, 1);
+  display_int(loc.x, 5);
+  display_goto_xy(10, 1);
+  display_int(loc.y, 5);
 
 
   display_goto_xy(0, 2);

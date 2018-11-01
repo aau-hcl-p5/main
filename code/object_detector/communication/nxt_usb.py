@@ -63,10 +63,8 @@ class NxtUsb:
         :param data: a result data
         """
         if data is None:
-            print("NO!")
             self.endpoint.write(b'\xFF\xFF\xFF\x00')
         else:
-            print("YES!")
             self.endpoint.write(bytes([int(data.location.x) & 0xFF,
                                        int(data.location.y) & 0xFF,
                                        data.timestamp & 0xFF,
