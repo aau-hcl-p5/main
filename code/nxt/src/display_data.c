@@ -2,48 +2,75 @@
 
 #include "nxt.h"
 #include "display_data.h"
+#include "data_receive.h"
 #include "movement.h"
 
 void display_target_location(T_TARGET_LOCATION loc)
 {
-  display_goto_xy(0, 1);
-  display_string("t: "); // timestamp
-  display_goto_xy(4, 1);
-  display_int(loc.timestamp, 7);
+    display_clear(0);
+    display_update();
+   
+    /* HASH VERSION */
+    display_goto_xy(0, 0);
+    display_string("C.TIME:");
+    display_goto_xy(8, 0);
+    display_string(__TIME__);
 
-  display_goto_xy(0, 1);
-  display_string("dir: ");
-  display_goto_xy(4, 1);
-  display_int(loc.x, 5);
-  display_goto_xy(10, 1);
-  display_int(loc.y, 5);
-
-
-  display_goto_xy(0, 2);
-  display_string("spd: "); // speed
-  display_goto_xy(4, 2);
-  display_int(get_speed_by_distance(loc.x,'x'), 5);
-  display_goto_xy(10, 2);
-  display_int(get_speed_by_distance(loc.y,'y'), 5);
-
-
-  T_TARGET_LOCATION current_location = get_current_location();
-  display_goto_xy(0, 3);
-  display_string("loc: "); // location
-  display_goto_xy(4, 3);
-  display_int(current_location.x, 5);
-  display_goto_xy(10, 3);
-  display_int(current_location.y, 5);
+    /* IS TARGET FOUND? */
+    T_TARGET_LOCATION target_location;
+    get_target_location(&target_location);     
+    display_goto_xy(0, 1);
+    display_string("TARGET:");
+    display_goto_xy(9, 1);
+    if(target_location.timestamp == 0x00FF) {
+        display_string("GONE");
+    } else {
+        display_string("FOUND");
+    }
 
 
-  display_goto_xy(0, 4);
-  display_string("mod: "); // modifiers
-  display_goto_xy(4, 4);
-  display_int(x_lower_bound_modifier, 5);
-  display_goto_xy(10, 4);
-  display_int(y_lower_bound_modifier, 5);
+    /* POSITION */
+    T_TARGET_LOCATION current_location = get_current_location();
+    display_goto_xy(0, 2);
+    display_string("POSITION:");
 
+    display_goto_xy(0, 3);
+    display_string("X:");
+    display_goto_xy(3, 3);
+    display_int(current_location.x, 4);
 
+    display_goto_xy(9, 3);
+    display_string("Y:");
+    display_goto_xy(12, 3);
+    display_int(current_location.y, 4);
 
-  display_update();
+    /* POWER */
+    display_goto_xy(0, 4);
+    display_string("POWER:");
+
+    display_goto_xy(0, 5);
+    display_string("X:");
+    display_goto_xy(3, 5);
+    display_int(get_speed_by_distance(loc.x,'x'), 4);
+
+    display_goto_xy(9, 5);
+    display_string("Y:");
+    display_goto_xy(12, 5);
+    display_int(get_speed_by_distance(loc.y,'y'), 4);
+
+    /* MODIFIER */
+    display_goto_xy(0, 6);
+    display_string("MODIFIER:");
+
+    display_goto_xy(0, 7);
+    display_string("X:");
+    display_goto_xy(3, 7);
+    display_int(x_lower_bound_modifier, 4);
+
+    display_goto_xy(9, 7);
+    display_string("Y:");
+    display_goto_xy(12, 7);
+    display_int(y_lower_bound_modifier, 4);
+
+    display_update();
 }
