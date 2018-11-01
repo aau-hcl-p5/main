@@ -16,8 +16,8 @@ from algorithms.utilities import Vector
 DEFAULT_FIND_STEP_SIZE = 4
 DEFAULT_FILL_STEP_SIZE = 2
 DEFAULT_REQUIRED_STEPS_FOR_FIND = 3
-DEFAULT_RED_THRESHOLD = 10
-DEFAULT_MIN_AREA_SIZE = 50
+DEFAULT_RED_THRESHOLD = 4
+DEFAULT_MIN_TOTAL_REDNESS = 3000  # value of my mouth
 
 
 def _redness(x: int, y: int, frame: np.ndarray) -> int:
@@ -58,22 +58,32 @@ It will:
         """
 
         image_size = Vector(frame.shape[1], frame.shape[0])
-        new_center = None
 
-        # while new_center is None:
-        # for i in range(1):
+        # """
+        new_center = None
+        for i in range(10):
+            object_position = self._locate_object(frame, image_size)
+            if object_position:
+                new_center = self._fill_get_center(object_position, frame, image_size)
+                if new_center is not None:
+                    break
+            else:
+                break
+        for pixel in self._blacklisted_pixels:
+            if pixel is not None:
+                frame[pixel.y, pixel.x] = [0, 0, 0]
+        self._last_center = new_center
+        self._blacklisted_pixels = {None}
+        if new_center is None:
+            self.fill_step_size = DEFAULT_FILL_STEP_SIZE
+        """
         object_position = self._locate_object(frame, image_size)
         if object_position:
-            new_center = self._fill_get_center(object_position, frame, image_size)
-            # if new_center is not None:
-            #    pass  # break
-        # else:
-        #    pass  # break
-
-        self._last_center = new_center
-        #self._blacklisted_pixels = {None}
-        # if new_center is None:
-        #    self.fill_step_size = DEFAULT_FILL_STEP_SIZE
+            self._last_center = self._fill_get_center(object_position, frame, image_size)
+        else:
+            self._last_center = None
+            self.fill_step_size = DEFAULT_FILL_STEP_SIZE
+        #"""
 
         return self._last_center
 
@@ -87,27 +97,26 @@ It will:
 
         for y in range(0, int(image_size.y), step_size):
             for x in range(0, int(image_size.x) - 3 * step_size, bound):
-                #if Vector(x, y) in self._blacklisted_pixels:
-                #    continue
                 if y + self._last_center.y < image_size.y:
                     current_y = int(y + self._last_center.y)
-                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
+                    if all(self._is_red(z, current_y, frame) and Vector(z, current_y) not in self._blacklisted_pixels
+                           for z in range(x, x + bound, step_size)):
                         return Vector(x + step_size, current_y)
                 if self._last_center.y - y > 0:
                     current_y = int(self._last_center.y - y)
-                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
+                    if all(self._is_red(z, current_y, frame) and Vector(z, current_y) not in self._blacklisted_pixels
+                           for z in range(x, x + bound, step_size)):
                         return Vector(x + step_size, current_y)
         return None
 
     def _is_pixel_on_border(self, pixel: Vector, image_size: Vector) -> bool:
-        # return pixel in self._blacklisted_pixels or \
         return pixel.x - self.fill_step_size < 0 or \
                image_size.x - self.fill_step_size <= pixel.x + self.fill_step_size + 1 or \
                pixel.y - self.fill_step_size < 0 or \
                image_size.y - self.fill_step_size <= pixel.y + self.fill_step_size + 1
 
     def _get_neighbours(self, pixel: Vector, image_size: Vector) -> Set[Vector]:
-        if self._is_pixel_on_border(pixel, image_size):
+        if pixel in self._blacklisted_pixels or self._is_pixel_on_border(pixel, image_size):
             return set()
         x_dir_offset = Vector(self.fill_step_size, 0)
         y_dir_offset = Vector(0, self.fill_step_size)
@@ -125,30 +134,38 @@ It will:
             queue.append(neighbour)
             visited.add(neighbour)
         sum_outline = object_position
-        # sum_redness = _redness(object_position, frame)
+        self._blacklisted_pixels.add(object_position)
+        sum_redness = _redness(object_position.x, object_position.y, frame)
         sum_elements_in_outline = 1
         while queue:
             element = queue.popleft()
+            if element in self._blacklisted_pixels:
+                continue
+
             pixel_redness = _redness(element.x, element.y, frame)
-            if self._is_red(element.x, element.y, frame):
-            #if pixel_redness > self.red_threshold:
+            # is a bounding pixel
+            if pixel_redness < self.red_threshold:
                 sum_outline += element
                 sum_elements_in_outline += 1
-                # sum_redness += pixel_redness
-
                 if self.debug:
                     frame[int(element.y), int(element.x)] = [0, 255, 0]
                 continue
 
             for neighbour in self._get_neighbours(element, image_size) - visited:
+                sum_redness += pixel_redness
+                self._blacklisted_pixels.add(element)
                 visited.add(neighbour)
                 queue.append(neighbour)
 
         if self._dynamic_fill_size:
             self.fill_step_size = max(DEFAULT_FILL_STEP_SIZE,
                                       int(sum_elements_in_outline * self.fill_step_size / 75))
-        # if sum_redness > DEFAULT_MIN_AREA_SIZE:
-        return sum_outline / sum_elements_in_outline
+
+        if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
+            print(sum_redness)
+            return sum_outline / sum_elements_in_outline
+        else:
+            return None
         # else:
         # self._blacklisted_pixels = self._blacklisted_pixels | visited
         #    return None
