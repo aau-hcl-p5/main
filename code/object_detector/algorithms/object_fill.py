@@ -20,9 +20,7 @@ DEFAULT_RED_THRESHOLD = 10
 DEFAULT_MIN_AREA_SIZE = 50
 
 
-def _redness(vector: Vector, frame: np.ndarray) -> int:
-    x = int(vector.x)
-    y = int(vector.y)
+def _redness(x: int, y: int, frame: np.ndarray) -> int:
     return frame.item(y, x, 2) - frame.item(y, x, 1) - frame.item(y, x, 0)
 
 
@@ -93,16 +91,16 @@ It will:
                     continue
                 if y + self._last_center.y < image_size.y:
                     current_y = int(y + self._last_center.y)
-                    if all(self._is_red(Vector(z, current_y), frame) for z in range(x, x + bound, step_size)):
+                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
                         return Vector(x + step_size, current_y)
                 if self._last_center.y - y > 0:
                     current_y = int(self._last_center.y - y)
-                    if all(self._is_red(Vector(z, current_y), frame) for z in range(x, x + bound, step_size)):
+                    if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
                         return Vector(x + step_size, current_y)
         return None
 
     def _is_pixel_on_border(self, pixel: Vector, image_size: Vector) -> bool:
-        #return pixel in self._blacklisted_pixels or \
+        # return pixel in self._blacklisted_pixels or \
         return pixel.x - self.fill_step_size < 0 or \
                image_size.x - self.fill_step_size <= pixel.x + self.fill_step_size + 1 or \
                pixel.y - self.fill_step_size < 0 or \
@@ -131,7 +129,7 @@ It will:
         sum_elements_in_outline = 1
         while queue:
             element = queue.popleft()
-            pixel_redness = _redness(Vector(element.x, element.y), frame)
+            pixel_redness = _redness(element.x, element.y, frame)
             if pixel_redness > self.red_threshold:
                 sum_outline += element
                 sum_elements_in_outline += 1
@@ -154,6 +152,6 @@ It will:
         # self._blacklisted_pixels = self._blacklisted_pixels | visited
         #    return None
 
-    def _is_red(self, vector: Vector, frame: np.ndarray) -> bool:
+    def _is_red(self, x: int, y: int, frame: np.ndarray) -> bool:
 
-        return self.red_threshold < _redness(vector, frame)
+        return self.red_threshold < _redness(x, y, frame)
