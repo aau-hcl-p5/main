@@ -20,7 +20,7 @@ void display_target_location(T_TARGET_LOCATION loc)
     T_TARGET_LOCATION target_location;
     get_target_location(&target_location);     
     display_goto_xy(0, 1);
-    display_string("TARGET:");
+    display_string("TARGET");
     display_goto_xy(9, 1);
     if(target_location.timestamp == 0x00FF) {
         display_string("GONE");
