@@ -144,8 +144,8 @@ int8_t calibrate_modifier(uint8_t bound, uint16_t degrees, int8_t distance) {
 void readjust_lower_bound(T_TARGET_LOCATION target) {
 
   T_TARGET_LOCATION current_location = get_current_location();
-  int degrees_x = abs(current_location.x - last_location.x);
-  int degrees_y = abs(current_location.y - last_location.y);
+  int32_t degrees_x = abs(current_location.x - last_location.x);
+  int32_t degrees_y = abs(current_location.y - last_location.y);
 
   x_lower_bound_modifier = calibrate_modifier(x_lower_bound_modifier, degrees_x, target.x);
   y_lower_bound_modifier = calibrate_modifier(y_lower_bound_modifier, degrees_y, target.y);
