@@ -1,53 +1,48 @@
 \newpage
 \section{Problem definition}
-As a conclusion to the analysis, a summation of the various takeaways can be created. 
-This summation will result in a list of requirements, a set of test cases that can be used to verify the requirements, and a definitive problem statement.
-The requirements are goals defined by the group, and are primarily used to define what a succesful project is, both in accordance to the learning goals of the semester, aswell as in relation to the groups own ambitions
+As a conclusion to the analysis, a list of requirements, a set of test cases that can be used to verify the requirements, and a definitive problem statement can be defined.
+The requirements are goals defined by the group, and are primarily used to determine the success of the project, both in accordance to the learning goals of the semester, as well as in relation to the groups own ambitions.
 
 \subsection{Naming}
-Due to inconsistencies regarding the naming of the device during the analysis, the device will instead be named \texttt{F.L.A.T}, short for \texttt{Fixed Laser-guided Autonomous Turret}, and will be used instead of "the device", when applicable.
+In future sections, the "device", will be referred to as \texttt{F.L.A.T}, short for \texttt{Fixed Laser-guided Autonomous Turret}, when applicable.
 
 \subsection{Analysis takeaways}
 The primary takeaways from the analysis helped specify the specific platform and sensors that will be needed in the development of a solution, as well as reasonings for the usage of machine learning and the principles of real-time systems.
 
 The best platform choice was determined to be the NXT, primarily because of CPU limitations, which makes the project more interesting for the group, but also because of its interactability with hardware components.
 The project group also decided that actually hitting a target with a projectile would be irrelevant, and instead a laser will be used to determine a hit on the target.
-
 As a laser travels in a straight line, the project group can avoid working in a 3D space.
-Instead input will be gathered with a camera.
-A potential issue with the use of a camera, is incompatibility with the NXT.
+Instead input will be gathered with a camera, which leads to the potential issue: that the camera is incompatibility with the NXT.
 The solution here is to instead gather the video data on a secondary device, determining the position of the object on said secondary device, and then send the direction data of the target to the NXT.
 
 This means that the machine intelligence will be twofold.
-One will be the object recognition, i.e. determining the position of an object in an image.
-The other part will be the actual prediction of the trajectory of said object.
-This information is then trans-coded into a movement of a motor on either a horizontal or vertical axis.
-All these steps should happen rather fast, which creates interesting problems in regards to real-time systems.
+One will be the object recognition, i.e. determining the position of an object in an image, while the other part will be the actual prediction of the trajectory of said object.
+This information is then transcoded into a movement of a motor on either a horizontal or vertical axis.
+All these steps should happen in a timely manner, which creates interesting problems in regards to real-time systems.
 
 \subsection{Problem statement}
 Based on these takeaways, and the initial problem in Section~\ref{key:initialProblem}, a concrete problem statement can be formulated:\\~\\
 \begin{center}
-	
+
 	\textit{\large{How can we create a autonomous turret, that is able to track a moving target in real time?}}
 \end{center}~\\~\\
 
 The problem statement can be made more explicit with the following sub-problems:
 \begin{center}
 	\begin{itemize}
-		\item Can the NXT handle the trajectory prediction of an inanimate moving object?
-		\item How can the communication between the different devices be designed, so that it (communication) is as fast as possible? 
-		\item Can a software solution identify a moving target and specify it's location?
+		\item How can the NXT handle the trajectory prediction of an inanimate moving object?
+		\item How can the communication between the different devices be designed, so that it (communication) is as fast as possible?
+		\item How can a software solution identify a moving target and specify it's location?
 		\item How can quick targeting, i.e. the action of moving the turret to the target, be ensured?
 	\end{itemize}
 \end{center}
 
 
-\subsection{Requirements}
+\subsection{Requirements}\label{subsec:requirements}
 Having successfully elucidated the problem statement problem and its associated challenges, a series  of requirements will have to be formulated in order to be able to conclude upon the success of the project.
 
-To formally specify the requirements, the MoSCoW analysis model will be utilized. 
-The MoSCoW model specifies which requirements \textbf{M}ust, \textbf{S}hould, \textbf{C}ould, and \textbf{W}on't be fulfilled to deem the project successful.\\
 
+To formally specify the requirements, the MoSCoW analysis model will be utilized, which is a model that specifies which requirements \textbf{M}ust, \textbf{S}hould, \textbf{C}ould, and \textbf{W}on't be fulfilled to deem the project successful. 
 Throughout this analysis, the term \textit{target} will refer to respectively; a small inanimate target, eg{.} a ball with a diameter of approximately 10 centimetres, or a large inanimate target, eg{.} an inflated balloon.
 The requirements of the system are based upon the results of the points examined in the rest of problem analysis.
 
@@ -74,27 +69,27 @@ The requirements of the system are based upon the results of the points examined
 	\item calculate the angle and power necessary to hit the target with a projectile
 \end{itemize}
 
-\textbf{Won't have at this time}
+\textbf{Won't have}
 \begin{itemize}
 	\item ability to actually take down targets
 	\item ability to differentiate between the type of object that is being observed
 \end{itemize}
 
-By fulfilling the requirements specified in the \textit{must have} section, the device will be able to track a target with a rather predictable movement pattern and use the attached laser to indicate the tracking. 
+By fulfilling the requirements specified in the \textit{must have} section, the device will be able to track a target with a rather predictable movement pattern and use the attached laser to indicate the tracking.
 With the \textit{should have} requirements the functionality of the device is extended to track more advanced movement patterns, which in a real life scenario could be drones or birds in the air while still using the laser to indicate the tracking.
 If the \textit{could have} requirements are fulfilled the device will be able to calculate the distance to the observed target, calculate angle and power required to hit the target and fire a ballistic projectile at it.
 Finally, the \textit{won't have} requirements are deemed outside the scope of the current project and focus on the future application of the device, which would require more efficient projectiles in order to take down the observed target and being able to differentiate between whether the object is a threat or not.
 
 \subsection{Test cases}
-To determine if the requirements have been fulfilled, in a completely binary sense, we created a couple of test cases, or scenarios, which the solution should be able to complete. 
-This subsection will present four test cases, two \textit{need to have} and two \textit{nice to have}, and argue why these are realistic and reflect the requirements.
+To determine if the requirements have been fulfilled, in a completely binary sense, we created a couple of test cases, or scenarios, which the solution should be able to complete.
+This subsection will present four test cases, two \textit{should have} and two \textit{could have}, corresponding with the MoSCoW naming, and argue why these are realistic and reflect the requirements.
 When doing these tests, the target should be a color that contrasts the surrounding area.
 As our group rooms primarily have white walls, a good option is red.
 Some test-cases will mention a balloon, which is 27 centimetres in diameter, while others mention a rubber ball, which is approximately 5-10 centimetres in diameter.
 All distances between the turret and the target are only based on the horizontal plane, which means the vertical distance is excluded.
 
 \subsubsection{Dropping a ballon}
-\textit{A balloon is dropped from the ceiling, approximately 2-2.5 meters from the floor.	
+\textit{A balloon is dropped from the ceiling, approximately 2-2.5 meters from the floor.
 The \texttt{F.L.A.T} should hit the balloon before it hits the ground.
 The \texttt{F.L.A.T} should be approximately 4 meters away from the ballon.}
 
@@ -103,7 +98,7 @@ This example has some time restrictions, as the balloon will need to be hit befo
 
 \subsubsection{Rolling a ball}
 \textit{The \texttt{F.L.A.T} sits on the edge of a table, approximately 80 centimetres tall.
-A ball is rolling on the floor below the table at approximately .2-.5 m/s. 
+A ball is rolling on the floor below the table at approximately 0.2-0.5 m/s.
 The distance between the turret and the target should not be more than 2 meter.}
 
 This test case has a smaller target, that will move less regularly.
@@ -112,7 +107,7 @@ Furthermore, rolling a ball on the floor will require the movement on multiple a
 The speed of the ball was determined by rolling a ball across a distance of 120 centimetres and finding a speed that was deemed reasonable.
 
 \subsubsection{Throwing a ball}
-\textit{\textbf{[NICE TO HAVE]}}\\
+\textit{\textbf{[COULD HAVE]}}\\
 \textit{Two people throw a ball back and forth, approximately 3 meters apart, throwing in an angle of approximately 45 degrees.
 The \texttt{F.L.A.T} should hit the ball before it is caught.
 The \texttt{F.L.A.T} should be approximately 4 meters from people.}
@@ -121,17 +116,17 @@ The difficulty of this test case primarily comes from the speed at which the tur
 Additional difficulty comes from potential irregularities in the throw by the people, as well as additional noise in the image.
 Nevertheless, this is interesting in relation to further improve the efficiency of the solution, and would be an impressive achievement if possible.
 
-This test case is \textbf{nice to have} as it is a difficult challenge, however the test should be conducted, to determine the limitations of the \texttt{F.L.A.T}.
+This test case is \textbf{could have} as it is a difficult challenge, however the test should be conducted, to determine the limitations of the \texttt{F.L.A.T}.
 The distance between the two people and the angle is based on throwing the ball back and forth in front of a webcam to test the amount of frames in which the ball is visible.
-The angle is relevant to make sure the ball is not thrown too hard, as the angle limits the force with which the ball can be thrown for it to fly no more than 3 meters. 
+The angle is relevant to make sure the ball is not thrown too hard, as the angle limits the force with which the ball can be thrown for it to fly no more than 3 meters.
 
 \subsubsection{Shooting a balloon}
-\textit{\textbf{[NICE TO HAVE]}}\\
-\textit{A balloon is dropped from the ceiling at approximately 2 meters height.	
+\textit{\textbf{[COULD HAVE]}}\\
+\textit{A balloon is dropped from the ceiling at approximately 2 meters height.
 The \texttt{F.L.A.T} should to hit the balloon, with a projectile, before the ballon hits the ground.
 The \texttt{F.L.A.T} should be approximately 4 meters away from the ballon.}
 
 This test case is similar to the \textit{dropping a ballon} test case, with the additional introduction of a projectile being shot from the \texttt{F.L.A.T}.
 This is a \textit{could have} feature, which is closely connected to the initial problem and the reasoning behind it.
 Completing this test case would take the solution from being a primarily theoretical implementation, to a solution with practical implementations.
-However, completeting this test case also requires the consideration of distance, and some way to approximate this at real-time, which might require additional hardware components.
+However, completing this test case also requires the consideration of distance, and some way to approximate this at real-time, which might require additional hardware components.

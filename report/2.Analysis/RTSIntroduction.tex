@@ -13,7 +13,7 @@ Even in the simple case of hitting a ball, a rather mundane target in relation t
 This is done by using the principles of real-time systems, and looking at specific problems relating to the issue of this report.
 
 \subsection{Deadlines}
-As the device has to predict where to aim the laser, it is important to know exactly how long it takes for the device to react, with a reasonable degree of scientific certainty, such that the laser is going to lead the target, rather than follow it. 
+As the device has to predict where to aim the laser, it is important to know exactly how long it takes for the device to react, with a reasonable degree of scientific certainty such that the laser is going to lead the target, rather than follow it. 
 The deadline, in this case is the time-frame of a given prediction, as given by the trajectory prediction module, as the data will become obsolete within an arbitrary time frame.
 This time frame can either be dynamic, based on the predictability of a given target, or a constant specified at the time of development.
 
@@ -21,10 +21,8 @@ This time frame can either be dynamic, based on the predictability of a given ta
 Being able to schedule the relevant events; processing the image, predicting the trajectory, and moving the motors, before the data is irrelevant, or the target is out of sight are all important parts of the system.
 To achieve this, certain analytic considerations need to be made, regarding the time frame of these actions. 
 Likewise, it is relevant to consider the order in which the different tasks are executed, and estimate which tasks have the highest level of relevance.
-
-\subsection{Takeaway}
+\\\\
 Looking into how to optimize the different processes is important and will be elaborated upon in Section~\ref{Theory:RTS}.
-% TODO make sure this ref exists at some point
 Without considering the order in which to do tasks, and the expected time frame of a task, it is impossible to interact with a moving targets and a changing world. 
 Therefore, the principles of real-time systems, are quite relevant to the problems of this project.
 
