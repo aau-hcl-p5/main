@@ -10,7 +10,7 @@ void display_target_location(T_TARGET_LOCATION loc)
     display_clear(0);
     display_update();
    
-    /* HASH VERSION */
+    /* SHOW COMPILATION TIME TO CHECK IF RIGHT VERSION IS RUNNING */
     display_goto_xy(0, 0);
     display_string("C.TIME:");
     display_goto_xy(8, 0);
