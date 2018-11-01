@@ -25,8 +25,6 @@
 extern uint8_t x_lower_bound_modifier;
 extern uint8_t y_lower_bound_modifier;
 
-// actual methods
-
 extern bool init_motor(uint8_t motor_id, char orientation, uint16_t speed);
 extern bool release_motor(uint8_t motor_id);
 
