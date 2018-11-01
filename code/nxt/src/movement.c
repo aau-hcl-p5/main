@@ -101,8 +101,8 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
   }
 
 
-  int8_t lower_bound = get_lower_bound(axis);
-  int8_t range = get_range(axis);
+  uint8_t lower_bound = get_lower_bound(axis);
+  uint8_t range = get_range(axis);
 
   // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
   // otherwise we don't get a value in the expected range

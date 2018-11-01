@@ -32,15 +32,15 @@ extern bool release_motor(uint8_t motor_id);
 
 extern void move(T_TARGET_LOCATION target_location);
 extern void stop_motors();
-extern int get_speed_by_distance(int distance, char axis);
+extern int8_t get_speed_by_distance(int8_t distance, char axis);
 extern T_TARGET_LOCATION get_current_location();
 
-extern int readjust_lower_bound(T_TARGET_LOCATION target);
+extern void readjust_lower_bound(T_TARGET_LOCATION target);
 
 
-bool is_moving_too_slow(int degrees, int distance);
-bool is_moving_too_fast(int degrees, int distance);
+bool is_moving_too_slow(uint16_t degrees, int8_t distance);
+bool is_moving_too_fast(uint16_t degrees, int8_t distance);
 
-int get_range(char axis);
-int get_lower_bound(char axis);
+uint8_t get_range(char axis);
+uint8_t get_lower_bound(char axis);
 #endif
