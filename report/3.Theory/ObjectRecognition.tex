@@ -2,7 +2,7 @@
 To be able to figure out where the target is, its location within the video stream has to be determined.
 It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
 As mentioned in section~\ref{sec:obj_tracking}, object recognition algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
-Although the initial target of the device may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
+Although the initial target of the  \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
 Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries we have at our disposal.
 
 \subsection{Neural Networks}
@@ -97,7 +97,7 @@ The premise is that the location of the object is known in the previous frame, a
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
 
-Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as our device will have idle time.
+Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as the  \texttt{F.L.A.T} will have idle time.
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
