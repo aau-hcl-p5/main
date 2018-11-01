@@ -16,7 +16,7 @@ DeclareResource(USB_Rx);
 #define SIZEOF_USB_DATA sizeof(T_TARGET_LOCATION)
 
 bool get_target_location(T_TARGET_LOCATION *out_location) {
-	int len;
+	int32_t len;
 	uint8_t data[SIZEOF_USB_DATA];
 
     memset(data, 0, SIZEOF_USB_DATA); /* flush buffer */
