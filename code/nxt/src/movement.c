@@ -95,18 +95,18 @@ bool release_motor(uint8_t motor_id) {
 /* Params  : distance on a given axis from center to target                 */
 /* Returns : the motor speed (-100->100) that the motor should move         */
 /*--------------------------------------------------------------------------*/
-int get_speed_by_distance(int distance, char axis) {
+int8_t get_speed_by_distance(int8_t distance, char axis) {
   if(distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
     return 0;
   }
 
 
-  int lower_bound = get_lower_bound(axis);
-  int range = get_range(axis);
+  int8_t lower_bound = get_lower_bound(axis);
+  int8_t range = get_range(axis);
 
   // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
   // otherwise we don't get a value in the expected range
-  int actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
+  int8_t actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
 
   return -((distance * range) / MAX_INPUT_VALUE + actual_lower_bound);
 }
@@ -119,13 +119,13 @@ T_TARGET_LOCATION get_current_location() {
 }
 
 // -127 < distance < 127
-int calibrate_modifier(uint8_t bound, int degrees, int distance) {
-  // meaning degrees is more than 5 at a "full speed" (127/5)
-  // at a smaller distance then degrees can obviously be smaller
+int8_t calibrate_modifier(uint8_t bound, uint16_t degrees, int8_t distance) {
 
   if (degrees < 1) {
     bound++;
   }
+  // meaning degrees is more than 5 at a "full speed" (127/5)
+  // at a smaller distance then degrees can obviously be smaller
   else if(distance/degrees < 25) {
     bound--;
   }
@@ -153,7 +153,7 @@ void readjust_lower_bound(T_TARGET_LOCATION target) {
   last_location = current_location;
 }
 
-int get_lower_bound(char axis) {
+uint8_t get_lower_bound(char axis) {
 
 
   bool is_x = axis == 'x';
@@ -162,7 +162,7 @@ int get_lower_bound(char axis) {
          (MOTOR_SPEED_LOWER_BOUND_Y + y_lower_bound_modifier);
 }
 
-int get_range(char axis) {
+uint8_t get_range(char axis) {
   bool is_x = axis == 'x';
   return is_x ? MOTOR_RANGE_X : MOTOR_RANGE_Y;
 }
