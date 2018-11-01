@@ -2,15 +2,19 @@
 #define MOVEMENT_H
 
 #include <stdbool.h>
-#include <stdlib.h>
 
 #include "target_location.h"
 
-#define MOTOR_RANGE_Y 10 // 50
+#define MOTOR_RANGE_Y 10
 #define MOTOR_SPEED_LOWER_BOUND_Y 20
 
-#define MOTOR_RANGE_X 10 // 80
+#define MOTOR_RANGE_X 10
 #define MOTOR_SPEED_LOWER_BOUND_X 15
+
+
+#define MAX_POWER_MODIFIER 40
+
+#define MAGIC_NUMBER_1 100
 
 
 #define MOTOR_DEADZONE 10

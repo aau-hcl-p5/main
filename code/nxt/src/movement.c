@@ -1,5 +1,6 @@
 #include "movement.h"
 #include "nxt.h"
+#include <stdlib.h>
 
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
@@ -11,7 +12,7 @@ uint16_t y_motor_speed = 0;
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
 
-T_TARGET_LOCATION last_location = {0,0,0};
+T_TARGET_LOCATION last_location = {0, 0, 0};
 
 
 /*--------------------------------------------------------------------------*/
@@ -23,10 +24,10 @@ T_TARGET_LOCATION last_location = {0,0,0};
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
 
-void move(T_TARGET_LOCATION target){
+void move(T_TARGET_LOCATION target) {
   // speed is 0 when distance is small enough.
-  ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target.x,'x'));
-  ecrobot_set_motor_speed(y_motor, -get_speed_by_distance(target.y,'y'));
+  ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target.x, 'x'));
+  ecrobot_set_motor_speed(y_motor, -get_speed_by_distance(target.y, 'y'));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -40,8 +41,8 @@ void move(T_TARGET_LOCATION target){
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
 
-bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
-  if(orientation == 'x'){
+bool init_motor(uint8_t motor_id, char orientation, uint16_t speed) {
+  if(orientation == 'x') {
     x_motor = motor_id;
     x_motor_speed = speed;
     ecrobot_set_motor_speed(x_motor, 0);
@@ -49,7 +50,7 @@ bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
     last_location.x = ecrobot_get_motor_rev(motor_id);
     return true;
   }
-  else if(orientation == 'y'){
+  else if(orientation == 'y') {
     y_motor = motor_id;
     y_motor_speed = speed;
     ecrobot_set_motor_speed(y_motor, 0);
@@ -68,7 +69,7 @@ bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
 
-void stop_motors(){
+void stop_motors() {
   nxt_motor_set_speed(x_motor, 0, 1);
   nxt_motor_set_speed(y_motor, 0, 1);
 }
@@ -81,7 +82,7 @@ void stop_motors(){
 /* Returns : returns true if the release was succesful.                     */
 /*--------------------------------------------------------------------------*/
 // Should probably check whether motor_id is in use. But it releases the motor.
-bool release_motor(uint8_t motor_id){
+bool release_motor(uint8_t motor_id) {
   nxt_motor_set_speed(motor_id, 0, 1);
   return true;
 }
@@ -95,7 +96,7 @@ bool release_motor(uint8_t motor_id){
 /* Returns : the motor speed (-100->100) that the motor should move         */
 /*--------------------------------------------------------------------------*/
 int get_speed_by_distance(int distance, char axis) {
-  if(distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE){
+  if(distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
     return 0;
   }
 
@@ -129,16 +130,18 @@ int calibrate_modifier(uint8_t bound, int degrees, int distance) {
     bound--;
   }
 
-  if(bound > 40) {
-    bound = 30;
-  }
-  if(bound > 100) { // overflow
+  // catches overflow, as MAGIC_NUMBER_1 is a number that speed shouldn't ever be.
+  if(bound > MAGIC_NUMBER_1) {
     bound = 0;
+  }
+
+  if(bound > MAX_POWER_MODIFIER) {
+    bound = MAX_POWER_MODIFIER;
   }
   return bound;
 }
 
-int readjust_lower_bound(T_TARGET_LOCATION target){
+void readjust_lower_bound(T_TARGET_LOCATION target) {
 
   T_TARGET_LOCATION current_location = get_current_location();
   int degrees_x = abs(current_location.x - last_location.x);
