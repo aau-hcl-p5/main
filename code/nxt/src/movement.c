@@ -23,11 +23,10 @@ T_TARGET_LOCATION last_location = {0,0,0};
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
 
-bool move(T_TARGET_LOCATION target){
+void move(T_TARGET_LOCATION target){
   // speed is 0 when distance is small enough.
   ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target.x,'x'));
   ecrobot_set_motor_speed(y_motor, -get_speed_by_distance(target.y,'y'));
-  return true;
 }
 
 /*--------------------------------------------------------------------------*/
