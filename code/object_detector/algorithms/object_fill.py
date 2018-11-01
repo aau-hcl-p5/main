@@ -65,15 +65,15 @@ It will:
         object_position = self._locate_object(frame, image_size)
         if object_position:
             new_center = self._fill_get_center(object_position, frame, image_size)
-            if new_center is not None:
-                pass  # break
-        else:
-            pass  # break
+            # if new_center is not None:
+            #    pass  # break
+        # else:
+        #    pass  # break
 
         self._last_center = new_center
-        self._blacklisted_pixels = {None}
-        if new_center is None:
-            self.fill_step_size = DEFAULT_FILL_STEP_SIZE
+        #self._blacklisted_pixels = {None}
+        # if new_center is None:
+        #    self.fill_step_size = DEFAULT_FILL_STEP_SIZE
 
         return self._last_center
 
@@ -87,8 +87,8 @@ It will:
 
         for y in range(0, int(image_size.y), step_size):
             for x in range(0, int(image_size.x) - 3 * step_size, bound):
-                if Vector(x, y) in self._blacklisted_pixels:
-                    continue
+                #if Vector(x, y) in self._blacklisted_pixels:
+                #    continue
                 if y + self._last_center.y < image_size.y:
                     current_y = int(y + self._last_center.y)
                     if all(self._is_red(z, current_y, frame) for z in range(x, x + bound, step_size)):
@@ -130,7 +130,8 @@ It will:
         while queue:
             element = queue.popleft()
             pixel_redness = _redness(element.x, element.y, frame)
-            if pixel_redness > self.red_threshold:
+            if self._is_red(element.x, element.y, frame):
+            #if pixel_redness > self.red_threshold:
                 sum_outline += element
                 sum_elements_in_outline += 1
                 # sum_redness += pixel_redness
