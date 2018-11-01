@@ -12,9 +12,14 @@ bool laser_state = false;
 void main_loop() {
     T_TARGET_LOCATION target_location;
     if (get_target_location(&target_location)) {
-
-        move_to(target_location);
-        move_motors();
+        if(target_location.timestamp != 0x00FF)
+        {
+            move(target_location);
+            readjust_lower_bound(target_location);
+        }
+        else {
+            stop_motors();
+        }
     }
 }
 
@@ -30,6 +35,6 @@ uint32_t get_distance(uint32_t sensor_id) {
     return 0;
 }
 
-bool predict_trajectory(T_TARGET_LOCATION point){
+bool predict_trajectory(T_TARGET_LOCATION point) {
     return 0;
 }
