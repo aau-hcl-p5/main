@@ -26,12 +26,14 @@ void display_target_location(T_TARGET_LOCATION loc)
   display_goto_xy(10, 2);
   display_int(get_speed_by_distance(loc.y,'y'), 5);
 
+
+  T_TARGET_LOCATION current_location = get_current_location();
   display_goto_xy(0, 3);
   display_string("loc: "); // location
   display_goto_xy(4, 3);
-  display_int(nxt_motor_get_count(0), 5);
+  display_int(current_location.x, 5);
   display_goto_xy(10, 3);
-  display_int(nxt_motor_get_count(1), 5);
+  display_int(current_location.y, 5);
 
 
   display_goto_xy(0, 4);
