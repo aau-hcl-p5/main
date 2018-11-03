@@ -23,11 +23,11 @@ void display_target_location(T_TARGET_LOCATION loc)
     /* Is target found? */
     T_TARGET_LOCATION target_location;
     get_target_location(&target_location);     
-    display_string_at_xy(0, 1 "Target");
+    display_string_at_xy(0, 1, "Target");
     if(target_location.timestamp == 0x00FF) {
-        display_string_at_xy(9, 1 "gone");
+        display_string_at_xy(9, 1, "gone");
     } else {
-        display_string_at_xy(9, 1 "found");
+        display_string_at_xy(9, 1, "found");
     }
 
 
@@ -35,7 +35,7 @@ void display_target_location(T_TARGET_LOCATION loc)
     T_TARGET_LOCATION current_location = get_current_location();
     display_string_at_xy(0, 2, "Position");
     display_string_at_xy(0, 3, "X:");
-    display_int_at_xy(3, 3, current_location, 4);
+    display_int_at_xy(3, 3, current_location.x, 4);
     display_string_at_xy(9, 3, "Y:");
     display_int_at_xy(12, 3, current_location.y, 4);
 
