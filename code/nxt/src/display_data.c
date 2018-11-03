@@ -10,7 +10,7 @@ void display_string_at_xy(uint8_t x, uint8_t y, char *str){
     display_string(str);
 }
 
-void display_int_at_xy(uint8_t x, uint8_t y, int number, int spaces){
+void display_int_at_xy(uint8_t x, uint8_t y, int32_t number, int32_t spaces){
     display_goto_xy(x, y);
     display_int(number, spaces);
 }
