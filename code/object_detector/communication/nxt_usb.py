@@ -65,10 +65,13 @@ class NxtUsb:
         should react upon by moving the turret
         :param data: a result data
         """
-        self.endpoint.write(bytes([int(data.location.x) & 0xFF,
-                                   int(data.location.y) & 0xFF,
-                                   data.timestamp & 0xFF,
-                                   (data.timestamp >> 8) & 0xFF]))
+        if data is None:
+            self.endpoint.write(b'\xFF\xFF\xFF\x00')
+        else:
+            self.endpoint.write(bytes([int(data.location.x) & 0xFF,
+                                       int(data.location.y) & 0xFF,
+                                       data.timestamp & 0xFF,
+                                       (data.timestamp >> 8) & 0xFF]))
 
     def __del__(self):
         """
