@@ -39,8 +39,8 @@ It will:
                  fill_step_size: int = DEFAULT_FILL_STEP_SIZE,
                  required_steps_for_find: int = DEFAULT_REQUIRED_STEPS_FOR_FIND,
                  red_threshold: int = DEFAULT_RED_THRESHOLD,
-                 debug: bool = True,
-                 dynamic_fill_size: bool = True
+                 debug: bool = False,
+                 dynamic_fill_size: bool =True
                  ) -> None:
         self.find_step_size = find_step_size
         self.fill_step_size = fill_step_size
