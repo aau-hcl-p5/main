@@ -7,7 +7,7 @@ It will:
     4. Use the old center coordinates to search for the object in the next frame, and the goto 2.
 """
 from collections import deque
-from typing import Optional, Set, Deque
+from typing import Optional, Set, Deque, Union, Iterator
 
 import numpy as np
 
@@ -20,8 +20,8 @@ DEFAULT_RED_THRESHOLD = 4
 DEFAULT_MIN_TOTAL_REDNESS = 3000  # value of my mouth
 
 
-def _redness(x: int, y: int, frame: np.ndarray) -> int:
-    return frame.item(y, x, 2) - frame.item(y, x, 1) - frame.item(y, x, 0)
+def _redness(x: Union[int, float], y: Union[int, float], frame: np.ndarray) -> int:
+    return frame.item(int(y), int(x), 2) - frame.item(int(y), int(x), 1) - frame.item(int(y), int(x), 0)
 
 
 class ObjectFillController:  # pylint: disable=too-few-public-methods
@@ -49,7 +49,7 @@ It will:
         self.debug = debug
         self._last_center: Optional[Vector] = None
         self._dynamic_fill_size = dynamic_fill_size
-        self._blacklisted_pixels = {None}
+        self._blacklisted_pixels: Set[Vector] = set()
 
     def locate_center(self, frame: np.ndarray) -> Optional[Vector]:
         """
@@ -61,19 +61,16 @@ It will:
 
         # """
         new_center = None
-        for i in range(10):
-            object_position = self._locate_object(frame, image_size)
-            if object_position:
-                new_center = self._fill_get_center(object_position, frame, image_size)
-                if new_center is not None:
-                    break
-            else:
+        for object_position in self._locate_object(frame, image_size):
+            new_center = self._fill_get_center(object_position, frame, image_size)
+            if new_center is not None:
                 break
-        for pixel in self._blacklisted_pixels:
-            if pixel is not None:
-                frame[pixel.y, pixel.x] = [0, 0, 0]
+        if self.debug:
+            for pixel in self._blacklisted_pixels:
+                if pixel is not None:
+                    frame[pixel.y, pixel.x] = [0, 0, 0]
         self._last_center = new_center
-        self._blacklisted_pixels = {None}
+        self._blacklisted_pixels = set()
         if new_center is None:
             self.fill_step_size = DEFAULT_FILL_STEP_SIZE
         """
@@ -87,7 +84,7 @@ It will:
 
         return self._last_center
 
-    def _locate_object(self, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
+    def _locate_object(self, frame: np.ndarray, image_size: Vector) -> Iterator[Vector]:
         step_size = self.find_step_size
         bound = step_size * 2 + 1
         # set to center if not already set. We this is from where we need to search,
@@ -99,15 +96,14 @@ It will:
             for x in range(0, int(image_size.x) - 3 * step_size, bound):
                 if y + self._last_center.y < image_size.y:
                     current_y = int(y + self._last_center.y)
-                    if all(self._is_red(z, current_y, frame) and Vector(z, current_y) not in self._blacklisted_pixels
+                    if all(Vector(z, current_y) not in self._blacklisted_pixels and self._is_red(z, current_y, frame)
                            for z in range(x, x + bound, step_size)):
-                        return Vector(x + step_size, current_y)
+                        yield Vector(x + step_size, current_y)
                 if self._last_center.y - y > 0:
                     current_y = int(self._last_center.y - y)
-                    if all(self._is_red(z, current_y, frame) and Vector(z, current_y) not in self._blacklisted_pixels
+                    if all(Vector(z, current_y) not in self._blacklisted_pixels and self._is_red(z, current_y, frame)
                            for z in range(x, x + bound, step_size)):
-                        return Vector(x + step_size, current_y)
-        return None
+                        yield Vector(x + step_size, current_y)
 
     def _is_pixel_on_border(self, pixel: Vector, image_size: Vector) -> bool:
         return pixel.x - self.fill_step_size < 0 or \
@@ -116,7 +112,7 @@ It will:
                image_size.y - self.fill_step_size <= pixel.y + self.fill_step_size + 1
 
     def _get_neighbours(self, pixel: Vector, image_size: Vector) -> Set[Vector]:
-        if pixel in self._blacklisted_pixels or self._is_pixel_on_border(pixel, image_size):
+        if self._is_pixel_on_border(pixel, image_size):
             return set()
         x_dir_offset = Vector(self.fill_step_size, 0)
         y_dir_offset = Vector(0, self.fill_step_size)
@@ -129,18 +125,15 @@ It will:
 
     def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
         queue: Deque = deque()
-        visited = {object_position}
-        for neighbour in self._get_neighbours(object_position, image_size):
+        for neighbour in self._get_neighbours(object_position, image_size) - self._blacklisted_pixels:
             queue.append(neighbour)
-            visited.add(neighbour)
         sum_outline = object_position
         self._blacklisted_pixels.add(object_position)
         sum_redness = _redness(object_position.x, object_position.y, frame)
         sum_elements_in_outline = 1
+
         while queue:
             element = queue.popleft()
-            if element in self._blacklisted_pixels:
-                continue
 
             pixel_redness = _redness(element.x, element.y, frame)
             # is a bounding pixel
@@ -151,10 +144,9 @@ It will:
                     frame[int(element.y), int(element.x)] = [0, 255, 0]
                 continue
 
-            for neighbour in self._get_neighbours(element, image_size) - visited:
+            for neighbour in self._get_neighbours(element, image_size) - self._blacklisted_pixels:
                 sum_redness += pixel_redness
                 self._blacklisted_pixels.add(element)
-                visited.add(neighbour)
                 queue.append(neighbour)
 
         if self._dynamic_fill_size:
@@ -162,7 +154,6 @@ It will:
                                       int(sum_elements_in_outline * self.fill_step_size / 75))
 
         if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
-            print(sum_redness)
             return sum_outline / sum_elements_in_outline
         else:
             return None

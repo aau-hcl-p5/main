@@ -88,5 +88,5 @@ class TestObjectFillAlgorithm(unittest.TestCase):
         controller = ObjectFillController(debug=False)
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
         output = controller.locate_center(frame)
-        goal = Vector(912, 254)
+        goal = Vector(911, 254)
         self.assertEqual(output.as_int(), goal, msg=f"{output.as_int()} (output) != {goal}")
