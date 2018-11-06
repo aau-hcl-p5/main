@@ -15,20 +15,20 @@ class Mean_Squared_Error(GenericCostFunction):
     :return: a value between 0 and 1 indicating the cost, deviation from the expected.
     """
     def compute_cost(data: np.ndarray[Vector], predictions: np.ndarray[Vector]) -> NumberType:
-        
-        datalength = len(data)
-        predictionslength = len(predictions)
 
-        if datalength != predictionslength:
+        data_length = len(data)
+        predictions_length = len(predictions)
+
+        if data_length != predictions_length:
             raise Exception('Prediction set and Data set must be of same length')
-        if predictionslength == 0:
-            raise Exception('Length of predictions must not be zero')
-    
+        if predictions_length == 0:
+            raise Exception('Length of Prediction set must not be zero')
+
         accumulated_error = 0.0
         for prediction, target in zip(predictions, data):
             accumulated_error += (prediction - target).length()**2
 
         # Calculating mean and dividing by 2
-        cost = (1.0 / (2 * predictionslength)) * accumulated_error
-    
+        cost = (1.0 / (2 * predictions_length)) * accumulated_error
+
         return cost
