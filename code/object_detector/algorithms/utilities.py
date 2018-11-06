@@ -104,8 +104,11 @@ class Vector:
         return (self.x, self.y).__hash__()
 
     def __str__(self):
-        return f"Vector({self.x},{self.y})"
-    
+      return f"Vector({self.x}, {self.y})"
+
+    def __repr__(self):
+        return f"Vector({self.x}, {self.y})"
+
     def length(self):
         return math.sqrt(self.x**2 + self.y**2)
 

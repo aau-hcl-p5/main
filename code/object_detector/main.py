@@ -34,7 +34,8 @@ class FlatController:
 
     def __init__(self,
                  algorithm: Callable[[np.ndarray], Vector],
-                 capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA) -> None:
+                 capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA,
+                 ) -> None:
         """
         Initializes the controller
         :param algorithm: The algorithm to use for image processing
