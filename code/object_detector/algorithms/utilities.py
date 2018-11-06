@@ -88,12 +88,6 @@ class Vector:
             return Vector(self.x - other, self.y - other)
         raise NotImplementedError  # pragma: no cover
 
-    def __str__(self):
-        return f"Vector({self.x}, {self.y})"
-
-    def __repr__(self):
-        return f"Vector({self.x}, {self.y})"
-
     def __eq__(self, other):
         if other is None:
             return False
@@ -108,7 +102,10 @@ class Vector:
         return (self.x, self.y).__hash__()
 
     def __str__(self):
-        return f"Vector({self.x},{self.y})"
+        return f"Vector({self.x}, {self.y})"
+
+    def __repr__(self):
+        return f"Vector({self.x}, {self.y})"
 
 
 # normally i would use is_instance(val, numbers.Number)
