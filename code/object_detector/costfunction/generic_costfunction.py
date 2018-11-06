@@ -1,12 +1,17 @@
-import numpy as np
+"""
+The Abstract implementation of the cost-function
+"""
 
-from algorithms.utilities import Vector
+import Vector
 
-#https://pythonmachinelearning.pro/using-neural-networks-for-regression-radial-basis-function-networks/
+from algorithms.utilities import NumberType
 
-class GenericCostFunction:
+
+class GenericCostFunction():
     """
-    The abstract implementation of the Cost Function
+    The abstract function for calculation the cost,
+    the deviation from the expected result
     """
-    def compute_cost(predictions, data) -> cost
+    def compute_cost(predictions: Vector, data: Vector) -> NumberType:
         raise NotImplementedError
+
