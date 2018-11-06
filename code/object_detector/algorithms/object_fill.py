@@ -125,7 +125,7 @@ It will:
 
     def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
         queue: Deque = deque()
-        for neighbour in self._get_neighbours(object_position, image_size) - self._blacklisted_pixels:
+        for neighbour in self._get_neighbours(object_position, image_size):
             queue.append(neighbour)
         sum_outline = object_position
         self._blacklisted_pixels.add(object_position)
@@ -134,7 +134,8 @@ It will:
 
         while queue:
             element = queue.popleft()
-
+            if element in self._blacklisted_pixels:
+                continue
             pixel_redness = _redness(element.x, element.y, frame)
             # is a bounding pixel
             if pixel_redness < self.red_threshold:
@@ -144,7 +145,7 @@ It will:
                     frame[int(element.y), int(element.x)] = [0, 255, 0]
                 continue
 
-            for neighbour in self._get_neighbours(element, image_size) - self._blacklisted_pixels:
+            for neighbour in self._get_neighbours(element, image_size):
                 sum_redness += pixel_redness
                 self._blacklisted_pixels.add(element)
                 queue.append(neighbour)
