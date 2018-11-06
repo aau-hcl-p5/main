@@ -63,7 +63,7 @@ class TestZoneAvgAlgorithm(unittest.TestCase):
         controller = ZoneAvgController()
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
         output = controller.locate_center(frame)
-        goal = Vector(928,306)
+        goal = Vector(928, 306)
         self.assertEqual(output.as_int(), goal, f"{output.as_int()} (output) != {goal}")
 
 
@@ -85,8 +85,8 @@ class TestObjectFillAlgorithm(unittest.TestCase):
         The initial frame is not empty so this should return a location.
         #TODO verify that the location actually is correct.
         """
-        controller = ObjectFillController(debug=False)
+        controller = ObjectFillController(debug=True)
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
         output = controller.locate_center(frame)
-        goal = Vector(912, 254)
+        goal = Vector(911, 254)
         self.assertEqual(output.as_int(), goal, msg=f"{output.as_int()} (output) != {goal}")
