@@ -40,6 +40,7 @@ extern bool usb_connected;
 extern uint32_t usb_processes;
 
 extern uint32_t ecrobot_read_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len);
+extern uint32_t ecrobot_send_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len);
 extern void ecrobot_disconnect_usb();
 extern void ecrobot_process1ms_usb();
 
