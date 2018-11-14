@@ -2,7 +2,7 @@
 
 #include "nxt.h"
 #include "display_data.h"
-#include "data_receive.h"
+#include "usb.h"
 #include "movement.h"
 
 void display_string_at_xy(uint8_t x, uint8_t y, char *str){

@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "data_receive.h"
+#include "usb.h"
 
 bool usb_connected = true;
 bool usb_buffer[256];

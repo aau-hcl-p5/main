@@ -26,9 +26,19 @@ T_TARGET_LOCATION last_location = {0, 0, 0};
 
 void move(T_TARGET_LOCATION target) {
   // speed is 0 when distance is small enough.
-  ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target.x, 'x'));
-  ecrobot_set_motor_speed(y_motor, -get_speed_by_distance(target.y, 'y'));
+  set_motor_speed('x', get_speed_by_distance(target.x, 'x'));
+  set_motor_speed('y', -get_speed_by_distance(target.y, 'y'));
 }
+
+void set_motor_speed(char axis, int8_t speed) {
+  uint8_t motor = y_motor;
+  if (axis == 'x'){
+      motor = x_motor;
+  }
+
+  ecrobot_set_motor_speed(motor, speed);
+}
+
 
 /*--------------------------------------------------------------------------*/
 /* init_motor:                                                              */

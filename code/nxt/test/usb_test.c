@@ -1,8 +1,8 @@
 #include <stdbool.h>
 
 #include "test_framework.h"
-#include "data_receive.h"
-#include "data_receive_test.h"
+#include "usb.h"
+#include "usb_test.h"
 #include "target_location.h"
 #include "stubs.h"
 

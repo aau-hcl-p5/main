@@ -2,7 +2,7 @@
 
 #include "test_framework.h"
 #include "logic_test.h"
-#include "data_receive_test.h"
+#include "usb_test.h"
 #include "movement_test.h"
 
 int main() {
