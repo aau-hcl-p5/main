@@ -28,6 +28,7 @@ uint32_t ecrobot_read_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_
 }
 
 uint32_t ecrobot_send_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len) {
+    uint32_t len = max_len < usb_len ? max_len : usb_len;
     return len;
 }
 
