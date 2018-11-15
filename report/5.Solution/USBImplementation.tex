@@ -1,12 +1,10 @@
 \section{USB implentation}
 \label{sec:usbimp}
 In Section~\ref{sec:usbdes} a high level description of the USB communication between the computer and the NXT was described.
-This section will describe the specifics of the implementatio of the USB receiver on the NXT.
+This section will describe the specifics of the implementation of the USB receiver on the NXT.
 
 The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
 
-\subsection{Handshake}
-The
 \begin{lstlisting}[language=CSharp,label={lst:usbhandshake},caption={ecrobot\_device\_initialize method from nxt.c}]
     void ecrobot_device_initialize(void) {
         init_motor(NXT_PORT_A, 'y', 20);
@@ -16,12 +14,11 @@ The
 \end{lstlisting}
 Snippet~\ref{lst:usbhandshake} shows the initializion of the NXT device. 
 \texttt{ecrobot\_device\_initialize} is invoked by NXTOSEK on program startup.
-The essential function call for function call is the ecrobot\_init\_usb() call.
+The essential function call for function call is the \textit{ecrobot\_init\_usb()} call.
 This function is a part of the NXTOSEK API and is required to use the NXT's USB port for communication.
 As mentioned in Section~\ref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
-However the challenges were primarily on the computer side, and will not be elaborated further here.
 
-The next part of the USB receival is the actual continous retrieval from the USB buffer.
+The next part of the USB receival is the actual continuous retrieval from the USB buffer.
 \begin{lstlisting}[language=CSharp,label={lst:usbreceive},caption={get\_target\_location method from data\_receive.c}]
     bool get_target_location(T_TARGET_LOCATION *out_location) {
 	int32_t len;
@@ -49,17 +46,17 @@ The next part of the USB receival is the actual continous retrieval from the USB
 	return false;
 }
 \end{lstlisting}
-The get\_target\_location fuction handles both the second part of the USB receive, the continous read, and the third part, the potential disconnect.
+The \textit{get\_target\_location} function handles both the second part of the USB receive, the continous read, and the third part, the potential disconnect.
 
-The GetResource(USB\_Rx) call, locks the USB resource for other processes.
-It then reads the data from the usb buffer, with the ecrobot\_read\_usb call, into the data unsigned integer data and releases the USB resource.
+The \textit{GetResource(USB\_Rx)} call, locks the USB resource for other processes.
+It then reads the data from the USB buffer, with the \textit{ecrobot\_read\_usb} call, into the data unsigned integer data and releases the USB resource.
 If nothing is read from the USB, meaning if the length of the read data is $0$, it returns false.
 
-Next it checks if the data match the disconnect statuscode, which is defined as \texttt{0xFFFFFFFF} in the data\_receive.h header file.
-if that is the case, it turns of the USB communication, and turns on the initialization screen.
-Otherwise it sets the data that the out\_location pointer points to, to be the read data.
+Next the function checks if the data match the disconnect statuscode, which is defined as \texttt{0xFFFFFFFF} in the \textit{data\_receive.h} header file.
+In that case, it turns off the USB communication, and turns on the initialization screen.
+Otherwise it sets the data that the \textit{out\_location} pointer points to, to be the read data.
 Finally it displays the target location to the NXT screen, which is mostly used for debugging.
 
-The get\_target\_location function is called from the logic.c file, which contains the logic for the device.
-Logic.c next calls the move function, which uses the target\_location to aim the robot.
+The \textit{get\_target\_location function} is called from the \textit{logic.c} file, which contains the logic for the device.
+\textit{Logic.c} next calls the move function, which uses the \textit{target\_location} to aim the robot.
 This is described in the next section, Section~\ref{sec:movement}.
