@@ -23,5 +23,31 @@ Furthermore, it is important to notice that the diagram contains methods for bot
 As the projectile firing model requires additional calculations, the device will function with merely the laser methods and hardware. 
 The methods required for projectile firing are colored red to indicate this.
 With the architecture in place, it is now possible to focus on the details of what is required for implementing each part of the architecture.
-In the following part, the details regarding [----] will be eluded upon.
-%TODO Replace [----] with whatever part follows.
+In the following part, the details regarding the target information structure will be eluded upon.
+
+\subsection{Target information}
+A target information structure has been defined internally to store relevant target information.
+This data is calculated on the Raspberry Pi host and the structure then transferred onto the NXT.
+The structure can be seen in Listing~\ref{lst:TargetInformation}.
+\begin{lstlisting}[language=C, label={lst:TargetInformation},caption={Target information structure from target\_location.h}]
+#define TARGET_FOUND 0
+#define NO_TARGET_FOUND 1
+#define DISCONNECT_REQ 2
+
+typedef struct __attribute__((packed)) {
+	int16_t x : 8;
+	int16_t y : 8;
+} T_TARGET_LOCATION;
+
+typedef struct __attribute__((packed)) {
+	T_TARGET_LOCATION location;
+	uint16_t status;
+} T_TARGET_INFORMATION;
+\end{lstlisting}
+
+The structures uses the packed attribute in order to keep the size at 4 bytes, and 3 status codes are defined with information about whether a target has been found, and whether the host has requested to terminate the connection.
+
+Furthermore, a location structure is kept with information regarding the x and y distance relative to the target.
+The x and y values are based on the distance to the target from the center of the webcamera image and the values are processed on the host such that they can be transformed into a value ranging from -127 to 127. 
+\todo{Insert cross reference to why we do this transformation.}
+Likewise, the transformation function has the ability to do non-linear transformations, which can be used to increase the precision when the target is close to center, as opposed to when the distance is greater and less precision is needed.

@@ -12,7 +12,7 @@ uint16_t y_motor_speed = 0;
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
 
-T_TARGET_LOCATION last_location = {0, 0, 0};
+T_TARGET_LOCATION last_location = {0, 0};
 
 
 /*--------------------------------------------------------------------------*/
@@ -114,7 +114,7 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
 
 T_TARGET_LOCATION get_current_location() {
 
-  T_TARGET_LOCATION location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor), 0};
+  T_TARGET_LOCATION location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor)};
   return location;
 }
 
@@ -141,14 +141,14 @@ int8_t calibrate_modifier(uint8_t bound, uint16_t degrees, int8_t distance) {
   return bound;
 }
 
-void readjust_lower_bound(T_TARGET_LOCATION target) {
+void readjust_lower_bound(T_TARGET_LOCATION target_location) {
 
   T_TARGET_LOCATION current_location = get_current_location();
   int32_t degrees_x = abs(current_location.x - last_location.x);
   int32_t degrees_y = abs(current_location.y - last_location.y);
 
-  x_lower_bound_modifier = calibrate_modifier(x_lower_bound_modifier, degrees_x, target.x);
-  y_lower_bound_modifier = calibrate_modifier(y_lower_bound_modifier, degrees_y, target.y);
+  x_lower_bound_modifier = calibrate_modifier(x_lower_bound_modifier, degrees_x, target_location.x);
+  y_lower_bound_modifier = calibrate_modifier(y_lower_bound_modifier, degrees_y, target_location.y);
 
   last_location = current_location;
 }
