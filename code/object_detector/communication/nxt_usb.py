@@ -75,7 +75,7 @@ class NxtUsb:
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
         if hasattr(self, 'endpoint') and self.endpoint is not None:
-            self.endpoint.write(bytes([0, 0, 2, 0]))
+            self.endpoint.write(bytes([0, 0, Status.DISCONNECT_REQ.value, 0]))
         self.endpoint = None
 
 
