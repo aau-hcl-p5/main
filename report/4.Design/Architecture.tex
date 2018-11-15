@@ -29,7 +29,7 @@ In the following part, the details regarding [----] will be eluded upon.
 \subsection{Target information}
 A target information structure has been defined internally to store relevant target information.
 The data is calculated on the Raspberry Pi host and the structure is then transferred onto the NXT.
-The relevant structure information can be seen in listing \ref{lst:TargetInformation}.
+The relevant structure information can be seen in Listing~\ref{lst:TargetInformation}.
 \begin{lstlisting}[language=C, label={lst:TargetInformation},caption={Target information structure from target\_location.h}]
 #define TARGET_FOUND 0
 #define NO_TARGET_FOUND 1
@@ -49,7 +49,7 @@ typedef struct __attribute__((packed)) {
 The structures uses the packed attribute in order to keep the size at 4 bytes.
 The 3 status codes are defined with information about whether a target has been found, and if the host wants to terminate the connection.
 
-Furthermore a location structure is kept with information regarding the relative x and y distance to the target.
+Furthermore, a location structure is kept with information regarding the relative x and y distance to the target.
 The x and y values are based on the distance to the target from the center of the webcam image. 
-However the values are processed on the host to be transformed into a value ranging from -127 to 127. 
+However, the values are processed on the host to be transformed into a value ranging from -127 to 127. 
 The transformation function also has the ability to do non linear transformations, which can be used to increase the precision when the target is close to center, as opposed to when the distance is greater, and less precision is needed.
