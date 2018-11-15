@@ -1,3 +1,5 @@
+#include "display_data.h"
+#include "nxt.h"
 #include "calibration.h"
 #include "movement.h"
 #include "usb.h"
@@ -9,16 +11,26 @@ typedef struct {
 } T_POWER_TUPLE;
 
 bool calibrate(bool internal) {
+    display_clear(0);
+    // TODO remove. simply debug
+    display_string_at_xy(0, 1, 'Calibrating... (%)');
     T_POWER_TUPLE y_axis_powers[360];
     // calibrate the y axis
     for(int i = 0; i < 50; i++) {
         int8_t y_position = get_current_location().y;
         y_axis_powers[y_position].positive = get_power_to_move_one_degree('y', true);
 
+
+        display_int_at_xy(0, 2, i, 4);
+        display_int_at_xy(0, 3, y_position, 4);
+        display_update();
     }
     for(int i = 0; i < 50; i++) {
         int8_t y_position = get_current_location().y;
         y_axis_powers[y_position].negative = get_power_to_move_one_degree('y', false);
+        display_int_at_xy(0, 2, 50+i, 4);
+        display_int_at_xy(0, 3, y_position, 4);
+        display_update();
     }
 
 }
