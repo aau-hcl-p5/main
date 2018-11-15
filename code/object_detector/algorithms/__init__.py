@@ -19,6 +19,7 @@ from algorithms.yolo import Yolo
 from algorithms.zone_avg import ZoneAvgController
 from algorithms.object_fill import ObjectFillController
 from algorithms.result import Result
+from algorithms.result import Status
 from algorithms.utilities import Vector, screen_location_to_relative_location
 
 

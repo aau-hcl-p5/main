@@ -19,7 +19,7 @@ import numpy as np
 
 import algorithms
 import webcam
-from algorithms import Result, Vector, screen_location_to_relative_location
+from algorithms import Result, Status, Vector, screen_location_to_relative_location
 from communication import NxtUsb
 from communication import screen_debug_wrapper
 from communication.nxt_usb import DeviceNotFound
@@ -59,10 +59,11 @@ class FlatController:
             loc = self._get_next_location()
             if self.usb_connection is not None:
                 if loc is not None:
-                    ts = 1  # nt(time.time())
-                    self.usb_connection.write_data(Result(loc, ts))
+                    print("Found location")
+                    self.usb_connection.write_data(Result(loc, Status.TARGET_FOUND))
                 else:
-                    self.usb_connection.write_data(None)
+                    print("No location")
+                    self.usb_connection.write_data(Result(Vector(0, 0), Status.NO_TARGET_FOUND))
             k = cv2.waitKey(5) & 0xFF  # escape char
             if k == 27:
                 break
