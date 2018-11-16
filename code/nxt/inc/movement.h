@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "target_location.h"
+#include "target_information.h"
 
 #define MOTOR_RANGE_Y 10
 #define MOTOR_SPEED_LOWER_BOUND_Y 20
@@ -34,12 +34,4 @@ extern void stop_motors();
 extern int8_t get_speed_by_distance(int8_t distance, char axis);
 extern T_TARGET_LOCATION get_current_location();
 
-extern void readjust_lower_bound(T_TARGET_LOCATION target);
-
-
-bool is_moving_too_slow(uint16_t degrees, int8_t distance);
-bool is_moving_too_fast(uint16_t degrees, int8_t distance);
-
-uint8_t get_range(char axis);
-uint8_t get_lower_bound(char axis);
 #endif

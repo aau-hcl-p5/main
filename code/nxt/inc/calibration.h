@@ -10,8 +10,10 @@ typedef struct {
 
 
 extern bool calibrate(bool internal);
-extern int8_T get_required_power(char axis, bool positive_direction, uint_8 angle);
-int8_T get_power_to_move_one_degree(char axis, bool positive_direction);
+extern int8_t get_required_power(char axis, bool positive_direction);
+
+int8_t get_power_to_move_one_degree(char axis, bool positive_direction);
 void calibrate_axis_in_direction(char axis, bool direction);
 bool compare_locations(T_TARGET_LOCATION target1, T_TARGET_LOCATION target2);
+
 #endif //NXT_CALIBRATION_H

@@ -2,22 +2,21 @@
 #include <stdint.h>
 
 #include "nxt.h"
-#include "target_location.h"
+#include "target_information.h"
 #include "movement.h"
 #include "usb.h"
 
 // TODO: Not global var
 bool laser_state = false;
 
-void main_loop()
-    T_TARGET_LOCATION target_location;
-    if (get_target_location(&target_location)) {
-        if(target_location.timestamp != 0x00FF)
+void main_loop() {
+    T_TARGET_INFORMATION target_information;
+    if (get_target_information(&target_information)) {
+        if(target_information.status == TARGET_FOUND)
         {
-            move(target_location);
-            readjust_lower_bound(target_location);
+            move(target_information.location);
         }
-        else {
+        else if(target_information.status == NO_TARGET_FOUND) {
             stop_motors();
         }
     }

@@ -14,7 +14,7 @@ uint16_t y_motor_speed = 0;
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
 
-T_TARGET_LOCATION last_location = {0, 0, 0};
+T_TARGET_LOCATION last_location = {0, 0};
 
 
 /*--------------------------------------------------------------------------*/
@@ -113,7 +113,7 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
     }
 
 
-    uint8_t lower_bound = get_required_power(axis);
+    uint8_t lower_bound = get_required_power(axis, distance >= 0);
     uint8_t range = 10;
 
     // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
@@ -121,4 +121,11 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
     int8_t actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
 
     return -((distance * range) / MAX_INPUT_VALUE + actual_lower_bound);
+}
+
+
+T_TARGET_LOCATION get_current_location() {
+
+    T_TARGET_LOCATION location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor), 0};
+    return location;
 }

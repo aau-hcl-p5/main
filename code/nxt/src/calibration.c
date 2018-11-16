@@ -11,11 +11,11 @@
 
 T_POWER_TUPLE y_axis_powers[360];
 
-int8_T get_required_power(char axis, bool positive_direction, uint_8 angle) {
+int8_t get_required_power(char axis, bool positive_direction) {
     if(axis == 'x')
         return 20;
     else {
-        T_POWER_TUPLE power_set = y_axis_powers[angle];
+        T_POWER_TUPLE power_set = y_axis_powers[get_current_location().y];
         return positive_direction ? power_set.positive : power_set.negative;
     }
 
@@ -66,15 +66,18 @@ bool compare_locations(T_TARGET_LOCATION target1, T_TARGET_LOCATION target2) {
     return sqrt(pow(target1.x - target2.x, 2) + pow(target1.y - target2.y, 2)) < MOVEMENT_THRESHOLD;
 }
 
-int8_T get_power_to_move_one_degree(char axis, bool positive_direction) {
+int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
+    char axis_str[2];
+    axis_str[0] = axis;
+    axis_str[1] = '\0';
     int8_t power = MIN_POWER;
     T_TARGET_LOCATION first_location = get_current_location();
     display_string_at_xy(0, 2, "dir");
     display_string_at_xy(4, 2, positive_direction ? "+" : "-");
-    display_string_at_xy(5, 2, axis);
+    display_string_at_xy(5, 2, axis_str);
 
     display_string_at_xy(0, 3, "pos");
-    display_int_at_xy(4, 3, y_position, 4);
+    display_int_at_xy(4, 3, first_location.y, 4);
     do {
         set_motor_speed(axis, power * (positive_direction ? 1 : -1));
         power++;
@@ -95,5 +98,3 @@ int8_T get_power_to_move_one_degree(char axis, bool positive_direction) {
 
     return power;
 }
-
-void

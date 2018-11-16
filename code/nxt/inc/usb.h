@@ -3,9 +3,8 @@
 
 #include <stdbool.h>
 
-#include "target_location.h"
+#include "target_information.h"
 
-#define DISCONNECT_REQ 0xFFFFFFFF
 
 typedef struct {
     int8_t position;
@@ -13,7 +12,8 @@ typedef struct {
     uint8_t power;
     bool positive_direction;
 } T_SEND_PACKAGE;
-extern bool get_target_location(T_TARGET_LOCATION *out_location);
+
+extern bool get_target_information(T_TARGET_INFORMATION *out_location);
 
 extern void send_calibration_data(int8_t position, char axis, uint8_t power, bool positive_direction);
 
