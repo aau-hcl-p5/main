@@ -5,13 +5,11 @@
 #include "target_location.h"
 #include "movement.h"
 #include "usb.h"
-#include "calibration.h"
 
 // TODO: Not global var
 bool laser_state = false;
 
-void main_loop() {
-    calibrate(false);
+void main_loop()
     T_TARGET_LOCATION target_location;
     if (get_target_location(&target_location)) {
         if(target_location.timestamp != 0x00FF)

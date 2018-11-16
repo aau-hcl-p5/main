@@ -2,6 +2,7 @@
 #include "nxt.h"
 #include "init_screen.h"
 #include "movement.h"
+#include "calibration.h"
 
 /* OSEK declarations */
 DeclareTask(Task_background);
@@ -29,7 +30,8 @@ void user_1ms_isr_type2(void)
 
 TASK(Task_background)
 {
-  show_init_screen();
+  show_init_screen();{
+  calibrate(false);
   while(1)
   {
     main_loop();
