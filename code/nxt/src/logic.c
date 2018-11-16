@@ -34,6 +34,6 @@ uint32_t get_distance(uint32_t sensor_id) {
     return 0;
 }
 
-bool predict_trajectory(T_TARGET_LOCATION point) {
+bool predict_trajectory(T_VECTOR point) {
     return 0;
 }

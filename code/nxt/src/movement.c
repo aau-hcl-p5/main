@@ -14,19 +14,19 @@ uint16_t y_motor_speed = 0;
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
 
-T_TARGET_LOCATION last_location = {0, 0};
+T_VECTOR last_location = {0, 0};
 
 
 /*--------------------------------------------------------------------------*/
 /* move_motors:                                                             */
 /* ------------------------------------------------------------------------ */
 /* Description:                                                             */
-/* Params  : T_TARGET_LOCATION target: Information about the target         */
+/* Params  : T_VECTOR target: Information about the target         */
 /*              location.                                                   */
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
 
-void move(T_TARGET_LOCATION target) {
+void move(T_VECTOR target) {
     // speed is 0 when distance is small enough.
     set_motor_speed('x', get_speed_by_distance(target.x, 'x'));
     set_motor_speed('y', -get_speed_by_distance(target.y, 'y'));
@@ -124,8 +124,8 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
 }
 
 
-T_TARGET_LOCATION get_current_location() {
+T_VECTOR get_current_location() {
 
-    T_TARGET_LOCATION location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor), 0};
+    T_VECTOR location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor), 0};
     return location;
 }

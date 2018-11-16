@@ -28,7 +28,7 @@ void display_target_information(T_TARGET_INFORMATION target_information)
         display_string_at_xy(9, 1, "found");
     }
 
-    T_TARGET_LOCATION current_location = target_information.location;
+    T_VECTOR current_location = target_information.location;
     /* Position */
     display_string_at_xy(0, 2, "Position");
     display_string_at_xy(0, 3, "X:");

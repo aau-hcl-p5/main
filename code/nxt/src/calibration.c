@@ -62,7 +62,7 @@ void calibrate_axis_in_direction(char axis, bool direction) {
 
 
 // Checks whether locations are the same within a margin of error of MOVEMENT_THRESHOLD
-bool compare_locations(T_TARGET_LOCATION target1, T_TARGET_LOCATION target2) {
+bool compare_locations(T_VECTOR target1, T_VECTOR target2) {
     return sqrt(pow(target1.x - target2.x, 2) + pow(target1.y - target2.y, 2)) < MOVEMENT_THRESHOLD;
 }
 
@@ -71,7 +71,7 @@ int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
     axis_str[0] = axis;
     axis_str[1] = '\0';
     int8_t power = MIN_POWER;
-    T_TARGET_LOCATION first_location = get_current_location();
+    T_VECTOR first_location = get_current_location();
     display_string_at_xy(0, 2, "dir");
     display_string_at_xy(4, 2, positive_direction ? "+" : "-");
     display_string_at_xy(5, 2, axis_str);

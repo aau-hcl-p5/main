@@ -28,10 +28,10 @@ extern uint8_t y_lower_bound_modifier;
 extern bool init_motor(uint8_t motor_id, char orientation, uint16_t speed);
 extern bool release_motor(uint8_t motor_id);
 
-extern void move(T_TARGET_LOCATION target_location);
+extern void move(T_VECTOR target_location);
 extern void set_motor_speed(char axis, int8_t speed);
 extern void stop_motors();
 extern int8_t get_speed_by_distance(int8_t distance, char axis);
-extern T_TARGET_LOCATION get_current_location();
+extern T_VECTOR get_current_location();
 
 #endif
