@@ -1,0 +1,48 @@
+\section{Performance}
+
+In order to be able to track an object in real time the object localization will also have to be done in real time.
+Therefore the algorithms should be tested in order to determine whether they will be able to do object localization fast enough for it to be feasible for the project.
+
+
+\subsection{Raspberry Pi}
+The Raspberry Pi 3B is the desired host of the MI processing, but it is very limited in the amount of resources available to it.
+It comes with a 1.2GHz Quadcore ARM Cortex-A53, 64Bit processor and 1 GB of RAM.
+Computational wise the Raspberry Pi is a little underwhelming compared to an average consumer pc.
+Therefore, even though an algorithm might run fast enough on a normal computer, it should still be tested whether it will be fast enough once executed on the Raspberry.
+
+\subsection{Object fill algorithm}
+The object fill algorithm is only limited by the frame rate of the camera on an average to high end laptop.
+This means it could serve as a good baseline for further object localization algorithms.
+
+Once the object fill algorithm was run on the Raspberry Pi, it took about 0.07 seconds to analyze a frame.
+This is roughly equivalent to an acceptable but not amazing frame rate of 15 frames pr second.
+However, it was significantly slowed down in the worst case scenario, where no object is to be found within the frame.
+In this case the algorithm would only be able to process just below 10 frames pr second.
+Although this may seem troublesome, it is actually not much of a concern, since the robot does not need to update once no object is within the frame, and the performance will increase as soon as the object is found.
+
+\subsection{YOLO}
+
+As YOLO is praised as one of the fastest object detection algorithms some tests were conducted in order to determine if it would be a viable option for the project.
+
+The tests used the fastest version of YOLO, called YOLO2 light along with a related lightweight model with a size of 33.8 MB. 
+A modern high end laptop, the Dell XPS 15, was used to conduct benchmarks.
+The Dell XPS used in the test has a Quad-Core Intel I7 7700HQ with a base 2.8 GHz clock speed along with 16 GB of ram.
+
+The tests using YOLO light rendered impressive results regarding accuracy.
+However, unfortunately the performance was no good as the XPS only managed to analyze around 2 frames pr second in average.
+
+There should be a couple of notes regarding these results.
+First of all, the tests were conducted with YOLO utilizing the CPU.
+Normally YOLO would utilize the GPU in order to achieve far better performance results, but as the Raspberry Pi will not be able to utilize a powerful GPU, testing on the GPU was deemed unnecessary. 
+Another thing to note is the still fairly large model of 33.8 MB.
+In the simple case of localizing a single object, this model could surely be decreased a lot in complexity, which in turn would render better performance results.
+
+Furthermore as earlier mentioned YOLO is an object detection algorithm.
+This means the algorithm will try to locate and classify all objects in the image.
+Performance could presumably be improved by only having a single class to classify and then terminate the algorithm as soon as the first object was localized.
+However, it was decided that making modifications to YOLO would likely be too tedious, while risking that the modifications would still not make it fast enough to run on the Raspberry Pi.
+
+Given all of this, it was determined that the YOLO algorithm would not be feasible for this project.
+
+\subsection{Conclusion}
+TODO ADD PERFORMANCE CONCLUSION - WHICH ALGORITHMS WAS CHOSEN BASED ON THESE PERFORMANCE TESTS. MAYBE CONCLUSION WILL BE THAT NO ML ALGORITHM IS FAST ENOUGH TO BE USED AND THEREFORE THE OBJECT FILL ALGORITHM WILL HAVE TO BE USED.
