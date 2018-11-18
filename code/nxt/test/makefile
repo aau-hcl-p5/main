@@ -7,7 +7,7 @@ LIBS=-lm
 SRCTEST = $(wildcard ./*.c)
 
 SRCC = $(wildcard ../src/*.c)
-CSRC = $(filter-out ../src/nxt.c, $(SRCC))
+CSRC = $(filter-out ../src/*.s, $(SRCC))
 COVSRC = $(CSRC:.c=.gcno)
 COV = $(COVSRC:../src/%=%)
 

@@ -5,6 +5,7 @@
 #include "data_receive_test.h"
 #include "target_information.h"
 #include "stubs.h"
+#include "nxt.h"
 
 T_TC_RESULT test_usb_read() {
     T_TC_RESULT result = TC_SUCCESS;
