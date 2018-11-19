@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #include "nxt.h"
-#include "target_location.h"
+#include "target_information.h"
 #include "data_receive.h"
 #include "init_screen.h"
 #include "display_data.h"
@@ -13,29 +13,29 @@
 DeclareTask(Task_ts1);
 DeclareResource(USB_Rx);
 
-#define SIZEOF_USB_DATA sizeof(T_TARGET_LOCATION)
+#define SIZEOF_USB_DATA sizeof(T_TARGET_INFORMATION)
 
-bool get_target_location(T_TARGET_LOCATION *out_location) {
+bool get_target_information(T_TARGET_INFORMATION *out_information) {
 	int32_t len;
-	uint8_t data[SIZEOF_USB_DATA];
+	T_TARGET_INFORMATION new_target_information;
 
-    memset(data, 0, SIZEOF_USB_DATA); /* flush buffer */
 	/* critical section */
 	GetResource(USB_Rx);
-	len = ecrobot_read_usb(data, 0, SIZEOF_USB_DATA); /* read USB data */
+	/* read USB data */
+	len = ecrobot_read_usb((uint8_t*)&new_target_information, 0, SIZEOF_USB_DATA);
 	ReleaseResource(USB_Rx);
 
 	if (len > 0)
 	{
-		if (*((uint32_t *)data) == DISCONNECT_REQ)
+		if (new_target_information.status == DISCONNECT_REQ)
 		{
 			/* disconnect current connection */
 			ecrobot_disconnect_usb();
 			show_init_screen();
 			return false;
 		}
-		*out_location = *((T_TARGET_LOCATION *)data);
-		display_target_location(*out_location);
+		memcpy(out_information, &new_target_information, sizeof(T_TARGET_INFORMATION));
+		display_target_information(*out_information);
 		return true;
 	}
 	return false;

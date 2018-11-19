@@ -22,11 +22,11 @@ The image will have to be processed in order to figure out where the target is l
 Unfortunately it is no easy task to recognize objects in images, and writing an algorithm that solves this problem can be quite tedious.
 However, there are a couple of different methods that can be used when detecting objects.
 
-Object detection is a classic computer vision problem, and a lot of research exists in this field.
+Object recognition is a classic computer vision problem, and a lot of research exists in this field.
 Generally speaking there are two approaches to this problem.
 
 \subsubsection{Handcoded features}
-As already mentioned it may be very tedious to write an object detection algorithm by hand.
+As already mentioned it may be very tedious to write an object recognition algorithm by hand.
 However, if the object has some distinct features, it may also be fairly straight forward to implement by hand.
 Imagine that an algorithm were to detect a red ball. 
 Given the two features round and red, it would probably be a manageable task to implement an algorithm that would detect a red ball.
@@ -39,7 +39,7 @@ This is what is referred to as machine learning.
 
 Machine learning is a common term used when a computer teaches itself to solve a given task\cite{MachineLearningWiki}.
 There are a wide variety of tasks that are very complicated to solve using algorithms, but easier to solve simply by letting the computer learn how to solve them. 
-Some common examples are, for instance, object detection, speech recognition or learning the best tactics of games like chess.
+Some common examples are, for instance, object localization, object detection, object classification, speech recognition or learning the best tactics of games like chess.
 
-Apart from the object detection, one could also imagine that machine learning could be applied in our system to predict the trajectory of the object that is being tracked.
+Apart from the implementation of object localization, one could also imagine that machine learning could be applied in our system to predict the trajectory of the object that is being tracked.
 So machine learning will be highly relevant and something to consider when developing the system.
