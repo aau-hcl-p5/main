@@ -1,4 +1,8 @@
-\section{Screen to motors}
+\section{Mapping between computer vision and movement}
+Two functions are needed to transfer the screen position to a velocity on the motors.
+First we need to transfer the screen position to the USB transfer, and then that format to a motor velocity.
+
+\subsection{Screen to motors}
 Two functions are needed to transfer the screen position to a velocity on the motors.
 First we need to transfer the screen position to the USB transfer, and then that format to a motor velocity.
 
@@ -17,7 +21,7 @@ We will define two constants:
 \item out\_max = 127
 \end{itemize}
 
-So we first need a function that maps the screen position to be zero centered: 
+So we first need a function that maps the screen position to be zero centred: 
 $$
 in_\text{max}/2 - pos
 $$
@@ -53,7 +57,7 @@ f(pos) = ((in_\text{max}/2 - pos)/(in_\text{max}/2))^2 \cdot dir(pos) \cdot out_
 $$
 
 \subsection{From USB to motors}
-The NXT recieves a vector in range (-127 -> 127, -127 -> 127).
+The NXT receives a vector in range (-127 -> 127, -127 -> 127).
 This ought to get mapped to the speed of the motor which is a value of -100 and 100, on each axis.
 Either full speed in the negatie direction or full speed in the positive direction.
 
