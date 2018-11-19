@@ -5,16 +5,16 @@
 #include <stdbool.h>
 #include "target_information.h"
 
-#define DeclareTask(x) 
-#define DeclareEvent(x) 
-#define DeclareResource(x) 
+#define DeclareTask(x)
+#define DeclareEvent(x)
+#define DeclareResource(x)
 #define SetEvent(x, y)
 #define WaitEvent(x)
 #define ClearEvent(x)
-#define GetResource(x) 
+#define GetResource(x)
 #define ReleaseResource(x)
-#define DeclareCounter(x) 
-#define SignalCounter(x)
+#define DeclareCounter(x)
+#define SignalCounter(x) 0
 #define TASK(x) void x ()
 #define TerminateTask() return
 
