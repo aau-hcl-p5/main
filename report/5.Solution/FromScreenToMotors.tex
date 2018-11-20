@@ -61,7 +61,7 @@ This vector should be mapped to the speed of the motor which is a value between 
 
 The output of the USB is an 8-bit integer, and the input of the motor is also an int.
 The easiest way to do these calculations is by simply mapping the ranges directly onto one another.
-However, we rarely want full speed, nor do we want 0 speed as the motors oftentimes will not move until reaching a power level of 10 to 20 due to sheer weight of the attached LEGO components.
+However, we rarely want full speed, nor do we want 0 speed as the motors oftentimes will not move until reaching a power level of 10 to 20 due to the sheer weight of the attached LEGO components.
 Therefore, the actual range was decided to be between $-30$ and $-10$ and likewise in the positive direction.
 
 These values of $\pm10$ and $\pm30$ should obviously be tweakable, but in these examples, 10 and 30 will be used for the sake of simplicity. 
