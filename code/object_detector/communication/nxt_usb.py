@@ -10,7 +10,7 @@ based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 import usb.core
 import usb.util
 
-from algorithms.result import Result
+from algorithms.result import Result, Status
 
 ID_VENDOR_LEGO = 0x0694
 ID_PRODUCT_NXT = 0x0002
@@ -65,20 +65,17 @@ class NxtUsb:
         should react upon by moving the turret
         :param data: a result data
         """
-        if data is None:
-            self.endpoint.write(b'\xFF\xFF\xFF\x00')
-        else:
-            self.endpoint.write(bytes([int(data.location.x) & 0xFF,
-                                       int(data.location.y) & 0xFF,
-                                       data.timestamp & 0xFF,
-                                       (data.timestamp >> 8) & 0xFF]))
+        self.endpoint.write(bytes([int(data.location.x) & 0xFF,
+                                   int(data.location.y) & 0xFF,
+                                   int(data.status.value[0]) & 0xFF,
+                                   0]))
 
     def __del__(self):
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
         if hasattr(self, 'endpoint') and self.endpoint is not None:
-            self.endpoint.write(b'\xFF\xFF\xFF\xFF')
+            self.endpoint.write(bytes([0, 0, Status.DISCONNECT_REQ.value, 0]))
         self.endpoint = None
 
 

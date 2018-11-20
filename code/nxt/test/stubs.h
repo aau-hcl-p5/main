@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "target_location.h"
+#include "target_information.h"
 
 #define DeclareTask(x) 
 #define DeclareResource(x) 
@@ -35,7 +35,7 @@ extern void display_clear(uint32_t update_too);
 // USB
 
 extern void set_usb_input(uint8_t *buffer);
-extern void set_usb_input_to_target(T_TARGET_LOCATION target_location);
+extern void set_usb_input_to_target_information(T_TARGET_INFORMATION target_information);
 extern bool usb_connected;
 extern uint32_t usb_processes;
 
