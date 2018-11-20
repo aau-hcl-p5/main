@@ -1,6 +1,6 @@
 \section{Mapping between computer vision to movement}
 When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power sent to the motors on the X and Y axis.
-Due to the resolution of the camera the screen position will be a 2-tuple of values between $0 - 480$, on the Y axis, and $0 - 640$ on the X axis, has to be translated into two values in the range $-100 - 100$.
+Due to the resolution of the camera the screen position will be a 2-tuple of values between $0$ to $480$, on the Y axis, and $0$ to $640$ on the X axis, has to be translated into two values in the range $-100$ to $100$.
 Before this translation, this value has to be transmitted across the USB connection.
 
 Based on this problem, two functions are required. 
@@ -15,10 +15,10 @@ This function will take a a 2-tuple named \textit{pos} as input, which is going 
 The output values is going to be a 2-tuple of 8-bit values.
 The reasoning behind 8-bit values, lies in the fact that this gives us about the same range as possible on the motor.
 
-As stated, the range of the input, is $0 - 480$ on the vertical axis and $0 - 640$ on the horizontal axis.
-The ranges of the output is per default between 0 and 255, because $2^8 = 256 $ where one value is used to represent the zero.
+As stated, the range of the input, is $0$ to $480$ on the vertical axis and $0$ to $640$ on the horizontal axis.
+The ranges of the output is per default between $0$ and $255$, because $2^8 = 256 $ where one value is used to represent the zero.
 It is beneficial to shift the range, so it is possible to represent negative values, to be able to represent both direction on each axis.
-Therefore the range is shift to center around zero, meaning the range will be $-127 - 127$ on both axes, dropping the one value of 128 to centre the values evenly.
+Therefore the range is shift to center around zero, meaning the range will be $-127$ to $127$ on both axes, dropping the one value of 128 to centre the values evenly.
 
 With this in mind, the input-range and output-range constants can be defined:\\
 $$in_\text{max} = (480,640)$$\\
@@ -30,9 +30,9 @@ $$
 in_\text{max}/2 - pos
 $$
 
-Now the values should be between $-240 - 240$ and $-230 - 230$.
-This needs to translated to $-127 - 127$.
-This is done by normalizing the value, to a range of $-1 - 1$.
+Now the values should be between $-240$ to $240$, and $-230$ to $230$.
+This needs to translated to $-127$ to $127$.
+This is done by normalizing the value, to a range of $-1$ to $1$.
 
 $$
 in_\text{max}/2 - pos)/(in_\text{max}/2
@@ -65,17 +65,18 @@ $$
 The above function now maps from the screen position to a smaller range, but without losing too much relevant precision.
 
 \subsection{From USB to motors}
-The NXT receives a 2-tuple in the range $-127 - 127$ on both values.
+The NXT receives a 2-tuple in the range $-127$ to $127$ on both values.
 This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corresponds to a percentage-wise speed in either a positive or negative direction. 
 
 The output of the USB is an 8-bit signed integer, and the input of the motor is also an int.
 The easiest way to do these calculations is by simply mapping the ranges directly onto one another.
-However, it is undesirable to use 100-power, as the movement will be to extreme, nor do we want 0 speed as the motors oftentimes will not move at all, before reaching a power level of 10 or 20 due to the resistance created by the weight of the attached LEGO components.
-Therefore a function is requires that maps between $-127 - 127$ and some unknown lower and upper bounds.
+However, it is undesirable to use a power value of 100, as the movement will be too extreme, likewise, a speed of 0 will oftentimes cause the motors to not move at all until reaching a power level of 10 or 20 due to the resistance created by the weight of the attached LEGO components.
+Therefore, a function is requires that maps between $-127$ and $127$ and some unknown lower and upper bounds.
 This function can then be used like the previous function used to translate screen position into a USB-friendly value.
 
-After doing some testing with static lower and upper bounds, we realized that this was not possible as the motors require a different amount of power to move the same distance, based on the angle of the machine.
-For example moving upwards on the Y-axis requires more power than moving down.
+After doing some testing with static lower and upper bounds, it was revealed that this was not possible as the motors require a different amount of power to move the same distance, based on the angle of the machine.
+For example, moving upwards on the Y-axis requires more power than moving down.
 The relation between the USB-data and motor-power is therefore based on the current angle of each motor.
-This relation is not constant, as this relation is based on external influences, such as gravity, weight and wires that create resistance to movement, and these value might change dynamically.
+This relation is not constant, as this relation is based on external influences, such as gravity, weight and wires that create resistance to the movement, and these value might change dynamically.
 This problem can be solved by a calibration process, which will create a function, dynamically, that can create the wanted mapping.
+\todo{reference to documentation of calibration}
