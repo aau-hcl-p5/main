@@ -1,17 +1,19 @@
 \section{Mapping between computer vision to movement}
-When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power sent to the motors on the X and Y axis. Due to the resolution of the camera the screen position will be a 2-tuple of values between $0 - 480$, on the Y axis, and $0 - 640$ on the X axis, has to be translated into two values in the range $-100 - 100$.
+When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power sent to the motors on the X and Y axis.
+Due to the resolution of the camera the screen position will be a 2-tuple of values between $0 - 480$, on the Y axis, and $0 - 640$ on the X axis, has to be translated into two values in the range $-100 - 100$.
 Before this translation, this value has to be transmitted across the USB connection.
 
 Based on this problem, two functions are required. 
 \begin{enumerate}
-	\item One on the Raspberry Pi, that maps the screen position to a USB-friendly value. Here each axis has been decided to be represented by a signed 8-bit value.
+	\item One on the Raspberry Pi, that maps the screen position to a USB-friendly value.
 	\item One on the NXT, that maps this 8-bit value, to the power value.
 \end{enumerate}
 
 
 \subsection{Translating screen-position to the communication layer}
 This function will take a a 2-tuple named \textit{pos} as input, which is going to be the screen position.
-The output values will be a 2-tuple of 8-bit values.
+The output values is going to be a 2-tuple of 8-bit values.
+The reasoning behind 8-bit values, lies in the fact that this gives us about the same range as possible on the motor.
 
 As stated, the range of the input, is $0 - 480$ on the vertical axis and $0 - 640$ on the horizontal axis.
 The ranges of the output is per default between 0 and 255, because $2^8 = 256 $ where one value is used to represent the zero.
@@ -28,7 +30,9 @@ $$
 in_\text{max}/2 - pos
 $$
 
-Now the values should be between $-240 - 240$ and $-230 - 230$. This needs to translated to $-127 - 127$. This is done by normalizing the value, to a range of $-1 - 1$.
+Now the values should be between $-240 - 240$ and $-230 - 230$.
+This needs to translated to $-127 - 127$.
+This is done by normalizing the value, to a range of $-1 - 1$.
 
 $$
 in_\text{max}/2 - pos)/(in_\text{max}/2
