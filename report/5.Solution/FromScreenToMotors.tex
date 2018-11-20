@@ -11,9 +11,9 @@ First of all, it is necessary to make a function maps the numbers correctly.
 This function will require a 2d vector named \textit{pos} as input.
 \todo{what is pos}
 
-The next goal is to take a location on the screen and translate it into a 8-bit value.
+The next goal is to take a location on the screen and translate it into an 8-bit value.
 \todo{why} 
-Due to the resolution of the camera that is used, the range on the screen is $0 - 480$ on one axis and $0 - 640$ on the other.
+Due to the resolution of the camera that is used, the range on the screen is $0 - 480$ on the vertical axis and $0 - 640$ on the horizontal axis.
 The range on the \textit{out} \todo{what is out} is per default between 0 and 255.
 However, as it will be beneficial to later change this into an either positive or negative velocity, based on direction, it will be beneficial to center it around 0.
 This results in the values being between $-127$ and $127$.
@@ -55,7 +55,7 @@ f(pos) = ((in_\text{max}/2 - pos)/(in_\text{max}/2))^2 \cdot dir(pos) \cdot out_
 $$
 
 \subsection{From USB to motors}
-The NXT receives a vector in range $(-127 -> 127, -127 -> 127)$.
+The NXT receives a vector in the range $(-127 -> 127, -127 -> 127)$.
 \todo{correct mathematical notation?}
 This vector should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corrosponds to a percentage-wise speed in either a positive or negative direction.
 
