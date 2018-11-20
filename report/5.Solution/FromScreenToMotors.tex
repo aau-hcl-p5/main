@@ -1,19 +1,23 @@
 \section{Mapping between computer vision and movement}
 Two functions are needed to translate the screen position into a velocity on the motors.
-The first task is to translate the screen position into a format usable for the USB transfer, and then transform that format into a motor velocity.\todo{Should this be velocity or speed?}
+The first task is to translate the screen position into a format usable for the USB transfer, and then transform that format into a motor velocity.
+\todo{Should this be velocity or speed?}
 
 \subsection{Screen to motors}
 To translate the position on the screen into a velocity two functions are needed.
-First of all, it is necessary to make a function maps the numbers correctly. \todo{Which numbers precisely?}
+First of all, it is necessary to make a function maps the numbers correctly.
+\todo{Which numbers precisely?}
 
-This function will require a 2d vector named \textit{pos} as input. \todo{what is pos}
+This function will require a 2d vector named \textit{pos} as input.
+\todo{what is pos}
 
-The next goal is to take a location on the screen and translate it into a 8-bit value. \todo{why} 
+The next goal is to take a location on the screen and translate it into a 8-bit value.
+\todo{why} 
 Due to the resolution of the camera that is used, the range on the screen is $0 - 480$ on one axis and $0 - 640$ on the other.
-The range on the \textit{out} \todo{what is out} is per default between 0 and 255, however, as it will be beneficial to later change this into an either positive or negative velocity, based on direction, it will be beneficial to center it around 0.
+The range on the \textit{out} \todo{what is out} is per default between 0 and 255.
+However, as it will be beneficial to later change this into an either positive or negative velocity, based on direction, it will be beneficial to center it around 0.
 This results in the values being between $-127$ and $127$.
-
-For the function, two constants are defined: \\
+For the function, two constants are defined:\\
 $$in\_max = (480,640)$$\\
 $$out\_max = 127$$
 
@@ -51,7 +55,8 @@ f(pos) = ((in_\text{max}/2 - pos)/(in_\text{max}/2))^2 \cdot dir(pos) \cdot out_
 $$
 
 \subsection{From USB to motors}
-The NXT receives a vector in range $(-127 -> 127, -127 -> 127)$. \todo{correct mathematical notation?}
+The NXT receives a vector in range $(-127 -> 127, -127 -> 127)$.
+\todo{correct mathematical notation?}
 This vector should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corrosponds to a percentage-wise speed in either a positive or negative direction.
 
 The output of the USB is an 8-bit integer, and the input of the motor is also an int.
