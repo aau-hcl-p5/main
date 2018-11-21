@@ -6,8 +6,7 @@ chan LaserOff, LaserOn, MotorsOn, MotorsOff, Disconnect_Usb_Host, Connect_Usb_Ho
 int Status_Code = 9; // We have no idle (no effect) status code.</declaration>
 	<template>
 		<name x="5" y="5">Laser</name>
-		<declaration>// Place local declarations here.
-clock ExecutionTime;</declaration>
+		<declaration>// Place local declarations here.</declaration>
 		<location id="id0" x="17" y="34">
 			<name x="-8" y="0">Laser_On</name>
 		</location>
@@ -25,16 +24,12 @@ clock ExecutionTime;</declaration>
 			<source ref="id1"/>
 			<target ref="id0"/>
 			<label kind="synchronisation" x="-136" y="-68">LaserOn?</label>
-			<label kind="assignment" x="-204" y="-51">ExecutionTime:=0</label>
-			<label kind="comments" x="-348" y="-34">We set the ExecutionTime to 0 
-each time we enter the laser</label>
 			<nail x="-127" y="34"/>
 			<nail x="-127" y="34"/>
 		</transition>
 	</template>
 	<template>
 		<name>Motor</name>
-		<declaration>clock ExecutionTime;</declaration>
 		<location id="id2" x="-25" y="161">
 			<name x="-35" y="127">Motor_On</name>
 		</location>
@@ -52,9 +47,6 @@ each time we enter the laser</label>
 			<source ref="id3"/>
 			<target ref="id2"/>
 			<label kind="synchronisation" x="-170" y="68">MotorsOn?</label>
-			<label kind="assignment" x="-221" y="85">ExecutionTime:=0</label>
-			<label kind="comments" x="-408" y="102">We set the ExecutionTime of the motors
-to 0 each time we enter the motors.</label>
 			<nail x="-127" y="161"/>
 		</transition>
 	</template>
