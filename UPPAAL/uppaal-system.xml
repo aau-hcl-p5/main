@@ -19,9 +19,6 @@ clock ExecutionTime;</declaration>
 			<source ref="id0"/>
 			<target ref="id1"/>
 			<label kind="synchronisation" x="93" y="-51">LaserOff?</label>
-			<label kind="comments" x="144" y="-8">We set a time limit to the laser
-it should not be fired in less then
-100ms and no longer then 200ms</label>
 			<nail x="136" y="34"/>
 		</transition>
 		<transition>
