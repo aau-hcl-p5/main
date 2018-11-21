@@ -19,6 +19,8 @@
 #define TerminateTask() return
 
 // General
+extern bool usb_initialized;
+
 extern void ecrobot_status_monitor(char *status);
 extern void ecrobot_init_usb();
 extern void ecrobot_term_usb();
