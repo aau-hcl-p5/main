@@ -6,9 +6,10 @@ chan LaserOff, LaserOn, MotorsOn, MotorsOff, Disconnect_Usb_Host, Connect_Usb_Ho
 int Status_Code = 9; // We have no idle (no effect) status code.</declaration>
 	<template>
 		<name x="5" y="5">Laser</name>
-		<declaration>// Place local declarations here.</declaration>
+		<declaration>// Place local declarations here.
+clock ExecutionTime;</declaration>
 		<location id="id0" x="17" y="34">
-			<name x="7" y="0">Laser_On</name>
+			<name x="-8" y="0">Laser_On</name>
 		</location>
 		<location id="id1" x="8" y="-153">
 			<name x="-2" y="-187">Laser_Off</name>
@@ -18,41 +19,52 @@ int Status_Code = 9; // We have no idle (no effect) status code.</declaration>
 			<source ref="id0"/>
 			<target ref="id1"/>
 			<label kind="synchronisation" x="93" y="-51">LaserOff?</label>
+			<label kind="comments" x="144" y="-8">We set a time limit to the laser
+it should not be fired in less then
+100ms and no longer then 200ms</label>
 			<nail x="136" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id0"/>
 			<label kind="synchronisation" x="-136" y="-68">LaserOn?</label>
+			<label kind="assignment" x="-204" y="-51">ExecutionTime:=0</label>
+			<label kind="comments" x="-348" y="-34">We set the ExecutionTime to 0 
+each time we enter the laser</label>
 			<nail x="-127" y="34"/>
 			<nail x="-127" y="34"/>
 		</transition>
 	</template>
 	<template>
 		<name>Motor</name>
+		<declaration>clock ExecutionTime;</declaration>
 		<location id="id2" x="-25" y="161">
-			<name x="-35" y="127">Motor_Off</name>
+			<name x="-35" y="127">Motor_On</name>
 		</location>
 		<location id="id3" x="-17" y="0">
-			<name x="-27" y="-34">Motor_On</name>
+			<name x="-27" y="-34">Motor_Off</name>
 		</location>
-		<init ref="id2"/>
+		<init ref="id3"/>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="synchronisation" x="51" y="76">MotorsOn?</label>
+			<label kind="synchronisation" x="51" y="76">MotorsOff?</label>
 			<nail x="85" y="161"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id2"/>
-			<label kind="synchronisation" x="-170" y="68">MotorsOff?</label>
+			<label kind="synchronisation" x="-170" y="68">MotorsOn?</label>
+			<label kind="assignment" x="-221" y="85">ExecutionTime:=0</label>
+			<label kind="comments" x="-408" y="102">We set the ExecutionTime of the motors
+to 0 each time we enter the motors.</label>
 			<nail x="-127" y="161"/>
 		</transition>
 	</template>
 	<template>
 		<name>NXT</name>
-		<declaration>bool Calibration_Done = false;</declaration>
+		<declaration>bool Calibration_Done = false;
+clock ExecutionTime;</declaration>
 		<location id="id4" x="-348" y="170">
 			<name x="-433" y="127">Firing_Laser</name>
 		</location>
@@ -68,8 +80,8 @@ int Status_Code = 9; // We have no idle (no effect) status code.</declaration>
 		<location id="id8" x="-331" y="-178">
 			<name x="-341" y="-212">Ready</name>
 		</location>
-		<location id="id9" x="136" y="-187">
-			<name x="127" y="-221">Update_Display</name>
+		<location id="id9" x="-42" y="-127">
+			<name x="-17" y="-136">Update_Display</name>
 		</location>
 		<location id="id10" x="-331" y="34">
 			<name x="-425" y="0">Processing_Data</name>
@@ -81,6 +93,17 @@ int Status_Code = 9; // We have no idle (no effect) status code.</declaration>
 			<name x="-341" y="-314">Awaiting_Usb</name>
 		</location>
 		<init ref="id7"/>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-212" y="-119">Status_Code == 1</label>
+			<nail x="-170" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<nail x="-161" y="-170"/>
+		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id8"/>
@@ -109,7 +132,7 @@ int Status_Code = 9; // We have no idle (no effect) status code.</declaration>
 		<transition>
 			<source ref="id10"/>
 			<target ref="id12"/>
-			<label kind="guard" x="-731" y="34">Status_Code == 2</label>
+			<label kind="guard" x="-748" y="34">Status_Code == 2</label>
 			<nail x="-357" y="68"/>
 			<nail x="-603" y="68"/>
 			<nail x="-603" y="-280"/>
@@ -163,13 +186,14 @@ int Status_Code = 9; // We have no idle (no effect) status code.</declaration>
 		<transition>
 			<source ref="id12"/>
 			<target ref="id8"/>
-			<label kind="synchronisation" x="-518" y="-221">Connect_Usb_Host?</label>
+			<label kind="synchronisation" x="-527" y="-229">Connect_Usb_Host?</label>
 			<nail x="-382" y="-246"/>
 			<nail x="-382" y="-195"/>
 		</transition>
 	</template>
 	<template>
 		<name>RPi</name>
+		<declaration>clock ExecutionTime;</declaration>
 		<location id="id13" x="-93" y="25">
 			<name x="-238" y="17">Object_Localization</name>
 		</location>
