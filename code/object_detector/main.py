@@ -86,10 +86,10 @@ if __name__ == "__main__":
 
     PARSER.add_argument(
         '-a', '--algorithm',
-        dest='alg_name', default='obj_fill',
+        dest='alg_name', default='thresh_moment',
         type=str, metavar='[name]',
         help="Choose which algorithm to run "
-             f"[{', '.join(a.name for a in algorithms.AlgorithmType)}]. default='obj_fill'")
+             f"[{', '.join(a.name for a in algorithms.AlgorithmType)}]. default='thresh_moment'")
 
     PARSER.add_argument(
         '-g', '--generate',
