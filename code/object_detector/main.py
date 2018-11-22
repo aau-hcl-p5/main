@@ -20,8 +20,7 @@ import numpy as np
 import algorithms
 import webcam
 from algorithms import Result, Status, Vector, screen_location_to_relative_location
-from communication import NxtUsb
-from communication import screen_debug_wrapper
+from communication import NxtUsb, screen_debug_wrapper
 from communication.nxt_usb import DeviceNotFound
 from test_data import Generator
 
