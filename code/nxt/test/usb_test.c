@@ -5,6 +5,7 @@
 #include "usb_test.h"
 #include "target_information.h"
 #include "stubs.h"
+#include "nxt.h"
 
 T_TC_RESULT test_usb_read() {
     T_TC_RESULT result = TC_SUCCESS;
@@ -26,12 +27,3 @@ T_TC_RESULT test_usb_disconnect() {
     return result;
 }
 
-extern void Task_ts1();
-
-T_TC_RESULT test_task_ts1() {
-    T_TC_RESULT result = TC_SUCCESS;
-    uint32_t old_usb_processes = usb_processes;
-    Task_ts1();
-    assert_num_equals(old_usb_processes + 1, usb_processes);
-    return result;
-}

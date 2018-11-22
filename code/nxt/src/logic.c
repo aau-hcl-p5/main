@@ -9,18 +9,7 @@
 // TODO: Not global var
 bool laser_state = false;
 
-void main_loop() {
-    T_TARGET_INFORMATION target_information;
-    if (get_target_information(&target_information)) {
-        if(target_information.status == TARGET_FOUND)
-        {
-            move(target_information.location);
-        }
-        else if(target_information.status == NO_TARGET_FOUND) {
-            stop_motors();
-        }
-    }
-}
+void main_loop() {}
 
 bool toggle_laser() {
     return laser_state = !laser_state;

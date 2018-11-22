@@ -5,9 +5,13 @@ TARGET_SOURCES = \
 	./src/usb.c \
 	./src/movement.c \
 	./src/init_screen.c \
+<<<<<<< HEAD
 	./src/display_data.c \
 	./src/calibration.c \
 	./src/logic.c
+=======
+	./src/display_data.c
+>>>>>>> develop
 TOPPERS_OSEK_OIL_SOURCE = ./nxt.oil
 USER_INC_PATH = ./inc
 

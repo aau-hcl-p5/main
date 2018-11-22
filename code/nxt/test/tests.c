@@ -11,7 +11,6 @@ int main() {
         {"Ensure sizeof target_location is 2 byte", tesT_VECTOR_size},
         {"Test read from usb", test_usb_read},
         {"Test usb disconnect", test_usb_disconnect},
-        {"Test 1ms usb process", test_task_ts1},
         {"Test motor initialization", test_motor_init},
         {"Test motor init fails on illegal axis", test_motor_init_illegal_axis},
         {"Test stop motors", test_stop_motors},
