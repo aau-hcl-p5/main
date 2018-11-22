@@ -12,9 +12,9 @@ The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
         ecrobot_init_usb();
     }
 \end{lstlisting}
-Snippet~\ref{lst:usbhandshake} shows the initializion of the NXT device. 
+Snippet~\ref{lst:usbhandshake} shows the initializion of the NXT device.
 \texttt{ecrobot\_device\_initialize} is invoked by NXTOSEK on program startup.
-The essential function call for function call is the \textit{ecrobot\_init\_usb()} call.
+The essential function call for function call is the \texttt{ecrobot\_init\_usb()} call.
 This function is a part of the NXTOSEK API and is required to use the NXT's USB port for communication.
 As mentioned in Section~\ref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
 
@@ -46,17 +46,17 @@ The next part of the USB receival is the actual continuous retrieval from the US
 	return false;
 }
 \end{lstlisting}
-The \textit{get\_target\_location} function handles both the second part of the USB receive, the continous read, and the third part, the potential disconnect.
+The \texttt{get\_target\_location} function handles both the second part of the USB receive, the continous read, and the third part, the potential disconnect.
 
-The \textit{GetResource(USB\_Rx)} call, locks the USB resource for other processes.
-It then reads the data from the USB buffer, with the \textit{ecrobot\_read\_usb} call, into the data unsigned integer data and releases the USB resource.
+The \texttt{GetResource(USB\_Rx)} call, locks the USB resource for other processes.
+It then reads the data from the USB buffer, with the \texttt{ecrobot\_read\_usb} call, into the data unsigned integer data and releases the USB resource.
 If nothing is read from the USB, meaning if the length of the read data is $0$, it returns false.
 
-Next the function checks if the data match the disconnect statuscode, which is defined as \texttt{0xFFFFFFFF} in the \textit{data\_receive.h} header file.
+Next the function checks if the data match the disconnect statuscode, which is defined as \texttt{0xFFFFFFFF} in the \texttt{data\_receive.h} header file.
 In that case, it turns off the USB communication, and turns on the initialization screen.
-Otherwise it sets the data that the \textit{out\_location} pointer points to, to be the read data.
+Otherwise it sets the data that the \texttt{out\_location} pointer points to, to be the read data.
 Finally it displays the target location to the NXT screen, which is mostly used for debugging.
 
-The \textit{get\_target\_location function} is called from the \textit{logic.c} file, which contains the logic for the device.
-\textit{Logic.c} next calls the move function, which uses the \textit{target\_location} to aim the robot.
+The \texttt{get\_target\_location function} is called from the \texttt{logic.c} file, which contains the logic for the device.
+\texttt{logic.c} next calls the move function, which uses the \texttt{target\_location} to aim the robot.
 This is described in the next section, Section~\ref{sec:movement}.
