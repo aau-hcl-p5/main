@@ -73,7 +73,10 @@ class FlatController:
         :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}
         """
         frame = self.video_controller.get_current_frame()
+        timer = cv2.getTickCount()
         res = screen_location_to_relative_location(frame, self._algorithm(frame))
+        fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
+        cv2.putText(frame, "FPS : " + str(int(fps)), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2)
         screen_debug_wrapper(res, frame)
         return res
 
