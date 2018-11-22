@@ -12,7 +12,7 @@ which will handle movement of motors etc.
 
 """
 import argparse
-from typing import Callable, Optional
+from typing import Callable, Optional, Union
 
 import cv2
 import numpy as np
@@ -20,6 +20,7 @@ import numpy as np
 import algorithms
 import webcam
 from algorithms import Result, Status, Vector, screen_location_to_relative_location
+from calibration import save_data
 from calibration.utils import Package
 from communication import NxtUsb, screen_debug_wrapper
 from communication.nxt_usb import DeviceNotFound
@@ -34,20 +35,16 @@ class FlatController:
 
     def __init__(self,
                  algorithm: Callable[[np.ndarray], Vector],
-                 calibration_algorithm: Callable[
-                     [list[Package]],
-                        None
-                 ],
                  capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA,
+                 calibration_algorithm: Union[Callable[[], None], None] = None,
                  ) -> None:
         """
         Initializes the controller
         :type calibration_algorithm: a function that takes calibration packages,
-            and handles them in some unknown way (either logs them or sends them back) 
+            and handles them in some unknown way (either logs them or sends them back)
         :param algorithm: The algorithm to use for image processing
         :param capture_type: What type the capturing device should be.
         """
-        self.calibration_algorithm = calibration_algorithm
         self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
         try:
@@ -55,6 +52,8 @@ class FlatController:
         except DeviceNotFound as e:
             print(f"Usb initialization failed. Starting without ({e})")
             self.usb_connection = None
+        if calibration_algorithm:
+            calibration_algorithm()
         self.terminating = False
 
     def run(self) -> None:
@@ -114,7 +113,7 @@ if __name__ == "__main__":
     ARGS = PARSER.parse_args()
 
     if ARGS.test_data_dir is None:
-        cont = FlatController(algorithms.get_from_str(ARGS.alg_name))
+        cont = FlatController(algorithms.get_from_str(ARGS.alg_name), calibration_algorithm=save_data.save_packages)
         cont.run()
     else:
         # Generate test data
