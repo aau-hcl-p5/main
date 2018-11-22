@@ -9,6 +9,14 @@ bool usb_buffer[256];
 uint32_t usb_len;
 
 uint32_t usb_processes = 0; 
+bool usb_initialized = false;
+
+void ecrobot_init_usb() {
+    usb_initialized = true;
+}
+void ecrobot_term_usb() {
+    usb_initialized = false;
+}
 
 void set_usb_input(uint8_t *buffer, uint32_t len) {
     usb_connected = true;

@@ -9,11 +9,8 @@
 #include "init_screen.h"
 #include "display_data.h"
 
-/* OSEK declarations */
-DeclareTask(Task_ts1);
-DeclareResource(USB_Rx);
-
 #define SIZEOF_USB_DATA sizeof(T_TARGET_INFORMATION)
+DeclareResource(USB_Rx);
 
 bool get_target_information(T_TARGET_INFORMATION *out_information) {
 	int32_t len;
@@ -39,13 +36,4 @@ bool get_target_information(T_TARGET_INFORMATION *out_information) {
 		return true;
 	}
 	return false;
-}
-
-/* 1msec periodical Task */
-TASK(Task_ts1)
-{
-	GetResource(USB_Rx);
-	ecrobot_process1ms_usb(); /* USB process handler (must be invoked every 1msec) */
-	ReleaseResource(USB_Rx);
-	TerminateTask();
 }
