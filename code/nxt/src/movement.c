@@ -114,7 +114,7 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
 
 
     uint8_t lower_bound = get_required_power(axis, distance >= 0);
-    uint8_t range = 10;
+    uint8_t range = 50;
 
     // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
     // otherwise we don't get a value in the expected range
@@ -126,6 +126,6 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
 
 T_VECTOR get_current_location() {
 
-    T_VECTOR location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor), 0};
+    T_VECTOR location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor) };
     return location;
 }
