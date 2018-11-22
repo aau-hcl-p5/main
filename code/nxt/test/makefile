@@ -7,11 +7,11 @@ LIBS=-lm
 SRCTEST = $(wildcard ./*.c)
 
 SRCC = $(wildcard ../src/*.c)
-CSRC = $(filter-out ../src/*.s, $(SRCC))
-COVSRC = $(CSRC:.c=.gcno)
+#CSRC = $(filter-out ../src/nxt.c, $(SRCC))
+COVSRC = $(SRCC:.c=.gcno)
 COV = $(COVSRC:../src/%=%)
 
-SRC = $(SRCTEST) $(CSRC)
+SRC = $(SRCTEST) $(SRCC)
 
 testsuite: $(SRC)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
