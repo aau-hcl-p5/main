@@ -51,12 +51,6 @@ void user_1ms_isr_type2(void)
 TASK(UpdateDisplay)
 {
   show_init_screen();
-<<<<<<< HEAD
-  calibrate(false);
-  while(1)
-  {
-    main_loop();
-=======
   TerminateTask();
 }
 
@@ -86,7 +80,6 @@ TASK(ReceiveData)
     else if(target_information.status == NO_TARGET_FOUND) {
       SetEvent(MoveMotors, MoveMotorsOffEvent);
     }
->>>>>>> develop
   }
   TerminateTask();
 }
