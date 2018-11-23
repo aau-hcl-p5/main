@@ -6,6 +6,7 @@
 #define TARGET_FOUND 0
 #define NO_TARGET_FOUND 1
 #define DISCONNECT_REQ 2
+#define READY_FOR_CALIBRATION 3
 
 typedef struct __attribute__((packed)) {
     int16_t x : 8;

@@ -49,11 +49,13 @@ class FlatController:
         self._algorithm = algorithm
         try:
             self.usb_connection = NxtUsb()
+            if calibration_algorithm:
+                self.usb_connection.write_data(Result(Vector(0, 0), Status.READY_FOR_CALIBRATION))
+                calibration_algorithm()
         except DeviceNotFound as e:
             print(f"Usb initialization failed. Starting without ({e})")
             self.usb_connection = None
-        if calibration_algorithm:
-            calibration_algorithm()
+
         self.terminating = False
 
     def run(self) -> None:

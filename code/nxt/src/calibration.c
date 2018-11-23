@@ -7,11 +7,12 @@
 #include "usb.h"
 
 #define MIN_POWER 10
-#define MOVEMENT_THRESHOLD 5
+#define MOVEMENT_THRESHOLD 10
 #define MAX_POWER 90
 
+T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 
-T_POWER_TUPLE y_axis_powers[360];
+
 
 int8_t get_required_power(char axis, bool positive_direction) {
     if(axis == 'x')
@@ -24,7 +25,7 @@ int8_t get_required_power(char axis, bool positive_direction) {
 }
 
 
-bool calibrate(bool internal) {
+void calibrate(bool internal) {
 
     display_clear(0);
     // calibrate the y axis
@@ -46,7 +47,6 @@ bool calibrate(bool internal) {
             break;
 
     }
-
 }
 
 void calibrate_axis_in_direction(char axis, bool direction) {
@@ -122,7 +122,6 @@ int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
     if(axis == 'x') {
         location_on_axis = first_location.x;
     }
-    send_calibration_data(location_on_axis, axis, power, positive_direction);
 
     return power;
 }

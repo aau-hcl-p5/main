@@ -9,7 +9,10 @@ typedef struct {
 } T_POWER_TUPLE;
 
 
-extern bool calibrate(bool internal);
+#define POINTS_ON_AXIS 360
+extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
+
+extern void calibrate(bool internal);
 extern int8_t get_required_power(char axis, bool positive_direction);
 
 int8_t get_power_to_move_one_degree(char axis, bool positive_direction);
