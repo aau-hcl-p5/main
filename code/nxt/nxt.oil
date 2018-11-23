@@ -50,7 +50,10 @@ CPU ATMEL_AT91SAM7S256 {
     };
 
     TASK RunCalibration {
-      AUTOSTART = TRUE;
+      AUTOSTART = TRUE 
+        {
+          APPMODE = appmode1;
+        };
       PRIORITY = 10;
       ACTIVATION = 1;
       SCHEDULE = NON;

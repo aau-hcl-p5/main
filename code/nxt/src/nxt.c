@@ -48,6 +48,7 @@ void user_1ms_isr_type2(void) {
 
 TASK(RunCalibration) {
     calibrate(false);
+    TerminateTask();
 }
 
 TASK(UpdateDisplay) {
