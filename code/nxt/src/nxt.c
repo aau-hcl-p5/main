@@ -3,6 +3,7 @@
 #include "target_information.h"
 #include "movement.h"
 #include "data_receive.h"
+#include "display_data.h"
 #include "movement.h"
 
 
@@ -22,7 +23,7 @@ DeclareEvent(LaserOffEvent);
 DeclareResource(USB_Rx);
 
 /* Global variables */
-T_TARGET_INFORMATION target_information;
+T_TARGET_INFORMATION target_information = { 0, 0, DISCONNECT_REQ };
 
 
 /* Initializes motors with their direction */
@@ -49,7 +50,14 @@ void user_1ms_isr_type2(void)
 
 TASK(UpdateDisplay)
 {
-  show_init_screen();
+  if(target_information.status == DISCONNECT_REQ)
+    {
+      show_init_screen();
+    }
+    else
+    {
+      display_target_information(target_information);
+    }
   TerminateTask();
 }
 
@@ -62,7 +70,6 @@ TASK(ToggleLaser)
     WaitEvent(LaserOffEvent);
     ClearEvent(LaserOffEvent);
   }
-
   TerminateTask();
 }
 
@@ -95,6 +102,5 @@ TASK(MoveMotors)
     ClearEvent(MoveMotorsOffEvent);
     stop_motors();
   }
-
   TerminateTask();
 }
