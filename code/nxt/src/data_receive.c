@@ -28,11 +28,9 @@ bool get_target_information(T_TARGET_INFORMATION *out_information) {
 		{
 			/* disconnect current connection */
 			ecrobot_disconnect_usb();
-			show_init_screen();
 			return false;
 		}
 		memcpy(out_information, &new_target_information, sizeof(T_TARGET_INFORMATION));
-		display_target_information(*out_information);
 		return true;
 	}
 	return false;
