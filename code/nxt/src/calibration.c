@@ -3,14 +3,15 @@
 #include "display_data.h"
 #include "nxt.h"
 #include "calibration.h"
+#include "vector.h"
 #include "movement.h"
 #include "usb.h"
 
 #define MIN_POWER 10
-#define MOVEMENT_THRESHOLD 10
-#define MAX_POWER 90
+#define MAX_POWER 40
 
 T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
+bool calibrated = false;
 
 
 
@@ -27,71 +28,36 @@ int8_t get_required_power(char axis, bool positive_direction) {
 
 void calibrate(bool internal) {
 
-    display_clear(0);
     // calibrate the y axis
-    for(int i = 0; i < 360; i++) {
-        int8_t y_position = get_current_location().y;
-        y_axis_powers[y_position].positive = get_power_to_move_one_degree('y', true);
-        // if power was set to more than 100 then we used all the power we could, but still couldn't move.
-        // this means that this is the end.
-        if(y_axis_powers[y_position].positive > MAX_POWER)
-            break;
-
-    }
-    for(int i = 0; i < 360; i++) {
-        int8_t y_position = get_current_location().y;
-        y_axis_powers[y_position].negative = get_power_to_move_one_degree('y', false);
-        // if power was set to more than 100 then we used all the power we could, but still couldn't move.
-        // this means that this is the end.
-        if(y_axis_powers[y_position].negative > MAX_POWER)
-            break;
-
-    }
+    calibrate_axis_in_direction('y',true);
+    calibrate_axis_in_direction('y',false);
+    calibrated = true;
+    display_clear(0);
+    display_string_at_xy(0, 0, "Finished calibration!");
 }
 
 void calibrate_axis_in_direction(char axis, bool direction) {
     display_clear(0);
     display_string_at_xy(0, 0, "Calibrating...");
-    for(int i = 0; i < 360; i++) {
+    uint8_t power = 0;
+    do
+    {
         int8_t y_position = get_current_location().y;
-        y_axis_powers[y_position].negative = get_power_to_move_one_degree(axis, direction);
-        // if power was set to more than 100 then we used all the power we could but still couldn't move.
-        // this means that this is the end.
-        if(y_axis_powers[y_position].negative >= MAX_POWER)
-            break;
+        power = get_power_to_move_one_degree(axis, direction);
+        uint16_t index = POINTS_ON_AXIS/2 + y_position;
+        if(direction) {
+            y_axis_powers[index].positive = power;
+        }
+        else {
+            y_axis_powers[index].negative = power;
 
-    }
+        }
+        // if power was set to more than MAX_POWER then we used all the power we could but still couldn't move.
+        // this means that this is the end
+
+    } while(power < MAX_POWER);
 }
 
-double root(double n){
-    double lo = 0, hi = n, mid;
-    for(int i = 0 ; i < 1000 ; i++){
-        mid = (lo+hi)/2;
-        if(mid*mid == n) return mid;
-        if(mid*mid > n) hi = mid;
-        else lo = mid;
-    }
-    return mid;
-}
-
-
-int sq(int x) {
-    return (x * x);
-}
-
-
-// Checks whether locations are the same within a margin of error of MOVEMENT_THRESHOLD
-bool is_locations_equals(T_VECTOR target1, T_VECTOR target2) {
-
-    display_string_at_xy(0, 3, "pXs");
-    display_int_at_xy(4, 3, target1.x - target2.x, 3);
-    display_int_at_xy(4, 4, target1.y - target2.y, 3);
-    display_string_at_xy(0, 6, "dist");
-    int distance = root(sq(target1.x - target2.x) + sq(target1.y - target2.y));
-    display_int_at_xy(4, 6, distance, 3);
-    return distance < MOVEMENT_THRESHOLD;
-    //return target1.x == target2.x && target1.y == target2.y;
-}
 
 int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
     char axis_str[2];
@@ -101,7 +67,7 @@ int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
     T_VECTOR first_location = get_current_location();
     display_string_at_xy(0, 2, "dir");
     display_string_at_xy(4, 2, positive_direction ? "+" : "-");
-    display_string_at_xy(5, 2, axis_str);
+    display_string_at_xy(6, 2, axis_str);
     display_string_at_xy(0, 3, "pos");
     display_int_at_xy(4, 3, first_location.x, 3);
     display_int_at_xy(4, 4, first_location.y, 3);
@@ -117,11 +83,6 @@ int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
 
     } while(is_locations_equals(first_location, get_current_location()) && power <= 100);
     set_motor_speed(axis, 0);
-
-    int8_t location_on_axis = first_location.y;
-    if(axis == 'x') {
-        location_on_axis = first_location.x;
-    }
 
     return power;
 }

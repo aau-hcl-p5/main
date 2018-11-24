@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "target_information.h"
+#include "vector.h"
 
 #define DeclareTask(x)
 #define DeclareEvent(x)

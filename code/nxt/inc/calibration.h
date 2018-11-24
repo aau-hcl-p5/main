@@ -1,7 +1,8 @@
-#include <stdbool.h>
-
 #ifndef NXT_CALIBRATION_H
 #define NXT_CALIBRATION_H
+
+#include <stdbool.h>
+#include "vector.h"
 
 typedef struct {
     uint8_t negative;
@@ -10,7 +11,9 @@ typedef struct {
 
 
 #define POINTS_ON_AXIS 360
+
 extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
+extern bool calibrated;
 
 extern void calibrate(bool internal);
 extern int8_t get_required_power(char axis, bool positive_direction);

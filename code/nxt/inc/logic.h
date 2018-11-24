@@ -2,9 +2,8 @@
 #define LOGIC_H
 #include <stdbool.h>
 
-#include "target_information.h"
+#include "vector.h"
 
-extern void main_loop();
 extern bool toggle_laser();
 extern bool standby();
 extern uint32_t get_distance(uint32_t sensor_id);

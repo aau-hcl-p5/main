@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "target_information.h"
+#include "vector.h"
 
 #define MOTOR_RANGE_Y 10
 #define MOTOR_SPEED_LOWER_BOUND_Y 20

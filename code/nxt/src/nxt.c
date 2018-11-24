@@ -1,6 +1,6 @@
 #include "nxt.h"
 #include "init_screen.h"
-#include "target_information.h"
+#include "vector.h"
 #include "movement.h"
 #include "calibration.h"
 #include "usb.h"
@@ -13,6 +13,7 @@ DeclareTask(ReceiveData);
 DeclareTask(UpdateDisplay);
 DeclareTask(ToggleLaser);
 DeclareTask(MoveMotors);
+DeclareTask(KeepUSBAlive);
 
 DeclareCounter(SysTimerCnt);
 
@@ -24,7 +25,8 @@ DeclareEvent(LaserOffEvent);
 DeclareResource(USB_Rx);
 
 /* Global variables */
-T_TARGET_INFORMATION target_information = { 0, 0, DISCONNECT_REQ };
+T_VECTOR last_target_location = { 0, 0 };
+STATUS_CODE current_status = DISCONNECTED_REQ;
 
 
 /* Initializes motors with their direction */
@@ -47,18 +49,20 @@ void user_1ms_isr_type2(void) {
 }
 
 TASK(RunCalibration) {
-    calibrate(false);
+    if(!calibrated) {
+        calibrate(false);
+    }
     TerminateTask();
 }
 
 TASK(UpdateDisplay) {
-    if(target_information.status == DISCONNECT_REQ)
+    if(current_status == DISCONNECTED_REQ)
     {
         show_init_screen();
     }
     else
     {
-        display_target_information(target_information);
+        display_target_information(current_status, last_target_location);
     }
     TerminateTask();
 }
@@ -74,22 +78,43 @@ TASK(ToggleLaser) {
     TerminateTask();
 }
 
-TASK(ReceiveData) {
-
+TASK(KeepUSBAlive) {
     GetResource(USB_Rx);
     ecrobot_process1ms_usb();
     ReleaseResource(USB_Rx);
-    if (get_target_information(&target_information)) {
-        if(target_information.status == TARGET_FOUND)
+    TerminateTask();
+}
+
+TASK(ReceiveData) {
+
+    if (get_status_code(&current_status)) {
+        if(current_status == TARGET_FOUND)
         {
+            /* Wait for a target location */
+            while(!get_target_location(&last_target_location)) {}
+
             SetEvent(MoveMotors, MoveMotorsOnEvent);
         }
-        else if(target_information.status == NO_TARGET_FOUND) {
+        else if(current_status == NO_TARGET_FOUND) {
             SetEvent(MoveMotors, MoveMotorsOffEvent);
         }
-        else if(target_information.status == READY_FOR_CALIBRATION) {
+        else if(current_status == READY_FOR_CALIBRATION) {
+
+            display_clear(0);
+            display_string_at_xy(0, 0, "Finished calibration!");
             for(int i = 0; i < POINTS_ON_AXIS; i++){
-                send_calibration_data(y_axis_powers[i]);
+
+                systick_wait_ms(5);
+                display_int_at_xy(1, 1, i, 3);
+                display_string_at_xy(0, 2, "Angle");
+                display_string_at_xy(0, 3, "Positive =");
+                display_int_at_xy(3, 4, y_axis_powers[i].positive, 3);
+                display_string_at_xy(0, 5, "Negative =");
+                display_int_at_xy(3, 6, y_axis_powers[i].negative, 3);
+                display_string_at_xy(0, 7, "S=");
+                display_int_at_xy(3, 7, int(sizeof(SEND_PACKAGE), 3);
+                display_update();
+                send_calibration_data(i, true, y_axis_powers[i]);
             }
         }
     }
@@ -97,10 +122,13 @@ TASK(ReceiveData) {
 }
 
 TASK(MoveMotors) {
+    // This task is going to be preempted so this is not an issue
     while(1) {
+
+        // we wait for the motor event, from ReceiveData, to be sent.
         WaitEvent(MoveMotorsOnEvent);
         ClearEvent(MoveMotorsOnEvent);
-        move(target_information.location);
+        move(last_target_location);
 
         WaitEvent(MoveMotorsOffEvent);
         ClearEvent(MoveMotorsOffEvent);

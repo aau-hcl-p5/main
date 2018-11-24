@@ -12,17 +12,16 @@ which will handle movement of motors etc.
 
 """
 import argparse
-from typing import Callable, Optional, Union
+from typing import Callable, Union
 
 import cv2
 import numpy as np
 
 import algorithms
 import webcam
-from algorithms import Result, Status, Vector, screen_location_to_relative_location
+from algorithms import Vector, screen_location_to_relative_location
 from calibration import save_data
-from calibration.utils import Package
-from communication import NxtUsb, screen_debug_wrapper
+from communication import NxtUsb, screen_debug_wrapper, Status
 from communication.nxt_usb import DeviceNotFound
 from test_data import Generator
 
@@ -50,8 +49,7 @@ class FlatController:
         try:
             self.usb_connection = NxtUsb()
             if calibration_algorithm:
-                self.usb_connection.write_data(Result(Vector(0, 0), Status.READY_FOR_CALIBRATION))
-                calibration_algorithm()
+                calibration_algorithm(self.usb_connection)
         except DeviceNotFound as e:
             print(f"Usb initialization failed. Starting without ({e})")
             self.usb_connection = None
@@ -67,11 +65,10 @@ class FlatController:
             loc = self._get_next_location()
             if self.usb_connection is not None:
                 if loc is not None:
-                    print("Found location")
-                    self.usb_connection.write_data(Result(loc, Status.TARGET_FOUND))
+                    self.usb_connection.write_location(loc)
                 else:
-                    print("No location")
-                    self.usb_connection.write_data(Result(Vector(0, 0), Status.NO_TARGET_FOUND))
+                    self.usb_connection.write_status(Status.NO_TARGET_FOUND)
+
             k = cv2.waitKey(5) & 0xFF  # escape char
             if k == 27:
                 break

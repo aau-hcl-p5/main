@@ -3,7 +3,7 @@
 #include "test_framework.h"
 #include "usb.h"
 #include "usb_test.h"
-#include "target_information.h"
+#include "vector.h"
 #include "stubs.h"
 #include "nxt.h"
 
@@ -19,7 +19,7 @@ T_TC_RESULT test_usb_read() {
 
 T_TC_RESULT test_usb_disconnect() {
     T_TC_RESULT result = TC_SUCCESS;
-    T_TARGET_INFORMATION expected_information = {0xAB, 0xCD, DISCONNECT_REQ};
+    T_TARGET_INFORMATION expected_information = {0xAB, 0xCD, DISCONNECTED_REQ};
     T_TARGET_INFORMATION out_information;
     set_usb_input_to_target_information(expected_information);
     result |= assert_bool_equals(false, get_target_information(&out_information));

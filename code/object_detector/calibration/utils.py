@@ -9,8 +9,8 @@ class Package:
     """
     position: int
     axis: bool
-    power: int
-    positive_direction: bool
+    power_up: int
+    power_down: int
 
     def is_x(self):
         return self.axis

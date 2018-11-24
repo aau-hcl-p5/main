@@ -54,9 +54,9 @@ CPU ATMEL_AT91SAM7S256 {
         {
           APPMODE = appmode1;
         };
-      PRIORITY = 10;
+      PRIORITY = 9;
       ACTIVATION = 1;
-      SCHEDULE = NON;
+      SCHEDULE = FULL;
       STACKSIZE = 512; /* Stack size */
     };
 
@@ -94,6 +94,16 @@ CPU ATMEL_AT91SAM7S256 {
       EVENT = MoveMotorsOffEvent;
     };
 
+    TASK KeepUSBAlive {
+        AUTOSTART = FALSE;
+        PRIORITY = 10;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 512;
+        RESOURCE = USB_Rx;
+
+    };
+
 
     /* Definition of OSEK Alarm counter: SysTimerCnt */
     COUNTER SysTimerCnt {
@@ -112,10 +122,23 @@ CPU ATMEL_AT91SAM7S256 {
           };
       AUTOSTART = TRUE
           {
-              ALARMTIME = 1; /* called every 1 ms */
-              CYCLETIME = 1;
+              ALARMTIME = 1;
+              CYCLETIME = 10; /* called every 1 ms */
               APPMODE = appmode1;
           };
+    };
+    ALARM CyclicKeepUSBAlive {
+        COUNTER = SysTimerCnt;
+        ACTION = ACTIVATETASK
+            {
+                TASK = KeepUSBAlive;
+            };
+        AUTOSTART = TRUE
+            {
+                ALARMTIME = 1;
+                CYCLETIME = 1; /* called every 1 ms */
+                APPMODE = appmode1;
+            };
     };
 
     ALARM CyclicUpdateDisplay {
@@ -127,7 +150,7 @@ CPU ATMEL_AT91SAM7S256 {
       AUTOSTART = TRUE
           {
               ALARMTIME = 1;
-              CYCLETIME = 500;/* called every 1 ms */
+              CYCLETIME = 500;/* called every 500 ms */
               APPMODE = appmode1;
           };
     };

@@ -7,6 +7,7 @@ TARGET_SOURCES = \
 	./src/init_screen.c \
 	./src/display_data.c \
 	./src/calibration.c \
+	./src/vector.c \
 	./src/logic.c
 
 TOPPERS_OSEK_OIL_SOURCE = ./nxt.oil

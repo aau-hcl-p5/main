@@ -10,7 +10,8 @@ based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 import usb.core
 import usb.util
 
-from algorithms.result import Result, Status
+from algorithms import Vector
+from communication.status import Status
 
 ID_VENDOR_LEGO = 0x0694
 ID_PRODUCT_NXT = 0x0002
@@ -39,18 +40,19 @@ class NxtUsb:
         "ON" signal to the NXT.
         """
         # find our device
-        dev = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
+        self.device = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
         # was it found?
-        if dev is None:
+        if self.device is None:
             raise DeviceNotFound('Device not found')
 
         # set the active configuration. With no arguments, the first
         # configuration will be the active one
-        dev.set_configuration()
+        self.device.set_configuration()
 
-        config = dev.get_active_configuration()
+        config = self.device.get_active_configuration()
         interface = config[(0, 0)]
 
+        self.in_endpoint = self.device[0][(0, 0)][0]
         self.endpoint = usb.util.find_descriptor(
             interface,
             # match the first OUT endpoint
@@ -59,23 +61,43 @@ class NxtUsb:
         assert self.endpoint is not None
         self.endpoint.write(b'\x01\xFF')
 
-    def write_data(self, data: Result) -> None:
+    def read(self):
+        """
+        Read stream from device
+        :return: the bytes from the device
+        """
+        return self.device.read(self.in_endpoint.bEndpointAddress,
+                                16)
+                                #self.in_endpoint.wMaxPacketSize)
+
+    def write_location(self, data: Vector) -> None:
         """
         Send a package of data which the NXT
         should react upon by moving the turret
         :param data: a result data
         """
-        self.endpoint.write(bytes([int(data.location.x) & 0xFF,
-                                   int(data.location.y) & 0xFF,
-                                   int(data.status.value[0]) & 0xFF,
-                                   0]))
+        self.write_status(Status.TARGET_FOUND)
+        self.endpoint.write(bytes([
+            int(data.x) & 0xFF,
+            int(data.y) & 0xFF,
+            0
+        ]))
+
+    def write_status(self, status: Status):
+        value = status.value
+        if type(value) is tuple:
+            value = value[0]
+        self.endpoint.write(bytes([
+            int(value) & 0xFF,
+            0
+        ]))
 
     def __del__(self):
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
         if hasattr(self, 'endpoint') and self.endpoint is not None:
-            self.endpoint.write(bytes([0, 0, Status.DISCONNECT_REQ.value, 0]))
+            self.write_status(Status.DISCONNECT_REQ)
         self.endpoint = None
 
 
