@@ -99,7 +99,7 @@ class ThreshMomentAlgorithm(unittest.TestCase):
         Test that the algorithm finds the correct location on the image.
         The initial frame is empty so this should return None
         """
-        controller = ThreshMomentController(debug=False)
+        controller = ThreshMomentController()
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
         output = controller.locate_center(frame)
         self.assertIsNone(output)
@@ -109,8 +109,8 @@ class ThreshMomentAlgorithm(unittest.TestCase):
         Test that the algorithm finds the correct location on the image.
         The initial frame is not empty so this should return a location.
         """
-        controller = ThreshMomentController(debug=True)
+        controller = ThreshMomentController()
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
         output = controller.locate_center(frame)
-        goal = Vector(911, 254)
+        goal = Vector(912, 257)
         self.assertEqual(output.as_int(), goal, msg=f"{output.as_int()} (output) != {goal}")
