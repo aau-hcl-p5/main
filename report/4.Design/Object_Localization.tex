@@ -1,0 +1,113 @@
+\section{Object localization}\label{Design:ObjectLocalization}
+An early working product was favored in order to get a baseline for all components to be further developed from.
+Therefore since object localization using machine learning algorithms requires a bit of setup, along with a lot of training data some algorithms were implemented without machine learning.
+
+\subsection{Zone Average}
+Initially an object detection algorithm dubbed "Zone Average" were created.
+Zone Average locates the most red object in an image.
+It works by splitting the image into $N\times N$ tiles, and determining the total redness within each tile.
+The tile that contains the most red is determined to contain the object, and the location of that tile is returned as a result.
+
+In order to increase accuracy, dynamic resizing of tiles were introduced.
+The idea is that if the same tile has been the selected tile for multiple iterations, the size of the tiles should decrease to get better accuracy.
+Likewise when the object begins moving the size of the tiles should expand.
+
+\figur{0.6}{images/zone_avg.png}{Zone average algorithm detecting red balloon.}{fig:zone_avg}
+
+Zone Average functioned well as a starting point, but it lacked accuracy as also illustrated in image \ref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
+
+\subsection{Object Fill}
+Following Zone Average a new algorithm called "Object Fill" was created.
+Object Fills purpose was to render very accurate position results, with the initial limitation of only being able to locate a single red object.
+The algorithm consists of two main parts:
+\begin{itemize}
+	\item Locate the object
+	\item Fill the object
+\end{itemize}
+The idea is to traverse the image with a given step size, until the last x pixels were within the given red threshold.
+Once the location part yielded that a red object were found a filling algorithm were initialized in order to determine the exact body of the red object.
+The filling algorithm is in essence a graph search, and works as described below:
+\begin{itemize}
+	\item Create a queue with a pixel known to be within the red object (This pixel is reported by the initial object location algorithm).
+	\item While queue is empty:
+	\begin{itemize}
+		\item Pop element from queue.
+		\item If element is not within the red threshold
+		\begin{itemize}
+			\item Add the pixels x and y coordinate to the sum of x and y coordinates on the pixels bounding box.
+			\item Increment the number of pixels on the objects bounding box with one.
+		\end{itemize}
+		\item Else
+		\begin{itemize}
+			\item Get all neighbors of the pixel (step size for neighbors may not necessarily be one) that has not yet been visited
+			\item Add neighbors to the queue and to a set of all visited pixels
+		\end{itemize}
+	\end{itemize}
+	Divide the sum of the bounding box's x and y values, with the total amount of elements in the bounding box to get the center x and y value of the object.
+\end{itemize}
+
+Figure~\ref{fig:obj_fill} is a debug view of the algorithm running.
+The Green pixels are the bounding box of the object and the black pixels shows all the visited pixels.
+
+\figur{0.6}{images/obj_fill.png}{Object Fill algorithm detecting red balloon.}{fig:obj_fill}
+
+The algorithm was later improved in a couple of aspects.
+First of all, the initial search for the red object would start its search based on the last center of the red object.
+Secondly the algorithms was improved to only accept an object if it contained a certain amount of "redness".
+This helped reduce the amount of false positives from very small objects or big but not so red objects.
+If the filling algorithm reports that the object is not a valid red object, the searching algorithm will continue from where it left off, until it has searched the entire image.
+
+\subsection{Thresh Moment}
+
+The previous algorithms utilizes OpenCV to extract image from the webcam. 
+The algorithms then works with the data in a low level fashion iterating over each pixel in the image to analyze it.
+However, OpenCV comes with a huge amount of functions for image processing, that can be utilized in order to create a simple performant algorithm for this use case. 
+The algorithm was dubbed "Thresh Moment" since the core algorithm relies on threshold and image moment.
+
+A couple of concepts used by the algorithm are worth mentioning beforehand.
+
+\paragraph{HSV}
+The algorithm will convert the image to the HSV color model.
+HSV format differs from traditional RGB, in that instead of having three additive color channels for red, green and blue it has three values defining hue, saturation and light.
+This makes it easier to recognize both dark and light red, since the redness is defined in the hue.
+
+\paragraph{Contours}
+Contours are almost identical to edges.
+They are outlines that follows all continuous points along a boundary of an object.
+Continuous points are determined based on color and intensity.
+It this case it will essentially help determine the outline of the red object.\cite{contours}
+
+\paragraph{Image moment}
+The moment is the weighted average of an objects pixel intensities.
+It can be used to determine the area of the object and the average x and y coordinates, also called the centroid or the center of the object.
+
+
+The algorithm consists of the following steps:
+\begin{itemize}
+	\item Convert frame to HSV
+	\item Mask all pixels within the HSV threshold range of red.
+	The mask is essentially a binary image, where all pixels within the range is white, and everything else is black.
+	\item Find contours in the image. 
+	This will be the outline of the red object.
+	\item Filter all contours less than a given size, to remove noise.
+	\item Find the greatest remaining contour.
+	\item Find the image moment of the contour.
+	\item Using the moment, determine the center position of the object.
+\end{itemize}
+
+A debug view of the algorithm can be seen in figure~\ref{fig:thresh_moment}.
+The white part is the mask and the blue outline is the contour.
+
+\figur{0.8}{images/thresh_moment.png}{Thresh Moment algorithm detecting red balloon.}{fig:thresh_moment}
+
+\subsection{YOLO}
+
+The YOLO algorithm itself is explained in the analysis section~\ref{sec:YOLOAnalysis}.
+YOLO can be run using darknet, which is an open source neural network framework written in C and CUDA\cite{darknet13}.
+It is also easily integrated into your own project, and need not be executed as a standalone program.
+In figure~\ref{fig:yolo_example} the YOLO2 Light version is executed with a simple model, that can recognize a small set of everyday items, like for instance a person.
+
+\figur{0.6}{images/yolo_example.png}{YOLO algorithm detecting person.}{fig:yolo_example}
+
+\subsection{Scikit classifier}
+\todo{Fill this if we are able to create a proper classifier with scikit}

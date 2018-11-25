@@ -10,7 +10,7 @@ In relation to computation power, the Raspberry Pi is a little underwhelming com
 Therefore, although an algorithm might execute quickly enough on a normal computer, it is essential for it to be tested whether it will also be quick enough when executed on the Raspberry Pi.
 
 \subsection{Object fill algorithm}
-The object fill algorithm is limited by the framerate of the camera on an average to high end laptop, meaning that it could serve as a good baseline for further object localization algorithms.
+The object fill algorithm is limited by the frame rate of the camera on an average to high end laptop, meaning that it could serve as a good baseline for further object localization algorithms.
 
 The results of the conducted tests show that the Raspberry Pi took approximately 0.07 seconds to analyze a frame.
 This is roughly equivalent to an acceptable but not amazing frame rate of 15 frames per second.
@@ -19,7 +19,13 @@ In this case, the algorithm was only able to process just below 10 frames per se
 Although this may seem troublesome, it is not much of a concern since the robot does not need to update once no object is within the frame, and the performance will increase as soon as the object is found.
 
 \subsection{Thresh Moment algorithm}
-Thomas. Fill. This
+Thresh Moment turned out to be quite a bit faster than the Object Fill algorithm.
+This may initially come as a surprise, since the two algorithms are quite identical, and if anything, the Thresh Moment algorithm will do more iterations over the image.
+
+The improved performance is due to the fact that the utilized OpenCV functions are from a library written in a low level language.
+This means, that while the Object Fill algorithm does all the heavy lifting within python, the Thresh Moment algorithm will take advantage of the much faster languages C and C++, that OpenCV is written in.
+
+It turns out, that the Raspberry Pi has no trouble running the Thresh Moment algorithm, and outputs results faster than the webcam updates.
 
 \subsection{YOLO}
 As YOLO is praised as one of the fastest object detection algorithms some tests were conducted in order to determine if it would be a viable option for the project\cite{yolospeed}.
@@ -47,6 +53,6 @@ In conclusion, it was determined that the YOLO algorithm would not be feasible f
 \subsection{Other machine learning algorithms}
 Since no machine learning algorithms claim to be drastically faster than YOLO, it should be safe to assume that no current machine learning object localization algorithm will be fast enough to run on a Raspberry Pi.
 
-\subsection{Conclusion}
-Unfortunately due to hardware limitations, no machine learning algorithm will be fast enough to be feasible in the project.
-Therefore the fallback solution is to use the "Thresh Moment" algorithm, since it performs exceptionally well in terms of both performance and accuracy.
+\subsection{Scikit classifier}
+\todo{Fill this if we are able to create a proper classifier with scikit}
+

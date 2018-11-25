@@ -29,12 +29,12 @@ It will:
         :param frame: The image to search in
         :return: The center of the object (Can be null).
         """
+        # Convert image to HSV
         hsv_frame = cvtColor(frame, COLOR_BGR2HSV)
-        mask = inRange(hsv_frame, (0, 150, 50), (10, 255, 255)) \
-             | inRange(hsv_frame, (170, 150, 50), (180, 255, 255))
+        # Get mask from red threshold
+        mask = inRange(hsv_frame, (0, 150, 50), (10, 255, 255)) | inRange(hsv_frame, (170, 150, 50), (180, 255, 255))
 
-        ret, thresh = threshold(mask, 40, 255, 0)
-        _, contours, _ = findContours(thresh, RETR_TREE, CHAIN_APPROX_SIMPLE)
+        _, contours, _ = findContours(mask, RETR_TREE, CHAIN_APPROX_SIMPLE)
         contours = [contour for contour in contours if contourArea(contour) > 20]
 
         if len(contours) != 0:
