@@ -7,7 +7,7 @@ import unittest
 
 import numpy as np
 
-from algorithms import Goturn, ZoneAvgController, ObjectFillController, Vector
+from algorithms import Goturn, ZoneAvgController, ObjectFillController, Vector, ThreshMomentController
 from webcam import VideoController, CaptureDeviceType
 
 
@@ -86,6 +86,30 @@ class TestObjectFillAlgorithm(unittest.TestCase):
         #TODO verify that the location actually is correct.
         """
         controller = ObjectFillController(debug=True)
+        frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
+        output = controller.locate_center(frame)
+        goal = Vector(911, 254)
+        self.assertEqual(output.as_int(), goal, msg=f"{output.as_int()} (output) != {goal}")
+
+
+class ThreshMomentAlgorithm(unittest.TestCase):
+
+    def test_detect_negative(self):
+        """
+        Test that the algorithm finds the correct location on the image.
+        The initial frame is empty so this should return None
+        """
+        controller = ThreshMomentController(debug=False)
+        frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
+        output = controller.locate_center(frame)
+        self.assertIsNone(output)
+
+    def test_detect_positive(self):
+        """
+        Test that the algorithm finds the correct location on the image.
+        The initial frame is not empty so this should return a location.
+        """
+        controller = ThreshMomentController(debug=True)
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
         output = controller.locate_center(frame)
         goal = Vector(911, 254)
