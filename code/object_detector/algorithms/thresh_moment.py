@@ -2,7 +2,7 @@
 This algorithm is a manually created one.
 It will:
     1. Use an HSV representation with a red threshold
-    2. Get moment based on threshold
+    2. Get moment (weighted average of object area) based on threshold
 """
 from typing import Optional
 from algorithms.utilities import Vector
@@ -13,12 +13,10 @@ import numpy as np
 
 class ThreshMomentController:  # pylint: disable=too-few-public-methods
     """
-This algorithm is a manually created one.
-It will:
-    1. Do a rough run over of the image to find the first occurrence of grouped red.
-    2. Use a filling algorithm to "fill" the object.
-    3. Use the average x and y coordinates of the outline to determine the center of the object
-    4. Use the old center coordinates to search for the object in the next frame, and the goto 2.
+    This algorithm is a manually created one.
+    It will:
+        1. Use an HSV representation with a red threshold
+        2. Get moment (weighted average of object area) based on threshold
     """
 
     def __init__(self, debug: bool = False) -> None:
