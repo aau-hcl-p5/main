@@ -1,9 +1,10 @@
 \section{Object localization}\label{Design:ObjectLocalization}
-An early working product was prioritized in order to get a baseline product that could be further improved upon.
+An early working solution was prioritized in order to get a baseline product that could be further improved upon.
 Therefore since object localization using machine learning algorithms requires a bit of setup, along with a lot of training data some algorithms were implemented without machine learning.
+This section will elaborate on these algorithms.
 
 \subsection{Zone Average}
-Initially an object detection algorithm dubbed "Zone Average" were created.
+Initially an object detection algorithm dubbed "Zone Average" was developed.
 Zone Average locates the most red object in an image.
 It works by splitting the image into $N\times N$ tiles, and determining the total redness within each tile.
 The tile that contains the most red is determined to contain the object, and the location of that tile is returned as a result.
@@ -14,18 +15,18 @@ Likewise when the object begins moving the size of the tiles should expand.
 
 \figur{0.6}{images/zone_avg.png}{Zone average algorithm detecting red balloon.}{fig:zone_avg}
 
-Zone Average functioned well as a starting point, but it lacked accuracy as also illustrated in image \ref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
+Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in image \ref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
 
 \subsection{Object Fill}\label{sec:objectfilldesign}
 Following Zone Average a new algorithm called "Object Fill" was created.
-Object Fills purpose was to render very accurate position results, with the initial limitation of only being able to locate a single red object.
+Object Fills purpose was to render very accurate position results, with the initial limitation of only being able to locate a single coloured object.
 The algorithm consists of two main parts:
 \begin{itemize}
 	\item Locate the object
-	\item Fill the object
+	\item Fill the located object
 \end{itemize}
 The idea is to traverse the image with a given step size, until the last x pixels were within the given red threshold.
-Once the location part yielded that a red object were found a filling algorithm were initialized in order to determine the exact body of the red object.
+Once the location part yielded that a red object was found, a filling algorithm was initialized in order to determine the exact body of the red object.
 The filling algorithm is in essence a graph search, and works as described below:
 \begin{itemize}
 	\item Create a queue with a pixel known to be within the red object (This pixel is reported by the initial object location algorithm).
@@ -52,15 +53,15 @@ The Green pixels are the bounding box of the object and the black pixels shows a
 \figur{0.6}{images/obj_fill.png}{Object Fill algorithm detecting red balloon.}{fig:obj_fill}
 
 The algorithm was later improved in a couple of aspects.
-First of all, the initial search for the red object would start its search based on the last center of the red object.
-Secondly the algorithms was improved to only accept an object if it contained a certain amount of "redness".
+First, the initial search for the red object would start its search based on the last center of the red object.
+Secondly, the algorithms was improved to only accept an object if it contained a certain amount of "redness".
 This helped reduce the amount of false positives from very small objects or big but not so red objects.
 If the filling algorithm reports that the object is not a valid red object, the searching algorithm will continue from where it left off, until it has searched the entire image.
 
 \subsection{Thresh Moment}
 
-The previous algorithms utilizes OpenCV to extract image from the webcam. 
-The algorithms then works with the data in a low level fashion iterating over each pixel in the image to analyze it.
+The previous algorithms utilizes OpenCV to extract images from the webcam. 
+The algorithms then work with the data in a low level fashion iterating over each pixel in the image to analyze it.
 However, OpenCV comes with a huge amount of functions for image processing, that can be utilized in order to create a simple performant algorithm for this use case. 
 The algorithm was dubbed "Thresh Moment" since the core algorithm relies on threshold and image moment.
 
@@ -75,7 +76,7 @@ This makes it easier to recognize both dark and light red, since the redness is 
 Contours are almost identical to edges.
 They are outlines that follows all continuous points along a boundary of an object.
 Continuous points are determined based on color and intensity.
-It this case it will essentially help determine the outline of the red object.\cite{contours}
+In this case it will essentially help determine the outline of the red object.\cite{contours}
 
 \paragraph{Image moment}
 The moment is the weighted average of an objects pixel intensities.
