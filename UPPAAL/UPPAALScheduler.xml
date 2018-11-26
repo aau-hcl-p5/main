@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+const int 	N = 4;
+typedef int[0,N-1] int_id;
+typedef int[0,N] int_p;
+
+const int switchTime = 1;
+
+chan		    release[N], ready[N], stop;
+urgent chan 	run[N];
+
+chan priority ready &lt; default &lt; release;
+
+clock 		time;
+
+typedef struct{
+int_id    id;
+int_p     P;
+int       T;
+int       C;
+} task;
+</declaration>
+	<template>
+		<name x="5" y="5">Task</name>
+		<parameter>const task properties</parameter>
+		<declaration>// Place local declarations here.
+clock c, t;
+
+bool blocked = 0;
+
+const int_id id = properties.id;  // ID
+const int_p P = properties.P;     // Periode
+const int T = properties.T;       // Deadline
+const int C = properties.C;       // Cost</declaration>
+		<location id="id0" x="306" y="331">
+			<name x="323" y="306">Error</name>
+		</location>
+		<location id="id1" x="51" y="331">
+			<name x="85" y="306">Running</name>
+			<label kind="invariant" x="-17" y="348">c &lt;= C and t &lt;= T +1</label>
+		</location>
+		<location id="id2" x="51" y="25">
+			<name x="34" y="-18">Idle</name>
+			<label kind="invariant" x="34" y="-1">t &lt;= T</label>
+		</location>
+		<location id="id3" x="51" y="144">
+			<name x="68" y="119">Ready</name>
+			<label kind="invariant" x="-34" y="119">c'==0 and 
+t &lt;= T</label>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-119" y="34">c == C and t &lt;= T</label>
+			<label kind="synchronisation" x="-119" y="51">release[id]!</label>
+			<nail x="-127" y="331"/>
+			<nail x="-127" y="25"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="guard" x="170" y="306">t &gt; T</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="guard" x="221" y="119">t == T</label>
+			<nail x="306" y="144"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-110" y="212">!blocked</label>
+			<label kind="synchronisation" x="-110" y="229">stop?</label>
+			<label kind="assignment" x="-110" y="246">blocked = true</label>
+			<nail x="0" y="280"/>
+			<nail x="0" y="187"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="187" y="195">blocked</label>
+			<label kind="synchronisation" x="187" y="212">run[id]?</label>
+			<label kind="assignment" x="187" y="229">c = 0,
+blocked = false</label>
+			<nail x="178" y="187"/>
+			<nail x="178" y="280"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="59" y="195">!blocked</label>
+			<label kind="synchronisation" x="59" y="212">run[id]?</label>
+			<label kind="assignment" x="59" y="228">c = 0,
+blocked = false</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="68" y="42">t == T</label>
+			<label kind="synchronisation" x="68" y="59">ready[id]!</label>
+			<label kind="assignment" x="68" y="76">t=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>SchedulerTemplate</name>
+		<parameter>const task tasks[N]</parameter>
+		<declaration>// Place local declarations here.
+const task sta[N] = tasks;
+task list[N] =tasks;
+int[0,N] len = N;
+clock t;
+
+task empty = { 0,0,0,0 };
+
+int_id running = 0;
+
+int switchLen = 1;
+
+int getSwitch()
+{
+    return switchTime * switchLen;
+}
+
+void incSwichLen()
+{
+    switchLen++;
+}
+
+void resetSwitch()
+{
+    switchLen = 1;
+}
+
+task idToTask(int_id id) {
+    int i;
+    for(i = 0; i &lt; N; i++)
+    {
+        if(sta[i].id == id)
+            return sta[i];
+    }
+    return empty;
+}
+
+
+void enqueue(task element)
+{
+task tmp=empty;
+list[len++] = element;
+if (len&gt;0)
+{
+	int i=len-1;
+	while (i&gt;0 &amp;&amp; list[i].P &gt; list[i-1].P)
+	{
+		tmp = list[i-1];
+		list[i-1] = list[i];
+		list[i] = tmp;
+		i--;
+	}		
+}
+}
+
+// Remove the front element of the queue
+void dequeue()
+{
+        int i = 0;
+        len -= 1;
+        while (i &lt; len)
+        {
+                list[i] = list[i + 1];
+                i++;
+        }
+        list[i] = empty;
+}
+
+// Returns the front element of the queue
+task front()
+{
+   return list[0];
+}
+
+// Returns the last element of the queue
+task tail()
+{
+   return list[len - 1];
+}</declaration>
+		<location id="id4" x="246" y="-127">
+			<name x="236" y="-161">Free</name>
+		</location>
+		<location id="id5" x="255" y="399">
+			<name x="195" y="450">SwitchingRunning</name>
+			<label kind="invariant" x="195" y="467">t &lt;= getSwitch()</label>
+		</location>
+		<location id="id6" x="391" y="221">
+			<committed/>
+		</location>
+		<location id="id7" x="127" y="221">
+			<committed/>
+		</location>
+		<location id="id8" x="255" y="127">
+			<name x="263" y="102">Occ</name>
+		</location>
+		<location id="id9" x="255" y="0">
+		</location>
+		<location id="id10" x="0" y="0">
+			<name x="8" y="-42">SwitchingFree</name>
+			<label kind="invariant" x="8" y="-25">t &lt;= getSwitch()</label>
+		</location>
+		<init ref="id10"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="select" x="357" y="365">e : int_id</label>
+			<label kind="guard" x="357" y="382">idToTask(e).P &lt;= front().P</label>
+			<label kind="synchronisation" x="357" y="399">ready[e]?</label>
+			<label kind="assignment" x="357" y="416">enqueue(idToTask(e))</label>
+			<nail x="340" y="357"/>
+			<nail x="340" y="450"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="select" x="-17" y="365">e : int_id</label>
+			<label kind="guard" x="-17" y="382">idToTask(e).P &gt; front().P</label>
+			<label kind="synchronisation" x="-17" y="399">ready[e]?</label>
+			<label kind="assignment" x="-17" y="416">enqueue(idToTask(e)),
+incSwichLen()</label>
+			<nail x="170" y="357"/>
+			<nail x="170" y="450"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="guard" x="340" y="297">t == getSwitch()</label>
+			<label kind="assignment" x="340" y="314">resetSwitch()</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id5"/>
+			<label kind="guard" x="8" y="272">running != front().id</label>
+			<label kind="synchronisation" x="8" y="289">stop!</label>
+			<label kind="assignment" x="8" y="306">t = 0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="331" y="144">run[front().id]!</label>
+			<label kind="assignment" x="331" y="161">running = front().id</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="guard" x="178" y="187">running == front().id</label>
+			<label kind="synchronisation" x="238" y="204">stop!</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="select" x="17" y="136">e : int_id</label>
+			<label kind="synchronisation" x="17" y="153">ready[e]?</label>
+			<label kind="assignment" x="17" y="170">enqueue(idToTask(e))</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id10"/>
+			<label kind="select" x="-229" y="85">e : int_id</label>
+			<label kind="guard" x="-229" y="102">idToTask(e).P &gt; front().P</label>
+			<label kind="synchronisation" x="-229" y="119">ready[e]?</label>
+			<label kind="assignment" x="-229" y="136">enqueue(idToTask(e))</label>
+			<nail x="-34" y="93"/>
+			<nail x="-110" y="25"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id10"/>
+			<label kind="select" x="-238" y="-170">e : int_id</label>
+			<label kind="guard" x="-238" y="-153">idToTask(e).P &lt;= front().P</label>
+			<label kind="synchronisation" x="-238" y="-136">ready[e]?</label>
+			<label kind="assignment" x="-238" y="-119">enqueue(idToTask(e))</label>
+			<nail x="-42" y="-119"/>
+			<nail x="-119" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id10"/>
+			<label kind="select" x="8" y="-187">e : int_id</label>
+			<label kind="synchronisation" x="8" y="-170">ready[e]?</label>
+			<label kind="assignment" x="8" y="-153">enqueue(idToTask(e)), t = 0</label>
+			<nail x="0" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id4"/>
+			<label kind="select" x="280" y="-204">e : int_id</label>
+			<label kind="guard" x="280" y="-187">e == front().id and len - 1 == 0</label>
+			<label kind="synchronisation" x="280" y="-170">release[e]?</label>
+			<label kind="assignment" x="280" y="-153">dequeue()</label>
+			<nail x="416" y="127"/>
+			<nail x="416" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id10"/>
+			<label kind="select" x="8" y="51">e : int_id</label>
+			<label kind="guard" x="8" y="68">e == front().id and len - 1 &gt; 0</label>
+			<label kind="synchronisation" x="8" y="85">release[e]?</label>
+			<label kind="assignment" x="8" y="102">dequeue(), t = 0</label>
+			<nail x="0" y="127"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="263" y="34">run[front().id]!</label>
+			<label kind="assignment" x="263" y="51">running = front().id</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+// _____________________________________________
+// const int_id id = properties.id;  // ID
+// const int_p P = properties.P;     // Periode
+// const int T = properties.T;       // Deadline
+// const int C = properties.C;       // Cost
+
+
+const task ReceiveData    = {0, 1, 1, 1};
+ReceiveDataTask           = Task(ReceiveData);
+const task UpdateDisplay  = {1, 5, 5, 10};
+UpdateDisplayTask         = Task(UpdateDisplay);
+const task ToggleLaser    = {2, 0,   1,   2};
+ToggleLaserTask           = Task(ToggleLaser);
+const task MoveMotors     = {3, 1,   1,   10};
+MoveMotorsTask            = Task(MoveMotors);
+const task KeepUSBAlive   = {4, 1,   1,   10};
+KeepUSBAliveTask          = Task(KeepUSBAlive);
+
+const task tasks[N] = {ReceiveData, UpdateDisplay, ToggleLaser, MoveMotors, KeepUSBAlive};
+Scheduler = SchedulerTemplate(tasks);
+
+// List one or more processes to be composed into a system.
+system ReceiveDataTask, UpdateDisplayTask, ToggleLaserTask, MoveMotorsTask, KeepUSBAliveTask, Scheduler;
+
+//gantt {
+//    KalmanTask :   KalmanTask.Idle -&gt; 2,  KalmanTask.Ready -&gt; 6, KalmanTask.Running -&gt; 1, KalmanTask.Ready &amp;&amp; KalmanTask.blocked -&gt;3, KalmanTask.Error-&gt;0; 
+//    WeaponSystemTask :   WeaponSystemTask.Idle -&gt; 2,  WeaponSystemTask.Ready -&gt; 6, WeaponSystemTask.Running -&gt; 1, WeaponSystemTask.Ready &amp;&amp; WeaponSystemTask.blocked -&gt;3, WeaponSystemTask.Error-&gt;0; 
+//    ShootingTask :   ShootingTask.Idle -&gt; 2,  ShootingTask.Ready -&gt; 6, ShootingTask.Running -&gt; 1, ShootingTask.Ready &amp;&amp; ShootingTask.blocked -&gt;3, ShootingTask.Error-&gt;0;
+//    Scheduler     :   Scheduler.Free -&gt; 2, Scheduler.Occ -&gt; 1, Scheduler.SwitchingRunning || Scheduler.SwitchingFree -&gt; 3;
+//}
+</system>
+	<queries>
+	</queries>
+</nta>
