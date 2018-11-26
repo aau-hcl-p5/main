@@ -20,8 +20,7 @@ import numpy as np
 import algorithms
 import webcam
 from algorithms import Result, Status, Vector, screen_location_to_relative_location
-from communication import NxtUsb
-from communication import screen_debug_wrapper
+from communication import NxtUsb, screen_debug_wrapper
 from communication.nxt_usb import DeviceNotFound
 from test_data import Generator
 
@@ -74,7 +73,10 @@ class FlatController:
         :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}
         """
         frame = self.video_controller.get_current_frame()
+        timer = cv2.getTickCount()
         res = screen_location_to_relative_location(frame, self._algorithm(frame))
+        fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
+        cv2.putText(frame, "FPS : " + str(int(fps)), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2)
         screen_debug_wrapper(res, frame)
         return res
 
@@ -87,10 +89,10 @@ if __name__ == "__main__":
 
     PARSER.add_argument(
         '-a', '--algorithm',
-        dest='alg_name', default='obj_fill',
+        dest='alg_name', default='thresh_moment',
         type=str, metavar='[name]',
         help="Choose which algorithm to run "
-             f"[{', '.join(a.name for a in algorithms.AlgorithmType)}]. default='obj_fill'")
+             f"[{', '.join(a.name for a in algorithms.AlgorithmType)}]. default='thresh_moment'")
 
     PARSER.add_argument(
         '-g', '--generate',
