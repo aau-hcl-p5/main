@@ -134,4 +134,22 @@ A resource has a tribute called \textit{ResourceProperty}, which can be set as e
 \item \textbf{Internal} resource that cannot be accessed by the application \cite{irisa25}
 \end{itemize}
 
-%TODO Describe events if we decide to use those for some reason, it is a rather big part.
+\subsection{EVENTS}
+Finally, OSEK allows the definition of events, which can be used to handle when tasks are called.
+To do so, the event must be defined and the task that should be called based on the occurence of an event, must have the event property attached:
+\begin{lstlisting}
+EVENT EventName
+{
+  MASK = AUTO;
+};
+
+TASK EventHandler
+{
+  ...
+  EVENT = EventName;
+  ...
+};
+\end{lstlisting}
+As seen in the listing above, an event has a mask property, which serves as an identifier for the given event \cite{oil25}.
+This can either be manually defined as a 64-bit unsigned int or can be handled by OSEK by using the AUTO keyword.
+The usage of events allows definition of aperiodic tasks, as discussed in Section~\ref{Theory:RTS}.
