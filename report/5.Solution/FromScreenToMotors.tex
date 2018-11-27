@@ -1,9 +1,9 @@
 \section{Mapping between computer vision to movement}
-When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power dictates how much the motors should move on the X and Y axis.
+When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
 Due to the resolution of the camera the screen position will be a 2-tuple of values between $0$ to $480$, on the Y axis, and $0$ to $640$ on the X axis, has to be translated into two values in the range $-100$ to $100$.
 Before this translation, the X and Y value has to be transmitted across the USB connection.
 
-Based on this problem, two functions are required. 
+Based on this problem, two functions are required.
 \begin{enumerate}
 	\item One on the Raspberry Pi, that maps the screen position to a USB-friendly value.
 	\item One on the NXT, that maps this 8-bit value, to the power value.
@@ -24,7 +24,7 @@ With this in mind, the input-range and output-range constants can be defined:\\
 $$in_\text{max} = (480,640)$$\\
 $$out_\text{max} = 127$$
 
-First the screen position needs to be centred around the zero. 
+First the screen position needs to be centred around the zero.
 This is done by taking each max-value divided by two, to get half that value, minus the actual screen position:
 
 $$
@@ -67,7 +67,7 @@ The above function now maps from the screen position to a smaller range, but wit
 
 \subsection{From USB to motors}
 The NXT receives a 2-tuple in the range $-127$ to $127$ for both the X and the Y value.
-This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corresponds to a percentage-wise speed in either a positive or negative direction. 
+This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corresponds to a percentage-wise speed in either a positive or negative direction.
 
 The output of the USB is an 8-bit signed integer, and the input of the motor is also an integer.
 The easiest way to do these calculations is by simply mapping the ranges directly onto one another.
