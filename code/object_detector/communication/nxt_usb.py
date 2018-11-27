@@ -10,16 +10,18 @@ based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 import usb.core
 import usb.util
 
-from algorithms.result import Result
+from algorithms.result import Result, Status
 
 ID_VENDOR_LEGO = 0x0694
 ID_PRODUCT_NXT = 0x0002
+
 
 class DeviceNotFound(Exception):
     """
     If the USB device  was not found
     """
     pass
+
 
 class NxtUsb:
     """
@@ -28,6 +30,7 @@ class NxtUsb:
     The information this class is build for sending,
     is the Result class from the algorithms module.
     """
+
     def __init__(self):
         """
         Initializes the usb communication,
@@ -64,18 +67,17 @@ class NxtUsb:
         """
         self.endpoint.write(bytes([int(data.location.x) & 0xFF,
                                    int(data.location.y) & 0xFF,
-                                   data.timestamp & 0xFF,
-                                   (data.timestamp >> 8) & 0xFF]))
-
-
+                                   int(data.status.value[0]) & 0xFF,
+                                   0]))
 
     def __del__(self):
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
-        if hasattr(self,'endpoint') and self.endpoint is not None:
-            self.endpoint.write(b'\xFF\xFF\xFF\xFF')
+        if hasattr(self, 'endpoint') and self.endpoint is not None:
+            self.endpoint.write(bytes([0, 0, Status.DISCONNECT_REQ.value, 0]))
         self.endpoint = None
+
 
 def _is_endpoint_out(endpoint) -> bool:
     return usb.util.endpoint_direction(endpoint.bEndpointAddress) == usb.util.ENDPOINT_OUT

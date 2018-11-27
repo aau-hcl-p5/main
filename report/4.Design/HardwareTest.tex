@@ -1,0 +1,31 @@
+\section{Hardware testing}
+To ensure the highest accuracy of the device, it is important to ensure the quality and precision of the chosen hardware to be at its highest.
+Therefore, a test of the motors and the chosen camera has been conducted, checking their precision and quality.
+
+\subsection*{Motors}
+To ensure the capabilities of the motors, the tests have to try out combinations of target angles and movement speed, and to what extent precision is reached, considering the braking distance.
+Therefore a setup combining an angle, and a velocity ranging from 0 to 100 is setup as seen in Appendix~\ref{appendix:motortest}.
+
+The terms \textit{stable}, \textit{small correction} and \textit{huge correction} are used to specify the stopping at the angle, and to elaborate on, not only precision, but the amount of correction needed to stop at the exact angle specified.
+
+The goal of the tests is to start at a zero degree angle, speed up to the specified velocity, and stop when reaching the target angle; just in case the motor will go further, it will automatically stop and set the speed in the opposite direction, until reaching its goal, hence the correction.
+
+As the motors are used to aim, precision is a highly valued quality.
+This means that the motors used, and the movement speed should be able to stop at a certain angle, when running at speed x.
+An alternative is to have a built-in correction, that will give the motors a varying velocity.
+
+The expected result and the actual result of the test are not as surprising: The higher the speed, the more correction is required.
+However, it does not appear to be affected by the angle to which it has to aim, which is also observed in the testing; acceleration to the target speed happens rather fast.
+
+In conclusion, in case we want to achieve the highest possible aim-speed, we should take action upon the correction at higher speeds and move at lower speeds when the motor approaches the target to reduce the braking distance, thus avoiding corrections.
+The results of the tests are therefore used to not only choose which motors to use, but also gives a hint towards what the optimal movement speed is.
+
+\subsection*{Camera}
+Due to the use of the camera, the actual quality of the footage is secondary.
+
+The importance criteria of the camera is that it is able to keep the blur to a minimum, with a moving target on the video feed.
+This renders the resolution irrelevant.
+
+Furthermore, is the framerate irrelevant to a certain degree, depending on the speed of our software, and its capabilities, as long as the camera provides a higher framerate, than the software processes.
+
+To accomodate this, the camera test has been consistent of a manual recording of different USB Web Cameras, and looking at moving targets, frame by frame, to find the one with the least blurry images between movements.

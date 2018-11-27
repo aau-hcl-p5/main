@@ -9,15 +9,23 @@ bool usb_buffer[256];
 uint32_t usb_len;
 
 uint32_t usb_processes = 0; 
+bool usb_initialized = false;
 
-extern void set_usb_input(uint8_t *buffer, uint32_t len) {
+void ecrobot_init_usb() {
+    usb_initialized = true;
+}
+void ecrobot_term_usb() {
+    usb_initialized = false;
+}
+
+void set_usb_input(uint8_t *buffer, uint32_t len) {
     usb_connected = true;
     memcpy(usb_buffer, buffer, len);
     usb_len = len;
 }
 
-extern void set_usb_input_to_target(T_TARGET_LOCATION target_location) {
-    set_usb_input((uint8_t *)&target_location, sizeof(T_TARGET_LOCATION));
+void set_usb_input_to_target_information(T_TARGET_INFORMATION target_information) {
+    set_usb_input((uint8_t *)&target_information, sizeof(T_TARGET_INFORMATION));
 }
 
 uint32_t ecrobot_read_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len) {

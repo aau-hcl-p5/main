@@ -1,2 +1,4 @@
 htmlcov
 .mypy_cache
+
+.vscode/

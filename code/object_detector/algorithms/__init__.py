@@ -18,7 +18,8 @@ from algorithms.goturn import Goturn
 from algorithms.yolo import Yolo
 from algorithms.zone_avg import ZoneAvgController
 from algorithms.object_fill import ObjectFillController
-from algorithms.result import Result
+from algorithms.result import Result, Status
+from algorithms.thresh_moment import ThreshMomentController
 from algorithms.utilities import Vector, screen_location_to_relative_location
 
 
@@ -29,7 +30,8 @@ class AlgorithmType(Enum):
     GOTURN = 0
     YOLO = 1
     ZONE_AVG = 2
-    OBJ_FILL = 3
+    OBJ_FILL = 3,
+    THRESH_MOMENT = 4
 
 
 def get_algorithm(algorithm_type: AlgorithmType) -> Callable[[np.ndarray], Optional[Vector]]:
@@ -45,7 +47,9 @@ def get_algorithm(algorithm_type: AlgorithmType) -> Callable[[np.ndarray], Optio
     if algorithm_type is AlgorithmType.ZONE_AVG:
         return ZoneAvgController().locate_center
     if algorithm_type is AlgorithmType.OBJ_FILL:
-        return ObjectFillController(debug=True).locate_center
+        return ObjectFillController().locate_center
+    if algorithm_type is AlgorithmType.THRESH_MOMENT:
+        return ThreshMomentController(True).locate_center
 
     raise NotImplementedError()
 
@@ -59,4 +63,5 @@ def get_from_str(algorithm_name: str) -> Callable[[np.ndarray], Optional[Vector]
     algorithm_type = next(a for a in AlgorithmType if a.name.lower() == algorithm_name.lower())
 
     return get_algorithm(algorithm_type)
+
 
