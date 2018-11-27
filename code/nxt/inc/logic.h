@@ -2,7 +2,7 @@
 #define LOGIC_H
 #include <stdbool.h>
 
-#include "target_information.h"
+#include "target_location.h"
 
 extern void main_loop();
 extern bool toggle_laser();

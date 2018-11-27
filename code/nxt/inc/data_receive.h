@@ -3,8 +3,9 @@
 
 #include <stdbool.h>
 
-#include "target_information.h"
+#include "target_location.h"
 
-extern bool get_target_information(T_TARGET_INFORMATION *out_information);
+#define DISCONNECT_REQ 0xFFFFFFFF
+extern bool get_target_location(T_TARGET_LOCATION *out_location);
 
 #endif

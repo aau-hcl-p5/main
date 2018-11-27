@@ -7,8 +7,6 @@ from typing import Union, Optional
 
 import numpy as np
 
-import math
-
 COMMUNICATION_OUT_RANGE = 255  # 2**8 -1
 
 NumberType = Union[int, float]
@@ -104,13 +102,7 @@ class Vector:
         return (self.x, self.y).__hash__()
 
     def __str__(self):
-      return f"Vector({self.x}, {self.y})"
-
-    def __repr__(self):
-        return f"Vector({self.x}, {self.y})"
-
-    def length(self):
-        return math.sqrt(self.x**2 + self.y**2)
+        return f"Vector({self.x},{self.y})"
 
 
 # normally i would use is_instance(val, numbers.Number)
@@ -120,14 +112,12 @@ def _is_num(val) -> bool:
     return isinstance(val, (float, int))
 
 
-def screen_location_to_relative_location(frame: np.ndarray, position: Optional[Vector],
-                                         polynomial: bool = False) -> Optional[Vector]:
+def screen_location_to_relative_location(frame: np.ndarray, position: Optional[Vector]) -> Optional[Vector]:
     """
     This transforms the location on the screen to a value between -127, 127
     and does this with scaling in the sense of:
     f(x) = (x/480)^2 * 255
     where 480 is the input range, and 255 is the output range.
-    :param polynomial: whether to use the linear value or the polynomial
     :param frame: the image that the position is on.
     :param position: The position on the frame
     :return: The output vector in range on x -y  [-127,127]
@@ -140,9 +130,5 @@ def screen_location_to_relative_location(frame: np.ndarray, position: Optional[V
     val = (half_size - position) / half_size
 
     # dir is used because val.x * val.x will not keep the direction (negative or positive).
-    if polynomial:
-        return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2)
-    else:
-        return -val * (COMMUNICATION_OUT_RANGE // 2)
-
+    return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2)
 

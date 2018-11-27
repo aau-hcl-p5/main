@@ -18,122 +18,56 @@ CPU ATMEL_AT91SAM7S256
   /* Definition of application mode */
   APPMODE appmode1{}; 
 
-  /* Definition of events */ 
-  EVENT MoveMotorsOnEvent
-  {
-    MASK = AUTO;
-  };
-
-  EVENT MoveMotorsOffEvent
-  {
-    MASK = AUTO;
-  };
-
-  EVENT LaserOnEvent
-  {
-    MASK = AUTO;
-  };
-
-  EVENT LaserOffEvent
-  {
-    MASK = AUTO;
-  };
-
   /* Definition of resource */
   RESOURCE USB_Rx
   {
     RESOURCEPROPERTY = STANDARD;
   };
 
-
-  /* Definition of tasks */
-  TASK ReceiveData
+  /* Definitions of a periodical task: Task_ts1 */
+  TASK Task_ts1
   {
     AUTOSTART = FALSE;
-    PRIORITY = 3;
+    PRIORITY = 2;
     ACTIVATION = 1;
     SCHEDULE = FULL;
-    STACKSIZE = 512; /* Stack size */
     RESOURCE = USB_Rx;
+    STACKSIZE = 512; /* bytes */
   };
-
-  TASK UpdateDisplay
+  ALARM OSEK_Alarm_task_ts1
   {
-    AUTOSTART = FALSE;
-    PRIORITY = 2;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512;
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = Task_ts1;
+    };
+    AUTOSTART = TRUE
+    {
+      APPMODE = appmode1;
+      ALARMTIME = 1;
+      CYCLETIME = 1;
+    };
   };
 
-  TASK ToggleLaser
+  TASK Task_background
   {
     AUTOSTART = TRUE
     {
       APPMODE = appmode1;
     };
-    PRIORITY = 2;
+    PRIORITY = 1; /* lowest priority */
     ACTIVATION = 1;
     SCHEDULE = FULL;
+    RESOURCE = USB_Rx;
     STACKSIZE = 512;
-    EVENT = LaserOnEvent;
-    EVENT = LaserOffEvent;
   };
-
-  TASK MoveMotors
-  {
-    AUTOSTART = TRUE
-    {
-      APPMODE = appmode1;
-    };
-    PRIORITY = 2;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512;
-    EVENT = MoveMotorsOnEvent;
-    EVENT = MoveMotorsOffEvent;
-  };
-
 
   /* Definition of OSEK Alarm counter: SysTimerCnt */
   COUNTER SysTimerCnt
   {
-    MINCYCLE = 1; /* lowest priority */
+    MINCYCLE = 1;
     MAXALLOWEDVALUE = 10000;
     TICKSPERBASE = 1;
   };
-
-
-  /* Definition of alarms */ 
-  ALARM CyclicReceiveData
-  {
-    COUNTER = SysTimerCnt;
-    ACTION = ACTIVATETASK
-    {
-      TASK = ReceiveData;
-    };
-    AUTOSTART = TRUE
-    { 
-      ALARMTIME = 1; /* called every 1 ms */
-      CYCLETIME = 1;
-      APPMODE = appmode1;
-    };
-  };
-
-  ALARM CyclicUpdateDisplay
-  {
-    COUNTER = SysTimerCnt;
-    ACTION = ACTIVATETASK
-    {
-      TASK = UpdateDisplay;
-    };
-    AUTOSTART = TRUE
-    {
-      ALARMTIME = 1;
-      CYCLETIME = 500;
-      APPMODE = appmode1;
-    };
-  };
-
 };
 
