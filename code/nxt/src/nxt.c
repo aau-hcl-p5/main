@@ -104,7 +104,7 @@ TASK(ReceiveData) {
             display_string_at_xy(0, 0, "Finished calibration!");
             for(int i = 0; i < POINTS_ON_AXIS; i++){
                 int size = sizeof(SEND_PACKAGE);
-                systick_wait_ms(5);
+                systick_wait_ms(50);
                 display_int_at_xy(1, 1, i, 3);
                 display_string_at_xy(0, 2, "Angle");
                 display_string_at_xy(0, 3, "Positive =");

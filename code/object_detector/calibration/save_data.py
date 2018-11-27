@@ -1,5 +1,6 @@
 import dataclasses
 import datetime
+import time
 
 import usb
 
@@ -15,10 +16,15 @@ def save_packages(usb_controller: NxtUsb):
     while 1:
         try:
             data = usb_controller.read()
-            if all(val == 0 for val in data):
-                continue
+            time.sleep(0.1)
+            # if all(val == 0 for val in data):
+            #    continue
             print(f"{len(packages)} - {data}")
-            packages.append(Package(data[0], data[1], data[2], data[3]))
+
+            def bla(d, index):
+                return (d[index+1] << 8) | d[index]
+
+            packages.append(Package(bla(data, 0), bool(bla(data, 2)), bla(data, 4), bla(data, 6)))
         except usb.core.USBError as e:
             print(f"{len(packages)} - ERROR {e}")
         except KeyboardInterrupt:

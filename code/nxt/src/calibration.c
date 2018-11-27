@@ -8,7 +8,7 @@
 #include "usb.h"
 
 #define MIN_POWER 10
-#define MAX_POWER 40
+#define MAX_POWER 100
 
 T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 bool calibrated = false;

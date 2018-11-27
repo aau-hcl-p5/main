@@ -55,7 +55,12 @@ bool get_target_location(T_VECTOR *out_location) {
 
 
 
-bool send_calibration_data(int16_t angle, bool is_x, T_POWER_TUPLE data) {
-    return ecrobot_send_usb((uint8_t *)&data, 0, sizeof(SEND_PACKAGE)) > 0;
+bool send_calibration_data(int16_t angle, bool is_x, T_POWER_TUPLE pwr) {
+    SEND_PACKAGE pkg = {angle, is_x, pwr.positive, pwr.negative};
+    int16_t val = 15;
+    GetResource(USB_Rx);
+    int resp = ecrobot_send_usb((uint8_t *)&(pkg), 0, sizeof(SEND_PACKAGE)) > 0;
+    ReleaseResource(USB_Rx);
+    return resp;
 }
 

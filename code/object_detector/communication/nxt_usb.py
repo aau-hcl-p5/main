@@ -52,7 +52,7 @@ class NxtUsb:
         config = self.device.get_active_configuration()
         interface = config[(0, 0)]
 
-        self.in_endpoint = self.device[0][(0, 0)][0]
+        self.in_endpoint = self.device[0][(0, 0)][1]
         self.endpoint = usb.util.find_descriptor(
             interface,
             # match the first OUT endpoint
