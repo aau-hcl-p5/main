@@ -18,13 +18,13 @@ from .object_fill import ObjectFillController
 from .result import Result, Status
 from .vector import Vector
 
-
 class AlgorithmType(Enum):
     """
     Types of algorithms.
     """
     ZONE_AVG = 2
-    OBJ_FILL = 3
+    OBJ_FILL = 3,
+    THRESH_MOMENT = 4
 
 
 def get_algorithm(algorithm_type: AlgorithmType) -> Callable[[np.ndarray], Optional[Vector]]:
@@ -37,6 +37,8 @@ def get_algorithm(algorithm_type: AlgorithmType) -> Callable[[np.ndarray], Optio
         return ZoneAvgController().locate_center
     if algorithm_type is AlgorithmType.OBJ_FILL:
         return ObjectFillController().locate_center
+    if algorithm_type is AlgorithmType.THRESH_MOMENT:
+        return ThreshMomentController(True).locate_center
 
     raise NotImplementedError()
 

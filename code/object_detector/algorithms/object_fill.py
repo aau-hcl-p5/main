@@ -73,14 +73,6 @@ It will:
         self._blacklisted_pixels = set()
         if new_center is None:
             self.fill_step_size = DEFAULT_FILL_STEP_SIZE
-        """
-        object_position = self._locate_object(frame, image_size)
-        if object_position:
-            self._last_center = self._fill_get_center(object_position, frame, image_size)
-        else:
-            self._last_center = None
-            self.fill_step_size = DEFAULT_FILL_STEP_SIZE
-        #"""
 
         return self._last_center
 

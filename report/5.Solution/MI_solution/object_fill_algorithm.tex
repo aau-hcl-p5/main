@@ -1,4 +1,34 @@
-\subsection{Object fill algorithm}\label{solution:objfillalgo}
-% Description of the Object Fill algorithm
-% The point of this would be to describe the journey we went on mainly.
-% 
+\subsection{Object Fill algorithm}\label{solution:objfillalgo}
+
+The core of the Object Fill algorithm is the actual "filling" part.
+It can be seen in a stripped down version in listing~\ref{lst:objectfill}
+
+\begin{lstlisting}[language=Python,label={lst:objectfill},caption={Stripped version of thresh moment from thresh\_moment.py}]
+    def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
+	    queue: Deque = deque()
+	    queue.append(object_position)
+	    self._blacklisted_pixels.add(object_position)
+	    sum_outline = Vector(0, 0)
+	    sum_redness = 0
+	    sum_elements_in_outline = 0
+	    
+	    while queue:
+		    element = queue.popleft()
+		    pixel_redness = _redness(element.x, element.y, frame)
+		    # is a bounding pixel
+		    if pixel_redness < self.red_threshold:
+			    sum_outline += element
+			    sum_elements_in_outline += 1
+		    
+		    for neighbour in self._get_neighbours(element, image_size) - self._blacklisted_pixels:
+			    sum_redness += pixel_redness
+			    self._blacklisted_pixels.add(neighbour)
+			    queue.append(neighbour)
+	    
+	    if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
+		    return sum_outline / sum_elements_in_outline
+	    else:
+		    return None
+\end{lstlisting}
+
+A high level explanation of the algorithm can be found in section~\ref{sec:objectfilldesign}.
