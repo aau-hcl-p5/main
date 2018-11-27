@@ -14,19 +14,19 @@ However, there is a system boundary between all the systems that composes the sy
 This is important to notice when evaluating the dependability of the system. 
 It is inherent that a system, which is composed of an independent system, can never be more dependent than that system. 
 
-Whenever a system does not provided the service specified by its requirements, it is said that the system has a service failure. 
+Whenever a system does not provide the service specified by its requirements, it is said that the system has a service failure. 
 The system failure is the visible result of an error that has been caused by a fault witch will be elaborated in the following subsection.
 
 \subsection{Faults}
 There are broadly speaking different kinds of faults: degradation faults, design faults and byzantine faults. 
-An degradation fault is a result of the natural wear and tear of the hardware components.
-A design fault is, as the name implies, an fault that is caused by an error or poor decision made during the design phase of the component. 
+A degradation fault is a result of the natural wear and tear of the hardware components.
+A design fault is, as the name implies, a fault that is caused by an error or poor decision made during the design phase of the component. 
 A byzantine fault is when a component of the system, or a system in its entirety, behaves in an unexpected way. 
-Byzantine fault are the hardest to detect and correct since their behavior is by definition unpredictable. 
+Byzantine faults are the hardest to detect and correct since their behavior is by definition unpredictable. 
 An unpredictable behavior means that a component might return some state when asked to complete some task and return a different state when asked the same task. 
 There are different ways of detecting a byzantine fault, but since it is outside the scope of this project it will not be covered. 
 
-In order to lower the risk of these faults there are four different methods of fault handling:
+In order to decrease the risk of these faults there are four different methods of fault handling:
 \begin{itemize}
 \item Fault avoidance
 \item Fault elimination
@@ -35,10 +35,10 @@ In order to lower the risk of these faults there are four different methods of f
 \end{itemize}
 \textit{\textbf{Fault avoidance}} focuses on the process of the system development, where the developer should focus on avoiding faults in the system happening in the first place.
 \textit{\textbf{Fault elimination}} focuses on the correction of the faults that have been found in the system, which can be corrected. 
-\textit{\textbf{Fault tolerance}} focuses on faults that might not be corrected within an given time period or budget, but are not too serious to tolerate.
-An decision has to be made whether the fault is deemed not critical for the overall function of the system if so the fault is said to be tolerated.
+\textit{\textbf{Fault tolerance}} focuses on faults that might not be corrected within a given time period or budget, but are not too serious to tolerate.
+A decision has to be made whether the fault is deemed not critical for the overall function of the system if so the fault is said to be tolerated.
 \textit{\textbf{Fault forecasting}} focuses on predicting the occurrence of a fault, and if the fault is forecasted to be very unlikely to happen it may be allowed to exist in the system. 
 
 \subsection{Conclusion}
-Since this project is not designed to be put into a real world use use at the end of the project period, the dependability is not deemed as an essential part of the system. 
+Since this project is not designed to be used in the real world, but rather just to demonstrate the concept, the dependability is not deemed as an essential part of the system. 
 However, should the system be put into use, it should be modified with dependability in mind. 
