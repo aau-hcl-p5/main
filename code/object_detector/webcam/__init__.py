@@ -37,6 +37,10 @@ class VideoController:
             raise NotImplementedError
 
         self.capture_device = cv2.VideoCapture(input_device)  # pylint: disable=no-member
+        self._last_frame = None
+
+    def get_last_frame(self) -> np.ndarray:
+        return self._last_frame
 
     def get_current_frame(self) -> np.ndarray:
         """
@@ -46,6 +50,7 @@ class VideoController:
         """
 
         _, frame = self.capture_device.read()
+        self._last_frame = frame
         return frame
 
     def __del__(self):

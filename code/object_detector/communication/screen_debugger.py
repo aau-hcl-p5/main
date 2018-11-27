@@ -8,32 +8,29 @@ from typing import Callable
 import cv2
 import numpy as np
 
-from algorithms.utilities import Vector
+from algorithms import Result, Status, Vector
+from webcam import VideoController
+from .output_device import OutputDevice
+
+SIZE_OF_MARKER = 10
 
 
-def screen_debug_wrapper(
-        location: Vector,
-        frame: np.ndarray,
-        size: int = 10,
-) -> None:  # pragma: no cover
-    """
-    A wrapper that takes a algorithm as input and runs it,
-    and then displays the output to a image renderer
-    :param location: location to highlight
-    :param frame: the current frame
-    :param size: the size of the debugging point
-    """
+class ScreenDebugger(OutputDevice):
+    def __init__(self, video_controller: VideoController):
+        self.video_controller = video_controller
 
-    if location:
-        location = location + Vector(frame.shape[1], frame.shape[0])//2
-        for x in range(-size, size):
-            for y in range(-size, size):
-                new_x = int(location.x + x)
-                new_y = int(location.y + y)
-                try:
-                    frame[new_y, new_x] = [0, 0x70, 0]
-                except IndexError:
-                    pass
+    def write_data(self, data: Result) -> None:
+        location = data.location
+        frame = self.video_controller.get_last_frame()
+        if data.status is Status.TARGET_FOUND:
+            location = location + Vector(frame.shape[1], frame.shape[0]) // 2
+            for x in range(-SIZE_OF_MARKER, SIZE_OF_MARKER):
+                for y in range(-SIZE_OF_MARKER, SIZE_OF_MARKER):
+                    new_x = int(location.x + x)
+                    new_y = int(location.y + y)
+                    try:
+                        frame[new_y, new_x] = [0, 0x70, 0]
+                    except IndexError:
+                        pass
 
-    cv2.imshow('debug view', frame)  # pylint: disable=no-member
-
+        cv2.imshow('debug view', frame)  # pylint: disable=no-member

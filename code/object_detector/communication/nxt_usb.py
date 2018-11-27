@@ -6,11 +6,13 @@ is the Result class from the algorithms module.
 
 based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 """
+from abc import ABC
 
 import usb.core
 import usb.util
 
-from algorithms.result import Result, Status
+from algorithms import Result, Status
+from .output_device import OutputDevice
 
 ID_VENDOR_LEGO = 0x0694
 ID_PRODUCT_NXT = 0x0002
@@ -23,7 +25,7 @@ class DeviceNotFound(Exception):
     pass
 
 
-class NxtUsb:
+class NxtUsb(OutputDevice, ABC):
     """
     Used for USB communication with the NXT
     This is one-way and only broadcasting.

@@ -5,7 +5,7 @@ and as of today (15-10-2018) tensorflow doesn't work for 3.7
 
 """
 
-from algorithms.utilities import Vector
+from .vector import Vector
 from enum import Enum
 
 

@@ -6,8 +6,7 @@
 #include "nxt.h"
 #include "target_information.h"
 #include "data_receive.h"
-#include "init_screen.h"
-#include "display_data.h"
+#include "display.h"
 
 #define SIZEOF_USB_DATA sizeof(T_TARGET_INFORMATION)
 DeclareResource(USB_Rx);

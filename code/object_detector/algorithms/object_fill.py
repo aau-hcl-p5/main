@@ -11,7 +11,7 @@ from typing import Optional, Set, Deque, Union, Iterator
 
 import numpy as np
 
-from algorithms.utilities import Vector
+from .vector import Vector
 
 DEFAULT_FIND_STEP_SIZE = 4
 DEFAULT_FILL_STEP_SIZE = 2

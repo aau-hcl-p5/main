@@ -76,7 +76,7 @@
 
 % ¤¤ Misc. ¤¤ %
 \usepackage{listings}            % Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
-% Kode-style
+% Code-style
 \lstdefinestyle{Kotlin}{language=kotlin, frame=lr, rulecolor=\color{blue!80!black}}
 \renewcommand{\lstlistingname}{Snippet}
 \lstdefinelanguage{Kotlin}{
@@ -94,24 +94,6 @@
   stringstyle=\color{ForestGreen}\ttfamily,
   morestring=[b]",
   morestring=[s]{"""*}{*"""},
-}
-
-\lstdefinestyle{HCL}{language=hcl, frame, lr, rulecolor=\color{blue!80!black}}
-\renewcommand{\lstlistingname}{Snippet}
-\lstdefinelanguage{HCL}
-{
-  keywords={true, false, return, OUTPUT},
-  keywordstyle=\color{ForestGreen}\bfseries,
-  ndkeywords={none, var, txt, num, bool, tuple, list, func, value},
-  ndkeywordstyle=\color{BurntOrange}\bfseries,
-  emph={map, where, reduce, print, add, where, do, equals, then, else, thenElse, +, -, /, *, not, addNumbers, is, modifyNumber, modifyFunction, times2, isAwesome, onEach, forEach, mapFunction, SetLEDPower, delay, LedSetup}, %add all included functions here
-  emphstyle={\color{RoyalBlue}},
-  identifierstyle=\color{Aquamarine},
-  sensitive=true,
-  commentstyle=\color{Gray}\ttfamily,
-  comment=[l]{\#},
-  stringstyle=\color{black}\ttfamily,
-  morestring=[b]",
 }
 
 

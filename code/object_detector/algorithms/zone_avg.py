@@ -7,7 +7,7 @@ This obviously isn't perfect but is the first iteration of object detection
 """
 from typing import Dict, Optional
 
-from algorithms.utilities import Vector
+from .vector import Vector
 
 PIXEL_SKIPPED = 30
 MAX_LINES = 40

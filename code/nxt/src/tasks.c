@@ -1,9 +1,8 @@
 #include "nxt.h"
-#include "init_screen.h"
 #include "target_information.h"
 #include "movement.h"
 #include "data_receive.h"
-#include "display_data.h"
+#include "display.h"
 #include "movement.h"
 
 
