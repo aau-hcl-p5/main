@@ -2,21 +2,14 @@
 #include <stdint.h>
 
 #include "nxt.h"
-#include "target_location.h"
+#include "target_information.h"
 #include "movement.h"
 #include "data_receive.h"
 
 // TODO: Not global var
 bool laser_state = false;
 
-void main_loop() {
-    T_TARGET_LOCATION target_location;
-    if (get_target_location(&target_location)) {
-
-        move_to(target_location);
-        move_motors();
-    }
-}
+void main_loop() {}
 
 bool toggle_laser() {
     return laser_state = !laser_state;
@@ -30,6 +23,6 @@ uint32_t get_distance(uint32_t sensor_id) {
     return 0;
 }
 
-bool predict_trajectory(T_TARGET_LOCATION point){
+bool predict_trajectory(T_TARGET_LOCATION point) {
     return 0;
 }

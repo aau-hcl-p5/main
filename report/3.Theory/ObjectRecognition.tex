@@ -1,9 +1,11 @@
 \section{Object Recognition}
 To be able to figure out where the target is, its location within the video stream has to be determined.
 It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-As mentioned in Section~\ref{sec:obj_tracking}, object recognition algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
+As mentioned in Section~\ref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
 Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
 Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries we have at our disposal.
+
+It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
 
 \subsection{Neural Networks}
 
@@ -59,7 +61,7 @@ Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
 An improved version is called \textit{faster RCNN}, which is leaning towards being feasible for real time object detection, as it improves the performance of RCNN considerably\cite{fasterRCNN}.
 
-\subsection{You Only Look Once}
+\subsection{You Only Look Once}\label{sec:YOLOAnalysis}
 An alternative to RCNN is You Only Look Once (YOLO) which is a new technology developed with real-time processing in mind.
 Benchmarks shows, that YOLO can do real-time object detection using modern high-end consumer GPU's.
 Furthermore the performance of YOLO beats that of \textit{faster RCNN}\cite{odDetection}.
