@@ -103,7 +103,7 @@ TASK(ReceiveData) {
             display_clear(0);
             display_string_at_xy(0, 0, "Finished calibration!");
             for(int i = 0; i < POINTS_ON_AXIS; i++){
-
+                int size = sizeof(SEND_PACKAGE);
                 systick_wait_ms(5);
                 display_int_at_xy(1, 1, i, 3);
                 display_string_at_xy(0, 2, "Angle");
@@ -112,7 +112,7 @@ TASK(ReceiveData) {
                 display_string_at_xy(0, 5, "Negative =");
                 display_int_at_xy(3, 6, y_axis_powers[i].negative, 3);
                 display_string_at_xy(0, 7, "S=");
-                display_int_at_xy(3, 7, int(sizeof(SEND_PACKAGE), 3);
+                display_int_at_xy(3, 7, size, 3);
                 display_update();
                 send_calibration_data(i, true, y_axis_powers[i]);
             }

@@ -67,7 +67,7 @@ class NxtUsb:
         :return: the bytes from the device
         """
         return self.device.read(self.in_endpoint.bEndpointAddress,
-                                16)
+                                8)
                                 #self.in_endpoint.wMaxPacketSize)
 
     def write_location(self, data: Vector) -> None:
