@@ -1,10 +1,9 @@
-
-#include "display.h"
 #include "nxt.h"
 #include "vector.h"
 #include "movement.h"
 #include "calibration.h"
 #include "usb.h"
+#include "display_manager.h"
 
 
 /* OSEK declarations */

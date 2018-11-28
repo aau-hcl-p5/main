@@ -4,7 +4,7 @@ TARGET_SOURCES = \
 	./src/nxt.c \
 	./src/usb.c \
 	./src/movement.c \
-	./src/display.c \
+	./src/display_manager.c \
 	./src/calibration.c \
 	./src/vector.c \
 	./src/logic.c \

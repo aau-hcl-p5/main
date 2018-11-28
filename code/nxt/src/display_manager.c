@@ -5,20 +5,15 @@
 #include "usb.h"
 #include "movement.h"
 
-void display_string_at_xy(uint8_t x, uint8_t y, char *str){
+void display_string_at_xy(uint8_t x, uint8_t y, char *str) {
     display_goto_xy(x, y);
     display_string(str);
 }
 
 
-void display_int_at_xy(uint8_t x, uint8_t y, int32_t number, int32_t spaces){
+void display_int_at_xy(uint8_t x, uint8_t y, int32_t number, int32_t spaces) {
     display_goto_xy(x, y);
     display_int(number, spaces);
-}
-
-
-void display_calibration_status(STATUS_CODE status_code, T_VECTOR target_last_location) {
-
 }
 
 
@@ -38,7 +33,7 @@ void display_calibration_status(char* direction, T_VECTOR position, int power) {
 
 }
 
-void display_calibration_transfer_status(bool positive_direction, T_POWER_TUPLE tuple) {
+void display_calibration_transfer_status(int i, T_POWER_TUPLE tuple) {
     display_clear(0);
     display_string_at_xy(0, 0, "Sending cali-data");
     display_int_at_xy(1, 1, i, 3);

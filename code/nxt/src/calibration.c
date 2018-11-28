@@ -1,6 +1,6 @@
 #include <math.h>
 
-#include "display.h"
+#include "display_manager.h"
 #include "nxt.h"
 #include "calibration.h"
 #include "vector.h"
@@ -14,7 +14,6 @@ T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 bool calibrated = false;
 
 
-
 int8_t get_required_power(char axis, bool positive_direction) {
     if(axis == 'x')
         return 30;
@@ -22,9 +21,7 @@ int8_t get_required_power(char axis, bool positive_direction) {
         T_POWER_TUPLE power_set = y_axis_powers[get_current_location().y];
         return positive_direction ? power_set.positive : power_set.negative;
     }
-
 }
-
 
 void calibrate(bool internal) {
 
@@ -32,13 +29,9 @@ void calibrate(bool internal) {
     calibrate_axis_in_direction('y',true);
     calibrate_axis_in_direction('y',false);
     calibrated = true;
-    display_clear(0);
-    display_string_at_xy(0, 0, "Finished calibration!");
 }
 
 void calibrate_axis_in_direction(char axis, bool direction) {
-    display_clear(0);
-    display_string_at_xy(0, 0, "Calibrating...");
     uint8_t power = 0;
     do
     {
@@ -57,7 +50,6 @@ void calibrate_axis_in_direction(char axis, bool direction) {
 
     } while(power < MAX_POWER);
 }
-
 
 int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
     char axis_str[3];
