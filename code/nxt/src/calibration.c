@@ -53,6 +53,10 @@ void calibrate_axis_in_direction(char axis, bool direction) {
     } while(power < MAX_POWER);
 }
 
+bool should_stop_moving(T_VECTOR first_location, int8_t power) {
+    return is_locations_equals(first_location, get_current_location()) && power <= 100;
+}
+
 int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
     char axis_str[3];
     axis_str[0] = axis;
