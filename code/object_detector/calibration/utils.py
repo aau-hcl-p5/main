@@ -9,7 +9,7 @@ class Package:
             axis: bool,
             power_up: int,
             power_down: int
-    ):
+    ) -> None:
         self.position = position
         self.axis = axis
         self.power_up = power_up

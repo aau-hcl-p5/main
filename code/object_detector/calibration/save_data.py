@@ -1,5 +1,6 @@
 import datetime
 import time
+from typing import List
 
 import usb
 
@@ -18,7 +19,7 @@ def combine_bytes(data, index):
 # noinspection PyArgumentList
 def save_packages(usb_controller: NxtUsb):
     print("Received packages until newline:")
-    packages: [Package] = []
+    packages: List[Package] = []
 
     usb_controller.write_status(Status.READY_FOR_CALIBRATION)
     from calibration.averaged_list import AveragedList
@@ -53,6 +54,6 @@ def save_packages(usb_controller: NxtUsb):
     plt.plot([x for x in result_down], label="Down")
     plt.plot([x for x in result_up], label="Up")
     plt.legend()
-    FILE = open(datetime.datetime.now().strftime('%m_%d_%H_%M_%S.result'), 'w')
-    FILE.write("\n".join(str(p)) for p in packages)
+    file = open(datetime.datetime.now().strftime('%m_%d_%H_%M_%S.result'), 'w')
+    file.write("\n".join(str(p) for p in packages))
     plt.show()
