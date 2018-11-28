@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "nxt.h"
-#include "display_data.h"
+#include "display.h"
 #include "usb.h"
 #include "movement.h"
 
@@ -14,6 +14,39 @@ void display_string_at_xy(uint8_t x, uint8_t y, char *str){
 void display_int_at_xy(uint8_t x, uint8_t y, int32_t number, int32_t spaces){
     display_goto_xy(x, y);
     display_int(number, spaces);
+}
+
+
+void display_calibration_status(STATUS_CODE status_code, T_VECTOR target_last_location) {
+
+}
+
+
+void display_calibration_status(char* direction, T_VECTOR position, int power) {
+    display_clear(0);
+    display_string_at_xy(0, 0, "Calibrating...");
+    display_string_at_xy(0, 2, "dir");
+    display_string_at_xy(4, 2, direction);
+    display_string_at_xy(0, 3, "pos");
+    display_string_at_xy(0, 4, "X:");
+    display_string_at_xy(0, 5, "Y:");
+    display_int_at_xy(4, 3, position.x, 3);
+    display_int_at_xy(4, 4, position.y, 3);
+    display_string_at_xy(0, 5, "pow");
+    display_int_at_xy(4, 5, power, 4);
+    display_update();
+
+}
+
+void display_calibration_transfer_status(bool positive_direction, T_POWER_TUPLE tuple) {
+    display_clear(0);
+    display_string_at_xy(0, 0, "Sending cali-data");
+    display_int_at_xy(1, 1, i, 3);
+    display_string_at_xy(0, 3, "Positive =");
+    display_int_at_xy(3, 4, tuple.positive, 3);
+    display_string_at_xy(0, 5, "Negative =");
+    display_int_at_xy(3, 6, tuple.negative, 3);
+
 }
 
 void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_location)
@@ -54,5 +87,15 @@ void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_lo
     display_string_at_xy(9, 7, "Y:");
     display_int_at_xy(12, 7, y_lower_bound_modifier, 4);
 
+    display_update();
+}
+
+void show_init_screen()
+{
+    display_clear(0);
+    display_string_at_xy(0, 0, "F.L.A.T");
+    display_string_at_xy(0, 1, "Awaiting USB Host.");
+    display_string_at_xy(0, 3, "Compilation time:");
+    display_string_at_xy(0, 4, __TIME__);
     display_update();
 }

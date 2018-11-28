@@ -1,6 +1,6 @@
 #include <math.h>
 
-#include "display_data.h"
+#include "display.h"
 #include "nxt.h"
 #include "calibration.h"
 #include "vector.h"
@@ -60,25 +60,18 @@ void calibrate_axis_in_direction(char axis, bool direction) {
 
 
 int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
-    char axis_str[2];
+    char axis_str[3];
     axis_str[0] = axis;
-    axis_str[1] = '\0';
+    axis_str[1] = positive_direction ? '+' : '-';
+    axis_str[2] = '\0';
     int8_t power = MIN_POWER;
     T_VECTOR first_location = get_current_location();
-    display_string_at_xy(0, 2, "dir");
-    display_string_at_xy(4, 2, positive_direction ? "+" : "-");
-    display_string_at_xy(6, 2, axis_str);
-    display_string_at_xy(0, 3, "pos");
-    display_int_at_xy(4, 3, first_location.x, 3);
-    display_int_at_xy(4, 4, first_location.y, 3);
 
     do {
         set_motor_speed(axis, power * (positive_direction ? 1 : -1));
         power++;
 
-        display_string_at_xy(0, 5, "pow");
-        display_int_at_xy(4, 5, power, 4);
-        display_update();
+        display_calibration_status(axis_str, first_location, power);
         systick_wait_ms(50);
 
     } while(is_locations_equals(first_location, get_current_location()) && power <= 100);
