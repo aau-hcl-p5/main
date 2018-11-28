@@ -15,8 +15,10 @@ import numpy as np
 
 from .zone_avg import ZoneAvgController
 from .object_fill import ObjectFillController
+from .thresh_moment import ThreshMomentController
 from .result import Result, Status
 from .vector import Vector
+
 
 class AlgorithmType(Enum):
     """

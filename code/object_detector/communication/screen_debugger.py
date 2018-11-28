@@ -3,10 +3,8 @@ Everything regarding debugging the data to the screen.
 So when doing some kind of object recognition and you want to draw on the screen,
 these methods help.
 """
-from typing import Callable
 
 import cv2
-import numpy as np
 
 from algorithms import Result, Status, Vector
 from webcam import VideoController
@@ -16,7 +14,7 @@ SIZE_OF_MARKER = 10
 
 
 class ScreenDebugger(OutputDevice):
-    def __init__(self, video_controller: VideoController):
+    def __init__(self, video_controller: VideoController) -> None:
         self.video_controller = video_controller
 
     def write_data(self, data: Result) -> None:
