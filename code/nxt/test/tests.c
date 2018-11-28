@@ -8,7 +8,7 @@
 int main() {
     T_TEST testcases[] = {
         {"Ensure sizeof target_information is 4 byte", test_target_information_size},
-        {"Ensure sizeof target_location is 2 byte", tesT_VECTOR_size},
+        {"Ensure sizeof target_location is 2 byte", test_t_vector_size},
         {"Test read from usb", test_usb_read},
         {"Test usb disconnect", test_usb_disconnect},
         {"Test motor initialization", test_motor_init},
