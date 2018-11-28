@@ -23,7 +23,7 @@ class AlgorithmType(Enum):
     Types of algorithms.
     """
     ZONE_AVG = 2
-    OBJ_FILL = 3,
+    OBJ_FILL = 3
     THRESH_MOMENT = 4
 
 
