@@ -15,8 +15,8 @@ class SoundDebugger(OutputDevice):
         if status is Status.TARGET_FOUND:
             print("Target found sound!")
         elif status is Status.NO_TARGET_FOUND:
-            print("Target disappeared :/")
+            print("Target missing")
         elif status is Status.DISCONNECT_REQ:
-            print("bzzt disconnect")
+            print("USB disconnect")
         else:
             raise NotImplementedError("Status code not implemented!")
