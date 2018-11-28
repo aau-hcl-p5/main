@@ -17,18 +17,18 @@ void display_int_at_xy(uint8_t x, uint8_t y, int32_t number, int32_t spaces) {
 }
 
 
-void display_calibration_status(char* direction, T_VECTOR position, int power) {
+void display_calibration_status(char* direction, T_REVOLUTION position, int power) {
     display_clear(0);
     display_string_at_xy(0, 0, "Calibrating...");
     display_string_at_xy(0, 2, "dir");
     display_string_at_xy(4, 2, direction);
-    display_string_at_xy(0, 3, "pos");
+    display_string_at_xy(0, 3, "Pos:");
     display_string_at_xy(0, 4, "X:");
     display_string_at_xy(0, 5, "Y:");
-    display_int_at_xy(4, 3, position.x, 3);
-    display_int_at_xy(4, 4, position.y, 3);
-    display_string_at_xy(0, 5, "pow");
-    display_int_at_xy(4, 5, power, 4);
+    display_int_at_xy(4, 4, position.x, 3);
+    display_int_at_xy(4, 5, position.y, 3);
+    display_string_at_xy(0, 6, "pow");
+    display_int_at_xy(4, 6, power, 4);
     display_update();
 
 }

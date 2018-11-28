@@ -9,6 +9,10 @@ typedef struct {
     uint8_t positive;
 } T_POWER_TUPLE;
 
+typedef enum {
+    POSITIVE,
+    NEGATIVE
+} T_DIRECTION;
 
 #define POINTS_ON_AXIS 360
 
@@ -16,10 +20,6 @@ extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 extern bool calibrated;
 
 extern void calibrate(bool internal);
-extern int8_t get_required_power(char axis, bool positive_direction);
-
-int8_t get_power_to_move_one_degree(char axis, bool positive_direction);
-void calibrate_axis_in_direction(char axis, bool direction);
-bool compare_locations(T_VECTOR target1, T_VECTOR target2);
+extern int8_t get_required_power(char axis, T_DIRECTION positive_direction);
 
 #endif //NXT_CALIBRATION_H

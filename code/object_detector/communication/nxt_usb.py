@@ -52,14 +52,9 @@ class NxtUsb:
         config = self.device.get_active_configuration()
         interface = config[(0, 0)]
 
-        self.in_endpoint = self.device[0][(0, 0)][1]
-        self.endpoint = usb.util.find_descriptor(
-            interface,
-            # match the first OUT endpoint
-            custom_match=_is_endpoint_out)
-        # handshake with nxt device ("are you ready?")
-        assert self.endpoint is not None
-        self.endpoint.write(b'\x01\xFF')
+        self.out_endpoint, self.in_endpoint = self.device[0][(0, 0)]
+        self.out_endpoint.write(b'\x01\xFF')
+        self.device.read(self.in_endpoint.bEndpointAddress, 8)
 
     def read(self):
         """
@@ -77,7 +72,7 @@ class NxtUsb:
         :param data: a result data
         """
         self.write_status(Status.TARGET_FOUND)
-        self.endpoint.write(bytes([
+        self.out_endpoint.write(bytes([
             int(data.x) & 0xFF,
             int(data.y) & 0xFF,
             0
@@ -87,7 +82,7 @@ class NxtUsb:
         value = status.value
         if type(value) is tuple:
             value = value[0]
-        self.endpoint.write(bytes([
+        self.out_endpoint.write(bytes([
             int(value) & 0xFF,
             0
         ]))
@@ -96,9 +91,9 @@ class NxtUsb:
         """
         This broadcasts a "TURNOFF" signal, and sets the endpoint to None
         """
-        if hasattr(self, 'endpoint') and self.endpoint is not None:
+        if hasattr(self, 'endpoint') and self.out_endpoint is not None:
             self.write_status(Status.DISCONNECT_REQ)
-        self.endpoint = None
+        self.out_endpoint = None
 
 
 def _is_endpoint_out(endpoint) -> bool:

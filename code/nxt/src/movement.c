@@ -3,13 +3,12 @@
 #include "movement.h"
 #include "nxt.h"
 #include "calibration.h"
+#include "revolution.h"
 
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
 uint16_t x_motor_speed = 0;
 uint16_t y_motor_speed = 0;
-
-
 
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
@@ -124,8 +123,7 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
 }
 
 
-T_VECTOR get_current_location() {
-
-    T_VECTOR location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor) };
-    return location;
+T_REVOLUTION get_current_revolution() {
+    T_REVOLUTION revolution = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor)};
+    return revolution;
 }

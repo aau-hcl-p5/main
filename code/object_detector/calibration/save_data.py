@@ -7,29 +7,53 @@ import usb
 from calibration.utils import Package
 from communication import NxtUsb, Status
 
+import matplotlib.pyplot as plt
 
+MAX_SEQUENTIAL_TIMEOUTS = 3
+
+
+def combine_bytes(data, index):
+    return (data[index + 1] << 8) | data[index]
+
+
+# noinspection PyArgumentList
 def save_packages(usb_controller: NxtUsb):
     print("Received packages until newline:")
     packages = []
 
     usb_controller.write_status(Status.READY_FOR_CALIBRATION)
+    from calibration.averaged_list import AveragedList
+    result_up = AveragedList(360)
+    result_down = AveragedList(360)
+    timeout_counter = 0
     while 1:
         try:
             data = usb_controller.read()
-            time.sleep(0.1)
-            # if all(val == 0 for val in data):
-            #    continue
+            time.sleep(0.01)
             print(f"{len(packages)} - {data}")
-
-            def bla(d, index):
-                return (d[index+1] << 8) | d[index]
-
-            packages.append(Package(bla(data, 0), bool(bla(data, 2)), bla(data, 4), bla(data, 6)))
+            package = Package(
+                                combine_bytes(data, 0),
+                                bool(combine_bytes(data, 2)),
+                                combine_bytes(data, 4),
+                                combine_bytes(data, 6)
+                              )
+            packages.append(package)
+            timeout_counter = 0
+            if package.power_up:
+                result_up[package.position] = package.power_up
+            if package.power_down:
+                result_down[package.position] = package.power_down
         except usb.core.USBError as e:
-            print(f"{len(packages)} - ERROR {e}")
+            print(f"- ERROR {e}")
+            timeout_counter += 1
+            if timeout_counter > MAX_SEQUENTIAL_TIMEOUTS:
+                break
         except KeyboardInterrupt:
             break
 
+    plt.plot([x for x in result_down], label="Down")
+    plt.plot([x for x in result_up], label="Up")
+    plt.legend()
     FILE = open(datetime.datetime.now().strftime('%m_%d_%H_%M_%S.result'), 'w')
-
     FILE.write("\n".join(str(dataclasses.asdict(p)) for p in packages))
+    plt.show()

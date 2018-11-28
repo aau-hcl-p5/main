@@ -6,7 +6,6 @@ TARGET_SOURCES = \
 	./src/movement.c \
 	./src/display_manager.c \
 	./src/calibration.c \
-	./src/vector.c \
 	./src/logic.c \
 
 TOPPERS_OSEK_OIL_SOURCE = ./nxt.oil
