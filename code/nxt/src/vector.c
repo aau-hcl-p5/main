@@ -1,7 +1,7 @@
 #include "vector.h"
 
 
-#define MOVEMENT_THRESHOLD 6
+#define MOVEMENT_THRESHOLD 3
 
 /*
  * Custom function for getting the square root as there is issues with math.h

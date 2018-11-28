@@ -7,7 +7,7 @@
 #include "movement.h"
 #include "usb.h"
 
-#define MIN_POWER 10
+#define MIN_POWER 0
 #define MAX_POWER 100
 
 T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
@@ -31,14 +31,12 @@ void calibrate(bool internal) {
     // calibrate the y axis
     calibrate_axis_in_direction('y',true);
     calibrate_axis_in_direction('y',false);
+    calibrate_axis_in_direction('y',true);
+    calibrate_axis_in_direction('y',false);
     calibrated = true;
-    display_clear(0);
-    display_string_at_xy(0, 0, "Finished calibration!");
 }
 
 void calibrate_axis_in_direction(char axis, bool direction) {
-    display_clear(0);
-    display_string_at_xy(0, 0, "Calibrating...");
     uint8_t power = 0;
     do
     {
@@ -58,6 +56,10 @@ void calibrate_axis_in_direction(char axis, bool direction) {
     } while(power < MAX_POWER);
 }
 
+bool is_not_enough_power(T_VECTOR original_location, int8_t power) {
+    return is_locations_equals(first_location, get_current_location()) && power <= 100
+}
+
 
 int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
     char axis_str[3];
@@ -72,9 +74,16 @@ int8_t get_power_to_move_one_degree(char axis, bool positive_direction) {
         power++;
 
         display_calibration_status(axis_str, first_location, power);
-        systick_wait_ms(50);
+        // wait 50ms but make sure we don't move in that timeframe
+        for(int i = 0; i < 50; i++)
+        {
+            systick_wait_ms(1);
+            if(should_stop_moving(first_location, power))
+                break;
+        }
 
-    } while(is_locations_equals(first_location, get_current_location()) && power <= 100);
+    } while(should_stop_moving(first_location, power));
+
     set_motor_speed(axis, 0);
 
     return power;

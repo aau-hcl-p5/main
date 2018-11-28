@@ -1,6 +1,6 @@
 /*
  *  kernel_id.h
- *  Wed Nov 28 11:18:40 2018
+ *  Wed Nov 28 11:21:31 2018
  *  SG Version 2.00
  *  sg.exe ./nxt.oil -os=ECC2 -I../../ecrobot/../toppers_osek/sg/impl_oil -template=../../ecrobot/../toppers_osek/sg/lego_nxt.sgt
  */
