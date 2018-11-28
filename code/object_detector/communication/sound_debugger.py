@@ -1,8 +1,19 @@
+"""
+Debugger that uses sound effects to show current state of program
+This is partially also just a gimmick.
+Current version doesn't play sounds, but simply prints.
+
+"""
 from algorithms import Result, Status
 from .output_device import OutputDevice
 
 
 class SoundDebugger(OutputDevice):
+    """
+    Debugger that uses sound effects to show current state of program
+    This is partially also just a gimmick.
+    Current version doesn't play sounds, but simply prints.
+    """
     def __init__(self):
         self._previous_status = None
 

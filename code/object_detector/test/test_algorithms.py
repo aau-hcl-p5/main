@@ -5,11 +5,14 @@ but rather tests subsets of the process in smaller simplistic cases
 """
 import unittest
 
-from algorithms import ZoneAvgController, ObjectFillController, Vector
+from algorithms import ZoneAvgController, ObjectFillController, Vector, ThreshMomentController
 from webcam import VideoController, CaptureDeviceType
 
 
 class TestZoneAvgAlgorithm(unittest.TestCase):
+    """
+    Testing of the Zone Avg algorithm
+    """
 
     def test_detect_negative(self):
         """
@@ -36,6 +39,9 @@ class TestZoneAvgAlgorithm(unittest.TestCase):
 
 
 class TestObjectFillAlgorithm(unittest.TestCase):
+    """
+    Testing of the Object Fill algorithm
+    """
 
     def test_detect_negative(self):
         """
@@ -61,6 +67,9 @@ class TestObjectFillAlgorithm(unittest.TestCase):
 
 
 class ThreshMomentAlgorithm(unittest.TestCase):
+    """
+    Testing of the Thresh Moment algorithm
+    """
 
     def test_detect_negative(self):
         """

@@ -21,7 +21,11 @@ DEFAULT_MIN_TOTAL_REDNESS = 3000  # value of my mouth
 
 
 def _redness(x: Union[int, float], y: Union[int, float], frame: np.ndarray) -> int:
-    return frame.item(int(y), int(x), 2) - frame.item(int(y), int(x), 1) - frame.item(int(y), int(x), 0)
+    return (
+            frame.item(int(y), int(x), 2) -
+            frame.item(int(y), int(x), 1) -
+            frame.item(int(y), int(x), 0)
+    )
 
 
 class ObjectFillController:  # pylint: disable=too-few-public-methods
@@ -40,7 +44,7 @@ It will:
                  required_steps_for_find: int = DEFAULT_REQUIRED_STEPS_FOR_FIND,
                  red_threshold: int = DEFAULT_RED_THRESHOLD,
                  debug: bool = False,
-                 dynamic_fill_size: bool =True
+                 dynamic_fill_size: bool = True
                  ) -> None:
         self.find_step_size = find_step_size
         self.fill_step_size = fill_step_size
@@ -88,13 +92,19 @@ It will:
             for x in range(0, int(image_size.x) - 3 * step_size, bound):
                 if y + self._last_center.y < image_size.y:
                     current_y = int(y + self._last_center.y)
-                    if all(Vector(z, current_y) not in self._blacklisted_pixels and self._is_red(z, current_y, frame)
-                           for z in range(x, x + bound, step_size)):
+                    if all(
+                            Vector(z, current_y) not in self._blacklisted_pixels
+                            and self._is_red(z, current_y, frame)
+                            for z in range(x, x + bound, step_size)
+                    ):
                         yield Vector(x + step_size, current_y)
                 if self._last_center.y - y > 0:
                     current_y = int(self._last_center.y - y)
-                    if all(Vector(z, current_y) not in self._blacklisted_pixels and self._is_red(z, current_y, frame)
-                           for z in range(x, x + bound, step_size)):
+                    if all(
+                            Vector(z, current_y) not in self._blacklisted_pixels
+                            and self._is_red(z, current_y, frame)
+                            for z in range(x, x + bound, step_size)
+                    ):
                         yield Vector(x + step_size, current_y)
 
     def _is_pixel_on_border(self, pixel: Vector, image_size: Vector) -> bool:
@@ -115,7 +125,8 @@ It will:
             pixel + y_dir_offset
         }
 
-    def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
+    def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) \
+            -> Optional[Vector]:
         queue: Deque = deque()
         queue.append(object_position)
         self._blacklisted_pixels.add(object_position)

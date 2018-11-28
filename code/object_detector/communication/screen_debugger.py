@@ -14,7 +14,16 @@ SIZE_OF_MARKER = 10
 
 
 class ScreenDebugger(OutputDevice):
+    """
+    Everything regarding debugging the data to the screen.
+    So when doing some kind of object recognition and you want to draw on the screen,
+    these methods help.
+    """
     def __init__(self, video_controller: VideoController) -> None:
+        """
+        Initializes the debugger based on the video feed, and results from the algorithms
+        :param video_controller: The current in-use video controller
+        """
         self.video_controller = video_controller
 
     def write_data(self, data: Result) -> None:
