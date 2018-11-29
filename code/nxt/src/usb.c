@@ -10,46 +10,32 @@
 #include "calibration.h"
 
 
-#define SIZEOF_USB_DATA sizeof(T_TARGET_INFORMATION)
+#define MAX_SIZE_OF_USB_DATA sizeof(STATUS_CODE) + sizeof(T_VECTOR)
+
 DeclareResource(USB_Rx);
 
-bool get_status_code(STATUS_CODE *out_code) {
+bool get_status_code(STATUS_CODE *out_code, T_VECTOR *out_location) {
     int32_t len;
-    STATUS_CODE new_code;
+    uint8_t buffer[MAX_SIZE_OF_USB_DATA];
 
     /* critical section */
     GetResource(USB_Rx);
     /* read USB data */
-    len = ecrobot_read_usb((uint8_t*)&new_code, 0, sizeof(STATUS_CODE));
+    len = ecrobot_read_usb(buffer, 0, MAX_SIZE_OF_USB_DATA);
     ReleaseResource(USB_Rx);
 
-    if (len > 0)
+    if (len == sizeof(STATUS_CODE))
     {
-        memcpy(out_code, &new_code, sizeof(STATUS_CODE));
+        memcpy(out_code, buffer, sizeof(STATUS_CODE));
+        return true;
+    }
+    if (len == MAX_SIZE_OF_USB_DATA) {
+        memcpy(out_code, buffer, sizeof(STATUS_CODE));
+        memcpy(out_location, buffer + sizeof(STATUS_CODE), sizeof(T_VECTOR));
         return true;
     }
     return false;
 }
-
-
-bool get_target_location(T_VECTOR *out_location) {
-	int32_t len;
-    T_VECTOR new_location;
-
-	/* critical section */
-	GetResource(USB_Rx);
-	/* read USB data */
-	len = ecrobot_read_usb((uint8_t*)&new_location, 0, sizeof(T_VECTOR));
-	ReleaseResource(USB_Rx);
-
-	if (len > 0)
-	{
-		memcpy(out_location, &new_location, sizeof(T_VECTOR));
-		return true;
-	}
-	return false;
-}
-
 
 bool send_calibration_data(int16_t angle, bool is_x, T_POWER_TUPLE pwr) {
     SEND_PACKAGE pkg = {angle, is_x, pwr.positive, pwr.negative};

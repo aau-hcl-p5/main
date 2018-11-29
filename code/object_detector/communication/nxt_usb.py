@@ -49,9 +49,6 @@ class NxtUsb:
         # configuration will be the active one
         self.device.set_configuration()
 
-        config = self.device.get_active_configuration()
-        interface = config[(0, 0)]
-
         self.out_endpoint, self.in_endpoint = self.device[0][(0, 0)]
         self.out_endpoint.write(b'\x01\xFF')
         self.device.read(self.in_endpoint.bEndpointAddress, 8)
@@ -61,9 +58,7 @@ class NxtUsb:
         Read stream from device
         :return: the bytes from the device
         """
-        return self.device.read(self.in_endpoint.bEndpointAddress,
-                                8)
-                                #self.in_endpoint.wMaxPacketSize)
+        return self.device.read(self.in_endpoint.bEndpointAddress, 8)
 
     def write_location(self, data: Vector) -> None:
         """
@@ -71,11 +66,11 @@ class NxtUsb:
         should react upon by moving the turret
         :param data: a result data
         """
-        self.write_status(Status.TARGET_FOUND)
         self.out_endpoint.write(bytes([
+            0,
+            0,
             int(data.x) & 0xFF,
-            int(data.y) & 0xFF,
-            0
+            int(data.y) & 0xFF
         ]))
 
     def write_status(self, status: Status):

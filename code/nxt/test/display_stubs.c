@@ -9,6 +9,9 @@ void display_string(char *str) {
 void display_int(int num, int len) {
 
 }
+void display_hex(int num, int len) {
+
+}
 void display_update() {
 
 }

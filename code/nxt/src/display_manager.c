@@ -16,6 +16,10 @@ void display_int_at_xy(uint8_t x, uint8_t y, int32_t number, int32_t spaces) {
     display_int(number, spaces);
 }
 
+void display_hex_at_xy(uint8_t x, uint8_t y, int32_t number, int32_t spaces) {
+    display_goto_xy(x, y);
+    display_hex(number, spaces);
+}
 
 void display_calibration_status(char* direction, T_REVOLUTION position, int power) {
     display_clear(0);
@@ -30,7 +34,16 @@ void display_calibration_status(char* direction, T_REVOLUTION position, int powe
     display_string_at_xy(0, 6, "pow");
     display_int_at_xy(4, 6, power, 4);
     display_update();
+}
 
+void display_hex_value(uint32_t value) {
+    static int line_num = 0;
+    if (line_num == 0) {
+        display_clear(0);
+    }
+    display_hex_at_xy(0, line_num++, value, 8);
+    display_update();
+    line_num = line_num % 7;
 }
 
 void display_calibration_transfer_status(int i, T_POWER_TUPLE tuple) {
@@ -41,13 +54,12 @@ void display_calibration_transfer_status(int i, T_POWER_TUPLE tuple) {
     display_int_at_xy(3, 4, tuple.positive, 3);
     display_string_at_xy(0, 5, "Negative =");
     display_int_at_xy(3, 6, tuple.negative, 3);
-
+    display_update();
 }
 
 void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_location)
 {
     display_clear(0);
-    display_update();
 
     display_string_at_xy(0, 1, "Target");
     if(status_code == NO_TARGET_FOUND) {
@@ -57,7 +69,7 @@ void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_lo
     } else if(status_code == TARGET_FOUND) {
         display_string_at_xy(9, 1, "found");
     } else {
-        display_string_at_xy(9, 1, "?");
+        display_hex_at_xy(9, 1, status_code, 4);
     }
 
     /* Position */

@@ -49,7 +49,9 @@ class FlatController:
         try:
             self.usb_connection = NxtUsb()
             if calibration_algorithm:
-                calibration_algorithm(self.usb_connection)
+                print("Calibrate? (Y/n)")
+                if input() not in ['n', 'N']:
+                    calibration_algorithm(self.usb_connection)
         except DeviceNotFound as e:
             print(f"Usb initialization failed. Starting without ({e})")
             self.usb_connection = None
@@ -65,6 +67,7 @@ class FlatController:
             loc = self._get_next_location()
             if self.usb_connection is not None:
                 if loc is not None:
+                    loc.y = -loc.y
                     self.usb_connection.write_location(loc)
                 else:
                     self.usb_connection.write_status(Status.NO_TARGET_FOUND)

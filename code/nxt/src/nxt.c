@@ -37,25 +37,30 @@ void user_1ms_isr_type2(void)
     /* Increment System Timer Count to activate periodical Tasks */
     (void)SignalCounter(SysTimerCnt);
     newMajorCycle = true;
-
     if(calibrating)
         keep_USB_alive();
 }
 
+void preemption_function() {
+    for (int i = 0; i < 100; i++);
+}
+
 TASK(MainTask)
 {
-    while(!get_status_code(&current_status));
+    calibrating = true;
+    show_init_screen();
+    while(!get_status_code(&current_status, 0));
 
     if (current_status == READY_FOR_CALIBRATION)
     {
-        calibrating = true;
         calibrate(false);
-        calibrating = false;
     }
+    calibrating = false;
 
     for(;;)
     {
         // Check if 1 ms has passed and a new cycle should begin
+        preemption_function();
         if (newMajorCycle)
         {
             keep_USB_alive();
@@ -95,26 +100,17 @@ void handle_laser()
 
 void receive_data()
 {
-    if (get_status_code(&current_status))
-    {
-        if (current_status == TARGET_FOUND)
-        {
-            /* Wait for a target location */
-            /* TODO: This should not be blocking */
-            while (!get_target_location(&last_target_location)){}
-        }
-    }
+    get_status_code(&current_status, &last_target_location);
 }
 
 void move_motors()
 {
     if (current_status == TARGET_FOUND)
     {
-        stop_motors();
-    }
-
-    else if (current_status == NO_TARGET_FOUND)
-    {
         move(last_target_location);
+    } 
+    else 
+    {
+        stop_motors();
     }
 }
