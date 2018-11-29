@@ -38,6 +38,7 @@ extern int stub_last_delay;
 extern void display_goto_xy(uint8_t x, uint8_t y);
 extern void display_string(char *str);
 extern void display_int(int num, int len);
+extern void display_hex(int num, int len);
 extern void display_update();
 extern void display_clear(uint32_t update_too);
 
