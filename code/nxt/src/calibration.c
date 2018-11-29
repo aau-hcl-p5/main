@@ -35,7 +35,6 @@ bool revolutions_equals(T_REVOLUTION target1, T_REVOLUTION target2, char axis) {
 }
 
 T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
-bool calibrated = false;
 
 bool should_stop_moving(T_REVOLUTION first_revolution, int8_t power) {
     return revolutions_equals(first_revolution, get_current_revolution(), 'y') && power <= 100;
@@ -100,7 +99,6 @@ void calibrate(bool internal) {
     calibrate_axis_in_direction('y', NEGATIVE);
     calibrate_axis_in_direction('y', POSITIVE);
     calibrate_axis_in_direction('y', NEGATIVE);
-    calibrated = true;
 }
 
 int8_t get_required_power(char axis, T_DIRECTION positive_direction) {

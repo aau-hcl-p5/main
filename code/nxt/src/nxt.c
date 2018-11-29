@@ -49,7 +49,7 @@ TASK(KeepUSBAliveTask)
 {
     for(;;){
         WaitEvent(CalibrationStartEvent);
-        KeepUSBAlive();
+        keepUSBAlive();
         WaitEvent(CalibrationDoneEvent);
     }
     TerminateTask();
@@ -62,7 +62,7 @@ TASK(MainTask)
     if (current_status == READY_FOR_CALIBRATION)
     {
         SetEvent(KeepUSBAliveTask, CalibrationStartEvent);
-        RunCalibration();
+        calibrate(false);
         SetEvent(KeepUSBAliveTask, CalibrationDoneEvent);
     }
 
@@ -71,33 +71,25 @@ TASK(MainTask)
         // Check if 1 ms has passed and a new cycle should begin
         if (newMajorCycle)
         {
-            KeepUSBAlive();
-            ReceiveData();
-            MoveMotors();
-            ToggleLaser();
-            UpdateDisplay();
+            keepUSBAlive();
+            receiveData();
+            moveMotors();
+            toggleLaser();
+            updateDisplay();
             newMajorCycle = false;
         }
     }
     TerminateTask();
 }
 
-void KeepUSBAlive()
+void keepUSBAlive()
 {
     GetResource(USB_Rx);
     ecrobot_process1ms_usb();
     ReleaseResource(USB_Rx);
 }
 
-void RunCalibration()
-{
-    if (!calibrated)
-    {
-        calibrate(false);
-    }
-}
-
-void UpdateDisplay()
+void updateDisplay()
 {
     if (current_status == DISCONNECTED_REQ)
     {
@@ -109,12 +101,12 @@ void UpdateDisplay()
     }
 }
 
-void ToggleLaser()
+void toggleLaser()
 {
     /* Toggle laser */
 }
 
-void ReceiveData()
+void receiveData()
 {
     if (get_status_code(&current_status))
     {
@@ -127,7 +119,7 @@ void ReceiveData()
     }
 }
 
-void MoveMotors()
+void moveMotors()
 {
     if (current_status == TARGET_FOUND)
     {
