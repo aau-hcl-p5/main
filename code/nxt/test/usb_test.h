@@ -1,5 +1,5 @@
-#ifndef DATA_RECEIVE_TEST_H
-#define DATA_RECEIVE_TEST_H
+#ifndef usb_TEST_H
+#define usb_TEST_H
 
 #include "test_framework.h"
 

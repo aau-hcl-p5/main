@@ -2,19 +2,19 @@
 #define TARGET_LOCATION_H
 
 #include <stdint.h>
-
-#define TARGET_FOUND 0
-#define NO_TARGET_FOUND 1
-#define DISCONNECT_REQ 2
+#include <stdbool.h>
 
 typedef struct __attribute__((packed)) {
     int16_t x : 8;
     int16_t y : 8;
-} T_TARGET_LOCATION;
+} T_VECTOR;
 
 typedef struct __attribute__((packed)) {
-    T_TARGET_LOCATION location;
+    T_VECTOR location;
     uint16_t status;
 } T_TARGET_INFORMATION;
+
+
+extern bool is_locations_equals(T_VECTOR target1, T_VECTOR target2);
 
 #endif
