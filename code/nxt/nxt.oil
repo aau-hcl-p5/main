@@ -16,92 +16,21 @@ CPU ATMEL_AT91SAM7S256 {
     /* Definition of application mode */
     APPMODE appmode1{};
 
-    /* Definition of events */
-    EVENT MoveMotorsOnEvent {
-      MASK = AUTO;
-    };
-
-    EVENT MoveMotorsOffEvent {
-      MASK = AUTO;
-    };
-
-    EVENT LaserOnEvent {
-      MASK = AUTO;
-    };
-
-    EVENT LaserOffEvent {
-      MASK = AUTO;
-    };
-
     /* Definition of resource */
     RESOURCE USB_Rx {
       RESOURCEPROPERTY = STANDARD;
     };
 
-
-    /* Definition of tasks */
-    TASK ReceiveData {
-      AUTOSTART = FALSE;
-      PRIORITY = 3;
-      ACTIVATION = 1;
-      SCHEDULE = FULL;
-      STACKSIZE = 512; /* Stack size */
-      RESOURCE = USB_Rx;
-    };
-
-    TASK RunCalibration {
+    TASK MainTask {
       AUTOSTART = TRUE 
         {
           APPMODE = appmode1;
         };
-      PRIORITY = 9;
+      PRIORITY = 1;
       ACTIVATION = 1;
       SCHEDULE = FULL;
       STACKSIZE = 512; /* Stack size */
-    };
-
-    TASK UpdateDisplay {
-      AUTOSTART = FALSE;
-      PRIORITY = 2;
-      ACTIVATION = 1;
-      SCHEDULE = FULL;
-      STACKSIZE = 512;
-    };
-
-    TASK ToggleLaser {
-      AUTOSTART = TRUE
-          {
-              APPMODE = appmode1;
-          };
-      PRIORITY = 2;
-      ACTIVATION = 1;
-      SCHEDULE = FULL;
-      STACKSIZE = 512;
-      EVENT = LaserOnEvent;
-      EVENT = LaserOffEvent;
-    };
-
-    TASK MoveMotors {
-      AUTOSTART = TRUE
-          {
-              APPMODE = appmode1;
-          };
-      PRIORITY = 2;
-      ACTIVATION = 1;
-      SCHEDULE = FULL;
-      STACKSIZE = 512;
-      EVENT = MoveMotorsOnEvent;
-      EVENT = MoveMotorsOffEvent;
-    };
-
-    TASK KeepUSBAlive {
-        AUTOSTART = FALSE;
-        PRIORITY = 10;
-        ACTIVATION = 1;
-        SCHEDULE = FULL;
-        STACKSIZE = 512;
-        RESOURCE = USB_Rx;
-
+      RESOURCE = USB_Rx;
     };
 
 
@@ -112,48 +41,4 @@ CPU ATMEL_AT91SAM7S256 {
       TICKSPERBASE = 1;
     };
 
-
-    /* Definition of alarms */
-    ALARM CyclicReceiveData {
-      COUNTER = SysTimerCnt;
-      ACTION = ACTIVATETASK
-          {
-              TASK = ReceiveData;
-          };
-      AUTOSTART = TRUE
-          {
-              ALARMTIME = 1;
-              CYCLETIME = 10; /* called every 1 ms */
-              APPMODE = appmode1;
-          };
-    };
-    ALARM CyclicKeepUSBAlive {
-        COUNTER = SysTimerCnt;
-        ACTION = ACTIVATETASK
-            {
-                TASK = KeepUSBAlive;
-            };
-        AUTOSTART = TRUE
-            {
-                ALARMTIME = 1;
-                CYCLETIME = 1; /* called every 1 ms */
-                APPMODE = appmode1;
-            };
-    };
-
-    ALARM CyclicUpdateDisplay {
-      COUNTER = SysTimerCnt;
-      ACTION = ACTIVATETASK
-          {
-              TASK = UpdateDisplay;
-          };
-      AUTOSTART = TRUE
-          {
-              ALARMTIME = 1;
-              CYCLETIME = 500;/* called every 500 ms */
-              APPMODE = appmode1;
-          };
-    };
-
 };
-
