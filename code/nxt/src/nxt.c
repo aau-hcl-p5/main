@@ -93,7 +93,7 @@ void toggle_laser()
     /* Toggle laser */
 }
 
-void receive_d()
+void receive_data()
 {
     if (get_status_code(&current_status))
     {
@@ -106,7 +106,7 @@ void receive_d()
     }
 }
 
-void move_mot()
+void move_motors()
 {
     if (current_status == TARGET_FOUND)
     {
