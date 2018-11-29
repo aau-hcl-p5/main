@@ -45,7 +45,7 @@ void user_1ms_isr_type2(void)
 }
 
 /* Keep USB alive task */
-TASK(KeepUSBAlive)
+TASK(KeepUSBAliveTask)
 {
     while(1){
         WaitEvent(CalibrationStartEvent);
@@ -55,13 +55,13 @@ TASK(KeepUSBAlive)
     TerminateTask();
 }
 
-TASK(Main)
+TASK(MainTask)
 {
     if (current_status == READY_FOR_CALIBRATION)
     {
-        SetEvent(KeepUSBAlive, CalibrationStartEvent);
+        SetEvent(KeepUSBAliveTask, CalibrationStartEvent);
         RunCalibration();
-        SetEvent(KeepUSBAlive, CalibrationDoneEvent);
+        SetEvent(KeepUSBAliveTask, CalibrationDoneEvent);
     }
 
     while (1)

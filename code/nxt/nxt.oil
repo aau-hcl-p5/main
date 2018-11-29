@@ -30,7 +30,7 @@ CPU ATMEL_AT91SAM7S256 {
       RESOURCEPROPERTY = STANDARD;
     };
 
-    TASK Main {
+    TASK MainTask {
       AUTOSTART = TRUE 
         {
           APPMODE = appmode1;
@@ -41,7 +41,7 @@ CPU ATMEL_AT91SAM7S256 {
       STACKSIZE = 512; /* Stack size */
     };
 
-    TASK KeepUSBAlive {
+    TASK KeepUSBAliveTask {
         AUTOSTART = FALSE;
         PRIORITY = 2;
         ACTIVATION = 1;
