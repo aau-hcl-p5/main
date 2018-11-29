@@ -61,7 +61,7 @@ TASK(MainTask)
             keep_USB_alive();
             receive_data();
             move_motors();
-            toggle_laser();
+            handle_laser();
             update_display();
             newMajorCycle = false;
         }
@@ -88,7 +88,7 @@ void update_display()
     }
 }
 
-void toggle_laser()
+void handle_laser()
 {
     /* Toggle laser */
 }

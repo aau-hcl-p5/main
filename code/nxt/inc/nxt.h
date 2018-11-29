@@ -5,7 +5,7 @@
 void keep_USB_alive();
 void run_calibration();
 void update_display();
-void toggle_laser();
+void handle_laser();
 void receive_data();
 void move_motors();
 
