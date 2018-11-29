@@ -1,2 +1,18 @@
 \section{Real-time system}\label{Design:RTS} 
-%TODO Potentially just Real Time or maybe Real time system design, especially given that we have a similarly named section in Theory.
+In order for the project to be a Real-time system it needs to response in a timely manner. 
+In the following section the design decisions made for the project will be elaborated upon. 
+
+\todo[color=red]{Write a better intro}
+
+\subsection{Scheduling}
+When choosing a scheduling method for the system multiple  methods where considered. 
+Both fixed priority scheduling and cyclic executive where considered as the scheduling method for the system since both of them has would be god at handling the tasks of the system with their deadlines.
+
+But in the end both the cyclic executive and the fixed priority scheduling methods was chosen for the project. 
+Cyclic executive was chosen do the the fast execution time of the tasks in the system which made it impossible to measure on the NXT platform. 
+It was reasoned that since all task, that should run regularly, was able to run within the major cycle the cyclic execution method should be perfect. 
+However the calibration of the system, doing start up, would need to be scheduled with fixed priority scheduling since only to tasks need to execute doing this process. 
+This means that the scheduling method used will change doing the runtime of the system. 
+
+The cyclic executive method is a common way to implement hard Real-time systems do to its simplicity, deterministic behaviour and relative ease to implement\cite{CyclicExecutionKimLarsen}.
+The fixed priority method is the most widely used method used in Real-time systems because it is conseptually simple and well supported\cite{TaskBasedSchedulingKimLarsen}.
