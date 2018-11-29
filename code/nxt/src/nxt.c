@@ -7,13 +7,7 @@
 
 /* OSEK declarations */
 DeclareTask(MainTask);
-DeclareTask(KeepUSBAliveTask);
-
 DeclareCounter(SysTimerCnt);
-
-DeclareEvent(CalibrationStartEvent);
-DeclareEvent(CalibrationDoneEvent);
-
 DeclareResource(USB_Rx);
 
 /* Global variables */
@@ -43,7 +37,7 @@ void user_1ms_isr_type2(void)
     /* Increment System Timer Count to activate periodical Tasks */
     (void)SignalCounter(SysTimerCnt);
     newMajorCycle = true;
-    
+
     if(calibrating)
         keep_USB_alive();
 }
