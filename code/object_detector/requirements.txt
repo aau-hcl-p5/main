@@ -5,3 +5,4 @@ pydub==0.23.0
 scipy==1.1.0
 webrtcvad==2.0.10
 pyusb==1.0.2
+matplotlib==3.0.2
