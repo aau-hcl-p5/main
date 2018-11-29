@@ -2,12 +2,12 @@
 #define NXT_H
 #include <stdbool.h>
 
-void keepUSBAlive();
-void runCalibration();
-void updateDisplay();
-void toggleLaser();
-void receiveData();
-void moveMotors();
+void keep_USB_alive();
+void run_calibration();
+void update_display();
+void toggle_laser();
+void receive_data();
+void move_motors();
 
 
 #ifndef TEST

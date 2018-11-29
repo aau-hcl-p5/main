@@ -20,6 +20,7 @@ DeclareResource(USB_Rx);
 T_VECTOR last_target_location = {0, 0};
 STATUS_CODE current_status = DISCONNECTED_REQ;
 bool newMajorCycle = true;
+bool calibrating = false;
 
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void)
@@ -42,17 +43,9 @@ void user_1ms_isr_type2(void)
     /* Increment System Timer Count to activate periodical Tasks */
     (void)SignalCounter(SysTimerCnt);
     newMajorCycle = true;
-}
-
-/* Keep USB alive task */
-TASK(KeepUSBAliveTask)
-{
-    for(;;){
-        WaitEvent(CalibrationStartEvent);
-        keepUSBAlive();
-        WaitEvent(CalibrationDoneEvent);
-    }
-    TerminateTask();
+    
+    if(calibrating)
+        keep_USB_alive();
 }
 
 TASK(MainTask)
@@ -61,9 +54,9 @@ TASK(MainTask)
 
     if (current_status == READY_FOR_CALIBRATION)
     {
-        SetEvent(KeepUSBAliveTask, CalibrationStartEvent);
+        calibrating = true;
         calibrate(false);
-        SetEvent(KeepUSBAliveTask, CalibrationDoneEvent);
+        calibrating = false;
     }
 
     for(;;)
@@ -71,25 +64,25 @@ TASK(MainTask)
         // Check if 1 ms has passed and a new cycle should begin
         if (newMajorCycle)
         {
-            keepUSBAlive();
-            receiveData();
-            moveMotors();
-            toggleLaser();
-            updateDisplay();
+            keep_USB_alive();
+            receive_data();
+            move_motors();
+            toggle_laser();
+            update_display();
             newMajorCycle = false;
         }
     }
     TerminateTask();
 }
 
-void keepUSBAlive()
+void keep_USB_alive()
 {
     GetResource(USB_Rx);
     ecrobot_process1ms_usb();
     ReleaseResource(USB_Rx);
 }
 
-void updateDisplay()
+void update_display()
 {
     if (current_status == DISCONNECTED_REQ)
     {
@@ -101,12 +94,12 @@ void updateDisplay()
     }
 }
 
-void toggleLaser()
+void toggle_laser()
 {
     /* Toggle laser */
 }
 
-void receiveData()
+void receive_d()
 {
     if (get_status_code(&current_status))
     {
@@ -119,7 +112,7 @@ void receiveData()
     }
 }
 
-void moveMotors()
+void move_mot()
 {
     if (current_status == TARGET_FOUND)
     {

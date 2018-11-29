@@ -16,15 +16,6 @@ CPU ATMEL_AT91SAM7S256 {
     /* Definition of application mode */
     APPMODE appmode1{};
 
-    /* Definition of events */
-    EVENT CalibrationStartEvent {
-      MASK = AUTO;
-    };
-
-    EVENT CalibrationDoneEvent {
-      MASK = AUTO;
-    };
-
     /* Definition of resource */
     RESOURCE USB_Rx {
       RESOURCEPROPERTY = STANDARD;
@@ -41,16 +32,6 @@ CPU ATMEL_AT91SAM7S256 {
       STACKSIZE = 512; /* Stack size */
     };
 
-    TASK KeepUSBAliveTask {
-        AUTOSTART = FALSE;
-        PRIORITY = 2;
-        ACTIVATION = 1;
-        SCHEDULE = FULL;
-        STACKSIZE = 512;
-        RESOURCE = USB_Rx;
-        EVENT = CalibrationStartEvent;
-        EVENT = CalibrationDoneEvent;
-    };
 
     /* Definition of OSEK Alarm counter: SysTimerCnt */
     COUNTER SysTimerCnt {
@@ -59,19 +40,4 @@ CPU ATMEL_AT91SAM7S256 {
       TICKSPERBASE = 1;
     };
 
-    ALARM CyclicKeepUSBAlive {
-        COUNTER = SysTimerCnt;
-        ACTION = ACTIVATETASK
-            {
-                TASK = KeepUSBAliveTask;
-            };
-        AUTOSTART = TRUE
-            {
-                ALARMTIME = 1;
-                CYCLETIME = 1; /* called every 1 ms */
-                APPMODE = appmode1;
-            };
-    };
-
 };
-
