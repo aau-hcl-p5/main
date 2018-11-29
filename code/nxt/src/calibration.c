@@ -9,7 +9,8 @@
 
 #define MIN_POWER 0
 #define MAX_POWER 100
-#define MIN_REVOLUTION_THRESHOLD 2
+#define MIN_REVOLUTION_THRESHOLD 3
+#define REVOLUTION_OFFSET 55
 
 // Checks whether revolutions are the same within a margin of error of MIN_REVOLUTION_THRESHOLD
 bool revolutions_equals(T_REVOLUTION target1, T_REVOLUTION target2, char axis) {
@@ -54,8 +55,8 @@ int8_t get_power_to_move_one_degree(char axis, T_DIRECTION direction) {
         power++;
 
         display_calibration_status(axis_str, first_revolution, power);
-        // wait 10ms but make sure we don't move in that timeframe
-        for(int i = 0; i < 10; i++)
+        // wait 15ms but make sure we don't move in that timeframe
+        for(int i = 0; i < 15; i++)
         {
             systick_wait_ms(1);
             if(!should_stop_moving(first_revolution, power))
@@ -84,10 +85,14 @@ void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
 
         int8_t power = get_power_to_move_one_degree(axis, direction);
         if(direction == POSITIVE) {
-            y_axis_powers[y_revolution + 55].positive = power;
+            y_axis_powers[y_revolution + REVOLUTION_OFFSET].positive = power;
+            T_POWER_TUPLE power_tuple = { 0, power };
+            send_calibration_data(y_revolution + REVOLUTION_OFFSET, false, power_tuple);
         }
         else {
-            y_axis_powers[y_revolution + 55].negative = power;
+            y_axis_powers[y_revolution + REVOLUTION_OFFSET].negative = power;
+            T_POWER_TUPLE power_tuple = { power, 0 };
+            send_calibration_data(y_revolution + REVOLUTION_OFFSET, false, power_tuple);
         }
         last_revolution = y_revolution;
     }
@@ -96,10 +101,9 @@ void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
 void calibrate(bool internal) {
 
     // calibrate the y axis
-    calibrate_axis_in_direction('y', POSITIVE);
-    calibrate_axis_in_direction('y', NEGATIVE);
-    calibrate_axis_in_direction('y', POSITIVE);
-    calibrate_axis_in_direction('y', NEGATIVE);
+    for (int i = 0; i < 10; i++) {
+        calibrate_axis_in_direction('y', i % 2 == 0 ? POSITIVE : NEGATIVE);
+    }
     calibrated = true;
 }
 
@@ -107,7 +111,7 @@ int8_t get_required_power(char axis, T_DIRECTION positive_direction) {
     if(axis == 'x')
         return 30;
     else {
-        T_POWER_TUPLE power_set = y_axis_powers[get_current_revolution().y + 55];
+        T_POWER_TUPLE power_set = y_axis_powers[get_current_revolution().y + REVOLUTION_OFFSET];
         return positive_direction ? power_set.positive : power_set.negative;
     }
 }

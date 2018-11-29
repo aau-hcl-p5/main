@@ -18,18 +18,16 @@ def combine_bytes(data, index):
 
 # noinspection PyArgumentList
 def save_packages(usb_controller: NxtUsb):
-    print("Received packages until newline:")
     packages: List[Package] = []
 
     usb_controller.write_status(Status.READY_FOR_CALIBRATION)
     from calibration.averaged_list import AveragedList
-    result_up = AveragedList(360)
-    result_down = AveragedList(360)
+    result_up = AveragedList(360, 7)
+    result_down = AveragedList(360, 7)
     timeout_counter = 0
     while 1:
         try:
             data = usb_controller.read()
-            time.sleep(0.01)
             print(f"{len(packages)} - {data}")
             package = Package(
                                 combine_bytes(data, 0),

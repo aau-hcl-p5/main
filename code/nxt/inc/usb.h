@@ -6,11 +6,12 @@
 #include "calibration.h"
 #include "vector.h"
 
-#define STATUS_CODE uint16_t
 #define TARGET_FOUND 0
 #define NO_TARGET_FOUND 1
 #define DISCONNECTED_REQ 2
 #define READY_FOR_CALIBRATION 3
+
+typedef uint16_t STATUS_CODE;
 
 typedef struct {
     int16_t angle;

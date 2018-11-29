@@ -49,7 +49,11 @@ void user_1ms_isr_type2(void) {
 
 TASK(RunCalibration) {
     if(!calibrated) {
-        calibrate(false);
+        show_init_screen();
+        while (!get_status_code(&current_status));
+        if (current_status == READY_FOR_CALIBRATION) {
+            calibrate(false);
+        }
     }
     TerminateTask();
 }
@@ -85,27 +89,15 @@ TASK(KeepUSBAlive) {
 }
 
 TASK(ReceiveData) {
-
     if (get_status_code(&current_status)) {
         if(current_status == TARGET_FOUND)
         {
             /* Wait for a target location */
-            while(!get_target_location(&last_target_location)) {}
-
+            while(!get_target_location(&last_target_location));
             SetEvent(MoveMotors, MoveMotorsOnEvent);
         }
         else if(current_status == NO_TARGET_FOUND) {
             SetEvent(MoveMotors, MoveMotorsOffEvent);
-        }
-        else if(current_status == READY_FOR_CALIBRATION) {
-
-            display_clear(0);
-            for(int i = 0; i < POINTS_ON_AXIS; i++){
-                systick_wait_ms(50);
-                display_calibration_transfer_status(i, y_axis_powers[i]);
-                display_update();
-                send_calibration_data(i, true, y_axis_powers[i]);
-            }
         }
     }
     TerminateTask();
