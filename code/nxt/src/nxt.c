@@ -19,7 +19,7 @@ DeclareResource(USB_Rx);
 /* Global variables */
 T_VECTOR last_target_location = {0, 0};
 STATUS_CODE current_status = DISCONNECTED_REQ;
-bool newMajorCycle = false;
+bool newMajorCycle = true;
 
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void)
@@ -73,6 +73,7 @@ TASK(MainTask)
             ReceiveData();
             MoveMotors();
             ToggleLaser();
+            UpdateDisplay();
             newMajorCycle = false;
         }
     }
