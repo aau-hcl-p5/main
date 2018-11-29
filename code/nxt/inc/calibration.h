@@ -17,7 +17,6 @@ typedef enum {
 #define POINTS_ON_AXIS 360
 
 extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
-extern bool calibrated;
 
 extern void calibrate(bool internal);
 extern int8_t get_required_power(char axis, T_DIRECTION positive_direction);
