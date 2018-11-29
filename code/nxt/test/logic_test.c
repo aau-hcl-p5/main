@@ -8,8 +8,8 @@ T_TC_RESULT test_target_information_size() {
     return assert_num_equals(4, sizeof(T_TARGET_INFORMATION));
 }
 
-T_TC_RESULT test_target_location_size() {
-    return assert_num_equals(2, sizeof(T_TARGET_LOCATION));
+T_TC_RESULT test_t_vector_size() {
+    return assert_num_equals(2, sizeof(T_VECTOR));
 }
 
 T_TC_RESULT test_toggle_laser() {
@@ -25,6 +25,6 @@ T_TC_RESULT test_get_distance() {
 }
 
 T_TC_RESULT test_predict_trajectory() {
-    T_TARGET_LOCATION loc;
+    T_VECTOR loc;
     return assert_num_equals(0, predict_trajectory(loc));
 }
