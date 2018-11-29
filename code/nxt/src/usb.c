@@ -6,7 +6,7 @@
 #include "nxt.h"
 #include "vector.h"
 #include "usb.h"
-#include "display.h"
+#include "display_manager.h"
 #include "calibration.h"
 
 

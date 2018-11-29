@@ -44,7 +44,7 @@ extern void display_clear(uint32_t update_too);
 // USB
 
 extern void set_usb_input(uint8_t *buffer);
-extern void set_usb_input_to_target_information(T_TARGET_INFORMATION target_information);
+extern void set_usb_input_to_target_location(T_VECTOR target_location);
 extern bool usb_connected;
 extern uint32_t usb_processes;
 

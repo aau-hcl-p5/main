@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "nxt.h"
-#include "display.h"
+#include "display_manager.h"
 #include "usb.h"
 #include "movement.h"
 
