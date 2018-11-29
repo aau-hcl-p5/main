@@ -30,6 +30,7 @@ CPU ATMEL_AT91SAM7S256 {
       ACTIVATION = 1;
       SCHEDULE = FULL;
       STACKSIZE = 512; /* Stack size */
+      RESOURCE = USB_Rx;
     };
 
 
