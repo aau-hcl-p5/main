@@ -47,7 +47,7 @@ void user_1ms_isr_type2(void)
 /* Keep USB alive task */
 TASK(KeepUSBAliveTask)
 {
-    while(1){
+    for(;;){
         WaitEvent(CalibrationStartEvent);
         KeepUSBAlive();
         WaitEvent(CalibrationDoneEvent);
@@ -57,6 +57,8 @@ TASK(KeepUSBAliveTask)
 
 TASK(MainTask)
 {
+    while(!get_status_code(&current_status));
+
     if (current_status == READY_FOR_CALIBRATION)
     {
         SetEvent(KeepUSBAliveTask, CalibrationStartEvent);
@@ -64,7 +66,7 @@ TASK(MainTask)
         SetEvent(KeepUSBAliveTask, CalibrationDoneEvent);
     }
 
-    while (1)
+    for(;;)
     {
         // Check if 1 ms has passed and a new cycle should begin
         if (newMajorCycle)
