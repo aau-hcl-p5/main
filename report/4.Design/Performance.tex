@@ -48,11 +48,12 @@ This means the algorithm will try to locate and classify all objects in the imag
 Performance could presumably be improved by only having a single class to classify and then terminate the algorithm as soon as the first object was localized.
 However, it was decided that making modifications to YOLO would likely be too tedious, while risking that the modifications would still not make it fast enough to run on the Raspberry Pi.
 
-In conclusion, it was determined that the YOLO algorithm would not be feasible for this project.
-
 \subsection{Other machine learning algorithms}
 Since no machine learning algorithms claim to be drastically faster than YOLO, it should be safe to assume that no current machine learning object localization algorithm will be quick enough to run on a Raspberry Pi.
 
-\subsection{Scikit classifier}
-\todo{Fill this if we are able to create a proper classifier with scikit}
+%\subsection{Scikit classifier}
+%\todo{Fill this if we are able to create a proper classifier with scikit}
 
+\subsection{Conclusion}
+In conclusion, it was determined that the YOLO algorithm would not be feasible for this project.
+This also means that the machine learning application that will be further explored is the variable motor power.
