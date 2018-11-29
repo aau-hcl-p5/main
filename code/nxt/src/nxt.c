@@ -6,8 +6,8 @@
 #include "display_manager.h"
 
 /* OSEK declarations */
-DeclareTask(Main);
-DeclareTask(KeepUSBAlive);
+DeclareTask(MainTask);
+DeclareTask(KeepUSBAliveTask);
 
 DeclareCounter(SysTimerCnt);
 
