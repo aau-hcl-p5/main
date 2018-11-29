@@ -15,10 +15,7 @@
 
 #define MAX_POWER_MODIFIER 40
 
-#define MAGIC_NUMBER_1 100
-
-
-#define MOTOR_DEADZONE 10
+#define MOTOR_DEADZONE 1
 
 #define MAX_INPUT_VALUE 127
 

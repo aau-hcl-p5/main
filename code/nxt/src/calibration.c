@@ -99,7 +99,7 @@ void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
 
 void calibrate(bool internal) {
     // calibrate the y axis
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 2; i++) {
         calibrate_axis_in_direction('y', i % 2 == 0 ? POSITIVE : NEGATIVE);
     }
 }

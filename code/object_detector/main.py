@@ -67,6 +67,7 @@ class FlatController:
             loc = self._get_next_location()
             if self.usb_connection is not None:
                 if loc is not None:
+                    loc.y = -loc.y
                     self.usb_connection.write_location(loc)
                 else:
                     self.usb_connection.write_status(Status.NO_TARGET_FOUND)
