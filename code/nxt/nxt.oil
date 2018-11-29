@@ -17,7 +17,7 @@ CPU ATMEL_AT91SAM7S256 {
     APPMODE appmode1{};
 
     /* Definition of events */
-    EVENT CalibratonStartEvent {
+    EVENT CalibrationStartEvent {
       MASK = AUTO;
     };
 
@@ -48,7 +48,7 @@ CPU ATMEL_AT91SAM7S256 {
         SCHEDULE = FULL;
         STACKSIZE = 512;
         RESOURCE = USB_Rx;
-        EVENT = CalibratonStartEvent;
+        EVENT = CalibrationStartEvent;
         EVENT = CalibrationDoneEvent;
     };
 
@@ -63,7 +63,7 @@ CPU ATMEL_AT91SAM7S256 {
         COUNTER = SysTimerCnt;
         ACTION = ACTIVATETASK
             {
-                TASK = KeepUSBAlive;
+                TASK = KeepUSBAliveTask;
             };
         AUTOSTART = TRUE
             {
