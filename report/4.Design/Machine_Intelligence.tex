@@ -11,19 +11,19 @@ Simply put, it would be to train an agent to recognize different objects, with t
 As this has already been explored quite extensively, we will not elaborate on it further here.
 
 \subsection{Target trajectory prediction}
-In Section~\ref{sec:obj_tracking}, in Subsection~\ref{sec:obj_tracking:sub:ML}, we mentioned that a potential application of machine intelligence was in trajectory prediction for the located object.
+In Subsection~\ref{sec:obj_tracking:sub:ML}, it was mentioned that a potential application of machine intelligence was in trajectory prediction for the located object.
 While a thrown object would be quite simple to predict, objects like birds or planes might move according to different patterns.
 An MI model would then be able to predict the movement of the object.
 This would allow the \texttt{F.L.A.T} to simply shoot at the predicted location, instead of continously tracking the object.
-This approach would also be continously refined, if targets hit was tracked aswell.
+This approach would also be continuously refined, if targets hit was tracked as well.
 A disadvantage to this approach is that object classification would also be required, to allow distinction of the movement of different objects.
 This would allow for an iterative approach, assuming object classification and localization was implemented first, the target trajcetory could then be added on top of the
 
 \subsection{Variable motor power}
 An interesting result from the motor tests done in Section~\ref{des:sec:hwtest}, was that motors with more weight, required more power to move the same distance as a motor without added weight.
 This also includes the additional force of gravity, as a motor moving downwards, required less power than a motor that moved upwards.
-Additionally, the wires that connect the motors to the NXT, also added additional variable weight, depending on how loose or tense the wire was.
-This is a problem, as it could potentially impact precision, which is quite obviously important, when the goal is to hit a fast moving object.
+Additionally, the wires that connect the motors to the NXT added additional variable weight, depending on how loose or tense the wire was.
+This is a problem, as it could potentially have an impact on precision, which is important when the goal is to hit a fast moving object.
 
 A potential solution would be to apply machine learning to this aspect of the system.
 Our initial thought is to add an additional calibration step upon startup of the \texttt{F.L.A.T}.
