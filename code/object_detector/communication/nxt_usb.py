@@ -1,9 +1,5 @@
 """
 Used for USB communication with the NXT
-This is one-way and only broadcasting.
-The information this class is build for sending,
-is the Result class from the algorithms module.
-
 based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 """
 
@@ -27,12 +23,9 @@ class DeviceNotFound(Exception):
 class NxtUsb:
     """
     Used for USB communication with the NXT
-    This is one-way and only broadcasting.
-    The information this class is build for sending,
-    is the Result class from the algorithms module.
     """
 
-    def __init__(self):
+    def __enter__(self):
         """
         Initializes the usb communication,
         by finding the specific USB port based on
@@ -50,8 +43,17 @@ class NxtUsb:
         self.device.set_configuration()
 
         self.out_endpoint, self.in_endpoint = self.device[0][(0, 0)]
-        self.out_endpoint.write(b'\x01\xFF')
-        self.device.read(self.in_endpoint.bEndpointAddress, 8)
+        self.out_endpoint.write(b'\x01\xFF')  # Tell NXT we want to init usb communication
+        self.device.read(self.in_endpoint.bEndpointAddress, 8)  # Read the initial ".ecrobot" from nxt usb accept init
+        self.initialized = True
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """
+        This broadcasts a "TURNOFF" signal, and sets the endpoint to None
+        """
+        if self.initialized:
+            self.write_status(Status.DISCONNECT_REQ)
 
     def read(self):
         """
@@ -81,15 +83,3 @@ class NxtUsb:
             int(value) & 0xFF,
             0
         ]))
-
-    def __del__(self):
-        """
-        This broadcasts a "TURNOFF" signal, and sets the endpoint to None
-        """
-        if hasattr(self, 'endpoint') and self.out_endpoint is not None:
-            self.write_status(Status.DISCONNECT_REQ)
-        self.out_endpoint = None
-
-
-def _is_endpoint_out(endpoint) -> bool:
-    return usb.util.endpoint_direction(endpoint.bEndpointAddress) == usb.util.ENDPOINT_OUT

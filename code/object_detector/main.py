@@ -21,8 +21,7 @@ import algorithms
 import webcam
 from algorithms import Vector, screen_location_to_relative_location
 from calibration import save_data
-from communication import NxtUsb, screen_debug_wrapper, Status
-from communication.nxt_usb import DeviceNotFound
+from communication import NxtUsb, screen_debug_wrapper, Status, PrintCommunication
 from test_data import Generator
 
 
@@ -34,6 +33,7 @@ class FlatController:
 
     def __init__(self,
                  algorithm: Callable[[np.ndarray], Vector],
+                 communication: Union[NxtUsb, PrintCommunication],
                  capture_type: webcam.CaptureDeviceType = webcam.CaptureDeviceType.CAMERA,
                  calibration_algorithm: Union[Callable[[], None], None] = None,
                  ) -> None:
@@ -46,15 +46,12 @@ class FlatController:
         """
         self.video_controller = webcam.VideoController(capture_type)
         self._algorithm = algorithm
-        try:
-            self.usb_connection = NxtUsb()
-            if calibration_algorithm:
-                print("Calibrate? (Y/n)")
-                if input() not in ['n', 'N']:
-                    calibration_algorithm(self.usb_connection)
-        except DeviceNotFound as e:
-            print(f"Usb initialization failed. Starting without ({e})")
-            self.usb_connection = None
+        self.communication = communication
+
+        if calibration_algorithm:
+            print("Calibrate? (Y/n)")
+            if input() not in ['n', 'N']:
+                calibration_algorithm(self.communication)
 
         self.terminating = False
 
@@ -65,12 +62,12 @@ class FlatController:
         """
         while True:
             loc = self._get_next_location()
-            if self.usb_connection is not None:
+            if self.communication is not None:
                 if loc is not None:
                     loc.y = -loc.y
-                    self.usb_connection.write_location(loc)
+                    self.communication.write_location(loc)
                 else:
-                    self.usb_connection.write_status(Status.NO_TARGET_FOUND)
+                    self.communication.write_status(Status.NO_TARGET_FOUND)
 
             k = cv2.waitKey(5) & 0xFF  # escape char
             if k == 27:
@@ -118,8 +115,11 @@ if __name__ == "__main__":
     ARGS = PARSER.parse_args()
 
     if ARGS.test_data_dir is None:
-        cont = FlatController(algorithms.get_from_str(ARGS.alg_name), calibration_algorithm=save_data.save_packages)
-        cont.run()
+        with NxtUsb() as nxtCommunication:
+            cont = FlatController(algorithms.get_from_str(ARGS.alg_name),
+                                  nxtCommunication,
+                                  calibration_algorithm=save_data.save_packages)
+            cont.run()
     else:
         # Generate test data
         generator = Generator(algorithms.get_from_str(ARGS.alg_name), ARGS.test_data_dir)
