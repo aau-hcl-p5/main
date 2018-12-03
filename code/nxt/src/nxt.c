@@ -16,9 +16,6 @@ T_VECTOR last_target_location = {0, 0};
 STATUS_CODE current_status = DISCONNECTED_REQ;
 bool calibrating = false;
 
-/* Test variables */
-uint32_t startTimer, endTimer;
-
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void)
 {
@@ -62,13 +59,13 @@ TASK(MainTask)
 
     for(;;)
     {
-        WaitEvent(newMajorCycleEvent); /* Task is in waiting status until the Event comes */ 
+        WaitEvent(newMajorCycleEvent); /* Wait for the event signalling that a new major cycle is starting */ 
         keep_USB_alive();
         receive_data();
         move_motors();
         handle_laser();
         update_display();
-        ClearEvent(newMajorCycleEvent);
+        ClearEvent(newMajorCycleEvent); /* Clear the event, signalling that the cycle is over */
     }
     TerminateTask();
 }
