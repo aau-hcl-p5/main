@@ -63,17 +63,11 @@ TASK(MainTask)
     for(;;)
     {
         WaitEvent(newMajorCycleEvent); /* Task is in waiting status until the Event comes */ 
-        startTimer = systick_get_ms();
         keep_USB_alive();
         receive_data();
         move_motors();
         handle_laser();
         update_display();
-        endTimer = systick_get_ms();
-        display_clear(1);
-        display_goto_xy(0,0);
-        display_unsigned(endTimer-startTimer, 10);
-        systick_wait_ms(1000);
         ClearEvent(newMajorCycleEvent);
     }
     TerminateTask();
