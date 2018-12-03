@@ -71,7 +71,8 @@ TASK(MainTask)
         update_display();
         endTimer = systick_get_ms();
         display_clear(1);
-        display_int_at_xy(0, 0, endTimer-startTimer, 10);
+        display_goto_xy(0,0);
+        display_unsigned(endTimer-startTimer, 10);
         systick_wait_ms(1000);
         ClearEvent(newMajorCycleEvent);
     }
