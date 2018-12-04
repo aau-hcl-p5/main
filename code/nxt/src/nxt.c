@@ -9,11 +9,11 @@
 DeclareTask(MainTask);
 DeclareCounter(SysTimerCnt);
 DeclareResource(USB_Rx);
+DeclareEvent(newMajorCycleEvent);
 
 /* Global variables */
 T_VECTOR last_target_location = {0, 0};
 STATUS_CODE current_status = DISCONNECTED_REQ;
-bool newMajorCycle = true;
 bool calibrating = false;
 
 /* Initializes motors with their direction */
@@ -36,7 +36,7 @@ void user_1ms_isr_type2(void)
 {
     /* Increment System Timer Count to activate periodical Tasks */
     (void)SignalCounter(SysTimerCnt);
-    newMajorCycle = true;
+    SetEvent(MainTask, newMajorCycleEvent);
     if(calibrating)
         keep_USB_alive();
 }
@@ -59,17 +59,13 @@ TASK(MainTask)
 
     for(;;)
     {
-        // Check if 1 ms has passed and a new cycle should begin
-        preemption_function();
-        if (newMajorCycle)
-        {
-            keep_USB_alive();
-            receive_data();
-            move_motors();
-            handle_laser();
-            update_display();
-            newMajorCycle = false;
-        }
+        WaitEvent(newMajorCycleEvent); /* Wait for the event signalling that a new major cycle is starting */ 
+        keep_USB_alive();
+        receive_data();
+        move_motors();
+        handle_laser();
+        update_display();
+        ClearEvent(newMajorCycleEvent); /* Clear the event, signalling that the cycle is over */
     }
     TerminateTask();
 }
