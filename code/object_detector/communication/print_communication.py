@@ -1,5 +1,5 @@
 from algorithms import Vector
-from communication import Status
+from communication.status import Status
 
 
 class PrintCommunication:
