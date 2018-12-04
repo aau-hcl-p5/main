@@ -21,6 +21,10 @@ CPU ATMEL_AT91SAM7S256 {
       RESOURCEPROPERTY = STANDARD;
     };
 
+    EVENT newMajorCycleEvent{
+        MASK = AUTO;
+    };
+
     TASK MainTask {
       AUTOSTART = TRUE 
         {
@@ -31,6 +35,7 @@ CPU ATMEL_AT91SAM7S256 {
       SCHEDULE = FULL;
       STACKSIZE = 512; /* Stack size */
       RESOURCE = USB_Rx;
+      EVENT = newMajorCycleEvent;
     };
 
 
