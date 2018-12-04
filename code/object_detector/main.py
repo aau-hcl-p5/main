@@ -112,10 +112,16 @@ if __name__ == "__main__":
         type=bool, metavar='[delete_test_data]',
         help="Whether to delete generated test data. default=False")
 
+    PARSER.add_argument(
+        '-n', '--no-usb',
+        dest='no_usb', default=False,
+        type=bool, metavar='[no_usb]',
+        help="Whether to disable USB connection with the NXT. default=False")
+
     ARGS = PARSER.parse_args()
 
     if ARGS.test_data_dir is None:
-        with NxtUsb() as nxtCommunication:
+        with PrintCommunication() if ARGS.no_usb else NxtUsb() as nxtCommunication:
             cont = FlatController(algorithms.get_from_str(ARGS.alg_name),
                                   nxtCommunication,
                                   calibration_algorithm=save_data.save_packages)

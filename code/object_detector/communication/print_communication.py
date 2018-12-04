@@ -24,7 +24,7 @@ class PrintCommunication:
         value = status.value
         if type(value) is tuple:
             value = value[0]
-        print("Writing location", bytes([
+        print("Writing status", bytes([
             int(value) & 0xFF,
             0
         ]))
