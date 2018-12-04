@@ -23,10 +23,12 @@ class FlatController:
                  ) -> None:
         """
         Initializes the controller
-        :type calibration_algorithm: a function that takes calibration packages,
-            and handles them in some unknown way (either logs them or sends them back)
+
         :param algorithm: The algorithm to use for image processing
+        :param output_device: The device to send data to
         :param input_device: What type the capturing device should be.
+        :param calibration_algorithm: a function that takes calibration packages,
+            and handles them in some unknown way (either logs them or sends them back)
         """
         self.input_device = input_device
         self._algorithm = algorithm
