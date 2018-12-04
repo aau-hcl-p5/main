@@ -41,34 +41,45 @@ void user_1ms_isr_type2(void)
         keep_USB_alive();
 }
 
+void stop() {
+    stop_motors();
+    ecrobot_disconnect_usb();
+}
+
 void preemption_function() {
     for (int i = 0; i < 100; i++);
 }
 
 TASK(MainTask)
 {
-    calibrating = true;
-    show_init_screen();
-    while(!get_status_code(&current_status, 0));
+    for (;;) {
+        calibrating = true;
+        show_init_screen();
+        while(!get_status_code(&current_status, 0));
 
-    if (current_status == READY_FOR_CALIBRATION)
-    {
-        calibrate(false);
-    }
-    calibrating = false;
-
-    for(;;)
-    {
-        // Check if 1 ms has passed and a new cycle should begin
-        preemption_function();
-        if (newMajorCycle)
+        if (current_status == READY_FOR_CALIBRATION)
         {
-            keep_USB_alive();
-            receive_data();
-            move_motors();
-            handle_laser();
-            update_display();
-            newMajorCycle = false;
+            calibrate(false);
+        }
+        calibrating = false;
+
+        for(;;)
+        {
+            // Check if 1 ms has passed and a new cycle should begin
+            preemption_function();
+            if (newMajorCycle)
+            {
+                keep_USB_alive();
+                receive_data();
+                if (current_status == DISCONNECTED_REQ) {
+                    stop();
+                    break;
+                }
+                move_motors();
+                handle_laser();
+                update_display();
+                newMajorCycle = false;
+            }
         }
     }
     TerminateTask();
