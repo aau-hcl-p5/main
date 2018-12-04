@@ -13,5 +13,4 @@ from .print_communication import PrintCommunication
 def get_from_str(name) -> Union[NxtUsb, PrintCommunication]:
     if name == "usb":
         return NxtUsb()
-    elif name == "print":
-        return PrintCommunication()
+    return PrintCommunication()
