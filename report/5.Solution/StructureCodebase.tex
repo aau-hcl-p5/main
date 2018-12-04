@@ -61,7 +61,8 @@ optional arguments:
 -h, --help            
 	show this help message and exit
 -a [name], --algorithm [name] 
-	Choose which algorithm to run [GOTURN, YOLO, ZONE_AVG, OBJ_FILL]. default='obj_fill'
+	Choose which algorithm to run [GOTURN, YOLO, ZONE_AVG, OBJ_FILL]
+	default='obj_fill'
 -n [no_usb], --no-usb [no_usb]
 	Whether to disable USB connection with the NXT.
 	default=False
@@ -82,7 +83,7 @@ The project also contains functions for calibration, as seen on Figure~\ref{fig:
 
 \subsection{Movement}
 The codebase is not in the same way seperated into modules, in a direct way, due to the design of the language.
- However the solution is divided into multiple file with distinct responsibilities.
+However the solution is divided into multiple file with distinct responsibilities.
 
 \begin{itemize}
 	\item \texttt{tasks}
@@ -111,10 +112,8 @@ DeclareEvent(LaserOffEvent);
 DeclareResource(USB_Rx);
 \end{lstlisting}
 \todo{update above}
-Rec
 
-
-This file is not manually run, so less can be set about the overall principles of how it is run, as this is handled by the NXT-OSEK operating system, however the dependencies still seem relevant, which are detailed in figure~\ref{fig:CClasses}
+This file is not manually run, so less can be said about the overall principles of how it is run, as this is handled by the NXT-OSEK operating system, however the dependencies still seem relevant, which are detailed in figure~\ref{fig:CClasses}
 \todo{insert picture here when we are done - i don't want to spend time creating one}
 
 
