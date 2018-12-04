@@ -1,5 +1,3 @@
-from typing import List
-
 from algorithms import Vector
 from .status import Status
 

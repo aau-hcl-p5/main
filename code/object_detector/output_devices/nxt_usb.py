@@ -7,7 +7,8 @@ import usb.core
 import usb.util
 
 from algorithms import Vector
-from output_devices.status import Status
+from .output_device import OutputDevice
+from .status import Status
 
 ID_VENDOR_LEGO = 0x0694
 ID_PRODUCT_NXT = 0x0002
@@ -20,7 +21,7 @@ class DeviceNotFound(Exception):
     pass
 
 
-class NxtUsb:
+class NxtUsb(OutputDevice):
     """
     Used for USB output_devices with the NXT
     """
