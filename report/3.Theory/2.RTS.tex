@@ -4,14 +4,14 @@ In the following section, the different methods related to real-time systems wil
 
 \subsection{Scheduling}
 When creating a real-time systems an essential part of making such systems is the ability to make the system schedulable.
-Being scheduable means that all tasks have to be true to their deadlines and their periods. 
+Being scheduable means that all tasks have to be true to their deadlines. 
 The period is specified by the requirements of the system and specifies how often a given task shall be completed.
 Likewise, a deadline is specified by the requirements of the system and defines how far into the period the task must be completed.
 Multiple methods can be used to determine whether a system is schedulable or not, but the base principle of all the methods is the same. 
 There are tree main aspects that most general purpose scheduling algorithms emphasize:
 \paragraph{Fairness} meaning that in general purpose systems it is important that all processes are granted execution time thus preventing starvation of a given process. 
 \paragraph{Efficiency} meaning that since the scheduler is invoked very often in a general purpose operation system it needs to be efficient in order avoid wasting execution time on the CPU. 
-\paragraph{Throughput} of a system, meaning the number of processes that are completed doing a given time period.
+\paragraph{Throughput} of a system, meaning the number of processes that are completed during a given time period.
 This aspect is related to efficiency since the CPU should be idle as little as possible. 
 
 All these aspects are related to general purpose schedulers found in the most commonly used operating systems. 
@@ -30,6 +30,8 @@ While the \textit{minor cycle} is defined by the Least Common Multiple (LCD) of 
 The major cycle specifies a deadline of which all process has to be completed at least once.
 The minor cycle specifies the interval of which at least one given task should have completed once. 
 
+\todo{billede af cyclic executive}
+
 Since cyclic executives is a very simple scheduling method it is easy to implement and analyse, likewise it is also one of the most commonly used schedueling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
 \subsubsection{Task-based scheduling}
@@ -38,9 +40,7 @@ This method is based on tasks that each have a given priority.
 
 When using the task-based priority scheduling method, each task is given a fixed priority before run-time which can not be changed.
 The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system scheduable\cite{RealTimeEmbeddedSystems}. 
-The priority of a task can be set by using a method called \textit{Earliest deadline first}.
-\textbf{Earliest deadline first} means that it is the task with the earliest deadline that is allowed to execute first.
-The next task to execute is the one with nearest upcoming deadline.
+The priority of a task can be set by using a model called \textit{fixed priority schedueling}.
 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
