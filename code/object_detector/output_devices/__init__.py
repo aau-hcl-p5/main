@@ -1,5 +1,5 @@
 """
-The module handling output_devices between this device (the RASP)
+The module handling communication between this device (the RASP)
 and the NXT, which controls the actual motors and "turret".
 """
 from typing import Union
