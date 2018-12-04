@@ -1,5 +1,5 @@
 """
-Used for USB communication with the NXT
+Used for USB output_devices with the NXT
 based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 """
 
@@ -7,7 +7,7 @@ import usb.core
 import usb.util
 
 from algorithms import Vector
-from communication.status import Status
+from output_devices.status import Status
 
 ID_VENDOR_LEGO = 0x0694
 ID_PRODUCT_NXT = 0x0002
@@ -22,12 +22,12 @@ class DeviceNotFound(Exception):
 
 class NxtUsb:
     """
-    Used for USB communication with the NXT
+    Used for USB output_devices with the NXT
     """
 
     def __enter__(self):
         """
-        Initializes the usb communication,
+        Initializes the usb output_devices,
         by finding the specific USB port based on
         vendor_id of the NXT, and then writes an
         "ON" signal to the NXT.
@@ -43,7 +43,7 @@ class NxtUsb:
         self.device.set_configuration()
 
         self.out_endpoint, self.in_endpoint = self.device[0][(0, 0)]
-        self.out_endpoint.write(b'\x01\xFF')  # Tell NXT we want to init usb communication
+        self.out_endpoint.write(b'\x01\xFF')  # Tell NXT we want to init usb output_devices
         self.device.read(self.in_endpoint.bEndpointAddress, 8)  # Read the initial ".ecrobot" from nxt usb accept init
         self.initialized = True
         return self
@@ -55,7 +55,7 @@ class NxtUsb:
         if self.initialized:
             self.write_status(Status.DISCONNECT_REQ)
 
-    def read(self):
+    def read(self) -> bytes:
         """
         Read stream from device
         :return: the bytes from the device

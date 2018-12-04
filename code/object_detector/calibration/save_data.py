@@ -5,7 +5,7 @@ from typing import List
 import usb
 
 from calibration.utils import Package
-from communication import NxtUsb, Status
+from output_devices import NxtUsb, Status
 
 import matplotlib.pyplot as plt
 
