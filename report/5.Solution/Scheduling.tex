@@ -1,4 +1,77 @@
 \section{Scheduling}\label{solution:scheduling}
-% TODO Write section regarding the Scheduling implementation.
-% Maybe go into the specifics of the oil file I dont know. 
-% This might not be entirely relevant, depending on the description in Theory/RTS.
+As described in Subsection~\ref{Design:Scheduling} the scheduling method is cyclic executive. 
+On Snippet~\ref{lst:MainTask} the implementation of the main task of the system is shown. 
+The main task are responsible for the scheduling of the  system.
+
+The main task consists of two loops that corresponds to the to states the system can operate in, namely calibrating and running.
+As can be seen on Snippet~\ref{lst:MainTask} lines 3 to 12 the calibration state has to be completed before the system can start running. 
+On lines 13 to 25 the actual scheduling of the running all the methods need can be seen, these method will be called once per major cycle hence being true to the deadline. 
+
+\begin{lstlisting}[language=CSharp,label={lst:MainTask},caption={MainTaks method from logic.c}]
+TASK(MainTask)
+{
+    for (;;) {
+        calibrating = true;
+        show_init_screen();
+        while(!get_status_code(&current_status, 0));
+
+        if (current_status == READY_FOR_CALIBRATION)
+        {
+            calibrate(false);
+        }
+        calibrating = false;
+        for(;;)
+        {
+            WaitEvent(newMajorCycleEvent);
+            keep_USB_alive();
+            receive_data();
+            if (current_status == DISCONNECTED_REQ) {
+                stop();
+                break;
+            }
+            move_motors();
+            handle_laser();
+            update_display();
+            ClearEvent(newMajorCycleEvent); 
+        }
+    }
+    TerminateTask();
+}
+\end{lstlisting}
+
+In order to time the major cycle the \textit{user\_1ms\_isr\_type2} method, that can be seen on Snippet~\ref{lst:user1msisrtype2}, is used to raise the event of the major cycle. 
+The method activated by an system interrupt ensuring that the method will be called once every millisecond. 
+\begin{lstlisting}[language=CSharp,label={lst:user1msisrtype2},caption={user\_1ms\_isr\_type2 method from nxt.c}]
+void user_1ms_isr_type2(void)
+{
+    (void)SignalCounter(SysTimerCnt);
+    SetEvent(MainTask, newMajorCycleEvent);
+    if(calibrating)
+        keep_USB_alive();
+}
+\end{lstlisting}
+
+As part of the implementation of the cyclic executive scheduling method the need for an event to be tricker raised after each cycle iteration. 
+On Snippet~\ref{lst:newMajorCycleEvent} the event is specified on the operation system level so that it can be raised by the interrupt. 
+\begin{lstlisting}[language=CSharp,label={lst:newMajorCycleEvent},caption={newMajorCycleEvent event from nxt.oil}]
+EVENT newMajorCycleEvent{
+    MASK = AUTO;
+};
+\end{lstlisting}
+
+The system only has one task, which is declared with the properties shown on Snippet~\ref{lst:MainTask}. 
+The properties specifies to the operating system how the task shall run and that the event from before is related to the task.
+\begin{lstlisting}[language=CSharp,label={lst:MainTask},caption={MainTaks task from nxt.oil}]
+    TASK MainTask {
+      AUTOSTART = TRUE 
+        {
+          APPMODE = appmode1;
+        };
+      PRIORITY = 1;
+      ACTIVATION = 1;
+      SCHEDULE = FULL;
+      STACKSIZE = 512;
+      RESOURCE = USB_Rx;
+      EVENT = newMajorCycleEvent;
+};
+\end{lstlisting}
