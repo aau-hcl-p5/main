@@ -40,14 +40,12 @@ The intent of this algorithm is to take a given frame, and localize the target w
 
 
 \todo{implement the video output debug to actually be what i've written below}
-The \texttt{output\_devices} parameter is a class that handles transmitting the location data to the NXT, but this can be overwritten to use a video feed as output as well, with the intent of debugging. 
-This argument can either be a singular \texttt{OutputDevice} or multiple, which is relevant when the user both wants to debug but also transmit the information to the NXT device.
+The \texttt{output\_device} parameter is a class that handles transmitting the location data to the NXT, but this can be overwritten to use a video feed as output as well, with the intent of debugging.
 
 
-\todo{maybe change the capture\_type to also be either a class or a function, so we follow the same paradigm of coding all the way through}
-Finally, the \texttt{capture\_type} parameter specifies which device the video feed should be received from.
-By default, this should be a camera feed, but it might be relevant to use a specific video file in some contexts, for instance when doing tests.
+The \texttt{input\_device} parameter specifies which device the video feed should be received from. In most cases this will simply be a live video feed, however in some cases it is relevant to utilize a video feed, for instance in cases of testing and if we were to apply machine learning.
 
+Finally, the \texttt{calibration\_algorithm} is relevant when connected to an NXT and calibration is needed. The calibration algorithm will send a request to the NXT asking it to start calibrating, where after the \texttt{calibration\_algorithm} will wait for calibration data to be sent from the NXT. The \texttt{calibration\_algorithm} handles this information in a different way depending on implementation. The default implementation is simply to store this data for later usage.
 
 The controller is initialized in the \texttt{main.py} file, which is the entry point when running the program. 
 The relevant arguments are shown in Snippet~\ref{lst:MainHelp}.
@@ -82,8 +80,7 @@ The project also contains functions for calibration, as seen on Figure~\ref{fig:
 
 
 \subsection{Movement}
-The codebase is not in the same way seperated into modules, in a direct way, due to the design of the language.
-However the solution is divided into multiple file with distinct responsibilities.
+The codebase is separated into different files with distinct responsibilities, giving modularity.
 
 \begin{itemize}
 	\item \texttt{tasks}
