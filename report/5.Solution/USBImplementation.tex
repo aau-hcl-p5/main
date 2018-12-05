@@ -1,6 +1,6 @@
 \section{USB implentation}
 \label{sec:usbimp}
-In Section~\ref{sec:usbdes} a high level description of the USB communication between the computer and the NXT was described.
+In Section~\ref{sec:usbdes}, a high level description of the USB communication between the computer and the NXT was described.
 This section will describe the specifics of the implementation of the USB receiver on the NXT.
 
 The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
@@ -19,44 +19,38 @@ This function is a part of the NXTOSEK API and is required to use the NXT's USB 
 As mentioned in Section~\ref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
 
 The next part of the USB receival is the actual continuous retrieval from the USB buffer.
-\begin{lstlisting}[language=CSharp,label={lst:usbreceive},caption={get\_target\_location method from data\_receive.c}]
-    bool get_target_location(T_TARGET_LOCATION *out_location) {
+\begin{lstlisting}[language=CSharp,label={lst:usbreceive},caption={get\_status\_code method from usb.c}]
+bool get_status_code(STATUS_CODE *out_code, T_VECTOR *out_location) {
 	int32_t len;
-	uint8_t data[SIZEOF_USB_DATA];
+	uint8_t buffer[MAX_SIZE_OF_USB_DATA];
 
-    memset(data, 0, SIZEOF_USB_DATA); /* flush buffer */
 	/* critical section */
 	GetResource(USB_Rx);
-	len = ecrobot_read_usb(data, 0, SIZEOF_USB_DATA); /* read USB data */
+	/* read USB data */
+	len = ecrobot_read_usb(buffer, 0, MAX_SIZE_OF_USB_DATA);
 	ReleaseResource(USB_Rx);
 
-	if (len > 0)
+	if (len == sizeof(STATUS_CODE))
 	{
-		if (*((uint32_t *)data) == DISCONNECT_REQ)
-		{
-			/* disconnect current connection */
-			ecrobot_disconnect_usb();
-			show_init_screen();
-			return false;
-		}
-		*out_location = *((T_TARGET_LOCATION *)data);
-		display_target_location(*out_location);
+		memcpy(out_code, buffer, sizeof(STATUS_CODE));
+		return true;
+	}
+	if (len == MAX_SIZE_OF_USB_DATA) {
+		memcpy(out_code, buffer, sizeof(STATUS_CODE));
+		memcpy(out_location, buffer + sizeof(STATUS_CODE), sizeof(T_VECTOR));
 		return true;
 	}
 	return false;
 }
 \end{lstlisting}
-The \texttt{get\_target\_location} function handles both the second part of the USB receive, the continous read, and the third part, the potential disconnect.
+The \texttt{get\_status\_code} function handles both the continous read of the USB and setting the status code of the system.
 
 The \texttt{GetResource(USB\_Rx)} call, locks the USB resource for other processes.
 It then reads the data from the USB buffer, with the \texttt{ecrobot\_read\_usb} call, into the data unsigned integer data and releases the USB resource.
-If nothing is read from the USB, meaning if the length of the read data is $0$, it returns false.
 
-Next the function checks if the data match the disconnect statuscode, which is defined as \texttt{0xFFFFFFFF} in the \texttt{data\_receive.h} header file.
-In that case, it turns off the USB communication, and turns on the initialization screen.
-Otherwise it sets the data that the \texttt{out\_location} pointer points to, to be the read data.
-Finally it displays the target location to the NXT screen, which is mostly used for debugging.
+After releasing the USB resource, the function checks the length of the data, which can either be the length of a status code, which is defined as an unsigned 16 bit integer in the \texttt{usb.h} header file.
+In this case, the status code is copied to the \texttt{out\_code} which is specified as an input parameter in the form of a pointer.
+Alternatively, the data can be of the length \texttt{MAX\_SIZE\_OF\_USB\_DATA}, which is defined as a status code concatenated with a target vector, which is a data structure containing a set of x and y coordinates in the form of two 16 bit integers.
+If nothing is read from the USB, meaning that the length of the read data is $0$, it returns false to indicate that nothing was read.
 
-The \texttt{get\_target\_location function} is called from the \texttt{logic.c} file, which contains the logic for the device.
-\texttt{logic.c} next calls the move function, which uses the \texttt{target\_location} to aim the robot.
-This is described in the next section, Section~\ref{sec:movement}.
+The \texttt{get\_status\_code function} is called from the \texttt{receive\_data} function in the \texttt{nxt.c} file, which contains the tasks for the device.
