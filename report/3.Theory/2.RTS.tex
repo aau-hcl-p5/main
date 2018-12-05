@@ -28,10 +28,8 @@ While the \textit{minor cycle} is defined by the Least Common Multiple (LCD) of 
 The major cycle specifies a deadline of which all process has to be completed at least once.
 The minor cycle specifies the interval of which at least one given task should have completed once. 
 
-% TODO Billede goes here (thomas L fikser i hans PR)
-
-As seen on Figure~\ref{fig:cyclicExecutive}, the tasks have a defined period and deadline, tasks are now placed into minor and major cycles in a way that they can all be run before their deadlines are met. 
-
+\figur{0.6}{images/cyclicExecutive}{An example of cyclic executive.}{fig:cyclicExecutive}
+As seen on Figure~\ref{fig:cyclicExecutive}, the tasks have a defined period and computation time, tasks are now placed into minor and major cycles in a way that they can all be run before their deadlines are met. 
 
 Since cyclic executives is a very simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used schedueling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
