@@ -44,11 +44,12 @@ The \texttt{output\_device} parameter is a class that handles transmitting the l
 
 
 The \texttt{input\_device} parameter specifies which device the video feed should be received from. 
-In most cases this will simply be a live video feed, however in some cases it is relevant to utilize a video feed, for instance in cases of testing and if we were to apply machine learning.
+In most cases this will simply be a live video feed, however in some cases it is relevant to utilize a video feed, for instance in cases of testing.
 
 Finally, the \texttt{calibration\_algorithm} is relevant when connected to an NXT and calibration is needed. 
-The calibration algorithm will send a request to the NXT asking it to start calibrating, where after the \texttt{calibration\_algorithm} will wait for calibration data to be sent from the NXT. 
-The \texttt{calibration\_algorithm} handles this information in a different way depending on implementation. The default implementation is simply to store this data for later usage.
+The calibration algorithm will send a request to the NXT asking it to start calibrating, after which the \texttt{calibration\_algorithm} will wait for the reception of the calibration data from the NXT. 
+The \texttt{calibration\_algorithm} handles this information in a different way depending on implementation.
+The default implementation is simply to store this data for later usage.
 
 The controller is initialized in the \texttt{main.py} file, which is the entry point when running the program. 
 The relevant arguments are shown in Snippet~\ref{lst:MainHelp}.
@@ -83,7 +84,7 @@ The project also contains functions for calibration, as seen on Figure~\ref{fig:
 
 
 \subsection{Movement}
-The codebase is separated into different files with distinct responsibilities, giving modularity.
+The codebase of the NXT is separated into different files with distinct responsibilities, resulting in modularity, much like described above.
 
 \begin{itemize}
 	\item \texttt{tasks}
@@ -93,29 +94,5 @@ The codebase is separated into different files with distinct responsibilities, g
 	\item \texttt{calibration}
 \end{itemize}
 
-the \texttt{tasks.c} can be seen as the primary file of the project, which creates all the tasks that the scheduling system enforces.
-The code in snippet~\ref{lst:taskDecl} piece of code declares the tasks, but the specific aspects of each tasks, will be covered more indepth in section~\ref{sec:scheduling}
-\begin{lstlisting}[language={c},label={lst:taskDecl},caption={Declaration of tasks, counters and events}]
-/* OSEK declarations */
-DeclareTask(ReceiveData);
-DeclareTask(UpdateDisplay);
-DeclareTask(ToggleLaser);
-DeclareTask(MoveMotors);
-
-DeclareCounter(SysTimerCnt);
-
-DeclareEvent(MoveMotorsOnEvent);
-DeclareEvent(MoveMotorsOffEvent);
-DeclareEvent(LaserOnEvent);
-DeclareEvent(LaserOffEvent);
-
-DeclareResource(USB_Rx);
-\end{lstlisting}
-\todo{update above}
-
-This file is not manually run, so less can be said about the overall principles of how it is run, as this is handled by the NXT-OSEK operating system, however the dependencies still seem relevant, which are detailed in figure~\ref{fig:CClasses}
-\todo{insert picture here when we are done - i don't want to spend time creating one}
-
-
-Each of these files and modules will be explained in-depth throughout this chapter, and explain value of each.
-
+The \texttt{tasks.c} file is the entry point of the project, which creates all the tasks that should be run on the system.
+\todo{Skriv om tasks.c} 
