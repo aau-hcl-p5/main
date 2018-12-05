@@ -51,6 +51,8 @@ void user_1ms_isr_type2(void)
 }
 \end{lstlisting}
 
+\todo{Tilføj execution times for at argumentere for at vi kun har en major cycle}
+
 As part of the implementation of the cyclic executive scheduling method, an event is waiting to be raised after each cycle iteration. 
 On Snippet~\ref{lst:newMajorCycleEvent} the event is specified on the operation system level, such that it can be raised by the interrupt. 
 \begin{lstlisting}[language=CSharp,label={lst:newMajorCycleEvent},caption={newMajorCycleEvent event from nxt.oil}]
