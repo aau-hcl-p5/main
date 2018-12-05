@@ -1,10 +1,10 @@
 \section{Scheduling}\label{solution:scheduling}
-As described in Subsection~\ref{Design:Scheduling} the scheduling method is cyclic executive. 
+As described in Subsection~\ref{Design:Scheduling}, the scheduling method is cyclic executive. 
 On Snippet~\ref{lst:MainTask} the implementation of the main task of the system is shown. 
-The main task are responsible for the scheduling of the  system.
+The main task is responsible for the scheduling of the system.
 
-The main task consists of two loops that corresponds to the to states the system can operate in, namely calibrating and running.
-As can be seen on Snippet~\ref{lst:MainTask} lines 3 to 12 the calibration state has to be completed before the system can start running. 
+This task consists of two loops that correspond to the two states that the system can operate in: calibrating and normal execution.
+As can be seen on Snippet~\ref{lst:MainTask} lines 3 to 12 the calibration state has to be completed before the system can start the normal execution. 
 On lines 13 to 25 the actual scheduling of the running all the methods need can be seen, these method will be called once per major cycle hence being true to the deadline. 
 
 \begin{lstlisting}[language=CSharp,label={lst:MainTask},caption={MainTaks method from logic.c}]
@@ -39,7 +39,7 @@ TASK(MainTask)
 }
 \end{lstlisting}
 
-In order to time the major cycle the \textit{user\_1ms\_isr\_type2} method, that can be seen on Snippet~\ref{lst:user1msisrtype2}, is used to raise the event of the major cycle. 
+In order to time the major cycle, the \textit{user\_1ms\_isr\_type2} method, that can be seen on Snippet~\ref{lst:user1msisrtype2}, is used to raise the event of the major cycle. 
 The method activated by an system interrupt ensuring that the method will be called once every millisecond. 
 \begin{lstlisting}[language=CSharp,label={lst:user1msisrtype2},caption={user\_1ms\_isr\_type2 method from nxt.c}]
 void user_1ms_isr_type2(void)
@@ -51,8 +51,8 @@ void user_1ms_isr_type2(void)
 }
 \end{lstlisting}
 
-As part of the implementation of the cyclic executive scheduling method the need for an event to be tricker raised after each cycle iteration. 
-On Snippet~\ref{lst:newMajorCycleEvent} the event is specified on the operation system level so that it can be raised by the interrupt. 
+As part of the implementation of the cyclic executive scheduling method, an event is waiting to be raised after each cycle iteration. 
+On Snippet~\ref{lst:newMajorCycleEvent} the event is specified on the operation system level, such that it can be raised by the interrupt. 
 \begin{lstlisting}[language=CSharp,label={lst:newMajorCycleEvent},caption={newMajorCycleEvent event from nxt.oil}]
 EVENT newMajorCycleEvent{
     MASK = AUTO;
