@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "data_receive.h"
+#include "usb.h"
 
 bool usb_connected = true;
 bool usb_buffer[256];
@@ -24,8 +24,8 @@ void set_usb_input(uint8_t *buffer, uint32_t len) {
     usb_len = len;
 }
 
-void set_usb_input_to_target_information(T_TARGET_INFORMATION target_information) {
-    set_usb_input((uint8_t *)&target_information, sizeof(T_TARGET_INFORMATION));
+void set_usb_input_to_target_location(T_VECTOR target_location) {
+    set_usb_input((uint8_t *)&target_location, sizeof(T_VECTOR));
 }
 
 uint32_t ecrobot_read_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len) {
@@ -34,6 +34,12 @@ uint32_t ecrobot_read_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_
     usb_len = 0;
     return len;
 }
+
+uint32_t ecrobot_send_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len) {
+    uint32_t len = max_len < usb_len ? max_len : usb_len;
+    return len;
+}
+
 
 void ecrobot_disconnect_usb() {
     usb_connected = false;

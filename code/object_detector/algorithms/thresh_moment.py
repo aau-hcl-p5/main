@@ -33,7 +33,7 @@ class ThreshMomentController:  # pylint: disable=too-few-public-methods
         mask = inRange(hsv_frame, (0, 150, 50), (10, 255, 255)) | inRange(hsv_frame, (170, 150, 50), (180, 255, 255))
 
         _, contours, _ = findContours(mask, RETR_TREE, CHAIN_APPROX_SIMPLE)
-        contours = [contour for contour in contours if contourArea(contour) > 20]
+        contours = [contour for contour in contours if contourArea(contour) > 50]
 
         if len(contours) != 0:
             debug_frame = cvtColor(mask, COLOR_GRAY2BGR)
