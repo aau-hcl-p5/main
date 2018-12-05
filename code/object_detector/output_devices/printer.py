@@ -1,16 +1,14 @@
 from algorithms import Vector
-from communication.status import Status
+from .output_device import OutputDevice
+from .status import Status
 
 
-class PrintCommunication:
+class Printer(OutputDevice):
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, *args):
         pass
-
-    def read(self):
-        raise Exception("Print communication should not be used for calibration or other things where Read is required")
 
     def write_location(self, data: Vector) -> None:
         print("Writing location", bytes([
