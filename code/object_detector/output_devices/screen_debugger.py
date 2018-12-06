@@ -11,13 +11,12 @@ import numpy as np
 from algorithms.utilities import Vector
 
 
-def screen_debug_wrapper(
+def render_debugscreen(
         location: Vector,
         frame: np.ndarray,
         size: int = 10,
 ) -> None:  # pragma: no cover
     """
-    A wrapper that takes a algorithm as input and runs it,
     and then displays the output to a image renderer
     :param location: location to highlight
     :param frame: the current frame
