@@ -8,7 +8,6 @@ Because of this, it is important to look into the science of object identificati
 It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
 
 \subsection{Neural Networks}
-
 A neural network is, as the name implies, a network of neurons.
 The idea is based on the neurons in the human brain, where the sum of the neurons are used to make more complex decisions than each individual neuron is capable of.
 The primary difference is whether it's a biological brain or an artificial one. 
@@ -32,7 +31,6 @@ The CNN does this by doing abstractions within each layer, breaking a complex pr
 An example of object recognition could be facial recognition.
 The first layer might recognize lines, edges or similar low level features.
 The following layers then, for example, detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
-
 
 \figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN
 	\cite{CNNStructure}.}{fig:face_cnn}
@@ -80,7 +78,7 @@ The process is visualized in Figure~\ref{fig:yolo}.
 
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
-Generic Object Tracking Using Regression Networks, is an algorithm based on deep learning\cite{goturn}.
+Generic Object Tracking Using Regression Networks (GOTURN), is an algorithm based on deep learning\cite{goturn}.
 %GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, which means training the model before execution time, whereas online learning constantly improves the model during run-time.
 GOTURN learns about motion tracking and object identification patterns, by utilizing a large set of videos of different objects moving.
 The model is then shipped with the algorithm implementation, and therefore there is no need for online learning, making it more efficient.
