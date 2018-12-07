@@ -1,33 +1,23 @@
-\section{Development Practices}
-The process of development is as important, in regards to a study project, as the actual development itself.
-With this in mind, this section will elaborate on how the group has been working together.
-The section will be divided into subsections regarding each type of problem, and how it has been fixed.
+\section{Development practices}
+\subsection{Introduction}
+When developing a project, especilly when the primary goal of the project is learning, it is important to also consider the process.
+With this in mind, the following section will elaborate on how the group has been working together.
+The section will be divided into subsections regarding each type of problem, and how it has been handled by the group.
+
+\subsection{SCRUM}
+Our cooperation practices were heavily inspired by SCRUM and were intended to allow for an agile project, as a lot of the issues in a research-based project, will arise during the project.
+However, using SCRUM rigorously was not feasible, as the project had a very concrete deadline, and the lack of an actual customer.
+With this in mind, the principles from SCRUM that suited our project were used, instead of blindly following one specific ideology.
 
 
-Our cooperation practice was heavily inspired by SCRUM and we ideally wanted to work quite agile, as a lot of the issues in a research-based project, are going to arise during the development process, and can be hard to foresee.
-However, using SCRUM rigorously wasn't feasible either, as we had some concrete deadlines for the finished product, due to exams and the length of a semester, and as we didn't have a customer in the traditional sense.
-With this in mind, we took the principles from each school of thought, and utilized them as made the most sense for our case, instead of blindly following one specific ideology.
-
-
-The process was based on sprints, a week in length, starting and ending on a Tuesday, as that week day made most sense in relation to lectures.
-
+The process was based around sprints, a week in length, starting and ending on a Tuesday, as that week day made most sense in relation to lectures.
 
 \subsection{Milestones}
-Initially, after we realized what area we wanted to work with, we defined a set of milestones from start to project hand in.
-Making some rough estimates of how long it would take to write each part of the report, and how long each module of the code would take.
-This was done by creating a title of each sprint, and what was supposed to be finished in which sprint.
+Initially, after we realized what area we wanted to work with, we defined a set of milestones that covered the whole project, from start to project hand in.
+The milestone plan was based around a rough estimate of the time it would take to write different sections of the report and the different code modules.
 
-
-This gave us an outline of where we wanted to be at a given time, and a basis for whether we were ahead or behind schedule.
-Overall we were behind on development, as we underestimated different problems regarding the machine learning parts, and we had to redo parts of the scheduler in the NXT part to find the optimal solution.
-
-
-\todo{Link to part where we talk about fuckups in NXT and in ML}
-The timeline was, because of these complications, readjusted a couple of times, when it seemed fit. 
-More frequently closer to the deadline. 
 The initial plan was as follows, with sprint index, start date, and the overall goal of the sprint:
 \begin{enumerate}
-	\item 
 	\item sprint01: 2018-09-11 - setup
 	\item sprint02: 2018-09-18 - Start on analysis and theory
 	\item sprint03: 2018-09-25 - Analysis done 
@@ -45,109 +35,143 @@ The initial plan was as follows, with sprint index, start date, and the overall 
 	\item sprint15: 2018-12-18 - proofreading done [SPRINT IS ONLY 2 DAYS]
 \end{enumerate}
 
-However this obviously changed, especially as we ended up not doing Motion Prediction, and focused less on image recognition than initially assumed, while we ended up focusing our energy at calibration instead.
-This things things were revised, and as we got closer to the end, the goals of each sprint was specific and concrete. 
+The milestone plan followed our sprints, and gave each sprint a title, which indicated the intended focus of the sprint.
 
-\todo{should we have a revised plan?}
+This allowed us to roughly keep track of our progress, however our early estimates were a bit too generous, as the machine learning and the scheduler took significantly longer than anticipated, both due to unforseen obstacles, but also due to iteration on the solution.
+
+\todo{Link to part where we talk about fuckups in NXT and in ML}
+Due to these complications, the timelime was adjusted as the project went along.
+
+At the end of a project, a more detailed plan, made daily was used instead, mainly to keep track of the missing parts of the project.
+
+\todo{should we have a revised plan? yes, just in appendix}
+
 \subsection{Sprints}
-On a sprint-to-sprint basis, each sprint started with a meeting.
+All sprints started with a meeting.
+The meeting was typically held on tuesdays, as it allowed for work to be done before the weekend, with monday being reserved for review and merging of the different issues, before the next meeting on tuesday.
 This meeting had three mandatory topics.
+\begin{itemize}
+	\item Standup
+	\item Review
+	\item Planning
+\end{itemize}
 
+During \textbf{standup} each member reported on the issues they had the last sprint.
+This included mentioning any issues in solving the problem, as well as sharing any interesting implementation details.
+In real SCRUM you would utilize daily standup meetings, but this did not make sense, work on the project was not done daily.
+We learned that SCRUM makes more sense when working a full work week.
 
-\textbf{A standup}, where each member reported on what they had been doing in the last sprint.
-In real SCRUM you would utilize daily standup meetings, but this didn't make sense, as we didn't worked on the project on a daily basis, but rather few long days, and these days was rarely concurrent throughout the group.
-We learned that SCRUM makes more sense, in regards to this, in a full-time setting.
-This caused some problems, however, as it wasn't always transparent if people were on schedule nor whether they would be able to close all their cards
+A problem stemming from this was the lack of clarity in regards to progress on every members card, and whether it would be closed.
+
 This problem was reduced, later, as we learned to update each other and ask each other for updates through our chat service.
-In the last two sprints we introduced daily standups as everyone met in the group room on a daily basis.
+In the last two sprints we introduced daily standups as everyone met in the group room on daily.
 
 
-\textbf{Review} followed, which was used to criticize the previous sprint or the current direction of the group, or whether we followed our estimates.
-This created an iterative process of improvement, which helped with a large variety of issues and improved a lot of things.
-We had a pleasant and open atmosphere where it was okay to criticize others in a constructive way in the mutual interest of the group.
+After the standup a \textbf{review} followed.
+The review evaluted on the previous sprint as a whole, such as progress and whether the card estimations were correct, and the current and future direction of the project.
+This created an iterative process of improvement, which helped with a large variety of issues.
+We had a pleasant and open atmosphere, where it was okay to critique others work in a constructive way.
 
-
-The meetings had a tendency to last several hours, which was good as things were discussed at length, however we had a tendency to drift off course, which made it more difficult to pay attention when we came back on course.
-This problem was reduced through the review process.
-
-
+%The meetings had a tendency to last a few hours, which was good as things were discussed at length, however we had a tendency to drift off course, which made it more difficult to pay attention when we came back on course.
+%This problem was reduced through the review process.
 
 \textbf{Planning}, where the weekly team-lead would present the issues that he had prepared for the sprint. 
-The team-lead, chosen each week, would make sure people would close their given cards, and he would prepare a list of issues for the coming sprint.
-Preparing the issues meant making sure their description was acceptable, with a Definition of Done and relevant notes.
+The team-lead, was chosen each week, and would make sure people would close their given issues, and he would prepare a list of issues for the coming sprint.
+Preparing the issues meant making sure their description was acceptable, with a Definition of Done and adding any relevant notes to the description.
 At the meeting the team lead explained a given card, and the whole team estimated the amount of points required to solve the given card by using planning poker.
-If someone had a difference relevantly different, the group would then discuss the difference until everyone agreed.
+If estimations differed wildly, a discussion in regards to the actual intended work of the card would be had. 
+%hader would be had, sorry, ved bare ikke hvad ellers.
 
+After the issues in the sprint planned by the project lead, each member would say how many points they expected to burn in the coming sprint.
+If the amount of points in the pre-planned sprint was larger than the estimated amount to be burnable, issues would be moved out, and if it was smaller, more issues would be estimated.
+Finally, each member would assign themselves to issues they wished to work on, and any leftovers would be assigned by the team-lead.
 
-After the relevant cards had been estimated, each member would say how many points they expected to be able to burn the given sprint. 
-This would result in the team-lead place cards in the sprint until it reached an appropriate size, where after each member would take the wanted type and amount of cards.
-
-
-The value of a point was estimated at the initial sprint meeting, based on a couple of cards that was agreed upon as the base values.
-Later on, we realized that the range of possible scores was not ideal, as most cards ended up with scores of 5 and 8, so we ended up recalibrating our common understanding of a point, so the individual issues had a higher score and a bit more precision.
-
-
-
+The value of a point was estimated at the first sprint meeting.
+Later on, most issues ended up having scores of 5 or 8, which was often quite inaccurate.
+As thus, the value of a point was recalibrated, allowing for a greater range of points, with larger issues more commonly taking 13 or 20 points, instead of 8, and smaller points taking 1, 2 or 5.
+This allowed for more precise estimation of issues.
+%dunno about this.
+%Ved godt det nok egentligt burde hedde cards, men vi har arbejdet ud fra at det hed issues, så.
 
 \section{Communication}
-When communicating in a development team, face to face communication is preferred, which was the reasoning for a weekly standup meeting, and later on a weekly work-day.
-The workday was each Thursday, where people, if possible, would meet up in our group room, and work throughout the day, utilizing the fact that we could motivate each other and help each other through principles of rubber duck testing, and at times pair programming. 
-Pair programming became a powerful tool when testing the NXTOsek framework, as a proper documentation was lacking, and therefore development was a difficulty.
-Working close together helped debugging in these cases, which improved development a lot.
-These different technics, however, was not forced, rather it was a useful tool in specific cases, as pair programming does not make sense when writing simple code.
-The principles of pair programming was also utilized when proof reading critical parts of the report, as a dynamic discussion of phrasing and topics helped consider a larger variety of options.
+When communicating in a development team, face to face communication is preferred, which was the reasoning for a weekly standup meeting.
 
+As every member of the group had a job, in addition to school, individual work was preferred in the beginning.
 
-Slack, a free to use chat platform, was used for non-verbal communication. 
-Different channels was utilized for different topics, with \texttt{\#general} being regarding more generic things and often things regarding meetings and other things.
-Channels like \texttt{\#report} and \texttt{\#development}, was utilized for questions regarding different aspects of the overall system.
-this was used vividly, which eliminated some of the issues introduced by the fact that we would not be working from the same office on a day to day based. 
-Centralizing communication, without making singular questions overflow the communication, which would be the case in a single-room platform.
+However as difficulties arose, especially in regards to NXT development, a weekly workday was introduced on Thursdays.
+Thursday was chosen as it fit best with the schedule, and because it allowed the group members to get an idea of any problems in their issues, that might be good to work on together.
+
+This could be through discussion, instant feedback on different work items, or using different techniques, such as pair programming, or rubber ducking of of a person.
+
+Pair programming became a powerful tool when working with NXTOsek, as proper documentation was lacking, and therefore development was difficult.
+Working together helped with development in these cases and provided valuable discussion and improved the speed of development considerably.
+These different techniques, were not mandatory.
+Rather, they were tools for use in specific cases, as pair programming does not make sense when writing simple code.
+The principles of pair programming were also utilized when proof reading critical parts of the report, as a dynamic discussion of phrasing and topics, provided a larger variety of options.
+
+To communicate during the week, Slack was used.
+Slack is a free to use chat platform, with both direct messaging, as well as channels.
+
+Channels were created for different topics, with \texttt{\#general} mainly being used for communication that was essential to the group as a whole, such as meeting times, planning work together or any issues with tools.
+Channels like \texttt{\#report} and \texttt{\#development}, were meant for discussion relating to the report or the development.
+
+Good use of Slack, eliminated a lot of problems that were introduced by the wish to not meet daily.
+
  
- 
-Bots were created which were triggered by events in Jira, Github and TeamCity, which were used for issue tracking, version control and continuous development, respectively.
-These tools will be covered in the following sections.
+In addition to our communication, bots for the tools in use were also added.
+These bots were triggered by events in Jira, Github and TeamCity, which were used for issue tracking, version control and continuous development, respectively, and centralized all notifications regarding the project in one platform.
+
+The tools will be covered in the following sections.
 
 \section{issue tracking}
 Jira,\todo{citation needed} is a propriety issue-tracking system, with a large variety of features and integrations.
 We bought a licence in a previous semester, and self hosted the system on a personal server.
 
 
-Having an online issue-reporting system made it easy for the team members, regardless of location, to add update and read issues. 
-When a new issue or bug arose, an issue was created with a simple description, which would be detailed further at a later point before entering a sprint.
-The same software was used for hosting the Kanban board.
-During the last two sprints we introduced a physical Kanban board, which created a competitive environment, created by the thrill of physically moving an issue from 'doing' to 'review', or seeing someone else finished issues faster than you.
-It also made it more transparent when cards were stuck in review.
+Having an online issue-reporting system made it easy for the team members, regardless of location, to add, update and read issues. 
+When a new task or bug arose, an issue was created.
 
+Jira was also used for hosting the Kanban board.
+
+During the last two sprints, a physical Kanban board was used instead, as it allowed for easier tracking of progress.
+%During the last two sprints we introduced a physical Kanban board, which created a competitive environment, created by the thrill of physically moving an issue from 'doing' to 'review', or seeing someone else finished issues faster than you.
+%plz no
 
 The service also has automatically generated burn-down charts, but these did not make much sense when development didn't happen on a daily basis, so an expected line would not be possible.
-Burn-down charts for the last two sprints were created by hand each morning, as a part of the crunch-period motivation.
+Burn-down charts for the last two sprints were created by hand each morning, as a part of the daily standup, as crunch-period motivation.
 
 
 \section{Quality Gates}
-A high quality has always been important, and we tried catching as many bugs and typos, before they would become integrated parts of the software and report. 
-To catch as many of these, we utilized version control, and branching for different levels of development.
-We used the Git protocol, through Github.
-A master branch, a develop branch and feature branches.
-When solving a given issue, that issue would be covered in a feature branch. 
-A pull-request would be created when the issue seemed solved, merging the feature into the develop branch, hereafter automatic tests would run and another team member would review the changes. 
-Weekly or biweekly we created a pull-request from develop into master, where an in-depth proofreading would occure, and new issues would be created for things that needed to be updated or rewritten.
-This would often be a larger process involving multiple people.
-This, however, meant that the quality assurance process would happen along the way, and not as a large issue at the end of the project.
+High quality is always important, and to ensure quality, version control with strict quality gates and an extensive review process was used.
 
+For version control the Git protocol, through GitHub, was used.
+To keep track of different versions of the project, 3 main branch types was used, a master branch, a develop branch and feature branches.
 
-When a pull-request was created, a set of tests would run.
-Some where cosmetic, for instance a requirement that each sentence in the LaTeX code would be on a line by it self, so if a line contained multiple sentences, defined by multiple periods, the CI would fail, making it impossible to accept the pull request.
-This requirement was created because the git version control, defines changes as a line-by-line, so merge conflicts can happen if multiple changes exist on the same line.
-By splitting up lines, the chance of collisions are greatly reduced.
-Other cosmetic tests was regarding linting, making sure code was commented to an acceptable extend, that lines weren't too long, and other smart tricks, done through pylint\todo{citation needed} for the Python part.
-The linting was done for the C code, because of a lack of a useful tool
-\todo{make sure the above is still correct at handin time. also the percentages below. i hope they aren't nibba.} 
+Feature branches were used for development of issues.
+This meant that each issue had a corresponding feature branch.
 
+The develop branch could also be called the sprint branch.
+All feature branches are merged into the develop branch during the week.
+These merges could only happen with a pull request that has 1) an accepted review by one or more members, 2) has succesfully passed all of our tests.
 
-Automatic tests also included functionality tests.
-A start goal of 75\% test coverage was originally a goal in both the C-codebase as well as in the Python-codebase. 
-The C-part did not meet this requirement, but the python part did.
-The automated tests mainly consisted of unit tests, but some integration tests were also made.
+The develop branch was merged into the master branch weekly or biweekly, often after the weekly standup meeting.
+This merge also included another indepth readthrough of the changes from the just finished sprint, and often included several members.
+Thus, grammar and content reviews were spread throughout the duration of the project, instead of happening only at the end.
 
+As mentioned, whenever a pull-request was created a set of tests are run.
+These tests differ in nature, from readability tests to functionality tests.
 
+Examples of readability tests include checking the LaTex code for multiple sentences on a single line.
+This test was added to ease commenting in GitHub during the merge review process, as well as reduce the possiblity of merge conflicts, as it is easier to merge on a sentence level, rather than an arbitrary line level.
+
+Another example of cosmetic tests were code linting, which simply checked the Python and C code for any non-standard code.
+This includes, but is not limited to, indentation, spacing, tabularity.
+For Python, PyLint was used \todo{Citation needed}, while the C linting was implemented by the project group.
+
+In addition to the cosmetic tests, functionality tests were also added.
+The functionality tests primarily consisted of unit tests, but also included a few integration tests where applicable.
+The python code was tested with \todo{whatever we used} a generic python test framework, while the C code framework was written by ourselves.
+An initial goal for the project, was to ensure a 75\% test coverage across the codebase.
+While the python codebase did fulfill this requirement at 81\% the C part did not.
+
+Finally the robot was tested extensively by hand, and the individual modules of the solution were also tested such as hardware tests, described in Section~\ref{des:sec:hwtest} and performance tests of the different image localization algorithms, described in Section~\ref{des:sec:performance}.
