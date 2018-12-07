@@ -44,4 +44,3 @@ bool send_calibration_data(int16_t angle, bool is_x, T_POWER_TUPLE pwr) {
     ReleaseResource(USB_Rx);
     return resp;
 }
-
