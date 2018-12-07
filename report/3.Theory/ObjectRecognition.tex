@@ -138,7 +138,7 @@ This is is because $a$ or $b$ might not be a constant, but a placeholder, which 
 Tensors can also be tuples of different shapes, and when applying levels of abstraction, which is what Keras does, it is possible to use it for image recognition and other more complex problems.
 
 \subsection{OpenCV}
-OpenCV(Open Source Computer Vision Library), is a free-to-use library for C++, Python, and Java, which can be used for a lot of common computer vision tasks out of the box\cite{opencv}.
+OpenCV(Open Source Computer Vision Library), is a free-to-use library for C++, Python, and Java, which can be used for a lot of common computer vision tasks\cite{opencv}.
 
 From OpenCV's about page:
 \begin{quote}
@@ -155,7 +155,7 @@ Examples of tasks include\cite{opencvexamples}:
 \end{itemize}
 
 The below snippet is an example of facial recognition, implemented using OpenCV.
-\begin{lstlisting}[language=Python,label=lis:opencvExample,caption=OpenCV program to detect faces in an image.]
+\begin{lstlisting}[language=Python,label=lis:opencvExample,caption=Source code from the OpenCV documentation\cite{opencvHaarExample}.]
 	import numpy as np
 	import cv2
 	
@@ -188,9 +188,9 @@ K-Means is another classification algorithm, that instead attempts to find a ''c
 The two algorithms share the trait, that they are often performed iteratively, meaning the same dataset are iterated over several times, leading to a more accurate classification, often by moving the classification of a single data-element.
 This shifts the ''weight'' of the class.
 
-Below is an example of ML implemented using OpenCV:
+Below is an example of machine learning using the OpenCV library:
 
-\begin{lstlisting}[language=Python,label=lis:opencvMLExample,caption=OpenCV program recognize English letters\cite{opencvMLexamples}.]
+\begin{lstlisting}[language=Python,label=lis:opencvMLExample,caption=Source code OpenCV documentation\cite{opencvMLexamples}.]
 	import cv2
 	import numpy as np
 	import matplotlib.pyplot as plt
@@ -224,7 +224,7 @@ The program itself is quite simple, and the complex aspects of the program are h
 
 As can be seen from both examples, it is very easy to do complex image manipulation in a very simple manner.
 
-These two examples are just a small sample of the capabilities of OpenCV.
+These two examples are just a small sample of the capabilities of OpenCV, and even without the machine learning aspect, OpenCV also provides excellent webcam interfaces, and image oriented utilities.
 Thus, OpenCV is an excellent solution, that could potentially be used to solve the object detection aspect of our solution.
 
 %Its ability to interact with other frameworks along with all of its ready to use tools makes it very relevant when dealing with various computer vision tasks.
