@@ -135,13 +135,97 @@ This is is because $a$ or $b$ might not be a constant, but a placeholder, which 
 
 Tensors can also be tuples of different shapes, and when applying levels of abstraction, which is what Keras does, it is possible to use it for image recognition and other more complex problems.
 
-
 \subsection{OpenCV}
-OpenCV(Open Source Computer Vision Library), is a free-to-use library for C++, Python, and Java, which can be used for a lot of common computer vision tasks out of the box\cite{opencv}.
+OpenCV(Open Source Computer Vision Library), is a free-to-use library for C++, Python, and Java, which can be used for a lot of common computer vision tasks\cite{opencv}.
 
-OpenCV is a popular library and also interfaces with other frameworks.
-It is not a machine intelligence library, but rather a set of tools for manipulating images and doing general computer vision.
-Its ability to interact with other frameworks along with all of its ready to use tools makes it very relevant when dealing with various computer vision tasks.
+From OpenCV's about page:
+\begin{quote}
+\textit{OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine learning software library.}
+\textit{OpenCV was built to provide a common infrastructure for computer vision applications and to accelerate the use of machine perception in the commercial products\cite{opencvabout}.}
+\end{quote}
+According the above quote OpenCV should be easy to work with, and it should be easy and quick to implement different image manipulation tasks programmatically.
+Examples of tasks include\cite{opencvexamples}:
+\begin{itemize}[noitemsep]
+	\item Individual pixel manipulation, for example accessing all pixels of a certain color and changing them to another color, e.g. basic read/write.
+	\item Different forms of image processing, such as rotating the image, smoothing the image color space, image thresholding and more.
+	\item Feature and object detection, a more advanced image analysis that can find objects and features in image. 
+	Examples of usage here could be facial detection or detecting various objects in the image.
+\end{itemize}
+
+The below snippet is an example of facial recognition, implemented using OpenCV.
+\begin{lstlisting}[language=Python,label=lis:opencvExample,caption=Source code from the OpenCV documentation\cite{opencvHaarExample}.]
+	import numpy as np
+	import cv2
+	
+	face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+	eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+	
+	img = cv2.imread('sachin.jpg')
+	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	
+	faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+	for (x, y, w, h) in faces:
+	  cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+	roi_gray = gray[y: y + h, x: x + w]
+	roi_color = img[y: y + h, x: x + w]
+	eyes = eye_cascade.detectMultiScale(roi_gray)
+	for (ex, ey, ew, eh) in eyes:
+	  cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+	
+	cv2.imshow('img', img)
+	cv2.waitKey(0)
+	cv2.destroyAllWindows()
+\end{lstlisting}
+Snippet~\ref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
+Haar-Cascade is a classifier, which has been trained to detect a specific object, in this case, faces.
+
+While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbour (kNN) classification and K-Means clustering, based on images.
+kNN is a simple classification algorithm, that attempts to group different data into different classes, by looking at the data that most closely resembles each other.
+K-Means is another classification algorithm, that instead attempts to find a ''center'', a mean, and then simply assigning all the data that lies closest to this ''center'' to that class.
+
+The two algorithms share the trait, that they are often performed iteratively, meaning the same dataset are iterated over several times, leading to a more accurate classification, often by moving the classification of a single data-element.
+This shifts the ''weight'' of the class.
+
+Below is an example of machine learning using the OpenCV library:
+
+\begin{lstlisting}[language=Python,label=lis:opencvMLExample,caption=Source code OpenCV documentation\cite{opencvMLexamples}.]
+	import cv2
+	import numpy as np
+	import matplotlib.pyplot as plt
+
+	# Load the data, converters convert the letter to a number
+	data = np.loadtxt('letter-recognition.data', dtype = 'float32', delimiter = ',',
+	  converters = {
+	    0: lambda ch: ord(ch) - ord('A')
+	  })
+
+	# split the data to two, 10000 each
+	for train and test
+	train, test = np.vsplit(data, 2)
+
+	# split trainData and testData to features and responses
+	responses, trainData = np.hsplit(train, [1])
+	labels, testData = np.hsplit(test, [1])
+
+	# Initiate the kNN, classify, measure accuracy.
+	knn = cv2.KNearest()
+	knn.train(trainData, responses)
+	ret, result, neighbours, dist = knn.find_nearest(testData, k = 5)
+
+	correct = np.count_nonzero(result == labels)
+	accuracy = correct * 100.0 / 10000
+	print(accuracy)
+\end{lstlisting}
+
+Snippet~\ref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
+The program itself is quite simple, and the complex aspects of the program are handled by the OpenCV library.
+
+As can be seen from both examples, it is very easy to do complex image manipulation in a very simple manner.
+
+These two examples are just a small sample of the capabilities of OpenCV, and even without the machine learning aspect, OpenCV also provides excellent webcam interfacing, and image manipulation utilities.
+Thus, OpenCV is an excellent solution, that could potentially be used to solve the object detection aspect of our solution.
+
+%Its ability to interact with other frameworks along with all of its ready to use tools makes it very relevant when dealing with various computer vision tasks.
 
 
 % Things to check / consider writing about
