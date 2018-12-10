@@ -53,15 +53,14 @@ void set_motor_speed(char axis, int8_t speed) {
 /*--------------------------------------------------------------------------*/
 
 bool init_motor(uint8_t motor_id, char orientation, uint16_t speed) {
-    if(orientation == 'x') {
+    if (orientation == 'x') {
         x_motor = motor_id;
         x_motor_speed = speed;
         ecrobot_set_motor_speed(x_motor, 0);
         nxt_motor_set_count(x_motor, 0);
         last_location.x = ecrobot_get_motor_rev(motor_id);
         return true;
-    }
-    else if(orientation == 'y') {
+    } else if(orientation == 'y') {
         y_motor = motor_id;
         y_motor_speed = speed;
         ecrobot_set_motor_speed(y_motor, 0);
@@ -107,10 +106,9 @@ bool release_motor(uint8_t motor_id) {
 /* Returns : the motor speed (-100->100) that the motor should move         */
 /*--------------------------------------------------------------------------*/
 int8_t get_speed_by_distance(int8_t distance, char axis) {
-    if(distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
+    if (distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
         return 0;
     }
-
 
     uint8_t lower_bound = get_required_power(axis, distance >= 0);
     uint8_t range = 50;
