@@ -4,6 +4,7 @@
 #include "display_manager.h"
 #include "usb.h"
 #include "movement.h"
+#include "laser.h"
 
 void display_string_at_xy(uint8_t x, uint8_t y, char *str) {
     display_goto_xy(x, y);
@@ -57,16 +58,15 @@ void display_calibration_transfer_status(int i, T_POWER_TUPLE tuple) {
     display_update();
 }
 
-void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_location)
-{
+void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_location) {
     display_clear(0);
 
     display_string_at_xy(0, 1, "Target");
-    if(status_code == NO_TARGET_FOUND) {
+    if (status_code == NO_TARGET_FOUND) {
         display_string_at_xy(9, 1, "gone");
-    } else if(status_code == READY_FOR_CALIBRATION) {
+    } else if (status_code == READY_FOR_CALIBRATION) {
         display_string_at_xy(9, 1, "sending calibration");
-    } else if(status_code == TARGET_FOUND) {
+    } else if (status_code == TARGET_FOUND) {
         display_string_at_xy(9, 1, "found");
     } else {
         display_hex_at_xy(9, 1, status_code, 4);
@@ -97,8 +97,7 @@ void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_lo
     display_update();
 }
 
-void show_init_screen()
-{
+void show_init_screen() {
     display_clear(0);
     display_string_at_xy(0, 0, "F.L.A.T");
     display_string_at_xy(0, 1, "Awaiting USB Host.");

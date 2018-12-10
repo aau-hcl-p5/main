@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "test_framework.h"
-#include "logic_test.h"
+#include "laser_test.h"
 #include "usb_test.h"
 #include "movement_test.h"
 
@@ -16,9 +16,6 @@ int main() {
         {"Test stop motors", test_stop_motors},
         {"Test release motor", test_motor_release},
         {"Test toggle laser", test_toggle_laser},
-        {"Test go to standby", test_standby},
-        {"Test get distance to target", test_get_distance},
-        {"Test predict trajectory", test_predict_trajectory},
     };
     int passes = 0;
     int fails = 0;

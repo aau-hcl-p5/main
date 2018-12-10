@@ -17,7 +17,8 @@ Likewise when the object begins moving the size of the tiles should expand.
 
 Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in image \ref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
 
-\subsection{Object Fill}\label{sec:objectfilldesign}
+\subsection{Object Fill}
+\label{sec:objectfilldesign}
 Following Zone Average a new algorithm called "Object Fill" was created.
 Object Fills purpose was to render very accurate position results, with the initial limitation of only being able to locate a single coloured object.
 The algorithm consists of two main parts:
@@ -69,7 +70,7 @@ A couple of concepts used by the algorithm are worth mentioning beforehand.
 
 \paragraph{HSV}
 The algorithm will convert the image to the HSV color model.
-HSV format differs from traditional RGB, in that instead of having three additive color channels for red, green and blue it has three values defining hue, saturation and light.
+The HSV format differs from traditional RGB, in that instead of having three additive color channels for red, green and blue it has three values defining hue, saturation and light.
 This makes it easier to recognize both dark and light red, since the redness is defined in the hue.
 
 \paragraph{Contours}

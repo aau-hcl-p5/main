@@ -40,9 +40,9 @@ if __name__ == "__main__":
 
     ARGS = PARSER.parse_args()
 
-    with Printer if ARGS.no_usb else NxtUsb as output_device:
+    with Printer() if ARGS.no_usb else NxtUsb() as output_device:
         cont = FlatController(algorithms.get_from_str(ARGS.alg_name),
                               output_device,
-                              VideoController(webcam.CaptureDeviceType.CAMERA),
+                              webcam.VideoController(webcam.CaptureDeviceType.CAMERA),
                               calibration_algorithm=save_data.save_packages)
         cont.run()

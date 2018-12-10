@@ -58,7 +58,7 @@ int8_t get_power_to_move_one_degree(char axis, T_DIRECTION direction) {
         for(int i = 0; i < 15; i++)
         {
             systick_wait_ms(1);
-            if(!should_stop_moving(first_revolution, power))
+            if (!should_stop_moving(first_revolution, power))
                 break;
         }
 
@@ -83,7 +83,7 @@ void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
         }
 
         int8_t power = get_power_to_move_one_degree(axis, direction);
-        if(direction == POSITIVE) {
+        if (direction == POSITIVE) {
             y_axis_powers[y_revolution + REVOLUTION_OFFSET].positive = power;
             T_POWER_TUPLE power_tuple = { 0, power };
             send_calibration_data(y_revolution + REVOLUTION_OFFSET, false, power_tuple);
@@ -105,9 +105,9 @@ void calibrate(bool internal) {
 }
 
 int8_t get_required_power(char axis, T_DIRECTION positive_direction) {
-    if(axis == 'x')
-        return 30;
-    else {
+    if (axis == 'x') {
+        return 15;
+    } else {
         T_POWER_TUPLE power_set = y_axis_powers[get_current_revolution().y + REVOLUTION_OFFSET];
         return positive_direction ? power_set.positive : power_set.negative;
     }
