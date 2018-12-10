@@ -4,21 +4,22 @@
 One issue that may Implement redundancy directly in application
 
 \begin{description}[style=nextline]
-  \item[Every variable \texttt{x} must be duplicated \texttt{x0}]
-  \item[Every write operation perfomed on \texttt{x}, must also be performed on \texttt{x0}] bang
-  \item[After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0}] bang
-  \item[For every conditional, repeat test in every target (both then and else branches)] bang
+  \item[Every variable \texttt{x} must be duplicated \texttt{x0}] \cite{errorDetectionSoft}
+  \item[Every write operation perfomed on \texttt{x}, must also be performed on \texttt{x0}] bang \cite{errorDetectionSoft}
+  \item[After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0}] bang \cite{errorDetectionSoft}
+  \item[For every conditional, repeat test in every target (both then and else branches)] bang \cite{errorDetectionSoft}
 \end{description}
 
-\begin{minipage}{\textwidth}
-  \begin{parcolumns}{2}
-    \colchunk{\begin{lstlisting}[caption=C source]
-    a = b;
-    \end{lstlisting}}
-    \colchunk{\begin{lstlisting}[caption=C source]
-    a = b ;
-    a0 = b0 ;
-    if( b != b0 ) error ();
-    \end{lstlisting}}
-  \end{parcolumns}
+\noindent\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[caption={code 1\cite{errorDetectionSoft}},frame=tlrb]{Name}
+a = b;
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+\begin{lstlisting}[caption={code 2\cite{errorDetectionSoft}},frame=tlrb]{Name}
+a = b ;
+a0 = b0 ;
+if( b != b0 ) error ();
+\end{lstlisting}
 \end{minipage}
+
