@@ -18,13 +18,13 @@ The reasoning behind 8-bit values, lies in the fact that this gives us about the
 As stated, the range of the input, is $0$ to $480$ on the vertical axis and $0$ to $640$ on the horizontal axis.
 The ranges of the output is per default between $0$ and $255$, because $2^8 = 256 $ where one value is used to represent the zero.
 It is beneficial to shift the range, so it is possible to represent negative values, to be able to represent both direction on each axis.
-Therefore the range is shifted to center around zero, meaning the range will be $-127$ to $127$ on both axes, dropping the one value of 128 to centre the values evenly.
+Therefore the range is shifted to center around zero, meaning the range will be $-127$ to $127$ on both axes, dropping the one value of 128 to center the values evenly.
 
 With this in mind, the input-range and output-range constants can be defined:\\
 $$in_\text{max} = (480,640)$$\\
 $$out_\text{max} = 127$$
 
-First the screen position needs to be centred around the zero.
+First the screen position needs to be centered around the zero.
 This is done by taking each max-value divided by two, to get half that value, minus the actual screen position:
 
 $$
