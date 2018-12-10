@@ -13,9 +13,9 @@ The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
     }
 \end{lstlisting}
 Snippet~\ref{lst:usbhandshake} shows the initializion of the NXT device.
-\texttt{ecrobot\_device\_initialize} is invoked by NXTOSEK on program startup.
+\texttt{ecrobot\_device\_initialize} is invoked by nxtOSEK on program startup.
 The essential function call for function call is the \texttt{ecrobot\_init\_usb()} call.
-This function is a part of the NXTOSEK API and is required to use the NXT's USB port for communication.
+This function is a part of the nxtOSEK API and is required to use the NXT's USB port for communication.
 As mentioned in Section~\ref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
 
 The next part of the USB receival is the actual continuous retrieval from the USB buffer.
