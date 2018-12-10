@@ -36,6 +36,7 @@ class NxtUsb(OutputDevice):
         # find our device
         self.device = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
         # was it found?
+
         if self.device is None:
             raise DeviceNotFound('Device not found')
 
