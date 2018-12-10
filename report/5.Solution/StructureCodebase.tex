@@ -38,10 +38,8 @@ This method takes, as the signature shows, a function, \texttt{algorithm} with a
 This array is the array of pixels in a given frame.
 The intent of this algorithm is to take a given frame, and localize the target within the frame.
 
-
 \todo{implement the video output debug to actually be what i've written below}
 The \texttt{output\_device} parameter is a class that handles transmitting the location data to the NXT, but this can be overwritten to use a video feed as output as well, with the intent of debugging.
-
 
 The \texttt{input\_device} parameter specifies which device the video feed should be received from. 
 In most cases this will simply be a live video feed, however in some cases it is relevant to utilize a video feed, for instance in cases of testing.
@@ -69,7 +67,7 @@ optional arguments:
 	Whether to disable USB connection with the NXT.
 	default=False
 \end{lstlisting}
-\todo{make sure these are still up to date when finishing the project, also image, bellow it isn't as Teknight created a new algorithm- but yeah}
+\todo{make sure these are still up to date when finishing the project}
 Figure~\ref{fig:pythonClasses} shows the dependencies of each of the actual packages, and how each module is split up, into multiple packages or files.
 
 \begin{figure}[H]

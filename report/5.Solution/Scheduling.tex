@@ -61,7 +61,7 @@ EVENT newMajorCycleEvent{
 
 The system only has one task, which is declared with the properties shown on Snippet~\ref{lst:MainTask}. 
 The properties specifies to the operating system how the task shall run and that the event from before is related to the task.
-\begin{lstlisting}[language=CSharp,label={lst:MainTask},caption={MainTaks task from nxt.oil}]
+\begin{lstlisting}[language=CSharp,label={lst:MainTaskoil},caption={MainTaks task from nxt.oil}]
     TASK MainTask {
       AUTOSTART = TRUE 
         {
@@ -78,7 +78,7 @@ The properties specifies to the operating system how the task shall run and that
 
 The reasoning behind simply having as major cycle with no minor cycles is the execution time of the individual methods, which can be seen on Table~\ref{table:executionTimes}.
 
-\begin{table}[]
+\begin{table}[tbp]
 \begin{tabular}{ll}
 \textbf{Task name}  & \textbf{Execution time} \\
 Keep\_USB\_Alive    & 14                            \\
