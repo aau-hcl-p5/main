@@ -85,7 +85,7 @@ The model is then shipped with the algorithm implementation, and therefore there
 The benefit of this, is that it runs faster, as it does not have to ever modify the model or analyze whether the given result is relevant.
 However, this comes at a cost. 
 The algorithm has a tendency to favor objects within the training set, even if they remain stationary.
-For instance, if we want to track a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving, if the planes were in the training set.
+For instance, if tracking a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving, if the planes were in the training set.
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
