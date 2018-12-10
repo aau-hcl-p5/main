@@ -10,17 +10,15 @@ One issue that may Implement redundancy directly in application
   \item[For every conditional, repeat test in every target (both then and else branches)] bang
 \end{description}
 
-\begin{figure}[h]
-  \begin{minipage}[t]{0.45\textwidth}
-    \begin{lstlisting}[caption=C source]
+\begin{minipage}{\textwidth}
+  \begin{parcolumns}{2}
+    \colchunk{\begin{lstlisting}[caption=C source]
     a = b;
-    \end{lstlisting}
-  \end{minipage}%
-  \begin{minipage}[t]{0.45\textwidth}
-    \begin{lstlisting}[caption=C source]
+    \end{lstlisting}}
+    \colchunk{\begin{lstlisting}[caption=C source]
     a = b ;
     a0 = b0 ;
     if( b != b0 ) error ();
-    \end{lstlisting}
-  \end{minipage}
-\end{figure}
+    \end{lstlisting}}
+  \end{parcolumns}
+\end{minipage}
