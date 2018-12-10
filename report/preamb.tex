@@ -73,7 +73,16 @@
 
 % ¤¤ Referencer og kilder ¤¤ %
 \usepackage[danish]{varioref}        % Muliggoer bl.a. krydshenvisninger med sidetal (\vref)
-\usepackage{cite}
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sortlocale=de_DE,
+    natbib=true,
+    url=false,
+    doi=true,
+    eprint=false
+]{biblatex}
+
 \usepackage[colorlinks]{hyperref}
 
 % ¤¤ Misc. ¤¤ %
@@ -226,9 +235,6 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
 
 % ¤¤ Litteraturlisten ¤¤ %
 %\bibpunct[,]{[}{]}{;}{a}{,}{,}         % Definerer de 6 parametre ved Harvard henvisning (bl.a. parantestype og seperatortegn)
-
-%\bibliographystyle{bibtex/harvard}      % Udseende af litteraturlisten.
-\bibliographystyle{bibtex/IEEEtran}      % Udseende af litteraturlisten.
 
 % ¤¤ Indholdsfortegnelse ¤¤ %
 \setsecnumdepth{subsection}           % Dybden af nummerede overkrifter (part/chapter/section/subsection)
