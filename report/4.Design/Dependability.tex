@@ -1,0 +1,27 @@
+\section{Dependability}\label{Design:Dependability}
+
+\subsection{Fault Tolerance - Bit-flipping}
+One issue that may Implement redundancy directly in application
+
+\begin{description}[style=nextline]
+  \item[Every variable \texttt{x} must be duplicated \texttt{x0}]
+  \item[Every write operation perfomed on \texttt{x}, must also be performed on \texttt{x0}] bang
+  \item[After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0}] bang
+  \item[For every conditional, repeat test in every target (both then and else branches)] bang
+\end{description}
+
+\begin{figure}[h]
+  \begin{minipage}{0.5\textwidth}
+    \begin{lstlisting}[caption=C source]
+    a = b;
+    \end{lstlisting}
+  \end{minipage}
+
+  \begin{minipage}{0.5\textwidth}
+    \begin{lstlisting}[caption=C source]
+    a = b ;
+    a0 = b0 ;
+    if( b != b0 ) error ();
+    \end{lstlisting}
+  \end{minipage}
+\end{figure}
