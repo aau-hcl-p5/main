@@ -1,11 +1,11 @@
 \section{Development practices}
 \subsection{Introduction}
-When developing a project, especilly when the primary goal of the project is learning, it is important to also consider the process.
+When developing a project, especially when the primary goal of the project is learning, it is important to consider the process.
 With this in mind, the following section will elaborate on how the group has been working together.
 The section will be divided into subsections regarding each type of problem, and how it was handled.
 
 \subsection{Scrum}
-The cooperation practices were heavily inspired by agile development, as a lot of the issues in a research-based project will arise during the period of the project.
+The cooperation practices were heavily inspired by agile development, as it is predictable that several issues in a research-based project will arise during the period of the project.
 However, rigorously following the Scrum principles was deemed unfeasible, as the project had a strict deadline, and a lack of an actual customer who could function as product owner.
 With this in mind, the principles from agile development, and especially Scrum, that suited our project were used instead of strictly following one specific model.
 The process was based around sprints, a week in length, starting and ending on Tuesdays.
@@ -34,7 +34,7 @@ Below, the initial plan can be seen, where it is split into sprint index, start 
 \end{enumerate}
 
 This allowed keeping track of the progression of the project, however, the early time estimates were a bit optimistic, as the implementation of the machine learning and NXT code took significantly longer than first anticipated due to unforseen obstacles.
-Due to these complications, the timelime was repeatedly adjusted as the project went along, and ended up like the following:
+Due to these complications, the timeline was repeatedly adjusted as the project went along, and ended up like the following:
 \begin{enumerate}
 	\item	sprint08: 2018-10-30 - Start on ML, and finish theory
 	\item	sprint09: 2018-11-06 - Design Done
@@ -42,14 +42,14 @@ Due to these complications, the timelime was repeatedly adjusted as the project 
 	\item	sprint11: 2018-11-20 - Consider whether doing Motion Prediction module
 	\item	sprint12: 2018-11-27 - Solution done
 	\item	sprint13: 2018-12-04 - Documentation Done
-	\item	sprint14: 2018-12-11 - Conclusion and processanalysis done
+	\item	sprint14: 2018-12-11 - Conclusion and process analysis done
 	\item	sprint15: 2018-12-18 - proofreading done [SPRINT IS ONLY 2 DAYS]
 \end{enumerate}
 
 At the end of a project a more detailed plan, which was made daily was used instead, primarily to keep track of the progression of the project, during the final weeks.
 
 \subsection{Sprints}
-All sprints started with a meeting, which was typically held on tuesdays, as it allowed for work to be done before the weekend, with monday being reserved for review and merging of the different issues, before the next meeting on tuesday.
+All sprints started with a meeting, which was typically held on Tuesdays, as it allowed for work to be done before the weekend, with Monday being reserved for review and merging of the different issues, before the next meeting on Tuesday.
 This meeting had three default points:
 \begin{itemize}
 	\item Standup
@@ -59,16 +59,16 @@ This meeting had three default points:
 
 During \textbf{standup}, each member reported on the issues they had the last sprint.
 This included mentioning any impediments in solving a given problem, or discoveries based on specific tasks.
-Presentations of interesting or important implementation details, would be covered in miscellaneous bulletpoints.
+Presentations of interesting or important implementation details, would be covered in miscellaneous bullet points.
 
-In a fully utilized Scrum environment you would have daily standup meetings, but this did not make sense since work on the project was not done daily.
+In a fully utilized Scrum environment you would have daily standup meetings, but this did not make sense since work on the project was not done on a daily basis.
 We learned that Scrum makes more sense when working a full work week.
 A problem stemming from this was the lack of clarity in regards to progress on every members issue, and whether the issue would be closed.
-This problem was later no reduced as we learned to update each other and ask each other for updates through our chat service.
+This problem was later on reduced as we learned to update each other and ask each other for updates through our chat service.
 In the last two sprints, we introduced daily standups as everyone met in the group room on daily basis.
 
 After the standup, a \textbf{review} followed.
-The review evaluted on the previous sprint as a whole, such as progress and whether the issue estimations were correct, and the current and future direction of the project.
+The review evaluated on the previous sprint as a whole, such as progress and whether the issue estimations were correct, and the current and future direction of the project.
 This created an iterative process of improvement, which helped with a large variety of issues.
 
 \textbf{Planning} was where the weekly team-lead would present the issues that he had prepared for the sprint. 
@@ -105,14 +105,14 @@ For version control the Git protocol, through GitHub, was used, to keep track of
 Feature branches were used for solving issues, meaning that each issue on the kanban board, had a corresponding feature branch.
 
 The develop branch served as sprint branches, and all feature branches are merged into the develop branch during the week.
-These merges could only happen with a pull request that had been reviewed and approved by one or more members, and had succesfully passed all tests.
+These merges could only happen with a pull request that had been reviewed and approved by one or more members, and had successfully passed all tests.
 
 The develop branch was merged into the master branch on a weekly basis after the weekly standup meeting.
 As mentioned, whenever a pull-request was created a set of tests are run. 
 These tests differ in nature, from readability tests to functionality tests.
 
 Examples of readability tests include checking the LaTex code for multiple sentences on a single line.
-This test was added to ease commenting in GitHub during the merge review process, as well as reduce the possiblity of merge conflicts, as git merges individual lines.
+This test was added to ease commenting in GitHub during the merge review process, as well as reduce the possibility of merge conflicts, as git merges individual lines.
 
 Another example of cosmetic tests was code linting, which simply checked the Python and C code for any code deviating from the standards set by the group.
 This includes, but is not limited to: indentation, spacing and naming conventions.
