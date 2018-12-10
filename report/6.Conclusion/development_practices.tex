@@ -6,7 +6,7 @@ The section will be divided into subsections regarding each type of problem, and
 
 \subsection{Scrum}
 The cooperation practices were heavily inspired by agile development, as a lot of the issues in a research-based project will arise during the period of the project.
-However, rigorously following the Scrum principles was deemed unfeasible, as the project had a strict deadline, a lack of an actual customer who could function as product owner.
+However, rigorously following the Scrum principles was deemed unfeasible, as the project had a strict deadline, and a lack of an actual customer who could function as product owner.
 With this in mind, the principles from agile development, and especially Scrum, that suited our project were used instead of strictly following one specific model.
 The process was based around sprints, a week in length, starting and ending on Tuesdays.
 
@@ -46,7 +46,7 @@ Due to these complications, the timelime was repeatedly adjusted as the project 
 	\item	sprint15: 2018-12-18 - proofreading done [SPRINT IS ONLY 2 DAYS]
 \end{enumerate}
 
-At the end of a project a more detailed plan, which was made on a daily was used instead, primarily to keep track of the progression of the project.
+At the end of a project a more detailed plan, which was made daily was used instead, primarily to keep track of the progression of the project, during the final weeks.
 
 \subsection{Sprints}
 All sprints started with a meeting, which was typically held on tuesdays, as it allowed for work to be done before the weekend, with monday being reserved for review and merging of the different issues, before the next meeting on tuesday.
@@ -58,10 +58,12 @@ This meeting had three default points:
 \end{itemize}
 
 During \textbf{standup}, each member reported on the issues they had the last sprint.
-This included mentioning any issues in solving the problem, as well as sharing any interesting or important implementation details.
+This included mentioning any impediments in solving a given problem, or discoveries based on specific tasks.
+Presentations of interesting or important implementation details, would be covered in miscellaneous bulletpoints.
+
 In a fully utilized Scrum environment you would have daily standup meetings, but this did not make sense since work on the project was not done daily.
 We learned that Scrum makes more sense when working a full work week.
-A problem stemming from this was the lack of clarity in regards to progress on every members issue, and whether it would be closed.
+A problem stemming from this was the lack of clarity in regards to progress on every members issue, and whether the issue would be closed.
 This problem was later no reduced as we learned to update each other and ask each other for updates through our chat service.
 In the last two sprints, we introduced daily standups as everyone met in the group room on daily basis.
 
@@ -90,7 +92,8 @@ The principles of pair programming were also utilized when proof reading critica
 To communicate during the week Slack was used, which is a chat platform, with both direct messaging and channels.
 Channels were created for different purposes with the \texttt{general} channel mainly being used for communication that was essential to all members of the group, such as planning meeting times.
 Channels like \texttt{report} and \texttt{development} were meant for discussion relating to the report or the development.
-Slack allows the use of bots that can be triggered by events in Jira, Github or TeamCity which were used for issue tracking, version control and continuous integration, respectively and centralized all notifications regarding the project on one platform.
+Slack allows the use of bots that can be triggered by events in Jira, Github or TeamCity which were used for issue tracking, version control and continuous integration, respectively.
+This centralized all notifications regarding the project on one platform.
 
 \section{issue tracking}
 Jira is an issue-tracking system with a large variety of features and integrations, that allows creating kanban boards.
@@ -99,7 +102,7 @@ During the last two sprints, a physical Kanban board was used instead, as it all
 
 \section{Version Control}
 For version control the Git protocol, through GitHub, was used, to keep track of different versions of the project, 2 main branches was used: a master branch, a develop branch and a series of feature branches.
-Feature branches were used for development of issues, meaning that each issue had a corresponding feature branch.
+Feature branches were used for solving issues, meaning that each issue on the kanban board, had a corresponding feature branch.
 
 The develop branch served as sprint branches, and all feature branches are merged into the develop branch during the week.
 These merges could only happen with a pull request that had been reviewed and approved by one or more members, and had succesfully passed all tests.
@@ -109,11 +112,11 @@ As mentioned, whenever a pull-request was created a set of tests are run.
 These tests differ in nature, from readability tests to functionality tests.
 
 Examples of readability tests include checking the LaTex code for multiple sentences on a single line.
-This test was added to ease commenting in GitHub during the merge review process, as well as reduce the possiblity of merge conflicts, as it is easier to merge on a sentence level, rather than an arbitrary line level.
+This test was added to ease commenting in GitHub during the merge review process, as well as reduce the possiblity of merge conflicts, as git merges individual lines.
 
 Another example of cosmetic tests was code linting, which simply checked the Python and C code for any code deviating from the standards set by the group.
-This includes, but is not limited to: indentation, spacing and tabularity.
-For Python, PyLint was used while the C linting was implemented by the group.
+This includes, but is not limited to: indentation, spacing and naming conventions.
+For Python, PyLint was used while the C linter was implemented by the group.
 In addition to the cosmetic tests, functionality tests were also added.
 The functionality tests primarily consisted of unit tests, but also included a few integration tests when applicable.
 The Python code was tested with the default python unit testing framework, while the C code framework was written by the group.
