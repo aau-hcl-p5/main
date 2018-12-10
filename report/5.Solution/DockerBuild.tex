@@ -48,7 +48,7 @@ This is done as the tool to build OIL files, only exists for Windows.
 NeXT Tools is an utility program that includes various utilities for use with nxtOSEK, including an enhanced OIL file compile\cite{nxttool}.
 It also includes an additional nxtOSEK requirement, texinfo, which is the official GNU documentation format\cite{texinfo}.
 
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation2},caption={Reee}]
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation2},caption={Installation of Wine and texinfo}]
 
     # Install wine
     RUN dpkg --add-architecture i386
@@ -67,7 +67,7 @@ It also includes an additional nxtOSEK requirement, texinfo, which is the offici
 \end{lstlisting} 
 Next, the ARM tool chain is installed.
 The tool chain is used by nxtOSEK to build for the ARM7 CPU in the NXT.
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation3},caption={Reee}]
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation3},caption={Building the ARM toolchain}]
     # Build arm toolchain from nxtOSEK
     COPY build_arm_toolchain.sh home/
     RUN chmod 755 home/build_arm_toolchain.sh
@@ -82,7 +82,7 @@ The tool chain is used by nxtOSEK to build for the ARM7 CPU in the NXT.
 Finally, the nxtOSEK files are moved to the home folder, as cleanup, before the entry point for the container is set to the location in the home folder.
 This means that whenever the Docker image is run, any arguments are passed along to the build file in the home directory.
 
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Reee}]   
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entrypoint}]   
     # Move nxtOSEK files to home folder
     RUN useradd nxtosek
     RUN usermod --password $(echo nxtosek openssl passwd -1 -stdin) nxtosek
