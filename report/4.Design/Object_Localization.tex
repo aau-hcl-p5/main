@@ -26,27 +26,30 @@ The algorithm consists of two main parts:
 	\item Locate the object
 	\item Fill the located object
 \end{itemize}
-The idea is to traverse the image with a given step size, until the last x pixels were within the given red threshold.
+The idea is to traverse the image with a given step size, until the last $n$ pixels were within the given red threshold.
 Once the location part yielded that a red object was found, a filling algorithm was initialized in order to determine the exact body of the red object.
 The filling algorithm is in essence a graph search, and works as described below:
-\begin{itemize}
-	\item Create a queue with a pixel known to be within the red object (This pixel is reported by the initial object location algorithm).
-	\item While queue is empty:
-	\begin{itemize}
-		\item Pop element from queue.
-		\item If element is not within the red threshold
-		\begin{itemize}
-			\item Add the pixels x and y coordinate to the sum of x and y coordinates on the pixels bounding box.
-			\item Increment the number of pixels on the objects bounding box with one.
-		\end{itemize}
-		\item Else
-		\begin{itemize}
-			\item Get all neighbors of the pixel (step size for neighbors may not necessarily be one) that has not yet been visited
-			\item Add neighbors to the queue and to a set of all visited pixels
-		\end{itemize}
-	\end{itemize}
-	Divide the sum of the bounding box's x and y values, with the total amount of elements in the bounding box to get the center x and y value of the object.
-\end{itemize}
+
+\begin{algorithm}[H]
+	\Input{image\\initialPixel\\stepSize}
+	\KwResult{center of red target}
+	queue = [initialPixel]\;
+	visited = [initialPixel]\;
+	boundingBox = []\;
+	\While{queue \textbf{is not} empty}{
+		element = queue.pop()\;
+		\eIf{\textbf{not} WithinColorThreshod(element)}{
+			bounding\_box.add(element)\;
+	   	}{
+			neigbors = GetNonVisitedNeighbors(element, stepSize)\;
+			queue.add(neighbors)\;
+			visited.add(neighbors)\;
+		}
+ 	}
+ 	\Return{getAverageLocation(boundingBox)\;}
+ 	\BlankLine
+ 	\caption{pseudocode implementation of Object Fill}
+\end{algorithm}
 
 Figure~\ref{fig:obj_fill} is a debug view of the algorithm running.
 The Green pixels are the bounding box of the object and the black pixels shows all the visited pixels.
@@ -81,7 +84,7 @@ In this case it will essentially help determine the outline of the red object.\c
 
 \paragraph{Image moment}
 The moment is the weighted average of an objects pixel intensities.
-It can be used to determine the area of the object and the average x and y coordinates, also called the centroid or the center of the object.
+It can be used to determine the area of the object and the average $X$ and $Y$ coordinates, also called the centroid or the center of the object.
 
 
 The algorithm consists of the following steps:
@@ -110,6 +113,3 @@ It is also easily integrated into your own project, and need not be executed as 
 In figure~\ref{fig:yolo_example} the YOLO2 Light version is executed with a simple model, that can recognize a small set of everyday items, like for instance a person.
 
 \figur{0.6}{images/yolo_example.png}{YOLO algorithm detecting person.}{fig:yolo_example}
-
-\subsection{Scikit classifier}
-\todo{Fill this if we are able to create a proper classifier with scikit}
