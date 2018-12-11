@@ -35,7 +35,7 @@ Since cyclic executives is a very simple scheduling method it is easy to impleme
 
 \subsubsection{Task-based scheduling}
 In addition to the simple cyclic executive scheduling model, it is possible put parts of the program into tasks, and use a scheduler to determine which task should be run.
-The most commonly used task-based scheduler is the fixed-priority scheduling method, which is based on each task having a fixed priority \cite{RealTimeEmbeddedSystems}.
+The most commonly used task-based scheduler is the fixed-priority scheduling method (FPS), which is based on each task having a fixed priority \cite{RealTimeEmbeddedSystems}.
 When using this scheduling method, each task is assigned a priority before run-time which cannot be changed.
 The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
