@@ -41,12 +41,12 @@ The actual Docker build process is somewhat obscure.
 The first step is relatively straightforward with \textit{FROM ubuntu:14.04} simply specifying the base ubuntu image to use.
 The next bit simply installs the packages required by nxtOSEK.
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation1},caption={Version definition and installation of packages required by nxtOSEK}]
-    FROM ubuntu:14.04
+FROM ubuntu:14.04
 
-    # Install required packages listed by nxtOSEK
-    RUN apt-get update
-    RUN apt-get -y install tk-dev ncurses-dev libmpfr-dev wget gzip tar software-properties-common xvfb
-\end{lstlisting} 
+# Install required packages listed by nxtOSEK
+RUN apt-get update
+RUN apt-get -y install tk-dev ncurses-dev libmpfr-dev wget gzip tar software-properties-common xvfb
+\end{lstlisting}
 
 The next part is the most obscure part, as wine is installed to be able to run Windows programs.
 This is done as the tool to build OIL files, only exists for Windows.
@@ -56,52 +56,51 @@ It also includes an additional nxtOSEK requirement, texinfo, which is the offici
 The version of texinfo on the apt repository was not compatible, hence why a specific version was downloaded.
 
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation2},caption={Installation of Wine and texinfo}]
+# Install wine
+RUN dpkg --add-architecture i386
+RUN wget -nc https://dl.winehq.org/wine-builds/Release.key
+RUN apt-key add Release.key
+RUN apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+RUN apt-get -y install apt-transport-https
+RUN apt-get update
+RUN apt-get -y install --install-recommends winehq-staging
 
-    # Install wine
-    RUN dpkg --add-architecture i386
-    RUN wget -nc https://dl.winehq.org/wine-builds/Release.key
-    RUN apt-key add Release.key
-    RUN apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
-    RUN apt-get -y install apt-transport-https
-    RUN apt-get update
-    RUN apt-get -y install --install-recommends winehq-staging
-    
-    # Download a specific version of texinfo, the one in 14.04 
-    # sources is not compatible with the expected version
-    RUN wget http://ftp.gnu.org/gnu/texinfo/texinfo-4.13.tar.gz
-    RUN gzip -dc < texinfo-4.13.tar.gz tar -xf -
-    RUN cd texinfo-4.13 \&\& ./configure \&\& make \&\& make install
-\end{lstlisting} 
+# Download a specific version of texinfo, the one in 14.04
+# sources is not compatible with the expected version
+RUN wget http://ftp.gnu.org/gnu/texinfo/texinfo-4.13.tar.gz
+RUN gzip -dc < texinfo-4.13.tar.gz tar -xf -
+RUN cd texinfo-4.13 \&\& ./configure \&\& make \&\& make install
+\end{lstlisting}
 Next, the ARM tool chain is installed.
 The tool chain is used by nxtOSEK to build for the ARM7 CPU in the NXT.
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation3},caption={Building the ARM toolchain}]
-    # Build arm toolchain from nxtOSEK
-    COPY build_arm_toolchain.sh home/
-    RUN chmod 755 home/build_arm_toolchain.sh
-    RUN home/build_arm_toolchain.sh
-    
-    # Add build.sh
-    WORKDIR /home/nxtosek
-    COPY build.sh ./
-    RUN chmod 755 ./build.sh
+# Build arm toolchain from nxtOSEK
+COPY build_arm_toolchain.sh home/
+RUN chmod 755 home/build_arm_toolchain.sh
+RUN home/build_arm_toolchain.sh
+
+# Add build.sh
+WORKDIR /home/nxtosek
+COPY build.sh ./
+RUN chmod 755 ./build.sh
 \end{lstlisting}
 
 Finally, the nxtOSEK files are moved to the home folder, before the entry point for the container is set to the location in the home folder.
 This means that whenever the Docker image is run, any arguments are passed along to the build file in the home directory.
 
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entrypoint}]   
-    # Move nxtOSEK files to home folder
-    RUN useradd nxtosek
-    RUN usermod --password $(echo nxtosek openssl passwd -1 -stdin) nxtosek
-    RUN chown -R nxtosek ./
-    USER nxtosek
-    ENV HOME /home/nxtosek
-    ADD nxtOSEK.tar.xz ./
-    ADD ecrobot.mak nxtOSEK/ecrobot
-    
-    # Set build.sh as entrypoint to execute when executing docker container
-    ENTRYPOINT ["/home/nxtosek/build.sh"]
-    CMD []    
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entrypoint}]
+# Move nxtOSEK files to home folder
+RUN useradd nxtosek
+RUN usermod --password $(echo nxtosek openssl passwd -1 -stdin) nxtosek
+RUN chown -R nxtosek ./
+USER nxtosek
+ENV HOME /home/nxtosek
+ADD nxtOSEK.tar.xz ./
+ADD ecrobot.mak nxtOSEK/ecrobot
+
+# Set build.sh as entrypoint to execute when executing docker container
+ENTRYPOINT ["/home/nxtosek/build.sh"]
+CMD []
 \end{lstlisting}
 
 The Docker container allows the group to easily build the NXT implementation from any machine, as long as Docker is supported by the OS.
@@ -110,4 +109,56 @@ The Docker image is hosted publicly on the Docker Hub at \url{https://hub.docker
 In addition to local builds, the Docker image is also used on the TeamCity server, as part of the continuous integration for the project, meaning that the Docker image is used every time something is pushed to a branch.
 %Maybe describe Continuous integration?
 
+\subsection{Continous Integration}
+To ensure that builds are not failing, the group set up a TeamCity server\cite{TeamCityHomepage} and combined it with GitHub Webhooks.
+A GitHub webhook is sent from GitHub to the TeamCity server, whenever new code has been pushed.
+GitHub then provides a API endpoint for marking commits and branches as passing or failing builds, via their Status API \cite{GithubStatusAPI}.
 
+\figur{1.0}{images/flowchart-build.png}{Our build-flow}{fig:flowchart-build}
+
+To avoid a unmaintainable test-script, the build-process is split into sub-processes, such as the test-report script in Snippet~\ref{lst:pythonreportcheck}, that checks each line in \LaTeX{}-code for multiple sentences on a single line.
+A test introduced, to reduce merge conflicts, as well as increasing readability.
+
+\begin{lstlisting}[language=python,label={lst:pythonreportcheck},caption={Checking .tex files}]
+#!/usr/bin/python
+
+import os
+import sys
+import glob
+
+white_list = ["eg", "i.e", "etc", "e.g"]
+
+def get_tex_lines():
+    for file in glob.iglob(os.path.dirname(os.path.realpath(__file__)) + '/report/*/**/*.tex', recursive=True):
+        with open(file) as f:
+            for line in f.readlines():
+                yield line
+
+def check_line(line, initial = True):
+    parts = line.strip().split("(*@{.}@*) ")
+    if line.startswith("%"):
+        return True
+    if len(parts) == 1:
+        return True if (initial or "." not in parts[0]) else any(parts[0][:-1].endswith(x) for x in white_list)
+
+    newLine = "(*@{.}@*) ".join(parts[:-1])
+    for x in white_list:
+        if newLine.endswith(x):
+            return check_line(newLine[:-len(x)], False)
+    return False
+
+result = True
+for line in get_tex_lines():
+    if not check_line(line):
+        print("Illegal line:", line)
+        result = False
+
+exit(0) if result else exit(1)
+\end{lstlisting}
+
+One of the advantages of using a Continous Integration tool, is that the merging is self-testing.
+This means, that when we maintain smaller code changes, that get merged into a mainline branch often, instead of monolithic merges, that have a higher likelyhood of conflicting code, and long running forks.
+
+Overall the continous integration has helped us ensure, that unit tests always were passing, and that our mainline branch is working.
+This is done by running through the flowchart in Figure~\ref{fig:flowchart-build}, every time some code needs to be build.
+This includes building the NxtOSEK-program, ensuring no compiletime errors, and the \LaTeX{}-code as well.

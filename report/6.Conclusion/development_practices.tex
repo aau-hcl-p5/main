@@ -18,7 +18,7 @@ Below, the initial plan can be seen, where it is split into sprint index, start 
 \begin{enumerate}
 	\item sprint01: 2018-09-11 - setup
 	\item sprint02: 2018-09-18 - Start on analysis and theory
-	\item sprint03: 2018-09-25 - Analysis done 
+	\item sprint03: 2018-09-25 - Analysis done
 	\item sprint04: 2018-10-02 - Architecture done
 	\item sprint05: 2018-10-09 - Theory done
 	\item sprint06: 2018-10-16 - Start on development + Start on documentation
@@ -71,11 +71,11 @@ After the standup, a \textbf{review} followed.
 The review evaluated on the previous sprint as a whole, such as progress and whether the issue estimations were correct, and the current and future direction of the project.
 This created an iterative process of improvement, which helped with a large variety of issues.
 
-\textbf{Planning} was where the weekly team-lead would present the issues that he had prepared for the sprint. 
+\textbf{Planning} was where the weekly team-lead would present the issues that he had prepared for the sprint.
 The team-lead was chosen each week, and would make sure people would close their given issues, and he would prepare a list of issues for the coming sprint.
 Preparing the issues meant making sure their descriptions were acceptable, with a \textit{Definition of Done} and adding any relevant notes to the description.
 At the meeting, the team-lead explained a given issue, and the whole team estimated the amount of points required to solve the given issue by using planning poker.
-If estimations differed, a discussion in regards to the actual intended work of the issue would be held. 
+If estimations differed, a discussion in regards to the actual intended work of the issue would be held.
 
 After the issues in the sprint had been assigned points, each member would say how many points they expected to be able to work through in the upcoming sprint.
 If the amount of points in the pre-planned sprint was larger than the estimated amount to be burnable, issues would be moved out, and if it was smaller, more issues would be estimated.
@@ -95,9 +95,9 @@ Channels like \texttt{report} and \texttt{development} were meant for discussion
 Slack allows the use of bots that can be triggered by events in Jira, Github or TeamCity which were used for issue tracking, version control and continuous integration, respectively.
 This centralized all notifications regarding the project on one platform.
 
-\section{issue tracking}
+\section{Issue tracking}
 Jira is an issue-tracking system with a large variety of features and integrations, that allows creating kanban boards.
-Having an online issue-reporting system made it easy for the group members to add, update and read issues. 
+Having an online issue-reporting system made it easy for the group members to add, update and read issues.
 During the last two sprints, a physical kanban board was used instead, as it allowed for easier tracking of progress.
 
 \section{Version Control}
@@ -108,7 +108,7 @@ The develop branch served as sprint branches, and all feature branches are merge
 These merges could only happen with a pull request that had been reviewed and approved by one or more members, and had successfully passed all tests.
 
 The develop branch was merged into the master branch on a weekly basis after the weekly standup meeting.
-As mentioned, whenever a pull-request was created a set of tests are run. 
+As mentioned, whenever a pull request was created a set of tests are run.
 These tests differ in nature, from readability tests to functionality tests.
 
 Examples of readability tests include checking the \LaTeX code for multiple sentences on a single line.
@@ -126,3 +126,10 @@ Finally, the robot was tested extensively by hand, and the individual modules of
 
 Conclusively, the development was greatly improved by the iterative practices, both regarding the abstractive practices of development, as well as the agile principles followed through sprints, testing and continuous integration.
 The practices improves cooperation as well as velocity, especially during the final weeks of development, and should be a good foundation for a new project in the coming semesters.
+
+\section{Continous Integration}
+For continuous integration, the group used TeamCity with custom build scripts, to ensure that all builds were built correctly\cite{TeamCityHomepage}.
+To prevent a branch with a failed build from being merged, the TeamCity server provides GitHub pull requests with status updates via the GitHub API, to ensure that failing branches were not mergeable.
+
+Furthermore, the TeamCity server builds produces artifacts, such as code-coverage reports and a PDF-document of the report.
+Thus an developer environments independent version of the project is kept, meaning that some developer environment specific errors are avoided.
