@@ -1,25 +1,47 @@
 \section{Dependability}\label{Design:Dependability}
 
 \subsection{Fault Tolerance - Bit-flipping}
-One issue that may Implement redundancy directly in application
+As a proof of concept, the group decided to implement bit-flip fault tolerance in the laser module on the NXT, given the following rules.
 
-\begin{description}[style=nextline]
-  \item[Every variable \texttt{x} must be duplicated \texttt{x0}] \cite{errorDetectionSoft}
-  \item[Every write operation perfomed on \texttt{x}, must also be performed on \texttt{x0}] bang \cite{errorDetectionSoft}
-  \item[After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0}] bang \cite{errorDetectionSoft}
-  \item[For every conditional, repeat test in every target (both then and else branches)] bang \cite{errorDetectionSoft}
-\end{description}
+\begin{enumerate}
+  \item Every variable \texttt{x} must be duplicated \texttt{x0} \cite{errorDetectionSoft}
+  \item Every write operation perfomed on \texttt{x}, must also be performed on \texttt{x0} \cite{errorDetectionSoft}
+  \item After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0} \cite{errorDetectionSoft}
+  \item For every conditional, repeat test in every target (both then and else branches) \cite{errorDetectionSoft}
+\end{enumerate}
+
+Following the four rules above, th
 
 \noindent\begin{minipage}{.45\textwidth}
-\begin{lstlisting}[caption={code 1\cite{errorDetectionSoft}},frame=tlrb,numbers=none]{Without Bitflipping A}
-a = b;
+\begin{lstlisting}[caption={Without bitflip-security},frame=tlrb,numbers=none]
+void toggle_laser() {
+  if (!laser_state) {
+    enable_laser();
+  } else {
+    disable_laser();
+  }
+}
 \end{lstlisting}
 \end{minipage}\hfill
 \begin{minipage}{.45\textwidth}
-\begin{lstlisting}[caption={code 2\cite{errorDetectionSoft}},frame=tlrb,numbers=none]{With Bitflipping A}
-a = b ;
-a0 = b0 ;
-if( b != b0 ) error ();
+\begin{lstlisting}[caption={With bitflip-security},frame=tlrb,numbers=none]
+void toggle_laser() {
+  if (!laser_state) {
+    if (laser_state) bitflip_error(); // Rule 4, conditional repetition
+    if (laser_state != laser_state_0) bitflip_error(); // Rule 1+3, reading from variable.
+
+    enable_laser();
+  } else {
+    if (!laser_state) bitflip_error(); // Rule 4, conditional repetition
+    if (laser_state != laser_state_0) bitflip_error(); // Rule 1+3, reading from variable.
+
+    disable_laser();
+  }
+}
 \end{lstlisting}
 \end{minipage}
 
+The primary reason for choosing the laser-module, is that it in a real life sitation will be the most system critical component on the NXT.
+Given that the laser will be the module, to be fired on target only when on target, to avoid accidental discharge.
+
+For this reason,
