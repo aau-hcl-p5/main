@@ -3,7 +3,7 @@ In order to guarantee that a computer system is able to function in a time criti
 In the following section, the different methods related to real-time systems will be elaborated.
 
 \subsection{Scheduling}
-When creating a real-time systems, an essential part is the ability ensure that the system is scheduable, meaning that all tasks are true to their deadlines. 
+When creating a real-time systems, an essential part is the ability ensure that the system is schedulable, meaning that all tasks are true to their deadlines. 
 The period is specified by the requirements of the system and specifies how often a given task shall be completed.
 Likewise, a deadline is specified by the requirements of the system and defines how far into the period the task must be completed.
 Multiple methods can be used to determine whether a system is schedulable or not, but the base principle of all the methods is the same. 
@@ -31,12 +31,12 @@ The minor cycle specifies the interval of which at least one given task should h
 \figur{0.6}{images/cyclicExecutive}{An example of cyclic executive \cite{CyclicExecutionKimLarsen}}{fig:cyclicExecutive}
 As seen on Figure~\ref{fig:cyclicExecutive}, the tasks have a defined period and computation time, tasks are now placed into minor and major cycles in a way that they can all be run before their deadlines are met. 
 
-Since cyclic executives is a very simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used schedueling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
+Since cyclic executives is a very simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used scheduling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
 \subsubsection{Task-based scheduling}
-Another commonly used scheduling method in real-time systems is the fixed-priority schedueling method, which is based on that each task has a given priority.
+Another commonly used scheduling method in real-time systems is the fixed-priority scheduling method, which is based on that each task has a given priority.
 When using this scheduling method, each task is given a fixed priority before run-time which can not be changed.
-The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system scheduable\cite{RealTimeEmbeddedSystems}. 
+The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
 Given that a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
