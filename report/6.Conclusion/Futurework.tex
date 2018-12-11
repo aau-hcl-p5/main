@@ -3,38 +3,59 @@ Throughout the development of a project, there are often several ideas that are 
 This section will describe the ideas that the group had, our initial thoughts, how they might have been implemented and why they were not implemented.
 
 
-\textbf{Predict target location in x frames}\\
+\subsection{Predict target location in x frames}
 A \textbf{Should have} requirement from the MosCow analysis in Section~\ref{subsec:requirements}, was the ability to predict the location x frames into the future.
 In the actual implementation this was not done, as a different solution proved better.
 However to hit a projectile, this would be a requirement.
 The initial idea was to train the model by simply moving the object in front of a camera and tracking how the object moved.
-A potential additional requirement here would be classification, as distinction between objects would be necessary, as different objects move differently, unless of course, it was assumed that only a single type of object would be seen, for example the balloon used for testing.
+This could lead to an additional problem, based on different movement of different object types.
+Here classification could be a solution, as different objects have different movement patterns, unless the system is still based on simple inanimate objects.
+
+These aspects could be an interesting way to explore online learning and clustering so movement patterns, for instance a ball bouncing against the ground, could be learned in real time. 
+In this context, calibration could potentially also be done online, however depending on the physical design, calibration might not be relevant, from a solution aspect.
 
 
-\textbf{Firing a projectile}\\
+
+\subsection{Firing a projectile}
 During our MosCow analysis, the ability to hit a moving target with a projectile was assigned as a \textbf{Could have}.
-The ability to do this, would require making predictions for the movement of the object, to be able to fire the projectile at a location.
-This would require knowing the speed of the projectile when launched, the trajectory of the object
+The ability to do this requires further development of the physical aspects of the solution.
+Creating a device that can fire a projectile, and ideally not require a manual reload between each shot, requires a larger construction, which would put more weight on each motor, which would reduce precision.
+Furthermore, the solution would require an prediction algorithm.
+Prediction where to shoot would rely on the following data, as explained in section~:
+\begin{enumerate}
+	\item speed of the projectile
+	\item distance to the target
+	\item speed of the projectile
+\end{enumerate}
+This would, therefore, require more sensors, which would add levels of abstraction to the physical domain.
+This would also require more data analysis, making the calculations more abstract, than the current model of a two-axis system.
 
 
-\textbf{Machine Learning for detecting if a human is the targeted object}\\
-As the device currently only looks for the color red, it could potentially hit a person wearing a red shirt, or even just a person with redder than average skin.
-This is obviously a problem, as a laser is actually quite dangerous and can potentially cause damage to the human eye.
-Even if the ability to fire a projectile was added, hitting a human with a projectile would be a problem.
+\subsection{Machine Learning instead of color detection}
 
-A way to solve this, would be to add a classifier to object localization.
-The classifier would classify the detected object, and if it was a human that was found, it would send a \textit{Non-valid target found}, to tell the machine that a target was found or a \textit{target not found} status code.
-Potentially it could even be integrated with the next bit of future work:
-
-
-\textbf{Machine Learning instead of color detection}\\
 Currently the device uses OpenCV color detection, as described in Section~\ref{solution:objfillalgo}.
 There were a multitude of reasons for this, the primary one being that the hardware available, a Raspberry Pi, was simply not fast enough, as described in Section~\ref{des:sec:performance}.
-However, as the goal of the project was to prevent bird collisions at airports, the ability to distinguish between a plane and a bird would be an essential requirement, when implementing the device for real world use.
-This could be solved with two simple things:
-\begin{enumerate}
-    \item Acquire more powerful hardware.
-    \item Train the model used in \ref{des:sec:performance}.
-\end{enumerate}
-As working with images on computers is typically best done on the GPU as it is actually designed for the purpose, a requirement for the real world device would be a powerful GPU.
-YOLO recommends a GPU in the range of an Nvidia Titan, but a less powerful GPU could definitely do the job.
+However, the current solution has a couple of problems.
+
+The original reasoning behind the project was to prevent bird strikes at airports, wherein the ability target the bird but not a plane, would be an essential requirement, when implementing the device for real world use.
+Another issue is that the current solution would target a student wearing a red shirt, which could potentially be hazardous.
+
+This could be solved by using a machine learning solution, potentially the on used in Section~\ref{des:sec:performance}, however this would require a more powerful hardware.
+Potentially a custom neural network would have to be created, focusing more on the specific type of target, unlike YOLO which has multiple classification types.
+
+Working with images on computers is typically best done on the GPU as it is actually designed for the purpose, a requirement for the real world device would be a powerful GPU.
+YOLO recommends a GPU in the range of an Nvidia Titan, but a less powerful GPU could potentially do the job.
+
+\subsection{Physical Design}
+Currently the structure is build with LEGO, which has some limitations and makes the solution more unstable.
+One of the largest sources of lacking stability are the axes.
+The LEGO gears has some spacing between each element, and introducing ball bearings might improve the quality, while also creating a sturdy structure near the moveable parts.
+A general stability could be introduced by creating a custom structure out of a moulded structure.
+
+Using more powerful motors, and motors with a higher rate of precision, both regarding power and step-size, as we are currently limited by how far away a target can be, by the inability to detect movement less than 1 degree.
+
+
+\subsection{Hardware Choice}
+The solution could potentially utilize a more powerful device, that could handle both image processing as well as movements, making the device more simple in nature, and also more interesting in the context of real-time systems.
+However during the current calculations, on the NXT doesn't seem feasible, as the calculations couldn't be done fast enough on the Raspberry Pi, as shown in Section~\ref{des:sec:performance}.
+ 
