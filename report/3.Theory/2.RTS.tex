@@ -34,10 +34,9 @@ As seen on Figure~\ref{fig:cyclicExecutive}, the tasks have a defined period and
 Since cyclic executives is a very simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used schedueling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
 \subsubsection{Task-based scheduling}
-In addition to the simple cyclic executive scheduling model, it is possible put parts of the program into tasks, and use a scheduler to determine which task should be run.
-The most commonly used task-based scheduler is the fixed-priority scheduling method, which is based on each task having a fixed priority \cite{RealTimeEmbeddedSystems}.
-When using this scheduling method, each task is assigned a priority before run-time which cannot be changed.
-The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
+Another method of scheduling, is to divide the program into tasks, and use a scheduler to determine which task should be run next.
+The most commonly used task-based scheduler is the fixed-priority scheduling method, which is based on each task having a fixed priority, where the priority is assigned before run-time and cannot be changed at run-time\cite{RealTimeEmbeddedSystems}.
+The priority of a task is not an indication of the importance of the task and is simply a priority to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
 Given that a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
