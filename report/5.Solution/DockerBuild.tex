@@ -1,8 +1,8 @@
 \section{Build process}\label{sec:buildprocess}
-In previous semesters, the build process has been straightforward, as it has simply been a matter of using the tool included with the IDE of choice for the chosen language.
-This semester the build process is quite a bit more complicated as the project targets the NXT.
+The build process for the project is quite complex as it targets the NXT.
 This complicates the build process for a number of reasons:
 nxtOSEK is the operating system for RTS on the NXT, and even though it is quite old, the latest release, as of the writing of this report, was released in January of 2013\cite{osekrelease}.
+Additionally the nxtOSEK build process has a number of additional requirements.
 
 During the groups testing of the nxtOSEK build, it was found that it was largely incompatible with modern operating systems, both Windows, OS X and a number of modern Linux distributions.
 According to the latest documentation on the nxtOSEK webpage, the latest supported version of Linux is Ubuntu 11.10 which was released in 2011.
@@ -19,7 +19,7 @@ A Docker deployment consists of three different concepts, the Docker file, the c
 
 A Dockerfile simply consists of lines, that describe how to build the image.
 Each line applies a layer to the Docker image, and each of these layers are cached.
-This means, once the Docker image is built, these will not be re-executed.
+Thus if line 5 in the Dockerfile is changed, everything below line 5 is rebuilt.
 
 The Dockerfile for this project is shown below, in Subsection~\ref{subsec:dockerimplementation}.
 
@@ -29,7 +29,7 @@ A Docker container is in broad strokes the same as a virtual machine, although a
 Docker runs natively on Linux, and takes no more memory than other executables.
 
 The concept of containerization as a way to ensure consistency in deployment of software, was perfect for the purposes of the group.
-Docker is supported on all 3 major platform, and while both Docker for Windows and OSX run in a virtual machine, this is a non-issue.
+Docker is supported on all 3 major platform, and while both Docker for Windows and MacOS run in a virtual machine, this is a non-issue.
 
 A potential issue was nxtOSEK not being officially supported past Ubuntu 11.10, and Docker officially supporting Ubuntu 18.04, 16.04 and 14.04 /cite{dockerubuntu}.
 
@@ -38,7 +38,7 @@ This proved to be a non-issue, as modifying dependencies, and some tweaking, nxt
 \subsection{Docker implementation}\label{subsec:dockerimplementation}
 The actual Docker build process is somewhat obscure.
 
-The first step is relatively straightforward with \textit{FROM ubuntu:14.04} simply specifying which version of Ubuntu to use.
+The first step is relatively straightforward with \textit{FROM ubuntu:14.04} simply specifying the base ubuntu image to use.
 The next bit simply installs the packages required by nxtOSEK.
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation1},caption={Version definition and installation of packages required by nxtOSEK}]
     FROM ubuntu:14.04
