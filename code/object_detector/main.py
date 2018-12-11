@@ -15,7 +15,7 @@ import argparse
 
 import algorithms
 import webcam
-from calibration import save_data
+from calibration import save_data, calibrate
 from output_devices import NxtUsb, Printer
 from flat_controller import FlatController
 
@@ -44,5 +44,5 @@ if __name__ == "__main__":
         cont = FlatController(algorithms.get_from_str(ARGS.alg_name),
                               output_device,
                               webcam.VideoController(webcam.CaptureDeviceType.CAMERA),
-                              calibration_algorithm=save_data.save_packages)
+                              calibration_algorithm=calibrate)
         cont.run()

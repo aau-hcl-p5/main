@@ -4,6 +4,7 @@
 #include "nxt.h"
 #include "calibration.h"
 #include "revolution.h"
+#include "model_adapter.h"
 
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
@@ -111,13 +112,12 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
     }
 
     uint8_t lower_bound = get_required_power(axis, distance >= 0);
-    uint8_t range = 50;
 
     // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
     // otherwise we don't get a value in the expected range
     int8_t actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
 
-    return -((distance * range) / MAX_INPUT_VALUE + actual_lower_bound);
+    return -(actual_lower_bound + ((float)lower_bound * ((float)distance / (float)MAX_INPUT_VALUE)));
 }
 
 

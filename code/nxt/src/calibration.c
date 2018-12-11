@@ -7,11 +7,6 @@
 #include "movement.h"
 #include "usb.h"
 
-#define MIN_POWER 0
-#define MAX_POWER 100
-#define MIN_REVOLUTION_THRESHOLD 3
-#define REVOLUTION_OFFSET 55
-
 // Checks whether revolutions are the same within a margin of error of MIN_REVOLUTION_THRESHOLD
 bool revolutions_equals(T_REVOLUTION target1, T_REVOLUTION target2, char axis) {
     int16_t max_value, min_value;
@@ -54,8 +49,8 @@ int8_t get_power_to_move_one_degree(char axis, T_DIRECTION direction) {
         power++;
 
         display_calibration_status(axis_str, first_revolution, power);
-        // wait 15ms but make sure we don't move in that timeframe
-        for(int i = 0; i < 15; i++)
+        // wait 30ms but make sure we don't move in that timeframe
+        for(int i = 0; i < 30; i++)
         {
             systick_wait_ms(1);
             if (!should_stop_moving(first_revolution, power))
@@ -99,16 +94,8 @@ void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
 
 void calibrate(bool internal) {
     // calibrate the y axis
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 8; i++) {
         calibrate_axis_in_direction('y', i % 2 == 0 ? POSITIVE : NEGATIVE);
     }
 }
 
-int8_t get_required_power(char axis, T_DIRECTION positive_direction) {
-    if (axis == 'x') {
-        return 15;
-    } else {
-        T_POWER_TUPLE power_set = y_axis_powers[get_current_revolution().y + REVOLUTION_OFFSET];
-        return positive_direction ? power_set.positive : power_set.negative;
-    }
-}

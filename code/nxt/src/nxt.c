@@ -66,6 +66,7 @@ TASK(MainTask) {
                 stop();
                 break;
             }
+            keep_USB_alive();
             move_motors();
             handle_laser();
             update_display();
@@ -91,7 +92,7 @@ void update_display() {
 }
 
 void handle_laser() {
-    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 10 && abs(last_target_location.y) < 10) {
+    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 20 && abs(last_target_location.y) < 20) {
         enable_laser();
     } else {
         disable_laser();
