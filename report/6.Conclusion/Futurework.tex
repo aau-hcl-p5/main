@@ -29,12 +29,12 @@ Potentially it could even be integrated with the next bit of future work:
 
 \textbf{Machine Learning instead of color detection}\\
 Currently the device uses OpenCV color detection, as described in Section~\ref{solution:objfillalgo}.
-There were a multitude of reasons for this, the primary one being that the hardware available, a Raspberry Pi, was simply not fast enough, as described in Section~\ref{sec:performance}.
+There were a multitude of reasons for this, the primary one being that the hardware available, a Raspberry Pi, was simply not fast enough, as described in Section~\ref{des:sec:performance}.
 However, as the goal of the project was to prevent bird collisions at airports, the ability to distinguish between a plane and a bird would be an essential requirement, when implementing the device for real world use.
 This could be solved with two simple things:
 \begin{enumerate}
     \item Acquire more powerful hardware.
-    \item Train the model used in \ref{sec:performance}.
+    \item Train the model used in \ref{des:sec:performance}.
 \end{enumerate}
 As working with images on computers is typically best done on the GPU as it is actually designed for the purpose, a requirement for the real world device would be a powerful GPU.
 YOLO recommends a GPU in the range of an Nvidia Titan, but a less powerful GPU could definitely do the job.
