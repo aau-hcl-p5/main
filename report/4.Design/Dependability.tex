@@ -1,19 +1,21 @@
 \section{Dependability}\label{Design:Dependability}
+In most software systems, dependability has to be accounted for.
+This section will enlighten the thoughts behind the critical parts of the system, and try to enlighten the measures taken to ensure dependability.
 
 \subsection{Fault Tolerance - Bit-flipping}
-As a proof of concept, the group decided to implement bit-flip fault tolerance in the laser module on the NXT, given the following rules.
+As a proof of concept, it was decided to implement bit-flip fault tolerance in the laser module on the NXT, given the following rules.
 
 \begin{enumerate}
-  \item Every variable \texttt{x} must be duplicated \texttt{x0} \cite{errorDetectionSoft}
+  \item Every variable \texttt{x} must have a duplicated shadow variable \texttt{x0} \cite{errorDetectionSoft}
   \item Every write operation perfomed on \texttt{x}, must also be performed on \texttt{x0} \cite{errorDetectionSoft}
   \item After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0} \cite{errorDetectionSoft}
-  \item For every conditional, repeat test in every target (both then and else branches) \cite{errorDetectionSoft}
+  \item For every conditional, repeat test in every conditional branch (both then and else branches) \cite{errorDetectionSoft}
 \end{enumerate}
 
-Following the four rules above, th
+The code in Snippet~\ref{snip:without_bitflip} and Snippet~\ref{snip:with_bitflip} is written according to these four rules and ensures that bitflips have not happened when reading from variables, on evaluation of if-conditions and variable duplication.
 
 \noindent\begin{minipage}{.45\textwidth}
-\begin{lstlisting}[caption={Without bitflip-security},frame=tlrb,numbers=none]
+\begin{lstlisting}[label={snip:without_bitflip},caption={Without~bitflip-security},frame=tlrb,numbers=none]
 void toggle_laser() {
   if (!laser_state) {
     enable_laser();
@@ -24,16 +26,20 @@ void toggle_laser() {
 \end{lstlisting}
 \end{minipage}\hfill
 \begin{minipage}{.45\textwidth}
-\begin{lstlisting}[caption={With bitflip-security},frame=tlrb,numbers=none]
+\begin{lstlisting}[label={snip:with_bitflip},caption={With bitflip-security},frame=tlrb,numbers=none]
 void toggle_laser() {
   if (!laser_state) {
-    if (laser_state) bitflip_error(); // Rule 4, conditional repetition
-    if (laser_state != laser_state_0) bitflip_error(); // Rule 1+3, reading from variable.
+    // Rule 4, conditional repetition
+    if (laser_state) bitflip_error();
+    // Rule 1+3, reading from variable.
+    if (laser_state != laser_state_0) bitflip_error();
 
     enable_laser();
   } else {
-    if (!laser_state) bitflip_error(); // Rule 4, conditional repetition
-    if (laser_state != laser_state_0) bitflip_error(); // Rule 1+3, reading from variable.
+    // Rule 4, conditional repetition
+    if (!laser_state) bitflip_error();
+    // Rule 1+3, reading from variable.
+    if (laser_state != laser_state_0) bitflip_error();
 
     disable_laser();
   }
@@ -41,7 +47,8 @@ void toggle_laser() {
 \end{lstlisting}
 \end{minipage}
 
-The primary reason for choosing the laser-module, is that it in a real life sitation will be the most system critical component on the NXT.
-Given that the laser will be the module, to be fired on target only when on target, to avoid accidental discharge.
+The primary reason for implementing bitflip protection in the laser-module, is that it in a real life situation will be the most system critical component on the NXT.
+Given that the laser module is responsible for firing when aiming at a target, a certain dependability and security is required to avoid accidental discharge, against non-targets.
 
-For this reason,
+For this reason, the proof-of-concept solution of bit-flipping, has only been applied to the laser.
+This implements \texttt{bitflip\_error()} by turning off the laser, and recovering the state of the laser-module.
