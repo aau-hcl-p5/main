@@ -8,6 +8,8 @@
 \usepackage[english]{babel}          % Dokumentets sprog
 \usepackage[T1]{fontenc}          % Output-indkodning af tegnsaet (T1)
 \usepackage{ragged2e,anyfontsize}      % Justering af (openany begge)
+\usepackage[]{algorithm2e}      % show pseudo code
+
 
 \pdfoptionpdfminorversion=6          % Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
 
@@ -299,6 +301,8 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
   topsep=0pt,                % Vertikal afstand mellem tekst og listen
   itemsep=-1ex,                % Vertikal afstand mellem items
 }
+
+\SetKwInOut{Input}{Input}
 
 \newcommand{\pair}[2]{\textbf{#1}: \text{#2}\\}
 
