@@ -1,4 +1,4 @@
-\section{Hardware testing}\label{des:sec:hwtest}
+\section{Hardware}\label{des:sec:hwtest}
 To ensure the best possible accuracy of the device, it is important to ensure that the quality and precision of the chosen hardware is at its highest.
 Therefore, a test of the motors and the chosen camera has been conducted, checking their precision and quality.
 
@@ -29,3 +29,9 @@ This renders the resolution irrelevant.
 Furthermore, is the framerate irrelevant to a certain degree, depending on the speed of our software, and its capabilities, as long as the camera provides a higher framerate, than the software processes.
 
 To accomodate this, the camera test has been consistent of a manual recording of different USB Web Cameras, and looking at moving targets, frame by frame, to find the one with the least blurry images between movements.
+
+\subsection*{Laser}
+The laser is an essential part of the project and will hence be deemed a critical part of the system.
+The criteria for the laser is that when asked to turn on the laser should turn on and continue until told otherwise. 
+In order to verify that the laser works according to this criteria the laser was tested with a controlled current delivered by an external power supply based on the  RaspberryPi and Arduino platforms since why can both can deliver 5 Volt of direct current\cite{RaspberryPi}\cite{ArduinoUno}.
+The laser module was latter attached to the LEGO NXT and the laser module operated with the same effect as earlier tests. 
