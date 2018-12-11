@@ -48,7 +48,6 @@ typedef struct __attribute__((packed)) {
 
 The structures uses the packed attribute in order to keep the size at 4 bytes, and 3 status codes are defined with information about whether a target has been found, and whether the host has requested termination of the connection.
 
-Furthermore, a location structure is kept with information regarding the x and y distance relative to the target.
-The x and y values are based on the distance to the target from the center of the webcam image and the values are processed on the host such that they can be transformed into a value ranging from -127 to 127.
-\todo{Insert cross reference to why we do this transformation.}
+Furthermore, a location structure is kept with information regarding the $X$ and $Y$ distance relative to the target.
+The $X$ and $Y$ values are based on the distance to the target from the center of the webcam image and the values are processed on the host such that they can be transformed into a value ranging from -127 to 127 as described in Section~\ref{sec:mappingcompvis}.
 Likewise, the transformation function has the ability to do non-linear transformations, which can be used to increase the precision when the target is close to center, as opposed to when the distance is greater and less precision is needed.

@@ -26,7 +26,7 @@ The algorithm consists of two main parts:
 	\item Locate the object
 	\item Fill the located object
 \end{itemize}
-The idea is to traverse the image with a given step size, until the last x pixels were within the given red threshold.
+The idea is to traverse the image with a given step size, until the last $n$ pixels were within the given red threshold.
 Once the location part yielded that a red object was found, a filling algorithm was initialized in order to determine the exact body of the red object.
 The filling algorithm is in essence a graph search, and works as described below:
 
@@ -84,7 +84,7 @@ In this case it will essentially help determine the outline of the red object.\c
 
 \paragraph{Image moment}
 The moment is the weighted average of an objects pixel intensities.
-It can be used to determine the area of the object and the average x and y coordinates, also called the centroid or the center of the object.
+It can be used to determine the area of the object and the average $X$ and $Y$ coordinates, also called the centroid or the center of the object.
 
 
 The algorithm consists of the following steps:
@@ -113,6 +113,3 @@ It is also easily integrated into your own project, and need not be executed as 
 In figure~\ref{fig:yolo_example} the YOLO2 Light version is executed with a simple model, that can recognize a small set of everyday items, like for instance a person.
 
 \figur{0.6}{images/yolo_example.png}{YOLO algorithm detecting person.}{fig:yolo_example}
-
-\subsection{Scikit classifier}
-\todo{Fill this if we are able to create a proper classifier with scikit}
