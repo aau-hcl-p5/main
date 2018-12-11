@@ -34,12 +34,19 @@ As seen on Figure~\ref{fig:cyclicExecutive}, the tasks have a defined period and
 Since cyclic executives is a very simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used schedueling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
 \subsubsection{Task-based scheduling}
-Another commonly used scheduling method in real-time systems is the fixed-priority schedueling method, which is based on that each task has a given priority.
-When using this scheduling method, each task is given a fixed priority before run-time which can not be changed.
-The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system scheduable\cite{RealTimeEmbeddedSystems}. 
+In addition to the simple cyclic executive scheduling model, it is possible put parts of the program into tasks, and use a scheduler to determine which task should be run.
+The most popular task-based scheduler is the fixed-priority scheduling method, which is based on each task having a fixed priority.
+When using this scheduling method, each task is assigned a priority before run-time which cannot be changed.
+The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
 Given that a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
+
+Other task-based scheduling models include the earliest deadline first (EDF) model.
+This model determines which task to run next based on the absolute deadlines of queued tasks, meaning that the next process to run is the one with the nearest deadline \cite{RealTimeEmbeddedSystems}.
+Unlike fixed-priority scheduling, the absolute deadlines are computed at run-time, making it a dynamic scheduling model.
+
+
 
 \section{Response time analysis}
 Response time analysis is an exact schedulability test for a fixed-priority assignment scheme on a single-processor system. 
