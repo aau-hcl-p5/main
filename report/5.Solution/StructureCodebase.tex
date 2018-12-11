@@ -1,11 +1,11 @@
 \section{Structure of Codebase}
 The codebase is split into two main parts, one part that is dedicated to object detection and the other part is for movement and interaction with the motors.
 \todo{figure out whether the python part also does the calibration or not}
-The object detection part, which is run on a Raspberry Pi, is written in Python 3{.}7, and the movement processing is handled by the NXT and is written i C, version C90 with GNU-extensions.
+The object detection part, which is run on a Raspberry Pi, is written in Python 3{.}7, and the movement processing is handled by the NXT and is written in C, version C90 with GNU-extensions.
 
 
 \subsection{Object Detection}
-The codebase is seperated into modules with the intent of creating a system where each module can be exchanged based on different contexts and further development.
+The codebase is separated into modules with the intent of creating a system where each module can be exchanged based on different contexts and further development.
 For the project, the following modules are used:
 \begin{itemize}
 	\item Object Localization Algorithm

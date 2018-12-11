@@ -1,7 +1,3 @@
-% !TeX root = ../main.tex
-% konkluder at der er lettere at bruge en laser. 
-% hen af vejen overvej de udregner der kan bruges til at udregne afstanden, i tilfælde af at vi får ekstra tid
-
 \section{Distance to target}
 Being able to successfully hit a moving target, relies on the speed and acceleration of the target, as well as the speed and acceleration of the projectile.
 When shooting a projectile at a target, it might take several milliseconds or even seconds for the projectile to hit the target, depending on the speed of the projectile.
@@ -17,11 +13,12 @@ Based on the visual feed, as describes in Section~\ref{sec:obj_tracking}, it sho
 This problem produced several different solutions.
 One solution, would be using a 3D camera, while another would be to use a \textit{ultrasonic sensor}, as presented in Section~\ref{sec:sensors}, and point it at the target.
 3D cameras are quite expensive, and not necessarily reliable, but can provide the device with data faster than the ultrasonic sensor, as this does not have to be pointed exactly at the target.
+\todo{Citation needed above}
 Using an ultrasonic sensor is the cheapest option and presumably has a higher degree of precision, but this would require the device to actually point the sensor at the target, which is quite time costly.
-% !! Hvordan får jeg kilde på ovenstående sætning? !!
+\todo{Hvordan får jeg kilde på ovenstående sætning?}
 However, using this to reliably predict where to shoot, can still be difficult, depending on projectile.
 An actual gun would shoot bullets at a high velocity and reliably, however using a gun in a university project is not feasible.
-Using a LEGO gun or cannon would more feasible, though these have less consistent trajectories and speed, so this would be the most obvious choice.
+Using a LEGO gun or cannon would more feasible, though these have less consistent trajectories and speed, still that would be the most obvious choice.
 LEGO projectiles, and other toy weapons, will have less speed, as it is created for children, which adds uncertainty and travel time for a given projectile.
 
 Relying on projectiles and guns can introduce uncertainty and challenges, in a project that already seems difficult from a software perspective, which is not ideal.

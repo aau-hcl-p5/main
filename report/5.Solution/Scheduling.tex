@@ -90,8 +90,8 @@ Stop                & --
 \end{tabular}
 \end{table}\label{table:executionTimes}
 
-Since the execution time of all the tasks totals to a mere 535 microseconds, it was deemed non-essential to include minor cycles, as the tasks all depend on receiving new data from the USB, and this will not occur more than once every milisecond due to hardware limitations.
-Likewise, there is a software limitation when using NXTOSEK, since the interrup service routine is only run once every milisecond.
+Since the execution time of all the tasks totals to a mere 535 microseconds, it was deemed non-essential to include minor cycles, as the tasks all depend on receiving new data from the USB, and this will not occur more than once every millisecond due to hardware limitations.
+Likewise, there is a software limitation when using nxtOSEK, since the interrupt service routine is only run once every millisecond.
 With these considerations, the cyclic execution method with equal minor and major cycles were deemed the best solution, since the implementation of a fixed priority task would add more overhead when changing between tasks and preempting them, rather than just allowing the previous tasks to finish executing.
 
 \todo{Update handle lasers and stop times when they are implemented}
