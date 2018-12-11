@@ -11,6 +11,10 @@
 
 \pdfoptionpdfminorversion=6          % Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
 
+\DeclareUnicodeCharacter{0301}{\'{e}}
+
+\usepackage{parcolumns}
+
 \usepackage{amsmath}
 \usepackage{mathtools}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
@@ -73,9 +77,19 @@
 
 % ¤¤ Referencer og kilder ¤¤ %
 \usepackage[danish]{varioref}        % Muliggoer bl.a. krydshenvisninger med sidetal (\vref)
-\usepackage[numbers]{natbib}              % Udvidelse med naturvidenskabelige citationsmodeller
+\usepackage{csquotes}
+\usepackage{url}
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sortlocale=de_DE,
+    natbib=true,
+    url=false,
+    doi=true,
+    eprint=false
+]{biblatex}
+
 \usepackage[colorlinks]{hyperref}
-\setcitestyle{number}
 
 % ¤¤ Misc. ¤¤ %
 \usepackage{listings}            % Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
@@ -227,9 +241,6 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
 
 % ¤¤ Litteraturlisten ¤¤ %
 %\bibpunct[,]{[}{]}{;}{a}{,}{,}         % Definerer de 6 parametre ved Harvard henvisning (bl.a. parantestype og seperatortegn)
-
-%\bibliographystyle{bibtex/harvard}      % Udseende af litteraturlisten.
-\bibliographystyle{bibtex/IEEEtran}      % Udseende af litteraturlisten.
 
 % ¤¤ Indholdsfortegnelse ¤¤ %
 \setsecnumdepth{subsection}           % Dybden af nummerede overkrifter (part/chapter/section/subsection)
