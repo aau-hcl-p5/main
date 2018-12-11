@@ -10,25 +10,30 @@ This complicated things a bit, as none of the group members were interested in i
 
 \subsection{Docker}\label{subsec:docker}
 Docker is a way to deploy a consistent environment for applications to run in, also known as containerization\cite{dockerdocstart}.
-A Docker deployment consists of two different concepts, the container and an image.
+A Docker deployment consists of three different concepts, the Docker file, the container and an image.
 \begin{description}
+    \item [Dockerfile], which is a definition of a Docker image.
     \item [Images] are executables that includes all the required information to instantiate containers.
     \item[Containers] are the runtime instances of an image, the running process of an image.
 \end{description}
 
+A Dockerfile simply consists of lines, that describe how to build the image.
+Each line applies a layer to the Docker image, and each of these layers are cached.
+This means, once the Docker image is built, these will not be re-executed.
+
+The Dockerfile for this project is shown below, in Subsection~\ref{subsec:dockerimplementation}.
+
+The Docker image is simply an executable, that instantiate a Docker container.
+
 A Docker container is in broad strokes the same as a virtual machine, although a Docker container only uses the required resources, while a virtual machine is allowed access to more resources than is typically needed.
 Docker runs natively on Linux, and takes no more memory than other executables.
 
-A Docker deployment consists of two different concepts, the container and an image.
-\begin{description}
-    \item[Images] are executables that includes all the required information to instantiate containers.
-    \item[Containers] are the runtime instances of an image, the running process of an image.
-\end{description}
 The concept of containerization as a way to ensure consistency in deployment of software, was perfect for the purposes of the group.
 Docker is supported on all 3 major platform, and while both Docker for Windows and OSX run in a virtual machine, this is a non-issue.
 
 A potential issue was nxtOSEK not being officially supported past Ubuntu 11.10, and Docker officially supporting Ubuntu 18.04, 16.04 and 14.04 /cite{dockerubuntu}.
-However, a quick test proved that nxtOSEK still worked fine on Ubuntu 14.04.
+
+This proved to be a non-issue, as modifying dependencies, and some tweaking, nxtOSEK ended up working fine on Ubuntu 14.04.
 
 \subsection{Docker implementation}\label{subsec:dockerimplementation}
 The actual Docker build process is somewhat obscure.
@@ -47,6 +52,8 @@ The next part is the most obscure part, as wine is installed to be able to run W
 This is done as the tool to build OIL files, only exists for Windows.
 NeXT Tools is an utility program that includes various utilities for use with nxtOSEK, including an enhanced OIL file compile\cite{nxttool}.
 It also includes an additional nxtOSEK requirement, texinfo, which is the official GNU documentation format\cite{texinfo}.
+
+The version of texinfo on the apt repository was not compatible, hence why a specific version was downloaded.
 
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation2},caption={Installation of Wine and texinfo}]
 
@@ -79,7 +86,7 @@ The tool chain is used by nxtOSEK to build for the ARM7 CPU in the NXT.
     RUN chmod 755 ./build.sh
 \end{lstlisting}
 
-Finally, the nxtOSEK files are moved to the home folder, as cleanup, before the entry point for the container is set to the location in the home folder.
+Finally, the nxtOSEK files are moved to the home folder, before the entry point for the container is set to the location in the home folder.
 This means that whenever the Docker image is run, any arguments are passed along to the build file in the home directory.
 
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entrypoint}]   
@@ -96,12 +103,11 @@ This means that whenever the Docker image is run, any arguments are passed along
     ENTRYPOINT ["/home/nxtosek/build.sh"]
     CMD []    
 \end{lstlisting}
-It is important to mention that all of the downloaded files are cached, so the setup is not run every single time, and a cached version is used instead.
 
 The Docker container allows the group to easily build the NXT implementation from any machine, as long as Docker is supported by the OS.
 The Docker image is hosted publicly on the Docker Hub at \url{https://hub.docker.com/r/teknight/nxtosek/}.
 
-In addition to local builds, the Docker image is also hosted on the TeamCity server, as part of the continuous integration for the project, meaning that the Docker image is run every time something is pushed to a branch.
+In addition to local builds, the Docker image is also used on the TeamCity server, as part of the continuous integration for the project, meaning that the Docker image is used every time something is pushed to a branch.
 %Maybe describe Continuous integration?
 
 
