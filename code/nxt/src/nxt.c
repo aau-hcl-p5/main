@@ -46,6 +46,7 @@ void user_1ms_isr_type2(void) {
 void stop() {
     stop_motors();
     ecrobot_disconnect_usb();
+    handle_laser();
 }
 
 TASK(MainTask) {

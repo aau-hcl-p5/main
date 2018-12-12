@@ -3,7 +3,7 @@ from sklearn.neural_network import MLPRegressor
 
 
 def generate_model(inp: [float], expect: [float]):
-    model = MLPRegressor(solver="lbfgs", activation="approx_sigmoid", hidden_layer_sizes=(30,), verbose=True)
+    model = MLPRegressor(solver="lbfgs", activation="approx_sigmoid", hidden_layer_sizes=(30, 30), verbose=True)
     model.fit(inp, expect)
     return model
 
