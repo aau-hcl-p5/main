@@ -9,10 +9,14 @@
 #include "laser.h"
 
 /* OSEK declarations */
-DeclareTask(MainTask);
+DeclareTask(background_task);
+DeclareTask(keep_USB_alive);
+DeclareTask(update_display);
+DeclareTask(handle_laser);
+DeclareTask(receive_data);
+DeclareTask(move_motors);
 DeclareCounter(SysTimerCnt);
 DeclareResource(USB_Rx);
-DeclareEvent(newMajorCycleEvent);
 
 /* Global variables */
 T_VECTOR last_target_location = {0, 0};
