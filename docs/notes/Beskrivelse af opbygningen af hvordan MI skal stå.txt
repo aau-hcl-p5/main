@@ -1,12 +1,16 @@
 3 Theory:
 	Skal beskrive modellering
 	Skal have en mere detaljeret beskrivelse af 
+	dæk dette: https://artint.info/2e/html/ArtInt2e.Ch1.S3.html
 
 4 Design:
 	Skal antage at robotten som helhed er vores agent, dette skal defines.
 	Agenten
 	4.2 skal antages at object localization er et subproblem.
-	4.2 skal være modellering af agenten som helhed.
+	4.2 skal være modellering af agenten som helhed. (ala https://artint.info/2e/html/ArtInt2e.Ch1.S6.html)
+		modeller efter: https://artint.info/2e/html/ArtInt2e.Ch1.S4.SS3.html
+		lav model som: https://artint.info/2e/html/x350.png 
+				https://artint.info/2e/html/ArtInt2e.Ch1.S4.SS1.html
 		Object Localization er et problem, men vi skal finde frem til at den bedste måde at løse det på er med OpenCV
 		Prediction in x frames skal vi finde frem til ikke er et reelt problem, og at vi godt kan komme uden om det her.
 		Variabel motor power skal vi finde frem til at den bedste måde at komme uden om dette problem er via MI, form fitting.
@@ -15,3 +19,17 @@
 		Variabel motor power og beskrivelse af den MI. Skal nok ref tilbage til hvad end NN teknight ender med at skrive om, om det er i theory eller i design
 			Potentielt skal det her endda bare være teknights NN chapter.
 	Dette skal refereres fra solution (?)
+
+
+
+
+Cover this in design:
+
+- 
+
+
+refactor three problems to this: 
+	- 
+
+eksempel:
+	- 
