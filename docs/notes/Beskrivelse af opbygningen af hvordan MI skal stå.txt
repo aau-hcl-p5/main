@@ -1,0 +1,17 @@
+3 Theory:
+	Skal beskrive modellering
+	Skal have en mere detaljeret beskrivelse af 
+
+4 Design:
+	Skal antage at robotten som helhed er vores agent, dette skal defines.
+	Agenten
+	4.2 skal antages at object localization er et subproblem.
+	4.2 skal være modellering af agenten som helhed.
+		Object Localization er et problem, men vi skal finde frem til at den bedste måde at løse det på er med OpenCV
+		Prediction in x frames skal vi finde frem til ikke er et reelt problem, og at vi godt kan komme uden om det her.
+		Variabel motor power skal vi finde frem til at den bedste måde at komme uden om dette problem er via MI, form fitting.
+	Bagefter skal der så beskrives:
+		Object localization (fra det vi har)
+		Variabel motor power og beskrivelse af den MI. Skal nok ref tilbage til hvad end NN teknight ender med at skrive om, om det er i theory eller i design
+			Potentielt skal det her endda bare være teknights NN chapter.
+	Dette skal refereres fra solution (?)
