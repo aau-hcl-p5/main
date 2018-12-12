@@ -34,10 +34,7 @@ CPU ATMEL_AT91SAM7S256 {
     };
 
     TASK keep_USB_alive {
-      AUTOSTART = TRUE 
-        {
-          APPMODE = appmode1;
-        };
+      AUTOSTART = FALSE;
       PRIORITY = 6;
       ACTIVATION = 1;
       SCHEDULE = NON;
@@ -94,5 +91,21 @@ CPU ATMEL_AT91SAM7S256 {
       MAXALLOWEDVALUE = 10000;
       TICKSPERBASE = 1;
     };
+
+  /* Definition of keep_USB_alive execution timing */
+  ALARM cyclic_keep_USB_alive
+  {
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = keep_USB_alive;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+      APPMODE = appmode1;
+    };
+  };
 
 };
