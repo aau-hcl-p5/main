@@ -3,8 +3,7 @@ from sklearn.neural_network import MLPRegressor
 
 
 def generate_model(inp: [float], expect: [float]):
-    print("Expected values", expect)
-    model = MLPRegressor(solver="lbfgs", activation="logistic", hidden_layer_sizes=(30,), verbose=True)
+    model = MLPRegressor(solver="lbfgs", activation="approx_sigmoid", hidden_layer_sizes=(30,), verbose=True)
     model.fit(inp, expect)
     return model
 
@@ -30,19 +29,13 @@ def export_model(model, name):
 
         # Sigmoid
         model.write("""
-double sigmoid(double x)
-{
-     double exp_value;
-     double return_value;
-
-     /*** Exponential calculation ***/
-     exp_value = exp((double) -x);
-
-     /*** Final sigmoid value ***/
-     return_value = 1 / (1 + exp_value);
-
-     return return_value;
-}
+double sigmoid(double value)
+    {
+        double x = value >= 0 ? value : value * -1;
+        double x2 = x * x;
+        double e = 1.0f + x + x2 * 0.555f + x2 * x2 * 0.143f;
+        return 1.0f / (1.0f + (value > 0 ? 1.0f / e : e));
+    }
 """)
         # Weights
         for index, weight_layer in enumerate(weights):

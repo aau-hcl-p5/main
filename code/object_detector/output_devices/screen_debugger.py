@@ -14,7 +14,7 @@ from algorithms.utilities import Vector
 def render_debugscreen(
         location: Vector,
         frame: np.ndarray,
-        size: int = 10,
+        size: int = 5,
 ) -> None:  # pragma: no cover
     """
     and then displays the output to a image renderer
@@ -24,15 +24,11 @@ def render_debugscreen(
     """
 
     if location:
-        location = location + Vector(frame.shape[1], frame.shape[0])//2
-        for x in range(-size, size):
-            for y in range(-size, size):
-                new_x = int(location.x + x)
-                new_y = int(location.y + y)
-                try:
-                    frame[new_y, new_x] = [0, 0x70, 0]
-                except IndexError:
-                    pass
+        center = Vector(frame.shape[1], frame.shape[0]) // 2
+        location = (location + center) * -1
+
+        cv2.circle(frame, (int(center.x), int(center.y)), size, (0, 0, 255), -1)
+        cv2.circle(frame, (int(location.x), int(location.y)), size, (255, 0, 0), -1)
 
     cv2.imshow('debug view', frame)  # pylint: disable=no-member
 

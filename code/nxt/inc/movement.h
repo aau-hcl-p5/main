@@ -15,13 +15,15 @@
 
 #define MAX_POWER_MODIFIER 40
 
-#define MOTOR_DEADZONE 1
+#define MOTOR_DEADZONE 2
 
 #define MAX_INPUT_VALUE 127
 
 
 extern uint8_t x_lower_bound_modifier;
 extern uint8_t y_lower_bound_modifier;
+extern int16_t x_motor_speed;
+extern int16_t y_motor_speed;
 
 extern bool init_motor(uint8_t motor_id, char orientation, uint16_t speed);
 extern bool release_motor(uint8_t motor_id);

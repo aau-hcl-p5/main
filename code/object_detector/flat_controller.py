@@ -35,8 +35,8 @@ class FlatController:
         self.output_device = output_device
 
         if calibration_algorithm and isinstance(self.output_device, NxtUsb):
-            print("Calibrate? (Y/n)")
-            if input() not in ['n', 'N']:
+            print("Calibrate? (y/N)")
+            if input() in ['y', 'Y']:
                 calibration_algorithm(self.output_device)
 
         self.terminating = False
@@ -49,7 +49,6 @@ class FlatController:
         while True:
             loc = self._get_next_location()
             if loc is not None:
-                loc.y = -loc.y
                 self.output_device.write_location(loc)
             else:
                 self.output_device.write_status(Status.NO_TARGET_FOUND)

@@ -15,7 +15,7 @@ extern T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input);
 
 int8_t get_required_power(char axis, T_DIRECTION direction) {
     if (axis == 'x') {
-        return 10;
+        return 25;
     } 
     T_MODEL_INPUT input = { get_current_revolution().y + REVOLUTION_OFFSET };
     if (direction == POSITIVE) {

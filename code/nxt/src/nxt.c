@@ -92,7 +92,7 @@ void update_display() {
 }
 
 void handle_laser() {
-    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 20 && abs(last_target_location.y) < 20) {
+    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 5 && abs(last_target_location.y) < 5) {
         enable_laser();
     } else {
         disable_laser();

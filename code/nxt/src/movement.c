@@ -5,11 +5,13 @@
 #include "calibration.h"
 #include "revolution.h"
 #include "model_adapter.h"
+#include "display_manager.h"
+#include "math.h"
 
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
-uint16_t x_motor_speed = 0;
-uint16_t y_motor_speed = 0;
+int16_t x_motor_speed = 0;
+int16_t y_motor_speed = 0;
 
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
@@ -28,8 +30,10 @@ T_VECTOR last_location = {0, 0};
 
 void move(T_VECTOR target) {
     // speed is 0 when distance is small enough.
-    set_motor_speed('x', get_speed_by_distance(target.x, 'x'));
-    set_motor_speed('y', -get_speed_by_distance(target.y, 'y'));
+    x_motor_speed = get_speed_by_distance(target.x, 'x');
+    y_motor_speed = get_speed_by_distance(target.y, 'y');
+    set_motor_speed('x', x_motor_speed);
+    set_motor_speed('y', y_motor_speed);
 }
 
 void set_motor_speed(char axis, int8_t speed) {
@@ -111,13 +115,10 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
         return 0;
     }
 
-    uint8_t lower_bound = get_required_power(axis, distance >= 0);
-
-    // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
-    // otherwise we don't get a value in the expected range
-    int8_t actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
-
-    return -(actual_lower_bound + ((float)lower_bound * ((float)distance / (float)MAX_INPUT_VALUE)));
+    int8_t lower_bound = get_required_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
+    // The first magic numbers below regulates speed based on distance
+    // The second number is used to regulate the speed at the center
+    return distance / 5 + lower_bound - (lower_bound / 5);
 }
 
 
