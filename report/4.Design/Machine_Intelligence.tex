@@ -12,11 +12,14 @@ An example could be how birds might flee, or incoming projectiles could be desig
 
 The optimal solution consists of a set of actions that lowers the distance from the target to the center of the webcam.
 This introduces three potential problems, based on the analysis and the hardware tests.
-
+These problems will first be analyzed in subsections
+The following subsections  will explore the problems, and evaluate whether these problems has a relevance in the context of developing the \texttt{F.L.A.T} system. 
 
 
 \subsection{Object localization}
-Object localization is determining where the target is relative to the agent.
+Determining where the target is relative to the agent.
+
+
 The most obvious option, and the option that we expected to apply from the beginning, is object localization, which were analyzed in Section~\ref{sec:anal:objdet}.
 It is a problem that is required to be solved. The agent cannot move in the direction of the target, if the target location is not known.
 This issue would ideally be solved by online learning, as to make sure that the device continuously is able to find the target even in an environment where the visible aspects change, as lighting change and as the physical device might move. 
@@ -24,48 +27,39 @@ This might be expensive regarding computational power especially as a visual inp
 These considerations will be explored in depth in Section~\ref{Design:ObjectLocalization}.
 
 \subsection{Target trajectory prediction}
-Meaning the predicting where the target is going to be.
-In Subsection~\ref{sec:obj_tracking:sub:ML}, it was mentioned that a potential application of machine intelligence was in trajectory prediction for the located object.
-While a thrown object would be quite simple to predict, objects like birds or planes might move according to different patterns.
-An MI model would then be able to predict the movement of the object.
-This would allow the \texttt{F.L.A.T} to simply shoot at the predicted location, instead of continuously tracking the object.
-This approach would also be continuously refined, if targets hit was tracked as well.
-A disadvantage to this approach is that object classification would also be required, to allow distinction of the movement of different objects.
-This would allow for an iterative approach, assuming object classification and localization was implemented first.
+The predicting of the future location of the target.
+
+
+In Subsection~\ref{sec:obj_tracking:sub:ML}, trajectory prediction was mention as a  a potential application of machine intelligence.
+This essentially means predicting the actions of the target, if it is considered to be an agent, makes it relevant whether the target is purposeful.
+As the target is a ballon it is an inanimate object, and should not be considered as an intelligent agent.
+That means the motion will follow the laws of physics, as the trajectory can be simplified to a velocity and a constant force vector based on gravity.
+If the target was a piece of paper, air resistance might be an issue, but generally speaking balls follows a simpler path.
+
+Even though this simplifies prediction, the relevance is still worth considering.
+Prediction is relevant if shooting is a non-instant process, as the travel time of a projectile has to be considered.
+This has previously been defined as being out of scope, so this is not worth noting.
+Finally it might be relevant to move to the future location of the target, to catch up with a fast moving target.
+However, this did not seem to have any relevance 
+After testing the speed of the motors it was deemed as irrelevant.
+The motors moved with a speed that a target would have to move at a speed where the frame rate of the camera would be a bottleneck instead.
+The speed at which the target had to move to solve the problems, would make prediction irrelevant, as the motors would catch up with no problem at all.
+
+
+Due the lacking importance, and how this would add more development, this was deemed irrelevant and out of scope.
 
 \subsection{Variable motor power}
-Variable motor power is finding out how much power is needed when moving on the $Y$-axis.
-An interesting result from the motor tests done in Section~\ref{des:sec:hwtest}, was that motors with more weight, required more power to move the same distance as a motor without added weight.
-This also includes the additional force of gravity, as a motor moving downwards, required less power than a motor that moved upwards.
-Additionally, the wires that connect the motors to the NXT added additional variable weight, depending on how loose or tense the wire was.
-This is a problem, as it could potentially have an impact on precision, which is important when the goal is to hit a fast moving object.
-
-A potential solution would be to apply machine learning to this aspect of the system.
-Our initial thought is to add an additional calibration step upon startup of the \texttt{F.L.A.T}.
-This calibration step would be used to extract data from the machine.
-Based on the data, a neural network would then be trained, allowing the \texttt{F.L.A.T} to apply variable power, depending on the angle of the motor.
-The result from the model would be a prediction of the amount of power required to move the motor the given desired angle.
+Finding out how much power is needed when moving on a given axis.
 
 
-\subsection{Conclusion}\label{Design:MI:sub:conclusion}
-Each problem requires its own independent solution.
-%Definier i mit hvad satisfactory solution og optimal solution er.
-%Tror det skal være noget i stil med:
-%For this project the ideal solution is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and time constraints.
-%den sidste smule er ligegyldig nok
-The ideal solutions is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and the development time.
-%tilføj offline, online and design time til min section
-To build an intelligent agent, it important to consider whether the reasoning happens at design time, offline, or online.
-%Noget i stil med:
-%Hvad er critical tho, tror det skal uddybes.
-%pas på med nedenstående foreslag, tror det er wack det jeg har skrevet.
-%This is dependent on a couple of factors, one being the computation time of reasoning in real-time, which can be critical, and because of limited hardware, it is ideal to compute as many calculations early, to ensure that deadlines are met.
-%undgå our, we osv.
-This depends on varying factors, for instance the computation time of reasoning in real-time, which can be critical, and due to the limited hardware, it is ideal to do as many calculations as early as possible, to make sure we reach our deadlines.
-%Tror det skal være MI problems, da det var det vi skrev ovenover.
-The three issues will be considered with the above in mind.
+An interesting result from the motor tests done in Section~\ref{des:sec:hwtest}, was that motors put under more stress depending on the current angle and wanted direction.
+This was in part due to the additional weights of the structure, which creates a variable resistance on the $Y$-axis, and due to the wires that would create resistance when stretched, which was an issue when turning on the $X$-axis, due to the difficulty of cable managing imposed by LEGO.
+The result was that the robot would not move at all in some cases, but could also result in the robot overshooting.
+A solution is required.
 
-All three of these options are great, as they would be viable applications of machine learning.
-However, as the target trajectory prediction method also requires object classification, we will not be looking further into it, at this moment.
-The method that we are most keen on working with is object localization.
-In the following section, we will be looking into different methods of applying object localization, as well as testing the performance on our hardware platform.
+This problem could be solved by creating a function that takes current degrees, direction and distance as input and outputs a required power.
+This function could be found through either online or offline learning or through an design-time algorithm.
+Design-time solutions could create inaccuracy if the device would be moved, or rewired, as the degree of resistance would change.
+Online learning might not create a better solution, as the resistance shouldn't change drastically while the system is running, as it is not meant to be moved around.
+Due to the above reasoning, the optimal solution should be created with offline learning.
+The specific aspects of this is going to be covered in Section\todo{ref}
