@@ -5,7 +5,7 @@ This section will describe the ideas that the group had, our initial thoughts, h
 
 \subsection{Predict target location in x frames}
 A \textbf{Should have} requirement from the MoSCoW analysis in Section~\ref{subsec:requirements}, was the ability to predict the location of the object in upcoming frames.
-In the actual implementation this was not done, as a different solution proved better.
+In the actual implementation this was not done, due to time constraints.
 However, to hit a projectile, this would be a requirement.
 The initial idea was to train the model by simply moving the object in front of a camera and tracking how the object moved.
 This could lead to an additional problem, based on different movement patterns of different object types.
@@ -41,7 +41,7 @@ The original reasoning behind the project was to prevent bird strikes at airport
 Another issue is that the current solution would target a person wearing a red shirt, which could potentially be hazardous.
 
 This could be solved by using a machine learning solution, potentially the on used in Section~\ref{des:sec:performance}, however this would require a more powerful hardware.
-Potentially a custom neural network would have to be created, focusing more on the specific type of target, unlike YOLO which has multiple classification types.
+A different solution could be the implementation of a custom neural network that is focused on the specific type of target, unlike YOLO which has multiple classification types.
 
 Working with images on computers is typically best done on the GPU as it is actually designed for the purpose, a requirement for the real world device would be a powerful GPU.
 YOLO recommends a GPU in the range of an Nvidia Titan, but a less powerful GPU could potentially do the job.
