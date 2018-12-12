@@ -6,7 +6,8 @@ In the following section, the design decisions made for the project in regards t
 When choosing a scheduling method for the system, multiple methods were considered. 
 Both fixed priority scheduling and cyclic executive were considered for the system as both of them would be good at handling the tasks of the system with their deadlines.
 
-Cyclic executive was chosen due the the fast execution time of the tasks, and that preemption and context switching would exceed the time for simply completing the previous task. 
-It was reasoned that since all tasks should run regularly, and execute fast enough to run within the major cycle the cyclic execution method should be perfect. 
+Due to the fast execution time of the tasks, and that preemption and context switching would exceed the time for simply completing the previous task, it was at first deemed obvious to use the cyclic executive model as all tasks should run regularly, and that they execute fast enough to run within the major cycle the cyclic execution method should be perfect. 
+However, should the execution time of a single task exceed one millisecond, the usage of cyclic executive is no longer viable, as the task to keep the USB connection alive is required to be executed once every millisecond.
+In this case, fixed-priority scheduling is a better alternative, as it allows the scheduler to pre-empt the task in order to run the USB related task.
 
-The cyclic executive method is a common way to implement hard real-time systems due to its simplicity, deterministic behavior and relative ease of implementation\cite{CyclicExecutionKimLarsen}.
+Both the fixed priority and cyclic executive methods are a common ways to implement hard real-time systems due to their simplicity, deterministic behavior and relative ease of implementation\cite{CyclicExecutionKimLarsen}.

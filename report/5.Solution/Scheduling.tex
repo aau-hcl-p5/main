@@ -1,5 +1,5 @@
 \section{Scheduling}\label{solution:scheduling}
-As described in Subsection~\ref{Design:Scheduling}, the scheduling method is cyclic executive. 
+The scheduling of the system was first implemented as cyclic executive. 
 On Snippet~\ref{lst:MainTask} the implementation of the main task of the system is shown. 
 The main task is responsible for the scheduling of the system.
 
@@ -95,3 +95,12 @@ Likewise, there is a software limitation when using nxtOSEK, since the interrupt
 With these considerations, the cyclic execution method with equal minor and major cycles were deemed the best solution, since the implementation of a fixed priority task would add more overhead when changing between tasks and preempting them, rather than just allowing the previous tasks to finish executing.
 
 \todo{Update handle lasers and stop times when they are implemented}
+
+\subsection{Fixed Priority Scheduling}
+However, as the project progressed, parts of the machine intelligence execution was moved to the NXT for execution.
+This lead to tasks that took longer than 1 millisecond to execute, rendering the use of cyclic executive infeasible, as described in Subsection~\cite{Design:Scheduling}. 
+Due to this, the fixed-priority scheduling model was instead utilized. 
+
+\todo{Add new table with execution times of MI}
+\todo{Write about TASKS}
+\todo{Write about OIL}
