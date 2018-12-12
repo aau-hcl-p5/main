@@ -1,18 +1,22 @@
 \section{Modelling the agent}\label{Design:MI}
-Before developing an intelligent device, it is important to analyse the different aspects of the agent, the \texttt{F.L.A.T system} and the domain, based on the principles described in Section~\todo{link to mi part of theory}.
+Before developing an intelligent device, it is important to analyze the different aspects of the agent and the world, based on the principles described in Section~\todo{link to mi part of theory}.
 
 
-The agent has a singular \textbf{goal} of pointing a laser at a ball or balloon.
-The \textbf{ability} to rotate on horizontal axis and vertical axis.
-Its only \textbf{stimuli} is a video camera, as concluded in Section~\ref{sec:obj_tracking}.
-Therefore, the \textbf{environment} is a physical one, but it can be considered to be the only purposeful agent in the world.
-In a more advanced case, the target can be considered a purposeful agent - you could imagine that birds would flee, or incoming rockets would be designed to elude the turret, however as our target is either a balloon or a ball, the actions of the target are quite predictable.
+In the context of this project, the agent is the \texttt{F.L.A.T}.
+Its goal is to point at a given target and fire a laser beam, whereas the \textit{ability} of agent, is to rotate its motors.
+Its only \textit{stimuli} is a webcam, as concluded in Section~\ref{sec:obj_tracking}.
 
-The purpose of this is to develop an intelligent agent, which acts according to it's environment, and with it reaches it's goals.
-In more concrete terms, through its abilities, the robot should lower the distance between the crosshair, the centre of the webcam, and the target.
-This introduces three different problems from an MI perspective, based on the analysis and the hardware tests.
+The environment is the surroundings of the turret, where the \texttt{F.L.A.T} can be considered the sole purposeful agent in the world, whereas the target can be seen as nature.
+In a more advanced case, the targets can also be considered purposeful agents.
+An example could be how birds might flee, or incoming projectiles could be designed to elude the turret.
+
+The optimal solution consists of a set of actions that lowers the distance from the target to the center of the webcam.
+This introduces three potential problems, based on the analysis and the hardware tests.
+
+
 
 \subsection{Object localization}
+Object localization is determining where the target is relative to the agent.
 The most obvious option, and the option that we expected to apply from the beginning, is object localization, which were analyzed in Section~\ref{sec:anal:objdet}.
 It is a problem that is required to be solved. The agent cannot move in the direction of the target, if the target location is not known.
 This issue would ideally be solved by online learning, as to make sure that the device continuously is able to find the target even in an environment where the visible aspects change, as lighting change and as the physical device might move. 
@@ -20,6 +24,7 @@ This might be expensive regarding computational power especially as a visual inp
 These considerations will be explored in depth in Section~\ref{Design:ObjectLocalization}.
 
 \subsection{Target trajectory prediction}
+Meaning the predicting where the target is going to be.
 In Subsection~\ref{sec:obj_tracking:sub:ML}, it was mentioned that a potential application of machine intelligence was in trajectory prediction for the located object.
 While a thrown object would be quite simple to predict, objects like birds or planes might move according to different patterns.
 An MI model would then be able to predict the movement of the object.
@@ -29,6 +34,7 @@ A disadvantage to this approach is that object classification would also be requ
 This would allow for an iterative approach, assuming object classification and localization was implemented first.
 
 \subsection{Variable motor power}
+Variable motor power is finding out how much power is needed when moving on the $Y$-axis.
 An interesting result from the motor tests done in Section~\ref{des:sec:hwtest}, was that motors with more weight, required more power to move the same distance as a motor without added weight.
 This also includes the additional force of gravity, as a motor moving downwards, required less power than a motor that moved upwards.
 Additionally, the wires that connect the motors to the NXT added additional variable weight, depending on how loose or tense the wire was.
@@ -43,9 +49,20 @@ The result from the model would be a prediction of the amount of power required 
 
 \subsection{Conclusion}\label{Design:MI:sub:conclusion}
 Each problem requires its own independent solution.
+%Definier i mit hvad satisfactory solution og optimal solution er.
+%Tror det skal være noget i stil med:
+%For this project the ideal solution is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and time constraints.
+%den sidste smule er ligegyldig nok
 The ideal solutions is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and the development time.
+%tilføj offline, online and design time til min section
 To build an intelligent agent, it important to consider whether the reasoning happens at design time, offline, or online.
+%Noget i stil med:
+%Hvad er critical tho, tror det skal uddybes.
+%pas på med nedenstående foreslag, tror det er wack det jeg har skrevet.
+%This is dependent on a couple of factors, one being the computation time of reasoning in real-time, which can be critical, and because of limited hardware, it is ideal to compute as many calculations early, to ensure that deadlines are met.
+%undgå our, we osv.
 This depends on varying factors, for instance the computation time of reasoning in real-time, which can be critical, and due to the limited hardware, it is ideal to do as many calculations as early as possible, to make sure we reach our deadlines.
+%Tror det skal være MI problems, da det var det vi skrev ovenover.
 The three issues will be considered with the above in mind.
 
 All three of these options are great, as they would be viable applications of machine learning.
