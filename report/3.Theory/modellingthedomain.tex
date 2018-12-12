@@ -1,0 +1,54 @@
+\section{Modelling the domain}\label{Theory:MIModelling}
+When designing a MI system, it is important to consider the agent, the input it receives, and how it acts according to the inputs to affect the environment it acts in.
+
+
+Figure~\ref{fig:agentenvironment} shows and agent with its input, how it performs actions on the environment and how these agents will affect the output from the environment.
+\figur{0.6}{images/actualagent.png}{An agent, its input and its environment{.} Source: \cite{ArtificialIntelligencealanpoole}}{fig:agentenvironment}
+The following subsections will elaborate on the different elements shown in Figure~\ref{fig:agentenvironment}.
+\subsection{Agent}
+The agent is quite simply a black box that chooses an action to perform, based on the input it receives.
+An agent can ''see'' the action that will be enacted on the environment, but not necessarily the direct effects of said action.
+
+Common agents are: 
+\begin{description}
+    \item[Software agents,] which solely operate on a computational environment, i{.}e{.} it modifies a software environment
+    \item[Robotic agents]which perceives the environment through sensors and performs actions on the environment through motors and other actuators.
+    \item[Human agents,]which is quite simply a human. 
+\end{description}
+As mentioned agents knows the action itself performs on the environment, but not the direct effects of said action.
+As multiple agents can act in the same environment, it is important to mention that an agent cannot perceive the actions that other agents perform on the environment, but only the effects of the actions.
+
+\subsection{Input}
+Typically the agent acts dependent on input.
+There are several forms of input:
+
+\begin{description}
+    \item[Abilities,]which are a definition of the capabilities of the agent, i{.}e{.} what actions the agent can perform.
+    \item[Its goals,]which are the preferences of the agent, meaning what goal it will attempt to fulfill.
+    \item[Any prior knowledge,]which is knowledge about the agent itself and the environment it acts in.
+    %Er learning it faktisk rigtigt? 
+    \item[History,]which is a summation of previous experiences from the environment.   
+\end{description}
+The agent itself can be extremely complex, but will often only provide one action at a time to affect the environment, regardless of the agents scope.
+%Pointen med det der kommer efter her er at skrive at vores robot egentligt er ligeglad med hvordan den affecter environment.
+%Ja, den vil gerne skyde røde objekter, men ellers er den i og for sej ligeglad.
+%Og den har ikke nogle specfikke preferences i forhold til det motor power der bliver applied.
+Additionally, depending on whether the agent has a goal or not, it might not care about the way it changes the state of the environment it acts upon.
+This might change the actions the agent performs, such that even if one outcome is slightly more likely, based on the action, another action might be chosen, if the predicted outcome for this action more closely aligns with the agents goals.
+
+
+Finally, as mentioned, the history is a summation of the previous experiences of the agent, as well as the latest input from the environment, meaning that the agent will remember how the environment was affected when an action was performed.
+
+\subsection{Environment}
+Typically there are two types environment:
+\begin{description}
+    \item[Physical environment,]where the agent receives input from the environment via sensors and acts on the environment via motors and actuators, modifying the environment, to then again change the input it receives.
+    \item[Computational environment,]where the agent exists purely as software and can only act on the computational environment.
+\end{description}
+To actually implement an MI agent, an analysis of the environment it will act on is required.
+The analysis is used to:
+\begin{itemize}
+    \item Determine all the inputs for the agent, including performing any processing of the inputs, so as to simplify the domain.
+    \item The environment it will act upon, which might also influence the inputs, as there might be preferences, based on the environment.
+\end{itemize}
+
