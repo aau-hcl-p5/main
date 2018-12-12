@@ -67,7 +67,6 @@ TASK(background_task) {
     }
     if (current_status == DISCONNECTED_REQ) {
         stop();
-        break;
     }
     TerminateTask();
 }
