@@ -3,18 +3,27 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "target_information.h"
+#include "vector.h"
 
-#define DeclareTask(x) 
-#define DeclareResource(x) 
-#define GetResource(x) 
-#define ReleaseResource(x) 
+#define DeclareTask(x)
+#define DeclareEvent(x)
+#define DeclareResource(x)
+#define SetEvent(x, y)
+#define WaitEvent(x)
+#define ClearEvent(x)
+#define GetResource(x)
+#define ReleaseResource(x)
+#define DeclareCounter(x)
+#define SignalCounter(x) 0
 #define TASK(x) void x ()
 #define TerminateTask() return
 
 // General
+extern bool usb_initialized;
 
 extern void ecrobot_status_monitor(char *status);
+extern void ecrobot_init_usb();
+extern void ecrobot_term_usb();
 extern void systick_wait_ms(int delay);
 extern char *stub_ecrobot_status;
 extern int stub_last_delay;
@@ -23,23 +32,26 @@ extern int stub_last_delay;
 
 #define NXT_PORT_A 0
 #define NXT_PORT_B 1
+#define NXT_PORT_C 2
 
 // Display
 
 extern void display_goto_xy(uint8_t x, uint8_t y);
 extern void display_string(char *str);
 extern void display_int(int num, int len);
+extern void display_hex(int num, int len);
 extern void display_update();
 extern void display_clear(uint32_t update_too);
 
 // USB
 
 extern void set_usb_input(uint8_t *buffer);
-extern void set_usb_input_to_target_information(T_TARGET_INFORMATION target_information);
+extern void set_usb_input_to_target_location(T_VECTOR target_location);
 extern bool usb_connected;
 extern uint32_t usb_processes;
 
 extern uint32_t ecrobot_read_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len);
+extern uint32_t ecrobot_send_usb(uint8_t *buffer, uint32_t buffer_offset, uint32_t max_len);
 extern void ecrobot_disconnect_usb();
 extern void ecrobot_process1ms_usb();
 

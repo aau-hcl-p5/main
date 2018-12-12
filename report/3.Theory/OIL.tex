@@ -3,9 +3,9 @@
 %rms: http://lejos-osek.sourceforge.net/rms.htm
 
 \section{OSEK Implementation Language}
-An NXTOSEK program consists of two parts: A series of C/C++ files defining the behavior of the system and an OIL (OSEK Implementation Language) file which describes the architecture of the scheduler and tasks.
+An nxtOSEK program consists of two parts: A series of C/C++ files defining the behavior of the system and an OIL (OSEK Implementation Language) file which describes the architecture of the scheduler and tasks.
 In this section the content of the OIL file will be elaborated upon in order to clarify how it relates to defining a scheduler and tasks for later use.
-Below, an example of a hello world application for NXTOSEK can be seen:
+Below, an example of a hello world application for nxtOSEK can be seen:
 \begin{lstlisting}[caption=OIL]
 #include "implementation.oil"
 CPU ATMEL_AT91SAM7S256 {
@@ -119,7 +119,7 @@ An example of an alarm and counter can be seen below \cite{rms}:
 
 The first thing that is defined in the alarm is the \textbf{counter} assigned to the alarm.
 At least one counter has to be assigned to the alarm.
-The \textbf{ACTION} of the alarm is parametrised with either \textit{ActivateTask}, \textit{SetEvent}, or \textit{AlarmCallback}\cite{irisa25}.
+The \textbf{ACTION} of the alarm is parametrized with either \textit{ActivateTask}, \textit{SetEvent}, or \textit{AlarmCallback}\cite{irisa25}.
 In this example \textit{ActivateTask} meaning that a task, in this case \textit{Task1}, has to be activated when the alarm expires. 
 Like a task, the alarm has to define whether it should auto-start or not.
 The auto-start has a property \textit{AlarmTime} which defines the time when the alarm shall expire first and \textit{CycleTime} defining the cycle time of a cyclic alarm \cite{irisa25}.
@@ -134,4 +134,22 @@ A resource has a tribute called \textit{ResourceProperty}, which can be set as e
 \item \textbf{Internal} resource that cannot be accessed by the application \cite{irisa25}
 \end{itemize}
 
-%TODO Describe events if we decide to use those for some reason, it is a rather big part.
+\subsection{EVENTS}
+Finally, OSEK allows the definition of events, which can be used to handle when tasks are called.
+To do so, the event must be defined and the task that should be called based on the occurrence of an event, must have the event property attached:
+\begin{lstlisting}
+EVENT EventName
+{
+  MASK = AUTO;
+};
+
+TASK EventHandler
+{
+  ...
+  EVENT = EventName;
+  ...
+};
+\end{lstlisting}
+As seen in the listing above, an event has a mask property, which serves as an identifier for the given event \cite{irisa25}.
+This can either be manually defined as a 64-bit unsigned integer or can be handled by nxtOSEK by using the AUTO keyword.
+The usage of events allows definition of aperiodic tasks, as discussed in Section~\ref{Theory:RTS}.

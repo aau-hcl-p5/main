@@ -1,4 +1,97 @@
 \section{Scheduling}\label{solution:scheduling}
-% TODO Write section regarding the Scheduling implementation.
-% Maybe go into the specifics of the oil file I dont know. 
-% This might not be entirely relevant, depending on the description in Theory/RTS.
+As described in Subsection~\ref{Design:Scheduling}, the scheduling method is cyclic executive. 
+On Snippet~\ref{lst:MainTask} the implementation of the main task of the system is shown. 
+The main task is responsible for the scheduling of the system.
+
+This task consists of two loops that correspond to the two states that the system can operate in: calibrating and normal execution.
+As can be seen on Snippet~\ref{lst:MainTask} lines 3 to 12 the calibration state has to be completed before the system can start the normal execution. 
+On lines 13 to 25 the actual scheduling of the running all the methods need can be seen, these method will be called once per major cycle hence being true to the deadline. 
+
+\begin{lstlisting}[language=CSharp,label={lst:MainTask},caption={MainTaks method from logic.c}]
+TASK(MainTask)
+{
+    for (;;) {
+        calibrating = true;
+        show_init_screen();
+        while(!get_status_code(&current_status, 0));
+
+        if (current_status == READY_FOR_CALIBRATION)
+        {
+            calibrate(false);
+        }
+        calibrating = false;
+        for(;;)
+        {
+            WaitEvent(newMajorCycleEvent);
+            keep_USB_alive();
+            receive_data();
+            if (current_status == DISCONNECTED_REQ) {
+                stop();
+                break;
+            }
+            move_motors();
+            handle_laser();
+            update_display();
+            ClearEvent(newMajorCycleEvent); 
+        }
+    }
+    TerminateTask();
+}
+\end{lstlisting}
+
+In order to time the major cycle, the \textit{user\_1ms\_isr\_type2} method, that can be seen on Snippet~\ref{lst:user1msisrtype2}, is used to raise the event of the major cycle. 
+The method activated by an system interrupt ensuring that the method will be called once every millisecond. 
+\begin{lstlisting}[language=CSharp,label={lst:user1msisrtype2},caption={user\_1ms\_isr\_type2 method from nxt.c}]
+void user_1ms_isr_type2(void)
+{
+    (void)SignalCounter(SysTimerCnt);
+    SetEvent(MainTask, newMajorCycleEvent);
+    if(calibrating)
+        keep_USB_alive();
+}
+\end{lstlisting}
+
+As part of the implementation of the cyclic executive scheduling method, an event is waiting to be raised after each cycle iteration. 
+On Snippet~\ref{lst:newMajorCycleEvent} the event is specified on the operation system level, such that it can be raised by the interrupt. 
+\begin{lstlisting}[language=CSharp,label={lst:newMajorCycleEvent},caption={newMajorCycleEvent event from nxt.oil}]
+EVENT newMajorCycleEvent{
+    MASK = AUTO;
+};
+\end{lstlisting}
+
+The system only has one task, which is declared with the properties shown on Snippet~\ref{lst:MainTask}. 
+The properties specifies to the operating system how the task shall run and that the event from before is related to the task.
+\begin{lstlisting}[language=CSharp,label={lst:MainTaskoil},caption={MainTaks task from nxt.oil}]
+    TASK MainTask {
+      AUTOSTART = TRUE 
+        {
+          APPMODE = appmode1;
+        };
+      PRIORITY = 1;
+      ACTIVATION = 1;
+      SCHEDULE = FULL;
+      STACKSIZE = 512;
+      RESOURCE = USB_Rx;
+      EVENT = newMajorCycleEvent;
+};
+\end{lstlisting}
+
+The reasoning behind simply having as major cycle with no minor cycles is the execution time of the individual methods, which can be seen on Table~\ref{table:executionTimes}.
+
+\begin{table}[tbp]
+\begin{tabular}{ll}
+\textbf{Task name}  & \textbf{Execution time} \\
+Keep\_USB\_Alive    & 14                            \\
+Receive\_Data       & 13                            \\
+Move\_Motors        & 28                            \\
+Handle\_Lasers      & --                            \\
+Update\_Display     & 480                           \\
+Stop                & --                            
+\end{tabular}
+\end{table}\label{table:executionTimes}
+
+Since the execution time of all the tasks totals to a mere 535 microseconds, it was deemed non-essential to include minor cycles, as the tasks all depend on receiving new data from the USB, and this will not occur more than once every millisecond due to hardware limitations.
+Likewise, there is a software limitation when using nxtOSEK, since the interrupt service routine is only run once every millisecond.
+With these considerations, the cyclic execution method with equal minor and major cycles were deemed the best solution, since the implementation of a fixed priority task would add more overhead when changing between tasks and preempting them, rather than just allowing the previous tasks to finish executing.
+
+\todo{Update handle lasers and stop times when they are implemented}

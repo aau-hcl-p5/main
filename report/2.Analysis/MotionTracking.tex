@@ -8,7 +8,7 @@ However, since the system should be adaptable to a dynamic environment with pote
 
 Using a camera is powerful, since images can be processed in order to determine what objects are present in the image.
 Once the location of the object is determined within the image, the direction of the target can be calculated.
-Assuming that the camera is aimed in the same direction as the laser, the direction in which to aim will simply be calculated based on the delta x and y coordinates of the target within the image.
+Assuming that the camera is aimed in the same direction as the laser, the direction in which to aim will simply be calculated based on the delta $X$ and $Y$ coordinates of the target within the image.
 
 Unfortunately, the camera does also come with a couple of disadvantages.
 First of all, a normal camera will not be able to determine the distance to a target.
@@ -25,15 +25,15 @@ However, there are a couple of different methods that can be used when detecting
 Object recognition is a classic computer vision problem, and a lot of research exists in this field.
 Generally speaking there are two approaches to this problem.
 
-\subsubsection{Handcoded features}
-As already mentioned it may be very tedious to write an object recognition algorithm by hand.
+\subsubsection{Hand-coded features}
+As previously mentioned, it may be very tedious to write an object recognition algorithm by hand.
 However, if the object has some distinct features, it may also be fairly straight forward to implement by hand.
 Imagine that an algorithm were to detect a red ball. 
-Given the two features round and red, it would probably be a manageable task to implement an algorithm that would detect a red ball.
+Given the two features \textit{round} and \text{red}, it would probably be a manageable task to implement an algorithm that would detect a red ball.
 
-Although the handcoded algorithms may be usable given a few distinct features, it will quickly fall short when given the task to detect a face or a bird.
+Although the hand-coded algorithms may be usable given a few distinct features, it will quickly fall short when given the task to detect a face or a bird.
 
-\subsubsection{Machine learning}
+\subsubsection{Machine learning}\label{sec:obj_tracking:sub:ML}
 Rather than trying to describe a complex object using an algorithm, an often-used alternative is to let the computer figure out the features of the object itself.
 This is what is referred to as machine learning.
 

@@ -1,34 +1,45 @@
+#include <stdlib.h>
+
 #include "movement.h"
 #include "nxt.h"
-#include <stdlib.h>
+#include "calibration.h"
+#include "revolution.h"
 
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
 uint16_t x_motor_speed = 0;
 uint16_t y_motor_speed = 0;
 
-
-
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
 
-T_TARGET_LOCATION last_location = {0, 0};
+T_VECTOR last_location = {0, 0};
 
 
 /*--------------------------------------------------------------------------*/
 /* move_motors:                                                             */
 /* ------------------------------------------------------------------------ */
 /* Description:                                                             */
-/* Params  : T_TARGET_LOCATION target: Information about the target         */
+/* Params  : T_VECTOR target: Information about the target         */
 /*              location.                                                   */
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
 
-void move(T_TARGET_LOCATION target) {
-  // speed is 0 when distance is small enough.
-  ecrobot_set_motor_speed(x_motor, get_speed_by_distance(target.x, 'x'));
-  ecrobot_set_motor_speed(y_motor, -get_speed_by_distance(target.y, 'y'));
+void move(T_VECTOR target) {
+    // speed is 0 when distance is small enough.
+    set_motor_speed('x', get_speed_by_distance(target.x, 'x'));
+    set_motor_speed('y', -get_speed_by_distance(target.y, 'y'));
 }
+
+void set_motor_speed(char axis, int8_t speed) {
+    uint8_t motor = y_motor;
+    if (axis == 'x'){
+        motor = x_motor;
+    }
+
+    ecrobot_set_motor_speed(motor, speed);
+}
+
 
 /*--------------------------------------------------------------------------*/
 /* init_motor:                                                              */
@@ -42,23 +53,22 @@ void move(T_TARGET_LOCATION target) {
 /*--------------------------------------------------------------------------*/
 
 bool init_motor(uint8_t motor_id, char orientation, uint16_t speed) {
-  if(orientation == 'x') {
-    x_motor = motor_id;
-    x_motor_speed = speed;
-    ecrobot_set_motor_speed(x_motor, 0);
-    nxt_motor_set_count(x_motor, 0);
-    last_location.x = ecrobot_get_motor_rev(motor_id);
-    return true;
-  }
-  else if(orientation == 'y') {
-    y_motor = motor_id;
-    y_motor_speed = speed;
-    ecrobot_set_motor_speed(y_motor, 0);
-    nxt_motor_set_count(y_motor, 0);
-    last_location.y = ecrobot_get_motor_rev(motor_id);
-    return true;
-  }
-  return false;
+    if (orientation == 'x') {
+        x_motor = motor_id;
+        x_motor_speed = speed;
+        ecrobot_set_motor_speed(x_motor, 0);
+        nxt_motor_set_count(x_motor, 0);
+        last_location.x = ecrobot_get_motor_rev(motor_id);
+        return true;
+    } else if(orientation == 'y') {
+        y_motor = motor_id;
+        y_motor_speed = speed;
+        ecrobot_set_motor_speed(y_motor, 0);
+        nxt_motor_set_count(y_motor, 0);
+        last_location.y = ecrobot_get_motor_rev(motor_id);
+        return true;
+    }
+    return false;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -70,8 +80,8 @@ bool init_motor(uint8_t motor_id, char orientation, uint16_t speed) {
 /*--------------------------------------------------------------------------*/
 
 void stop_motors() {
-  nxt_motor_set_speed(x_motor, 0, 1);
-  nxt_motor_set_speed(y_motor, 0, 1);
+    nxt_motor_set_speed(x_motor, 0, 1);
+    nxt_motor_set_speed(y_motor, 0, 1);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -83,8 +93,8 @@ void stop_motors() {
 /*--------------------------------------------------------------------------*/
 // Should probably check whether motor_id is in use. But it releases the motor.
 bool release_motor(uint8_t motor_id) {
-  nxt_motor_set_speed(motor_id, 0, 1);
-  return true;
+    nxt_motor_set_speed(motor_id, 0, 1);
+    return true;
 }
 
 
@@ -96,73 +106,22 @@ bool release_motor(uint8_t motor_id) {
 /* Returns : the motor speed (-100->100) that the motor should move         */
 /*--------------------------------------------------------------------------*/
 int8_t get_speed_by_distance(int8_t distance, char axis) {
-  if(distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
-    return 0;
-  }
+    if (distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
+        return 0;
+    }
 
+    uint8_t lower_bound = get_required_power(axis, distance >= 0);
+    uint8_t range = 50;
 
-  uint8_t lower_bound = get_lower_bound(axis);
-  uint8_t range = get_range(axis);
+    // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
+    // otherwise we don't get a value in the expected range
+    int8_t actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
 
-  // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
-  // otherwise we don't get a value in the expected range
-  int8_t actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
-
-  return -((distance * range) / MAX_INPUT_VALUE + actual_lower_bound);
+    return -((distance * range) / MAX_INPUT_VALUE + actual_lower_bound);
 }
 
 
-T_TARGET_LOCATION get_current_location() {
-
-  T_TARGET_LOCATION location = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor)};
-  return location;
-}
-
-// -127 < distance < 127
-int8_t calibrate_modifier(uint8_t bound, uint16_t degrees, int8_t distance) {
-
-  if (degrees < 1) {
-    bound++;
-  }
-  // meaning degrees is more than 5 at a "full speed" (127/5)
-  // at a smaller distance then degrees can obviously be smaller
-  else if(distance/degrees < 25) {
-    bound--;
-  }
-
-  // catches overflow, as MAGIC_NUMBER_1 is a number that speed shouldn't ever be.
-  if(bound > MAGIC_NUMBER_1) {
-    bound = 0;
-  }
-
-  if(bound > MAX_POWER_MODIFIER) {
-    bound = MAX_POWER_MODIFIER;
-  }
-  return bound;
-}
-
-void readjust_lower_bound(T_TARGET_LOCATION target_location) {
-
-  T_TARGET_LOCATION current_location = get_current_location();
-  int32_t degrees_x = abs(current_location.x - last_location.x);
-  int32_t degrees_y = abs(current_location.y - last_location.y);
-
-  x_lower_bound_modifier = calibrate_modifier(x_lower_bound_modifier, degrees_x, target_location.x);
-  y_lower_bound_modifier = calibrate_modifier(y_lower_bound_modifier, degrees_y, target_location.y);
-
-  last_location = current_location;
-}
-
-uint8_t get_lower_bound(char axis) {
-
-
-  bool is_x = axis == 'x';
-  return is_x ?
-         (MOTOR_SPEED_LOWER_BOUND_X + x_lower_bound_modifier):
-         (MOTOR_SPEED_LOWER_BOUND_Y + y_lower_bound_modifier);
-}
-
-uint8_t get_range(char axis) {
-  bool is_x = axis == 'x';
-  return is_x ? MOTOR_RANGE_X : MOTOR_RANGE_Y;
+T_REVOLUTION get_current_revolution() {
+    T_REVOLUTION revolution = {ecrobot_get_motor_rev(x_motor), ecrobot_get_motor_rev(y_motor)};
+    return revolution;
 }

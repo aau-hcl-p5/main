@@ -1,0 +1,45 @@
+\section{Dependability}
+Dependability in a real-time system is divided into two categories: hardware and software. 
+In the following subsections, the different methods and techniques used to achieve dependability will be elaborated upon.  
+In order to understand and achieve dependability, a fundamental understanding in regards to faults is needed, which will therefore be covered in this section.
+
+When dealing with dependability of a system, a key observation to be made is what defines the system. 
+\begin{quote}
+\textbf{System}: A system is an entity that interacts with other entities, i.e., other systems, including hardware, software, humans, and the physical world with its natural phenomena.
+These systems are the environment of the given system. 
+- John Knight \cite{FundementalsOfDependableComputingForSoftwareEngineers}
+\end{quote}
+It is said that a system is a system composed of systems, that are composed of systems and so on. 
+However, there is a system boundary between all the systems that composes the system and the system itself. 
+This is important to notice when evaluating the dependability of the system. 
+It is implicit that a system, which is composed of an independent system, can never be more dependent than that system. 
+
+Whenever a system does not provide the service specified by its requirements, it is said that the system has a service failure. 
+The system failure is the visible result of an error that has been caused by a fault witch will be elaborated in the following subsection.
+
+\subsection{Faults}
+There are broadly speaking different kinds of faults: degradation faults, design faults and byzantine faults. 
+A degradation fault is a result of the natural wear and tear of the hardware components.
+A design fault is, as the name implies, a fault that is caused by an error or poor decision made during the design phase of the component. 
+A byzantine fault is when a component of the system, or a system in its entirety, behaves in an unexpected way. 
+Byzantine faults are the hardest to detect and correct since their behavior is by definition unpredictable. 
+An unpredictable behavior means that a component might return some state when asked to complete some task and return a different state when asked the same task. 
+There are different ways of detecting a byzantine fault, but since it is outside the scope of this project it will not be covered. 
+
+In order to decrease the risk of these faults there are four different methods of fault handling:
+\begin{itemize}
+\item Fault avoidance
+\item Fault elimination
+\item Fault tolerance
+\item Fault forecasting
+\end{itemize}
+\textit{\textbf{Fault avoidance}} focuses on the process of the system development, where the developer should focus on avoiding faults in the system happening in the first place.
+\textit{\textbf{Fault elimination}} focuses on the correction of the faults that have been found in the system, which can be corrected. 
+\textit{\textbf{Fault tolerance}} focuses on faults that might not be corrected within a given time period or budget, but are more critical then can be tolerated.
+A decision has to be made whether the fault is deemed not critical for the overall function of the system if so the fault is said to be tolerated.
+\textit{\textbf{Fault forecasting}} focuses on predicting the occurrence of a fault, and if the fault is forecasted to be very unlikely to happen it may be allowed to exist in the system \cite{FundementalsOfDependableComputingForSoftwareEngineers}. 
+
+\subsection{Conclusion}
+Since this project is not designed to be used in the real world, but rather just to demonstrate the concept, the dependability is not deemed as an essential part of the project system and thus only a small part of the system will be developed accordingly.
+However, should the system be put into use.
+It should be modified with dependability in mind. 

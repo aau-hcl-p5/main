@@ -1,0 +1,61 @@
+\section{Future work}\label{sec:futurework}
+Throughout the development of a project, there are often several ideas that are deprioritized for one reason or another.
+This section will describe the ideas that the group had, our initial thoughts, how they might have been implemented and why they were not implemented.
+
+
+\subsection{Predict target location in x frames}
+A \textbf{Should have} requirement from the MoSCoW analysis in Section~\ref{subsec:requirements}, was the ability to predict the location of the object in upcoming frames.
+In the actual implementation this was not done, due to time constraints.
+However, to hit a projectile, this would be a requirement.
+The initial idea was to train the model by simply moving the object in front of a camera and tracking how the object moved.
+This could lead to an additional problem, based on different movement patterns of different object types.
+For this, classification could be a solution, as different objects have different movement patterns, unless the system is still based on simple inanimate objects.
+
+These aspects could be an interesting way to explore online learning and clustering so movement patterns, for instance a ball bouncing against the ground, could be learned in real time. 
+In this context, calibration could potentially also be done online, however, depending on the physical design, calibration might not be relevant, from a solution aspect.
+
+
+
+\subsection{Firing a projectile}
+During our MoSCoW analysis, the ability to hit a moving target with a projectile was classified as a \textbf{Could have} feature.
+The ability to do this requires further development of the physical aspects of the solution.
+Creating a device that can fire a projectile, and ideally not require a manual reload between each shot, requires a larger construction, which would put more weight on each motor leading to reduced precision.
+Furthermore, the solution would require a prediction algorithm.
+Prediction where to shoot would rely on the following data, as explained in section~:
+\begin{enumerate}
+	\item Speed of the projectile
+	\item Distance to the target
+	\item Speed of the projectile
+\end{enumerate}
+This would, therefore, require more sensors, which would add levels of difficulty to the physical domain.
+This would also require more data analysis, making the calculations more abstract, than the current model of a two-axis system.
+
+
+\subsection{Machine Learning instead of color detection}
+
+Currently, the device uses OpenCV color detection, as described in Section~\ref{solution:objfillalgo}.
+There were a multitude of reasons for this, the primary one being that the hardware available, a Raspberry Pi, was simply not fast enough, as described in Section~\ref{des:sec:performance}.
+However, the current solution has a couple of problems.
+
+The original reasoning behind the project was to prevent bird strikes at airports, wherein the ability target the bird but not a plane, would be an essential requirement, when implementing the device for real world use.
+Another issue is that the current solution would target a person wearing a red shirt, which could potentially be hazardous.
+
+This could be solved by using a machine learning solution, potentially the on used in Section~\ref{des:sec:performance}, however this would require a more powerful hardware.
+A different solution could be the implementation of a custom neural network that is focused on the specific type of target, unlike YOLO which has multiple classification types.
+
+Working with images on computers is typically best done on the GPU as it is actually designed for the purpose, a requirement for the real world device would be a powerful GPU.
+YOLO recommends a GPU in the range of an Nvidia Titan, but a less powerful GPU could potentially do the job.
+
+\subsection{Physical Design}
+Currently, the structure is build with LEGO, which has some limitations leading to physical instability of the turret.
+One of the largest sources of lacking stability are the axes.
+The LEGO gears has some spacing between each element, and introducing ball bearings might improve the quality, while also creating a sturdy structure near the moveable parts.
+A general stability could be introduced by creating a custom structure out of a moulded structure.
+
+Using more powerful motors, and motors with a higher rate of precision, both regarding power and step-size, as we are currently limited by how far away a target can be, by the inability to detect movement less than 1 degree.
+
+
+\subsection{Hardware Choice}
+The solution could potentially utilize a more powerful device, that could handle both image processing as well as movements, making the device more simple in nature, and also more interesting in the context of real-time systems.
+However, doing the current calculations on the NXT does not appear feasible, as the calculations could not be done fast enough on the Raspberry Pi, as shown in Section~\ref{des:sec:performance}.
+ 
