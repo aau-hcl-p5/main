@@ -3,7 +3,7 @@
 The core of the Object Fill algorithm is the actual "filling" part.
 It can be seen in a stripped down version in listing~\ref{lst:objectfill}
 
-\begin{lstlisting}[language=Python,label={lst:objectfill},caption={Stripped version of thresh moment from thresh\_moment.py}]
+\begin{lstlisting}[language=Python,label={lst:objectfill},caption={Stripped down version of object fill from object\_fill.py}]
     def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
 	    queue: Deque = deque()
 	    queue.append(object_position)
