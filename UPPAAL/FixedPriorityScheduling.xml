@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>const int 	N = 6;         // Number of tasks
+typedef int[0,N-1] id_t;
+
+broadcast chan		    release[N], ready[N], stop;
+urgent broadcast chan 	run[N];
+
+chan priority ready &lt; default &lt; release;
+clock time;
+
+// All times are in microseconds 
+
+const int T[N] = {  // Periods
+    10000, // BackgroundTask
+    10000, // UpdateDisplayTask
+    1000, // HandleLaserTask
+    5000, // MoveMotorsTask
+    5000, // ReciveDataTask
+    1000   // KeepUSBAliveTask
+};	       
+
+const int D[N] = {  // Deadlines
+    10000, // BackgroundTask
+    10000, // UpdateDisplayTask
+    1000,   // HandleLaserTask
+    3000,  // MoveMotorsTask
+    3000,  // ReciveDataTask
+    1000   // KeepUSBAliveTask
+};	       
+
+const int C[N] = {  // Computation Times
+    5000, // BackgroundTask
+    480,  // UpdateDisplayTask
+    30,   // HandleLaserTask
+    28,   // MoveMotorsTask
+    500, // ReciveDataTask
+    14    // KeepUSBAliveTask
+};        
+
+const int P[N] = {  // Priorities
+    1,   // BackgroundTask
+    2,   // UpdateDisplayTask
+    4,   // HandleLaserTask
+    3,   // MoveMotorsTask
+    3,   // ReciveDataTask
+    4    // KeepUSBAliveTask
+};
+
+
+
+</declaration>
+	<template>
+		<name x="40" y="16">Task</name>
+		<parameter>const id_t id</parameter>
+		<declaration>clock c, t;
+</declaration>
+		<location id="id0" x="32" y="416" color="#ff00ff">
+			<name x="22" y="386">Blocked</name>
+			<label kind="invariant" x="8" y="432">c'==0</label>
+		</location>
+		<location id="id1" x="32" y="64">
+			<name x="22" y="34">Idle</name>
+			<label kind="invariant" x="48" y="40">t&lt;=T[id]</label>
+		</location>
+		<location id="id2" x="32" y="192" color="#ffa500">
+			<name x="16" y="160">Ready</name>
+		</location>
+		<location id="id3" x="32" y="320" color="#00ff00">
+			<name x="8" y="288">Running</name>
+			<label kind="invariant" x="0" y="328">c&lt;=C[id]</label>
+		</location>
+		<location id="id4" x="192" y="320">
+			<name x="176" y="288">Error</name>
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id4"/>
+			<label kind="guard" x="120" y="392">t&gt;D[id]</label>
+			<nail x="192" y="416"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="104" y="360">run[id]?</label>
+			<nail x="96" y="416"/>
+			<nail x="96" y="360"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-24" y="360">stop?</label>
+			<nail x="-32" y="360"/>
+			<nail x="-32" y="416"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="45" y="82">t==T[id]</label>
+			<label kind="synchronisation" x="48" y="104">ready[id]!</label>
+			<label kind="assignment" x="48" y="128">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="40" y="232">run[id]?</label>
+			<label kind="assignment" x="40" y="256">c=0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-104" y="192">c==C[id]</label>
+			<label kind="synchronisation" x="-109" y="166">release[id]!</label>
+			<nail x="-32" y="320"/>
+			<nail x="-32" y="64"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="112" y="168">t&gt;D[id]</label>
+			<nail x="192" y="192"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="112" y="296">t&gt;D[id]</label>
+		</transition>
+	</template>
+	<template>
+		<name x="40" y="16">Scheduler</name>
+		<declaration>id_t list[N] = { 5, 4, 3, 2, 1, 0};
+int[0,N] len = N;
+
+// Put an element at the end of the queue
+void enqueue(id_t element)
+{
+int tmp=0;
+list[len++] = element;
+if (len&gt;0)
+{
+	int i=len-1;
+	while (i&gt;0 &amp;&amp; P[list[i]]&gt;P[list[i-1]])
+	{
+		tmp = list[i-1];
+		list[i-1] = list[i];
+		list[i] = tmp;
+		i--;
+	}		
+}
+}
+
+// Remove the front element of the queue
+void dequeue()
+{
+        int i = 0;
+        len -= 1;
+        while (i &lt; len)
+        {
+                list[i] = list[i + 1];
+                i++;
+        }
+        list[i] = 0;
+}
+
+// Returns the front element of the queue
+id_t front()
+{
+   return list[0];
+}
+
+// Returns the last element of the queue
+id_t tail()
+{
+   return list[len - 1];
+}</declaration>
+		<location id="id5" x="256" y="400">
+			<committed/>
+		</location>
+		<location id="id6" x="128" y="400">
+			<committed/>
+		</location>
+		<location id="id7" x="192" y="256">
+			<committed/>
+		</location>
+		<location id="id8" x="192" y="320">
+			<name x="208" y="320">Occ</name>
+		</location>
+		<location id="id9" x="192" y="128">
+			<name x="208" y="96">Free</name>
+		</location>
+		<init ref="id7"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="240" y="352">run[front()]!</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="184" y="376">stop!</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="200" y="272">run[front()]!</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id6"/>
+			<label kind="select" x="88" y="328">e : id_t</label>
+			<label kind="synchronisation" x="80" y="344">ready[e]?</label>
+			<label kind="assignment" x="64" y="360">enqueue(e)</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="select" x="296" y="152">e : id_t</label>
+			<label kind="guard" x="296" y="168">e == front()</label>
+			<label kind="synchronisation" x="296" y="184">release[e]?</label>
+			<label kind="assignment" x="296" y="200">dequeue()</label>
+			<nail x="288" y="320"/>
+			<nail x="288" y="128"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="guard" x="104" y="168">len &gt; 0</label>
+			<label kind="synchronisation" x="104" y="184">run[front()]!</label>
+			<nail x="96" y="128"/>
+			<nail x="96" y="320"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="select" x="200" y="160">e : id_t</label>
+			<label kind="synchronisation" x="200" y="176">ready[e]?</label>
+			<label kind="assignment" x="200" y="192">enqueue(e)</label>
+		</transition>
+	</template>
+	<system>BackgroundTask    = Task( 0 );
+UpdateDisplayTask = Task( 1 );
+MoveMotorsTask    = Task( 2 );
+ReciveDataTask    = Task( 3 );
+HandleLaserTask   = Task( 4 );
+KeepUSBAliveTask  = Task( 5 );
+
+
+system 
+       BackgroundTask, UpdateDisplayTask, HandleLaserTask, MoveMotorsTask, ReciveDataTask, KeepUSBAliveTask, Scheduler;
+
+gantt {
+    BackgroundTask    : BackgroundTask.Ready -&gt; 5,    BackgroundTask.Running -&gt; 1,    BackgroundTask.Blocked -&gt;3, BackgroundTask.Error-&gt;6; 
+    UpdateDisplayTask : UpdateDisplayTask.Ready -&gt; 5, UpdateDisplayTask.Running -&gt; 1, UpdateDisplayTask.Blocked -&gt;3, UpdateDisplayTask.Error-&gt;6; 
+    HandleLaserTask   : HandleLaserTask.Ready -&gt; 5,   HandleLaserTask.Running -&gt; 1,   HandleLaserTask.Blocked -&gt;3, HandleLaserTask.Error-&gt;6; 
+    MoveMotorsTask    : MoveMotorsTask.Ready -&gt; 5,    MoveMotorsTask.Running -&gt; 1,    MoveMotorsTask.Blocked -&gt;3, MoveMotorsTask.Error-&gt;6; 
+    ReciveDataTask    : ReciveDataTask.Ready -&gt; 5,    ReciveDataTask.Running -&gt; 1,    ReciveDataTask.Blocked -&gt;3, ReciveDataTask.Error-&gt;6; 
+    KeepUSBAliveTask  : KeepUSBAliveTask.Ready -&gt; 5,  KeepUSBAliveTask.Running -&gt; 1,  KeepUSBAliveTask.Blocked -&gt;3, KeepUSBAliveTask.Error-&gt;6; 
+}
+</system>
+	<queries>
+		<query>
+			<formula>A[] not (BackgroundTask.Error.Error)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not (UpdateDisplayTask.Error)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not (HandleLaserTask.Error)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not (MoveMotorsTask.Error)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not (ReciveDataTask.Error)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not (KeepUSBAliveTask.Error)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not (BackgroundTask.Error or UpdateDisplayTask.Error or HandleLaserTask.Error or MoveMotorsTask.Error or ReciveDataTask.Error or KeepUSBAliveTask.Error)
+			</formula>
+			<comment>Check that all tasks can not go into error state.
+			</comment>
+		</query>
+	</queries>
+</nta>
