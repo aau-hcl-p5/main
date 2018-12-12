@@ -31,7 +31,7 @@ Docker runs natively on Linux, and takes no more memory than other executables.
 The concept of containerization as a way to ensure consistency in deployment of software, was perfect for the purposes of the group.
 Docker is supported on all 3 major platform, and while both Docker for Windows and MacOS run in a virtual machine, this is a non-issue.
 
-A potential issue was nxtOSEK not being officially supported past Ubuntu 11.10, and Docker officially supporting Ubuntu 18.04, 16.04 and 14.04 /cite{dockerubuntu}.
+A potential issue was nxtOSEK not being officially supported past Ubuntu 11.10, and Docker officially supporting Ubuntu 18.04, 16.04 and 14.04 \cite{dockerubuntu}.
 
 This proved to be a non-issue, as modifying dependencies, and some tweaking, nxtOSEK ended up working fine on Ubuntu 14.04.
 
@@ -88,7 +88,7 @@ RUN chmod 755 ./build.sh
 Finally, the nxtOSEK files are moved to the home folder, before the entry point for the container is set to the location in the home folder.
 This means that whenever the Docker image is run, any arguments are passed along to the build file in the home directory.
 
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entrypoint}]
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entry point}]
 # Move nxtOSEK files to home folder
 RUN useradd nxtosek
 RUN usermod --password $(echo nxtosek openssl passwd -1 -stdin) nxtosek
@@ -111,13 +111,13 @@ In addition to local builds, the Docker image is also used on the TeamCity serve
 
 \subsection{Continous Integration}
 To ensure that builds are not failing, the group set up a TeamCity server\cite{TeamCityHomepage} and combined it with GitHub Webhooks.
-A GitHub webhook is sent from GitHub to the TeamCity server, whenever new code has been pushed.
+A GitHub webhook is sent from GitHub to the TeamCity server whenever new code has been pushed.
 GitHub then provides a API endpoint for marking commits and branches as passing or failing builds, via their Status API \cite{GithubStatusAPI}.
 
 \figur{1.0}{images/flowchart-build.png}{Our build-flow}{fig:flowchart-build}
 
 To avoid a unmaintainable test-script, the build-process is split into sub-processes, such as the test-report script in Snippet~\ref{lst:pythonreportcheck}, that checks each line in \LaTeX{}-code for multiple sentences on a single line.
-A test introduced, to reduce merge conflicts, as well as increasing readability.
+A test for this was introduced to reduce merge conflicts, as well as increasing readability.
 
 \begin{lstlisting}[language=python,label={lst:pythonreportcheck},caption={Checking .tex files}]
 #!/usr/bin/python
@@ -156,9 +156,9 @@ for line in get_tex_lines():
 exit(0) if result else exit(1)
 \end{lstlisting}
 
-One of the advantages of using a Continous Integration tool, is that the merging is self-testing.
-This means, that when we maintain smaller code changes, that get merged into a mainline branch often, instead of monolithic merges, that have a higher likelyhood of conflicting code, and long running forks.
+One of the advantages of using a continuous integration tool is that the merging is self-testing.
+This means that when we maintain smaller code changes, that are merged into a mainline branch often, instead of monolithic merges, that have a higher likelihood of conflicting code, and long running forks.
 
-Overall the continous integration has helped us ensure, that unit tests always were passing, and that our mainline branch is working.
-This is done by running through the flowchart in Figure~\ref{fig:flowchart-build}, every time some code needs to be build.
-This includes building the NxtOSEK-program, ensuring no compiletime errors, and the \LaTeX{}-code as well.
+Overall, the continuous integration has helped to ensure that unit tests were always passing and that our mainline branch is working.
+This is done by running through the flowchart in Figure~\ref{fig:flowchart-build} every time some code needs to be build.
+This includes building the NxtOSEK program, ensuring no compile time errors and compile the \LaTeX{} code as well.
