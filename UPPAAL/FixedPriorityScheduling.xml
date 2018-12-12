@@ -15,16 +15,16 @@ clock time;
 const int T[N] = {  // Periods
     10000, // BackgroundTask
     10000, // UpdateDisplayTask
-    1000, // HandleLaserTask
-    5000, // MoveMotorsTask
-    5000, // ReciveDataTask
+    1000,  // HandleLaserTask
+    5000,  // MoveMotorsTask
+    5000,  // ReciveDataTask
     1000   // KeepUSBAliveTask
 };	       
 
 const int D[N] = {  // Deadlines
     10000, // BackgroundTask
     10000, // UpdateDisplayTask
-    1000,   // HandleLaserTask
+    1000,  // HandleLaserTask
     3000,  // MoveMotorsTask
     3000,  // ReciveDataTask
     1000   // KeepUSBAliveTask
@@ -35,20 +35,28 @@ const int C[N] = {  // Computation Times
     480,  // UpdateDisplayTask
     30,   // HandleLaserTask
     28,   // MoveMotorsTask
-    500, // ReciveDataTask
+    500,  // ReciveDataTask
     14    // KeepUSBAliveTask
-};        
+};       
 
 const int P[N] = {  // Priorities
     1,   // BackgroundTask
     2,   // UpdateDisplayTask
-    4,   // HandleLaserTask
-    3,   // MoveMotorsTask
-    3,   // ReciveDataTask
-    4    // KeepUSBAliveTask
+    3,   // HandleLaserTask
+    4,   // MoveMotorsTask
+    5,   // ReciveDataTask
+    6    // KeepUSBAliveTask
 };
 
 
+const bool Pr[N] = {  // Preemptive
+    true,   // BackgroundTask
+    true,   // UpdateDisplayTask
+    true,   // HandleLaserTask
+    false,  // MoveMotorsTask
+    false,  // ReciveDataTask
+    false   // KeepUSBAliveTask
+}; 
 
 </declaration>
 	<template>
@@ -91,6 +99,7 @@ const int P[N] = {  // Priorities
 		<transition>
 			<source ref="id3"/>
 			<target ref="id0"/>
+			<label kind="guard" x="-161" y="374">Pr[id] == true</label>
 			<label kind="synchronisation" x="-24" y="360">stop?</label>
 			<nail x="-32" y="360"/>
 			<nail x="-32" y="416"/>
@@ -261,7 +270,7 @@ gantt {
 </system>
 	<queries>
 		<query>
-			<formula>A[] not (BackgroundTask.Error.Error)
+			<formula>A[] not (BackgroundTask.Error)
 			</formula>
 			<comment>
 			</comment>
