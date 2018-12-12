@@ -59,9 +59,9 @@ The method can be seen on Snippet~\ref{lst:MoveMotors} and it will activate the 
 }
 \end{lstlisting}
 
-The move method makes use of the helper method \textt{get\_speed\_by\_distance}, as seen on Snippet~\ref{lst:getspeed}, which handles how fast the the motor should move.
+The move method makes use of the helper method \texttt{get\_speed\_by\_distance}, as seen on Snippet~\ref{lst:getspeed}, which handles how fast the the motor should move.
 This is largely dependent on how far away the detected object is from the center of the image, as high precision is not essential until the target is nearing the middle.
-In the first if sentence, it is checked whether the distance to the target is lower than a constant \textt{MOTOR_DEADZONE}, so that if the distance is smaller than the lowest amount of movement possible, it will return 0 and terminate.
+In the first if sentence, it is checked whether the distance to the target is lower than a constant \texttt{MOTOR_DEADZONE}, so that if the distance is smaller than the lowest amount of movement possible, it will return 0 and terminate.
 Otherwise, the required power for the given degree will be looked up using the get\_required\_power method.
 
 \begin{lstlisting}[language=CSharp,caption={get\_speed\_by\_distance method from movement.c},label={lst:getspeed}]
