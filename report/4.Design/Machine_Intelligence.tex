@@ -1,8 +1,28 @@
-\section{Machine Intelligence}\label{Design:MI}
-Machine intelligence is a formal requirement for the project.
-This section will explore the different options for machine intelligence.
+\section{Modelling the agent}\label{Design:MI}
+Before developing an intelligent device, it is important to analyse the different aspects of the agent, the \texttt{F.L.A.T system} and the domain, based on the principles described in Section~\todo{link to mi part of theory}.
 
-We currently see 3 different possibilities for machine intelligence.
+
+The agent has a singular \textbf{goal} of pointing a laser at a ball or balloon.
+The \textbf{ability} to rotate on horizontal axis and vertical axis.
+Its only \textbf{stimuli} is a video camera, as concluded in Section~\ref{sec:obj_tracking}.
+Therefore, the \textbf{environment} is a physical one, but it can be considered to be the only purposeful agent in the world.
+In a more advanced case, the target can be considered a purposeful agent - you could imagine that birds would flee, or incoming rockets would be designed to elude the turret, however as our target is either a balloon or a ball, the actions of the target are quite predictable.
+
+The purpose of this is to develop an intelligent agent, which acts according to it's environment, and with it reaches it's goals.
+In more concrete terms, through its abilities, the robot should lower the distance between the crosshair, the centre of the webcam, and the target.
+This introduces three different problems from an MI perspective, based on Section~\ref{des:sec:hwtest}, Section~\ref{des:sec:
+\begin{description}
+	\item[Object localization] finding out in which direction the object is
+	\item[Target trajectory prediction] predicting where the target is going to be
+	\item[Variable motor power] finding out how much power is needed when moving on the $Y$-axis, as covered in
+\end{description}
+
+
+Each problem requires its own independent solution.
+The ideal solutions is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and the development time.
+To build an intelligent agent, it important to consider whether the reasoning happens at design time, offline, or online.
+This depends on varying factors, for instance the computation time of reasoning in real-time, which can be critical, and due to the limited hardware, it is ideal to do as many calculations as early as possible, to make sure we reach our deadlines.
+The three issues will be considered with the above in mind.
 
 \subsection{Object localization}
 The most obvious option, and the option that we expected to apply from the beginning, is object localization.
