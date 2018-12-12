@@ -1,29 +1,60 @@
 \section{Modelling the agent}\label{Design:MI}
-Before developing an intelligent device, it is important to analyse the different aspects of the agent, the \texttt{F.L.A.T system} and the domain, based on the principles described in Section~\todo{link to mi part of theory}.
+Before developing an intelligent device, it is important to analyze the different aspects of the agent, the \texttt{F.L.A.T system} and the domain, based on the principles described in Section~\todo{link to mi part of theory}.
 
 
+%tror der skal være noget der definere her hvad vi tolker agenten som at være.
+% Tror bare dette skal være: The agent's \textbf{goal} is to point itself at a target and fire at the target, whether with a laser or a projectile.
 The agent has a singular \textbf{goal} of pointing a laser at a ball or balloon.
+% Tror også dette skal være:The agent has the \textbf{ability} to rotate itself along the horizontal axis and the vertical axis.
 The \textbf{ability} to rotate on horizontal axis and vertical axis.
+%Tror det er lige meget, men mener vi har skrevet ret klart at det er et web camera.
+% tror foreskellen er ligegyldig, men consistensy nok?
 Its only \textbf{stimuli} is a video camera, as concluded in Section~\ref{sec:obj_tracking}.
+
+% tror jeg er syg træt og ked, men forstår ikke helt denne sætning
 Therefore, the \textbf{environment} is a physical one, but it can be considered to be the only purposeful agent in the world.
+%Der skal også skrives noget om purposeful agent i det af mit - Nichlas.
+%Jeg kan ikke lide vi skriver you.
+%tror faktisk vi skal være højrøvede dickweeds og skrive "one could imagine..." 
+%tror også godt at sætningen her kan "merges" lidt med overstående sætning, så det bliver lidt mere:
+%In a real world implementation the targets themselves could also be considered purposeful agents, as birds might attempt to flee, or incoming projectiles might be designed to evade projectiles themselves.
+%However, for this project, the target is defined as a balloon and a ball.
+%Therefore the device itself is the only purposeful agent
 In a more advanced case, the target can be considered a purposeful agent - you could imagine that birds would flee, or incoming rockets would be designed to elude the turret, however as our target is either a balloon or a ball, the actions of the target are quite predictable.
 
+%The purpose of what, antager det er denne section, men det må godt stå lidt klarer.
+%ved faktisk ikke de næste 3 linier her, er wacked for mig, du skal lige forklare mig det, jeg kan slet ikke lige nu
 The purpose of this is to develop an intelligent agent, which acts according to it's environment, and with it reaches it's goals.
-In more concrete terms, through its abilities, the robot should lower the distance between the crosshair, the centre of the webcam, and the target.
+In more concrete terms, through its abilities, the robot should lower the distance between the crosshair, the center of the webcam, and the target.
 This introduces three different problems from an MI perspective, based on the analysis and the hardware tests.
 \begin{description}
-	\item[Object localization] finding out in which direction the object is
-	\item[Target trajectory prediction] predicting where the target is going to be
-	\item[Variable motor power] finding out how much power is needed when moving on the $Y$-axis, as covered in
+	%Object localization er vel ikke at finde direction, men bare at finde den nuværende location, no?
+	\item[Object localization,]finding out in which direction the object is 
+	\item[Target trajectory prediction,]predicting where the target is going to be
+	\item[Variable motor power,]determining how much power is needed when moving on the $Y$-axis, as covered in \todo{insert ref}
 \end{description}
 
 
 Each problem requires its own independent solution.
+%Definier i mit hvad satisfactory solution og optimal solution er.
+%Tror det skal være noget i stil med:
+%For this project the ideal solution is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and time constraints.
+%den sidste smule er ligegyldig nok
 The ideal solutions is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and the development time.
+%tilføj offline, online and design time til min section
 To build an intelligent agent, it important to consider whether the reasoning happens at design time, offline, or online.
+%Noget i stil med:
+%Hvad er critical tho, tror det skal uddybes.
+%pas på med nedenstående foreslag, tror det er wack det jeg har skrevet.
+%This is dependent on a couple of factors, one being the computation time of reasoning in real-time, which can be critical, and because of limited hardware, it is ideal to compute as many calculations early, to ensure that deadlines are met.
+%undgå our, we osv.
 This depends on varying factors, for instance the computation time of reasoning in real-time, which can be critical, and due to the limited hardware, it is ideal to do as many calculations as early as possible, to make sure we reach our deadlines.
+%Tror det skal være MI problems, da det var det vi skrev ovenover.
 The three issues will be considered with the above in mind.
 
+
+%Ville gerne have det her i en fil for sig, det virker renere.
+%Eventuelt også det fra oven over, lille ting :).
 \subsection{Object localization}
 The most obvious option, and the option that we expected to apply from the beginning, is object localization.
 Object localization has already been discussed in Section~\ref{sec:anal:objdet}.
