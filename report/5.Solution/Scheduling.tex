@@ -138,7 +138,7 @@ TASK(background_task) {
 As seen on Snippet~\ref{lst:backgroundTask}, the task checks if the boolean value calibrated has been changed to true, meaning that the calibration has already be done.
 If this is not the case, the background task ensures that the status of the motors and USB are set as disconnected using the \texttt{stop} function.
 
-In the cyclic executive model, it was ensured that the \texttt{keep_USB_alive} task was executed once every millisecond by running it at the beginning at each cycle with a cycle length of 1 millisecond.
+In the cyclic executive model, it was ensured that the \texttt{keep\_USB\_alive} task was executed once every millisecond by running it at the beginning at each cycle with a cycle length of 1 millisecond.
 With the FPS model, this is instead handled by assigning the task the highest possible priority, ensuring that it will run regardless of whatever else is currently being executed using preemption if needed.
 To further ensure that it runs exactly once every 1 millisecond, an alarm is specified in the OIL file, as seen on Snippet~\ref{lst:OILAlarm}.
 
