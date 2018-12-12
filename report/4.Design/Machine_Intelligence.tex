@@ -11,24 +11,13 @@ In a more advanced case, the target can be considered a purposeful agent - you c
 The purpose of this is to develop an intelligent agent, which acts according to it's environment, and with it reaches it's goals.
 In more concrete terms, through its abilities, the robot should lower the distance between the crosshair, the centre of the webcam, and the target.
 This introduces three different problems from an MI perspective, based on the analysis and the hardware tests.
-\begin{description}
-	\item[Object localization] finding out in which direction the object is
-	\item[Target trajectory prediction] predicting where the target is going to be
-	\item[Variable motor power] finding out how much power is needed when moving on the $Y$-axis
-\end{description}
-
-
-Each problem requires its own independent solution.
-The ideal solutions is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and the development time.
-To build an intelligent agent, it important to consider whether the reasoning happens at design time, offline, or online.
-This depends on varying factors, for instance the computation time of reasoning in real-time, which can be critical, and due to the limited hardware, it is ideal to do as many calculations as early as possible, to make sure we reach our deadlines.
-The three issues will be considered with the above in mind.
 
 \subsection{Object localization}
-The most obvious option, and the option that we expected to apply from the beginning, is object localization.
-Object localization has already been discussed in Section~\ref{sec:anal:objdet}.
-Simply put, it would be to train an agent to recognize different objects, with the goal of returning a location.
-As this has already been explored quite extensively, it will not be elaborated further upon.
+The most obvious option, and the option that we expected to apply from the beginning, is object localization, which were analyzed in Section~\ref{sec:anal:objdet}.
+It is a problem that is required to be solved. The agent cannot move in the direction of the target, if the target location is not known.
+This issue would ideally be solved by online learning, as to make sure that the device continuously is able to find the target even in an environment where the visible aspects change, as lighting change and as the physical device might move. 
+This might be expensive regarding computational power especially as a visual input can include a large set of data.
+These considerations will be explored in depth in Section~\ref{Design:ObjectLocalization}.
 
 \subsection{Target trajectory prediction}
 In Subsection~\ref{sec:obj_tracking:sub:ML}, it was mentioned that a potential application of machine intelligence was in trajectory prediction for the located object.
@@ -51,7 +40,14 @@ This calibration step would be used to extract data from the machine.
 Based on the data, a neural network would then be trained, allowing the \texttt{F.L.A.T} to apply variable power, depending on the angle of the motor.
 The result from the model would be a prediction of the amount of power required to move the motor the given desired angle.
 
+
 \subsection{Conclusion}\label{Design:MI:sub:conclusion}
+Each problem requires its own independent solution.
+The ideal solutions is a \textit{satisfactory solution}, not necessarily the \textit{optimal solution}, due to the limitations of the hardware and the development time.
+To build an intelligent agent, it important to consider whether the reasoning happens at design time, offline, or online.
+This depends on varying factors, for instance the computation time of reasoning in real-time, which can be critical, and due to the limited hardware, it is ideal to do as many calculations as early as possible, to make sure we reach our deadlines.
+The three issues will be considered with the above in mind.
+
 All three of these options are great, as they would be viable applications of machine learning.
 However, as the target trajectory prediction method also requires object classification, we will not be looking further into it, at this moment.
 The method that we are most keen on working with is object localization.
