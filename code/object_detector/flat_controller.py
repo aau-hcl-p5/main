@@ -75,7 +75,15 @@ class FlatController:
 
         if self.debug:
             fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
-            cv2.putText(frame, "FPS : " + str(int(fps)), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2)
+            cv2.putText(
+                frame,
+                "FPS : " + str(int(fps)),
+                (100, 50),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.75,
+                (50, 170, 50),
+                2
+            )
             render_debugscreen(res, frame)
         return res
 
