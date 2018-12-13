@@ -26,7 +26,7 @@ The layers consists of one or more neurons, where in a normal fully connected ne
 
 All connections in a neural network has a weight associated to it, which acts as a simple multiplier for the output from the previous neuron. Apart from the weights all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. The bias is sometimes thought of as a sort of threshold indicating whether a neuron should fire.
 
-\figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer.}{fig:estimate}
+\figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer\cite{NeuralNetworkImage}.}{fig:nnimage}
 
 Before passing the result of a neuron on, the result is first transformed by an activation function. The activation function is required in order for the neural network to learn to solve a complex non-linear model. This will be further discussed in \ref{training-a-neural-network} about training.
 
@@ -36,21 +36,99 @@ The simplest activation function, is an activation function that does not alter 
 \paragraph{Perceptron}
 A perceptron is a neuron that has an activation function that returns a binary signal, either zero or one, depending on the input value. Usually any positive value will be a one, and all negative values will be a zero.
 
-\paragraph{Sigmoid}
+\paragraph{Logistic Sigmoid}
+The sigmoid function is a commonly used activation function in neural networks. It is defined as:
 
+$$f(x) = \frac{1}{1 + e^{-x}}$$
+
+It maps the input value, to a value between one and zero, and is especially useful for learning, due to its non-linear slope.
+
+A visual representation can be seen in figure~\ref{fig:sigmoid}.
+
+
+\definecolor{ffqqqq}{rgb}{1,0,0}
+
+\tikzimage{[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=2.5cm]
+	\draw[->,color=black] (-5,0) -- (5,0);
+	\foreach \x in {-4,-2,2,4}
+	\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+	\draw[->,color=black] (0,-3) -- (0,3);
+	\foreach \y in {-3,-2,-1,1,2}
+	\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+	\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+	\clip(-5,-3) rectangle (5,3);
+	\draw[line width=2pt,color=ffqqqq, smooth,samples=100,domain=-5.0:5.0] plot(\x,{1/(1+2.718281828^(-(\x)))});}{Logistic simgoid function plotted from -5 to 5}{fig:sigmoid}
 
 
 \paragraph{RELU}
+Rectified linear unit is a modern yet simple activation function, that has proven to be very powerful in deep learning networks. It is defined as:
 
+
+$$f(x) = max(0, x)$$
+
+A visual representation can be seen in figure~\ref{fig:relu}.
+
+\tikzimage{line cap=round,line join=round,>=triangle 45,x=1cm,y=1.3cm]
+		\draw[->,color=black] (-10,0) -- (10,0);
+		\foreach \x in {-10,-8,-6,-4,-2,2,4,6,8}
+		\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+		\draw[->,color=black] (0,-3) -- (0,10);
+		\foreach \y in {-2,2,4,6,8}
+		\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+		\clip(-10,-3) rectangle (10,10);
+		\draw [line width=2pt,color=ffqqqq] (-10,0)-- (0,0);
+		\draw [line width=2pt,color=ffqqqq] (0,0)-- (10,10);}{RELU plotted from -10 to 10}{fig:relu}
 
 
 \subsubsection{Calculations in a neural network}
 
+The output of a neuron is calculated by summing the output of all the connected neurons multiplied with the associated weight plus the bias and then passed through the activation function.
+In figure~\ref{fig:nntrain} the value of $h1 $ is calculated as:
+$$\phi(i_1 \cdot w_1 + i_2 \cdot w_3 + b_1)$$
+
+\figur{0.7}{images/NNTrain.png}{Calculating value of h1 \cite{NeuralNetworkImage}.}{fig:nntrain}
+
+More formally the outputs of a layer can be calculated by matrix multiplication:
+
+$$
+\phi\left(
+\begin{bmatrix}
+w_{0,0} & w_{0,1} & \dots  & w_{0,n} \\
+w_{1,0} & w_{1,1} & \dots  & w_{1,n} \\
+\vdots & \vdots & \ddots & \vdots \\
+w_{k,0} & w_{k,1} & \dots  & w_{k,n}
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+o^l_0\\
+o^l_1\\
+\vdots \\
+o^l_n
+\end{bmatrix}
++
+\begin{bmatrix}
+i^l_0\\
+i^l_1\\
+\vdots \\
+i^l_n
+\end{bmatrix}
+\right)
+$$
+
+This makes it easier to reason about the calculations of the network as a whole.
+
 \subsubsection{Training a neural network}\label{training-a-neural-network}
+When doing machine learning with a neural network, all the weights and biases are usually initialized random values.
+This will obviously more than likely render terrible results initially.
+The idea is that the neural network should train itself in order to complete the desired task.
+The neural network should try to minimize the error on the output layer.
+The error is calculated using a loss function.
+The loss function can be defined in multiple ways, but a simple loss function simply squares the difference between the actual output and the expected output.
 
 \paragraph{Back propagation}
+Back propagation is a common way of training a neural network.
 
-Solvers:
 
 \paragraph{Stochastic Gradient Descent}
 
