@@ -10,8 +10,8 @@ The university supplies the student groups with a LEGO Mindstorms base set, whic
 LEGO Mindstorms is a programmable computer kit made by the LEGO Group.
 The platform is based around a central control computer, called the Intelligent Brick, and includes a variety of sensors, motors and connection cables.
 
-The LEGO Mindstorm platform comes with a graphical drag and drop interface for programming.
-However, different compilers for a variety of programming languages exist as an alternative to the inteface and as such, the choice between the different Mindstorms platforms, does not come down to language preferences.
+The LEGO Mindstorms platform comes with a graphical drag and drop interface for programming.
+However, different compilers for a variety of programming languages exist as an alternative to the interface and as such, the choice between the different Mindstorms platforms, does not come down to language preferences.
 
 As mentioned, each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGO bricks.
 In addition to this, it is possible to order other platforms and sensors to use in the project as deemed necessary.
@@ -36,18 +36,17 @@ Both are more akin to general purpose computers, designed for small electronics 
 The Arduino is a single-board computer platform, designed for small electronics projects by being easy to use from a hardware and software perspective.
 The Arduino Corporation developed a language, APL, which is a subset of \texttt{C++}, which is most often used when working with the platform.
 The primary advantage of the platform is that it is easy to work with and that there are so many different boards, all of which differ in performance, meaning that one that matches our particular requirements, most likely exists.
-The IO possibilities of the Arduino are GPIO\footnote{General Purpose Input Output} pins, which can connect to most types of sensors and motors, as these are, as implied by the name, general purpose.
+The IO possibilities of the Arduino are General Purpose Input Output (GPIO) pins, which can connect to most types of sensors and motors, as these are, as implied by the name, general purpose.
 The Arduino-ecosystem is comprised of different boards, all of which are built for different purposes.
 Differences being in processing power, as well as pins.
 The Arduino Uno is most commonly used board in the ecosystem \cite{ArduinoUno3}, and has a 12 MHz ATmega328P processor and 2 kilobytes of RAM.
 A larger version, the Arduino Due has an 84 MHz processor and 96 kilobytes of RAM \cite{ArduinoDue}, and more input/output pins and is meant for larger scale Arduino projects.
 
-\subsubsection{Raspberry Pi}
+\subsubsection{Raspberry Pi}\label{subsec:rpispecs}
 The Raspberry Pi is a single-board computer eco-system which, like the Arduino, consists of small computers with GPIO pins.
 It differs from the Arduino by having a full operating system, and generally being more powerful.
 Additionally, the majority of the Raspberry Pi computers have more processing power and memory, and the newer versions include a Wi-Fi module.
 They also come with a larger variety of ports - both USB, HDMI and jack, adding more possibilities for connectivity.
-
 
 The newest version, Raspberry Pi 3 B+, features a 1.4 GHz quad-core CPU, with 1 gigabyte of RAM.
 They released a light-weight version, called the Raspberry Pi Zero, which trades performance, having only a 1 GHz single-core CPU and 512 megabytes of RAM, for a smaller footprint, being less power consuming, and a lower cost.
@@ -73,8 +72,8 @@ This data is summed up in the following table.
 \end{table}
 
 The Raspberry Pi system can be quite powerful a project regarding embedded systems, which can also be said about the EV3.
-This can be a disadvantage, as we are not fully in control of the execution order.
-This issue will be analysed in detail when looking into real-time systems.
+This can be a disadvantage, as it does not allow full control of the execution order.
+This issue will be analyzed in detail when looking into real-time systems.
 
 The Arduino and NXT both have less processing power than the Raspberry Pi and EV3, and thus making them more interesting choices, by limiting the hardware capabilities.
 The disadvantage of the Arduino is that it has fewer supported programming languages, and the fact that the GPIO ports make for hardware-related challenges, which is not the purpose of this semester.

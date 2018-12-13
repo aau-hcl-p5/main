@@ -12,10 +12,10 @@ The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
         ecrobot_init_usb();
     }
 \end{lstlisting}
-Snippet~\ref{lst:usbhandshake} shows the initializion of the NXT device.
-\texttt{ecrobot\_device\_initialize} is invoked by NXTOSEK on program startup.
+Snippet~\ref{lst:usbhandshake} shows the initializing of the NXT device.
+\texttt{ecrobot\_device\_initialize} is invoked by nxtOSEK on program startup.
 The essential function call for function call is the \texttt{ecrobot\_init\_usb()} call.
-This function is a part of the NXTOSEK API and is required to use the NXT's USB port for communication.
+This function is a part of the nxtOSEK API and is required to use the NXT's USB port for communication.
 As mentioned in Section~\ref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
 
 The next part of the USB receival is the actual continuous retrieval from the USB buffer.
@@ -43,14 +43,14 @@ bool get_status_code(STATUS_CODE *out_code, T_VECTOR *out_location) {
 	return false;
 }
 \end{lstlisting}
-The \texttt{get\_status\_code} function handles both the continous read of the USB and setting the status code of the system.
+The \texttt{get\_status\_code} function handles both the continuous read of the USB and setting the status code of the system.
 
 The \texttt{GetResource(USB\_Rx)} call, locks the USB resource for other processes.
 It then reads the data from the USB buffer, with the \texttt{ecrobot\_read\_usb} call, into the data unsigned integer data and releases the USB resource.
 
 After releasing the USB resource, the function checks the length of the data, which can be the length of a status code, which is defined as an unsigned 16 bit integer in the \texttt{usb.h} header file the length of \texttt{MAX\_SIZE\_OF\_USB\_DATA}.
 In the case of a status code, this code is copied to the \texttt{out\_code} which is specified as an input parameter in the form of a pointer.
-Alternatively, it can be of length \texttt{MAX\_SIZE\_OF\_USB\_DATA}, which is defined as a status code concatenated with a target vector, a data structure containing a set of x and y coordinates in the form of two 16 bit integers.
+Alternatively, it can be of length \texttt{MAX\_SIZE\_OF\_USB\_DATA}, which is defined as a status code concatenated with a target vector, a data structure containing a set of $X$ and $Y$ coordinates in the form of two 16 bit integers.
 In this case, the status code is copied to the \texttt{out\_code} and the received target information is copied to the \texttt{out\_location}, which is also specified as an input parameter. 
 If nothing is read from the USB, meaning that the length of the read data is $0$, it returns false to indicate that nothing was read.
 

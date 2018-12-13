@@ -18,7 +18,6 @@ Because of this, simpler solutions should also be considered when exploring whic
 One of the reasons neural networks are especially interesting in this case, is its ability to recognize patterns.
 Pattern recognition is a fundamental part of object recognition making neural networks an obvious option.
 
-
 \subsubsection{Convolutional Neural Network}
 \label{sec:cnn}
 Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection.
@@ -85,7 +84,7 @@ The model is then shipped with the algorithm implementation, and therefore there
 The benefit of this, is that it runs faster, as it does not have to ever modify the model or analyze whether the given result is relevant.
 However, this comes at a cost. 
 The algorithm has a tendency to favor objects within the training set, even if they remain stationary.
-For instance, if we want to track a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving, if the planes were in the training set.
+For instance, if tracking a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving, if the planes were in the training set.
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
@@ -110,13 +109,13 @@ It has a high-level API, called Keras, and a low-level API, which makes it possi
 
 Tensorflow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
 
-A tensor is a mathematical entity, and the mathematical defintions are outside the scope of this project.
-In the context of tensorflow, it is enough to think of it as an entity in a mathematical process.
+A tensor is a mathematical entity, and the mathematical definitions are outside the scope of this project.
+In the context of TensorFlow, it is enough to think of it as an entity in a mathematical process.
 This might be a constant primitive value, or a mapping from one or more primitive values to one or more primitive values.
 
-To better show the example of tensors and how Tensorflow operates, the following low-level example is used in the tensorflow tutorial, and it seems relevant here as well.
+To better show the example of tensors and how Tensorflow operates, the following low-level example is used in the Tensorflow tutorial, and it seems relevant here as well.
 
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a tensorflow program]
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a Tensorflow program]
 a = tf.constant(3.0)
 b = tf.constant(4.0)
 total = a + b
@@ -179,7 +178,7 @@ The below snippet is an example of facial recognition, implemented using OpenCV.
 Snippet~\ref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
 Haar-Cascade is a classifier, which has been trained to detect a specific object, in this case, faces.
 
-While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbour (kNN) classification and K-Means clustering, based on images.
+While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and K-Means clustering, based on images.
 kNN is a simple classification algorithm, that attempts to group different data into different classes, by looking at the data that most closely resembles each other.
 K-Means is another classification algorithm, that instead attempts to find a ''center'', a mean, and then simply assigning all the data that lies closest to this ''center'' to that class.
 
@@ -238,7 +237,7 @@ Thus, OpenCV is an excellent solution, that could potentially be used to solve t
 % https://en.wikipedia.org/wiki/Outline_of_object_recognition
 % real-time: triangulate each frame and measure the persistence of selected triangles relative to their location in each successive frame. 
 % Microprocessors such as the raspberry pi are fast enough so that triangulation and triangle measurement can be done in a few milliseconds.
-% ^^ Few miliseconds (Sounds like maybe around 5ms, would alow for updating robot position 20 times a second (capture 20 fps from the camera too). 
+% ^^ Few milliseconds (Sounds like maybe around 5ms, would allow for updating robot position 20 times a second (capture 20 fps from the camera too). 
 % Which could be a goal to aim at (RTS: scheduling bla bla, update canon position 20 times pr second...))
 % Would be cool in RTS part to integrate some functionality to handle if camera data is not ready within the 5 ms, or if the device is not ready to handle input after 5 ms. 
 % The MI part could be coded to update each 5 ms.

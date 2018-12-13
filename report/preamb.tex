@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,fleqn,oneside,openright]{memoir}   % Openright aabner kapitler paa hoejresider 
+\documentclass[a4paper,12pt,fleqn,oneside,openright]{memoir}   % Openright aabner kapitler paa hoejresider
 
 \makeatletter
 %%%% PAKKER %%%%
@@ -8,6 +8,8 @@
 \usepackage[english]{babel}          % Dokumentets sprog
 \usepackage[T1]{fontenc}          % Output-indkodning af tegnsaet (T1)
 \usepackage{ragged2e,anyfontsize}      % Justering af (openany begge)
+\usepackage[]{algorithm2e}      % show pseudo code
+
 
 \pdfoptionpdfminorversion=6          % Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
 
@@ -93,6 +95,7 @@
 
 % ¤¤ Misc. ¤¤ %
 \usepackage{listings}            % Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
+\usepackage{listingsutf8}
 % Kode-style
 \lstdefinestyle{Kotlin}{language=kotlin, frame=lr, rulecolor=\color{blue!80!black}}
 \renewcommand{\lstlistingname}{Snippet}
@@ -130,6 +133,52 @@
   stringstyle=\color{black}\ttfamily,
   morestring=[b]",
 }
+
+\lstdefinelanguage{docker}{
+  keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinelanguage{docker-compose}{
+  keywords={image, environment, ports, container_name, ports, volumes, links},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinelanguage{docker-compose-2}{
+  keywords={version, volumes, services},
+  keywordstyle=\color{blue}\bfseries,
+  keywords=[2]{image, environment, ports, container_name, ports, links, build},
+  keywordstyle=[2]\color{olive}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue},
+  inputencoding=utf8,
+  extendedchars=true
+}
+
 
 
 \lstdefinestyle{CSharp}{language=[sharp]c, frame=lr, rulecolor=\color{blue!80!black}}
@@ -183,7 +232,7 @@ columns=fixed,
 showstringspaces=false,
 extendedchars=true,
 breaklines=true,
-escapeinside=||,
+escapeinside={(*@}{@*)},
 prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
 frame=single,
 showtabs=false,
@@ -245,7 +294,7 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
 % ¤¤ Indholdsfortegnelse ¤¤ %
 \setsecnumdepth{subsection}           % Dybden af nummerede overkrifter (part/chapter/section/subsection)
 \maxsecnumdepth{subsection}          % Dokumentklassens graense for nummereringsdybde
-\settocdepth{subsection}           % Dybden af indholdsfortegnelsen
+\settocdepth{section}           % Dybden af indholdsfortegnelsen
 
 % ¤¤ Lister ¤¤ %
 \setlist{
@@ -253,6 +302,7 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
   itemsep=-1ex,                % Vertikal afstand mellem items
 }
 
+\SetKwInOut{Input}{Input}
 
 \newcommand{\pair}[2]{\textbf{#1}: \text{#2}\\}
 
