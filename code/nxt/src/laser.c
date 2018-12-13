@@ -81,4 +81,7 @@ void bitflip_error() {
     //   the id
     ecrobot_set_motor_speed(laser_id, 0);
     ecrobot_set_motor_speed(laser_id_0, 0);
+    laser_state = false;
+    laser_state_0 = false;
+    init_laser(NXT_PORT_C, NXT_PORT_C);
 }

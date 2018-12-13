@@ -21,23 +21,69 @@ CPU ATMEL_AT91SAM7S256 {
       RESOURCEPROPERTY = STANDARD;
     };
 
-    EVENT newMajorCycleEvent{
-        MASK = AUTO;
-    };
-
-    TASK MainTask {
+    TASK background_task {
       AUTOSTART = TRUE 
         {
           APPMODE = appmode1;
         };
-      PRIORITY = 1;
+      PRIORITY = 5;
       ACTIVATION = 1;
       SCHEDULE = FULL;
       STACKSIZE = 512; /* Stack size */
       RESOURCE = USB_Rx;
-      EVENT = newMajorCycleEvent;
     };
 
+    TASK keep_USB_alive {
+      AUTOSTART = FALSE;
+      PRIORITY = 6;
+      ACTIVATION = 1;
+      SCHEDULE = NON;
+      STACKSIZE = 512; /* Stack size */
+    };
+
+    TASK update_display {
+      AUTOSTART = TRUE 
+        {
+          APPMODE = appmode1;
+        };
+      PRIORITY = 3;
+      ACTIVATION = 1;
+      SCHEDULE = FULL;
+      STACKSIZE = 512; /* Stack size */
+    };
+
+    TASK handle_laser {
+      AUTOSTART = TRUE 
+        {
+          APPMODE = appmode1;
+        };
+      PRIORITY = 4;
+      ACTIVATION = 1;
+      SCHEDULE = NON;
+      STACKSIZE = 512; /* Stack size */
+    };
+
+    TASK receive_data {
+      AUTOSTART = TRUE 
+        {
+          APPMODE = appmode1;
+        };
+      PRIORITY = 4;
+      ACTIVATION = 1;
+      SCHEDULE = NON;
+      STACKSIZE = 512; /* Stack size */
+    };
+
+    TASK move_motors {
+      AUTOSTART = TRUE 
+        {
+          APPMODE = appmode1;
+        };
+      PRIORITY = 2;
+      ACTIVATION = 1;
+      SCHEDULE = FULL;
+      STACKSIZE = 1024; /* Stack size */
+    };
 
     /* Definition of OSEK Alarm counter: SysTimerCnt */
     COUNTER SysTimerCnt {
@@ -45,5 +91,21 @@ CPU ATMEL_AT91SAM7S256 {
       MAXALLOWEDVALUE = 10000;
       TICKSPERBASE = 1;
     };
+
+  /* Definition of keep_USB_alive execution timing */
+  ALARM cyclic_keep_USB_alive
+  {
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = keep_USB_alive;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+      APPMODE = appmode1;
+    };
+  };
 
 };
