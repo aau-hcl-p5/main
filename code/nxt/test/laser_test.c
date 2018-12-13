@@ -16,6 +16,9 @@ T_TC_RESULT test_release_laser() {
     laser_state = true;
     laser_state_0 = true;
 
+    init_laser(1, 1);
+    release_laser();
+
     return assert_bool_equals(laser_state, false) && assert_bool_equals(laser_state_0, false);
 }
 
@@ -30,7 +33,7 @@ T_TC_RESULT test_toggle_laser() {
 T_TC_RESULT test_enable_laser() {
     laser_state = false;
 
-    toggle_laser();
+    enable_laser();
 
     return assert_bool_equals(laser_state, true);
 }

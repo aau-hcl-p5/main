@@ -5,6 +5,7 @@
 #include "vector.h"
 
 extern bool laser_state;
+extern bool laser_state_0;
 
 /*
  * Function: init_laser
