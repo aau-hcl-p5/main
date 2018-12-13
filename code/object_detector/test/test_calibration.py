@@ -10,7 +10,6 @@ from calibration import model_generator
 class TestCalibration(unittest.TestCase):
 
     def test_can_compile_to_c_code(self):
-        return
         code = model_generator._export_model(
             [
                 [

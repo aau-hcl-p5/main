@@ -14,7 +14,6 @@ from output_devices import Printer
 
 class TestFlatController(unittest.TestCase):
     def test_status_see_target(self):
-        return
         with io.StringIO() as capturedOutput:
             alg = algorithms.get_algorithm(algorithms.AlgorithmType.ZONE_AVG)
             sys.stdout = capturedOutput  # and redirect stdout.
@@ -31,7 +30,6 @@ class TestFlatController(unittest.TestCase):
             )
 
     def test_status_cannot_see_target(self):
-        return
         with io.StringIO() as capturedOutput:
             alg = algorithms.get_algorithm(algorithms.AlgorithmType.ZONE_AVG)
             sys.stdout = capturedOutput  # and redirect stdout.
@@ -39,6 +37,7 @@ class TestFlatController(unittest.TestCase):
                 FlatController(alg.locate_center,
                                output_device,
                                webcam.VideoController(webcam.CaptureDeviceType.FILES),
+                               debug=False
                                )._iteration()
             sys.stdout = sys.__stdout__
             self.assertEqual(
