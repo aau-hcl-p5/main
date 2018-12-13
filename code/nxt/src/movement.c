@@ -116,10 +116,10 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
     }
 
     int8_t lower_bound = get_required_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
-    int8_t lower_bound = lower_bound - (lower_bound / 5);
+    //lower_bound = lower_bound - (lower_bound / 5);
 
-    return (POWER_RANGE * distance / MAX_INPUT_VALUE) + lower_bound;
-    //return (distance / 5) + lower_bound - (lower_bound / 5);
+    //return (POWER_RANGE * distance / MAX_INPUT_VALUE) + lower_bound;
+    return (distance / 5) + lower_bound - (lower_bound / 5);
 }
 
 
