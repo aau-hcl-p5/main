@@ -19,7 +19,7 @@ class FlatController:
                  algorithm: Callable[[np.ndarray], Optional[Vector]],
                  output_device: OutputDevice,
                  input_device: VideoController,
-                 calibration_algorithm: Union[Callable[[], None], None] = None,
+                 calibration_algorithm: Union[Callable[[OutputDevice], None], None] = None,
                  debug=True
                  ) -> None:
         """
