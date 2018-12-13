@@ -27,7 +27,7 @@ class AlgorithmType(Enum):
     THRESH_MOMENT = 4
 
 
-def get_algorithm(algorithm_type: AlgorithmType) -> ObjectLocalizer:
+def get_algorithm(algorithm_type: AlgorithmType, debug=False) -> ObjectLocalizer:
     """
 
     :param algorithm_type:
@@ -36,9 +36,9 @@ def get_algorithm(algorithm_type: AlgorithmType) -> ObjectLocalizer:
     if algorithm_type is AlgorithmType.ZONE_AVG:
         return ZoneAvgController()
     if algorithm_type is AlgorithmType.OBJ_FILL:
-        return ObjectFillController()
+        return ObjectFillController(debug=debug)
     if algorithm_type is AlgorithmType.THRESH_MOMENT:
-        return ThreshMomentController(True)
+        return ThreshMomentController(debug=debug)
 
     raise NotImplementedError()
 
