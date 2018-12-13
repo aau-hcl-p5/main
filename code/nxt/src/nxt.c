@@ -45,7 +45,6 @@ void user_1ms_isr_type2(void) {
 }
 
 void stop() {
-    display_hex_value(0xBEEBEE00);
     stop_motors();
     disable_laser();
     ecrobot_disconnect_usb();
@@ -59,7 +58,6 @@ void stop() {
 */
 TASK(background_task) {
     if(!calibrated && current_status == READY_FOR_CALIBRATION){
-        display_hex_value(0xCACA0000);
         calibrate(false);
         calibrated = true;
     }
