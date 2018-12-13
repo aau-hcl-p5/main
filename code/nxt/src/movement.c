@@ -20,7 +20,7 @@ T_VECTOR last_location = {0, 0};
 /* move_motors:                                                             */
 /* ------------------------------------------------------------------------ */
 /* Description:                                                             */
-/* Params  : T_VECTOR target: Information about the target         */
+/* Params  : T_VECTOR target: Information about the target                  */
 /*              location.                                                   */
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/

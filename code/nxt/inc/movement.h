@@ -23,7 +23,22 @@
 extern uint8_t x_lower_bound_modifier;
 extern uint8_t y_lower_bound_modifier;
 
+/*
+ * Function: init_motor
+ * ----------------------------
+ *   Initialises the motor on a given ID
+ *
+ *   motor_id: Laser ID on Port, e.g NXT_PORT_C
+ *   orientation: Laser ID on Port, e.g NXT_PORT_C
+ *   speed: Laser ID on Port, e.g NXT_PORT_C
+ */
 extern bool init_motor(uint8_t motor_id, char orientation, uint16_t speed);
+
+/*
+ * Function: release_laser
+ * ----------------------------
+ *   Releases and stops the laser from shooting. Must re-initialize after called.
+ */
 extern bool release_motor(uint8_t motor_id);
 
 extern void move(T_VECTOR target_location);

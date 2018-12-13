@@ -61,7 +61,7 @@ TASK(background_task) {
         while(!get_status_code(&current_status, 0));
 
         if (current_status == READY_FOR_CALIBRATION) {
-            calibrate(false);
+            calibrate();
         }
         calibrated = true;
     }
@@ -115,9 +115,9 @@ TASK(handle_laser) {
     TerminateTask();
 }
 
-/* Receive data is responsible for receiving data from the USB 
+/* Receive data is responsible for receiving data from the USB
    and sets the status code of the system according to the
-   data that was received. 
+   data that was received.
 
    PRIORITY: 4
    PREEMPTIVE: NO
@@ -128,11 +128,11 @@ TASK(receive_data) {
 }
 
 /* Move motors is responsible for sending a signal to the co-processor
-   that handles movement of motors. 
-   
+   that handles movement of motors.
+
    PRIORITY: 2
    PREEMPTIVE: YES
-*/ 
+*/
 TASK(move_motors) {
     if (current_status == TARGET_FOUND) {
         move(last_target_location);

@@ -97,13 +97,33 @@ void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
     }
 }
 
-void calibrate(bool internal) {
+/*
+ * Function: calibrate
+ * ----------------------------
+ *   Begins calibration on both directions on the 'y' axis
+ *     using calibrate_axis_in_direction('y', direction), and direction
+ *
+ *   returns: void
+ */
+void calibrate() {
     // calibrate the y axis
     for (int i = 0; i < 2; i++) {
         calibrate_axis_in_direction('y', i % 2 == 0 ? POSITIVE : NEGATIVE);
     }
 }
 
+/*
+ * Function: get_required_power
+ * ----------------------------
+ *   Using get_current_revolution() and the y_axis_powers for determining
+ *     the required power on a direction.
+ *     for x, this is always 15.
+ *
+ *   axis: 'x' or 'y' for which axis power is required
+ *   positive_direction: POSITIVE or NEGATIVE for which direction, on the axis.
+ *
+ *   returns: the required power for moving a given direction on a given axis.
+ */
 int8_t get_required_power(char axis, T_DIRECTION positive_direction) {
     if (axis == 'x') {
         return 15;

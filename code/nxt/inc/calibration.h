@@ -18,7 +18,26 @@ typedef enum {
 
 extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 
-extern void calibrate(bool internal);
+/*
+ * Function: calibrate
+ * ----------------------------
+ *   Begins calibration on both directions, 'x' and 'y'.
+ *
+ *   returns: void
+ */
+extern void calibrate();
+
+/*
+ * Function: get_required_power
+ * ----------------------------
+ *   Returns required power, for moving on an axis, in a given direction
+ *     on the current angle on the motor.
+ *
+ *   axis: 'x' or 'y' for which axis power is required
+ *   positive_direction: POSITIVE or NEGATIVE for which direction, on the axis.
+ *
+ *   returns: the required power for moving a given direction on a given axis.
+ */
 extern int8_t get_required_power(char axis, T_DIRECTION positive_direction);
 
 #endif //NXT_CALIBRATION_H
