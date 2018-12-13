@@ -13,9 +13,9 @@
 #define REVOLUTION_OFFSET 55
 
 // Checks whether revolutions are the same within a margin of error of MIN_REVOLUTION_THRESHOLD
-bool revolutions_equals(T_REVOLUTION target1, T_REVOLUTION target2, char axis) {
+bool revolutions_equals(T_REVOLUTION target1, T_REVOLUTION target2, T_AXIS_TYPE axis) {
     int16_t max_value, min_value;
-    if (axis == 'x') {
+    if (axis == AXIS_X) {
         if (target1.x > target2.x) {
             max_value = target1.x;
             min_value = target2.x;
@@ -38,12 +38,12 @@ bool revolutions_equals(T_REVOLUTION target1, T_REVOLUTION target2, char axis) {
 T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 
 bool should_stop_moving(T_REVOLUTION first_revolution, int8_t power) {
-    return revolutions_equals(first_revolution, get_current_revolution(), 'y') && power <= 100;
+    return revolutions_equals(first_revolution, get_current_revolution(), AXIS_Y) && power <= 100;
 }
 
-int8_t get_power_to_move_one_degree(char axis, T_DIRECTION direction) {
+int8_t get_power_to_move_one_degree(T_AXIS_TYPE axis, T_DIRECTION direction) {
     char axis_str[3];
-    axis_str[0] = axis;
+    axis_str[0] = axis == AXIS_X ? 'x' : 'y';
     axis_str[1] = direction == POSITIVE ? '+' : '-';
     axis_str[2] = '\0';
     int8_t power = MIN_POWER;
@@ -69,7 +69,18 @@ int8_t get_power_to_move_one_degree(char axis, T_DIRECTION direction) {
     return power;
 }
 
-void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
+/*
+ * Function: calibrate_axis_in_direction
+ * ----------------------------
+ *   Runs a loop for current angle returns when failed attempts of movement has happend.
+ *     Otherwise it sets the y_axis_powers accordingly, and updates variables for movement, until done.
+ *
+ *   axis: AXIS_X or AXIS_Y for which axis power is required
+ *   direction: a direction, positive or negative.
+ *
+ *   returns: void
+ */
+void calibrate_axis_in_direction(T_AXIS_TYPE axis, T_DIRECTION direction) {
     int16_t last_revolution = direction == POSITIVE ? -1 : 0xFFF;
     uint8_t failed_movements = 0;
     for (;;) {
@@ -100,15 +111,15 @@ void calibrate_axis_in_direction(char axis, T_DIRECTION direction) {
 /*
  * Function: calibrate
  * ----------------------------
- *   Begins calibration on both directions on the 'y' axis
- *     using calibrate_axis_in_direction('y', direction), and direction
+ *   Begins calibration on both directions on the AXIS_Y axis
+ *     using calibrate_axis_in_direction(AXIS_Y, direction), and direction
  *
  *   returns: void
  */
 void calibrate() {
     // calibrate the y axis
     for (int i = 0; i < 2; i++) {
-        calibrate_axis_in_direction('y', i % 2 == 0 ? POSITIVE : NEGATIVE);
+        calibrate_axis_in_direction(AXIS_Y, i % 2 == 0 ? POSITIVE : NEGATIVE);
     }
 }
 
@@ -119,13 +130,13 @@ void calibrate() {
  *     the required power on a direction.
  *     for x, this is always 15.
  *
- *   axis: 'x' or 'y' for which axis power is required
+ *   axis: AXIS_X or AXIS_Y for which axis power is required
  *   positive_direction: POSITIVE or NEGATIVE for which direction, on the axis.
  *
  *   returns: the required power for moving a given direction on a given axis.
  */
-int8_t get_required_power(char axis, T_DIRECTION positive_direction) {
-    if (axis == 'x') {
+int8_t get_required_power(T_AXIS_TYPE axis, T_DIRECTION positive_direction) {
+    if (axis == AXIS_X) {
         return 15;
     } else {
         T_POWER_TUPLE power_set = y_axis_powers[get_current_revolution().y + REVOLUTION_OFFSET];

@@ -25,8 +25,8 @@ bool calibrated = false;
 
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void) {
-    init_motor(NXT_PORT_A, 'y', 20);
-    init_motor(NXT_PORT_B, 'x', 20);
+    init_motor(NXT_PORT_A, AXIS_Y, 20);
+    init_motor(NXT_PORT_B, AXIS_X, 20);
     init_laser(NXT_PORT_C, NXT_PORT_C);
     ecrobot_init_usb(); /* init USB */
 }

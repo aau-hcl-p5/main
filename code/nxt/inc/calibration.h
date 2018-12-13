@@ -21,7 +21,7 @@ extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 /*
  * Function: calibrate
  * ----------------------------
- *   Begins calibration on both directions, 'x' and 'y'.
+ *   Begins calibration on both directions, AXIS_X and AXIS_Y.
  *
  *   returns: void
  */
@@ -33,11 +33,11 @@ extern void calibrate();
  *   Returns required power, for moving on an axis, in a given direction
  *     on the current angle on the motor.
  *
- *   axis: 'x' or 'y' for which axis power is required
+ *   axis: AXIS_X or AXIS_Y for which axis power is required
  *   positive_direction: POSITIVE or NEGATIVE for which direction, on the axis.
  *
  *   returns: the required power for moving a given direction on a given axis.
  */
-extern int8_t get_required_power(char axis, T_DIRECTION positive_direction);
+extern int8_t get_required_power(T_AXIS_TYPE axis, T_DIRECTION positive_direction);
 
 #endif //NXT_CALIBRATION_H
