@@ -15,46 +15,45 @@ clock time;
 const int T[N] = {  // Periods
     10000, // BackgroundTask
     10000, // UpdateDisplayTask
-    1000,  // HandleLaserTask
     5000,  // MoveMotorsTask
     5000,  // ReciveDataTask
+    1000,  // HandleLaserTask
     1000   // KeepUSBAliveTask
 };	       
 
 const int D[N] = {  // Deadlines
     10000, // BackgroundTask
     10000, // UpdateDisplayTask
-    1000,  // HandleLaserTask
-    3000,  // MoveMotorsTask
+    5000,  // MoveMotorsTask
     3000,  // ReciveDataTask
+    1000,  // HandleLaserTask
     1000   // KeepUSBAliveTask
 };	       
 
 const int C[N] = {  // Computation Times
-    5000, // BackgroundTask
+    5000,  // BackgroundTask
     480,  // UpdateDisplayTask
-    30,   // HandleLaserTask
     28,   // MoveMotorsTask
     500,  // ReciveDataTask
+    30,   // HandleLaserTask
     14    // KeepUSBAliveTask
 };       
 
 const int P[N] = {  // Priorities
-    1,   // BackgroundTask
-    2,   // UpdateDisplayTask
-    3,   // HandleLaserTask
-    4,   // MoveMotorsTask
-    5,   // ReciveDataTask
-    6    // KeepUSBAliveTask
+    0,   // BackgroundTask
+    1,   // UpdateDisplayTask
+    2,   // MoveMotorsTask
+    3,   // ReciveDataTask
+    4,   // HandleLaserTask
+    5    // KeepUSBAliveTask
 };
-
 
 const bool Pr[N] = {  // Preemptive
     true,   // BackgroundTask
     true,   // UpdateDisplayTask
-    true,   // HandleLaserTask
-    false,  // MoveMotorsTask
+    true,   // MoveMotorsTask
     false,  // ReciveDataTask
+    false,  // HandleLaserTask
     false   // KeepUSBAliveTask
 }; 
 
@@ -77,7 +76,7 @@ const bool Pr[N] = {  // Preemptive
 		</location>
 		<location id="id3" x="32" y="320" color="#00ff00">
 			<name x="8" y="288">Running</name>
-			<label kind="invariant" x="0" y="328">c&lt;=C[id]</label>
+			<label kind="invariant" x="0" y="340">c&lt;=C[id]</label>
 		</location>
 		<location id="id4" x="192" y="320">
 			<name x="176" y="288">Error</name>
@@ -99,7 +98,6 @@ const bool Pr[N] = {  // Preemptive
 		<transition>
 			<source ref="id3"/>
 			<target ref="id0"/>
-			<label kind="guard" x="-161" y="374">Pr[id] == true</label>
 			<label kind="synchronisation" x="-24" y="360">stop?</label>
 			<nail x="-32" y="360"/>
 			<nail x="-32" y="416"/>
@@ -121,7 +119,7 @@ const bool Pr[N] = {  // Preemptive
 			<source ref="id3"/>
 			<target ref="id1"/>
 			<label kind="guard" x="-104" y="192">c==C[id]</label>
-			<label kind="synchronisation" x="-109" y="166">release[id]!</label>
+			<label kind="synchronisation" x="-119" y="170">release[id]!</label>
 			<nail x="-32" y="320"/>
 			<nail x="-32" y="64"/>
 		</transition>
@@ -184,47 +182,70 @@ id_t tail()
 {
    return list[len - 1];
 }</declaration>
-		<location id="id5" x="256" y="400">
+		<location id="id5" x="416" y="391">
+		</location>
+		<location id="id6" x="306" y="391">
 			<committed/>
 		</location>
-		<location id="id6" x="128" y="400">
+		<location id="id7" x="95" y="392">
+		</location>
+		<location id="id8" x="-34" y="391">
+			<urgent/>
+		</location>
+		<location id="id9" x="192" y="256">
 			<committed/>
 		</location>
-		<location id="id7" x="192" y="256">
-			<committed/>
+		<location id="id10" x="192" y="320">
+			<name x="153" y="297">Occ</name>
 		</location>
-		<location id="id8" x="192" y="320">
-			<name x="208" y="320">Occ</name>
-		</location>
-		<location id="id9" x="192" y="128">
+		<location id="id11" x="192" y="128">
 			<name x="208" y="96">Free</name>
 		</location>
-		<init ref="id7"/>
+		<init ref="id9"/>
 		<transition>
 			<source ref="id5"/>
-			<target ref="id8"/>
-			<label kind="synchronisation" x="240" y="352">run[front()]!</label>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="306" y="340">run[front()]!</label>
 		</transition>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id5"/>
-			<label kind="synchronisation" x="184" y="376">stop!</label>
+			<label kind="synchronisation" x="340" y="391">stop!</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id6"/>
+			<label kind="select" x="195" y="366">e : id_t</label>
+			<label kind="guard" x="195" y="416">Pr[e] == true</label>
+			<label kind="synchronisation" x="195" y="382">ready[e]?</label>
+			<label kind="assignment" x="195" y="399">enqueue(e)</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
-			<target ref="id8"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="93" y="357">run[front()]!</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="8" y="391">stop!</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
 			<label kind="synchronisation" x="200" y="272">run[front()]!</label>
 		</transition>
 		<transition>
-			<source ref="id8"/>
-			<target ref="id6"/>
-			<label kind="select" x="88" y="328">e : id_t</label>
-			<label kind="synchronisation" x="80" y="344">ready[e]?</label>
-			<label kind="assignment" x="64" y="360">enqueue(e)</label>
+			<source ref="id10"/>
+			<target ref="id8"/>
+			<label kind="select" x="-34" y="314">e : id_t</label>
+			<label kind="guard" x="-34" y="297">Pr[e] == false</label>
+			<label kind="synchronisation" x="-34" y="331">ready[e]?</label>
+			<label kind="assignment" x="-34" y="348">enqueue(e)</label>
 		</transition>
 		<transition>
-			<source ref="id8"/>
-			<target ref="id9"/>
+			<source ref="id10"/>
+			<target ref="id11"/>
 			<label kind="select" x="296" y="152">e : id_t</label>
 			<label kind="guard" x="296" y="168">e == front()</label>
 			<label kind="synchronisation" x="296" y="184">release[e]?</label>
@@ -233,16 +254,16 @@ id_t tail()
 			<nail x="288" y="128"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id8"/>
+			<source ref="id11"/>
+			<target ref="id10"/>
 			<label kind="guard" x="104" y="168">len &gt; 0</label>
 			<label kind="synchronisation" x="104" y="184">run[front()]!</label>
 			<nail x="96" y="128"/>
 			<nail x="96" y="320"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id7"/>
+			<source ref="id11"/>
+			<target ref="id9"/>
 			<label kind="select" x="200" y="160">e : id_t</label>
 			<label kind="synchronisation" x="200" y="176">ready[e]?</label>
 			<label kind="assignment" x="200" y="192">enqueue(e)</label>
