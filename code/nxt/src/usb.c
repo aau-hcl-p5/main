@@ -14,6 +14,14 @@
 
 DeclareResource(USB_Rx);
 
+/*
+ * Function: get_status_code
+ * ----------------------------
+ *   Gets statuscode from USB, using STATUS_CODe and T_VECTOR for buffer reading sizes.
+ *
+ *   *out_code: the response value for the response code
+ *   *out_location: the response value for the response code
+ */
 bool get_status_code(STATUS_CODE *out_code, T_VECTOR *out_location) {
     int32_t len;
     uint8_t buffer[MAX_SIZE_OF_USB_DATA];
@@ -24,8 +32,7 @@ bool get_status_code(STATUS_CODE *out_code, T_VECTOR *out_location) {
     len = ecrobot_read_usb(buffer, 0, MAX_SIZE_OF_USB_DATA);
     ReleaseResource(USB_Rx);
 
-    if (len == sizeof(STATUS_CODE))
-    {
+    if (len == sizeof(STATUS_CODE)) {
         memcpy(out_code, buffer, sizeof(STATUS_CODE));
         return true;
     }
