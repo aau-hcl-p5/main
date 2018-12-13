@@ -24,17 +24,25 @@ A typical neural network consists of an input layer, an output layer and one or 
 It is the task of the hidden layers to transform the input from the input layer into the desired output onto the output layer.
 The layers consists of one or more neurons, where in a normal fully connected neural network all neurons in a layer is connected to all neurons in the previous layer.
 
-All connections in a neural network has a weight associated to it, which acts as a simple multiplier for the output from the previous neuron. Apart from the weights each neuron is assigned a bias, which is added to the sum of all inputs to the neuron. The bias is sometimes thought of as a sort of threshold indicating whether a neuron should fire.
+All connections in a neural network has a weight associated to it, which acts as a simple multiplier for the output from the previous neuron. Apart from the weights all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. The bias is sometimes thought of as a sort of threshold indicating whether a neuron should fire.
+
+\figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer.}{fig:estimate}
 
 Before passing the result of a neuron on, the result is first transformed by an activation function. The activation function is required in order for the neural network to learn to solve a complex non-linear model. This will be further discussed in \ref{training-a-neural-network} about training.
 
 \paragraph{Identity}
+The simplest activation function, is an activation function that does not alter the input. This is also known as an identity function. The identity function can be used when learning simple models, but fails to learn complex non-linear models.
 
 \paragraph{Perceptron}
+A perceptron is a neuron that has an activation function that returns a binary signal, either zero or one, depending on the input value. Usually any positive value will be a one, and all negative values will be a zero.
 
 \paragraph{Sigmoid}
 
+
+
 \paragraph{RELU}
+
+
 
 \subsubsection{Calculations in a neural network}
 
