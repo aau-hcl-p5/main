@@ -15,9 +15,9 @@ import argparse
 
 import algorithms
 import webcam
-from calibration import save_data, calibrate
-from output_devices import NxtUsb, Printer
+from calibration import calibrate
 from flat_controller import FlatController
+from output_devices import NxtUsb, Printer
 
 # check if this file is run directly.
 if __name__ == "__main__":
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     ARGS = PARSER.parse_args()
 
     with Printer() if ARGS.no_usb else NxtUsb() as output_device:
-        cont = FlatController(algorithms.get_from_str(ARGS.alg_name),
+        cont = FlatController(algorithms.get_from_str(ARGS.alg_name).locate_center,
                               output_device,
                               webcam.VideoController(webcam.CaptureDeviceType.CAMERA),
                               calibration_algorithm=calibrate)

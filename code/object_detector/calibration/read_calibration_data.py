@@ -12,7 +12,14 @@ def combine_bytes(data, index):
     return (data[index + 1] << 8) | data[index]
 
 
-def read_calibration_data(usb_controller: NxtUsb):
+def read_calibration_data(usb_controller: NxtUsb) -> List[Package]:
+    """
+    Listens on the USB port for packages of calibration data
+    when it received enough timeouts it automatically terminates and returns the list of packages
+
+    :param usb_controller: the controller attached to the NXT
+    :return: returns the packages retrieved from the NXT
+    """
     packages: List[Package] = []
 
     usb_controller.write_status(Status.READY_FOR_CALIBRATION)

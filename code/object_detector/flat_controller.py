@@ -1,4 +1,4 @@
-from typing import Callable, Union, List
+from typing import Callable, Union, List, Optional
 
 import cv2
 import numpy as np
@@ -16,10 +16,11 @@ class FlatController:
     """
 
     def __init__(self,
-                 algorithm: Callable[[np.ndarray], Vector],
+                 algorithm: Callable[[np.ndarray], Optional[Vector]],
                  output_device: OutputDevice,
                  input_device: VideoController,
                  calibration_algorithm: Union[Callable[[], None], None] = None,
+                 debug=False
                  ) -> None:
         """
         Initializes the controller
@@ -41,17 +42,20 @@ class FlatController:
 
         self.terminating = False
 
+    def _iteration(self) -> None:
+        loc = self._get_next_location()
+        if loc is not None:
+            self.output_device.write_location(loc)
+        else:
+            self.output_device.write_status(Status.NO_TARGET_FOUND)
+
     def run(self) -> None:
         """
         Start a separate thread for running the 'run' method,
         and continuously run this.
         """
         while True:
-            loc = self._get_next_location()
-            if loc is not None:
-                self.output_device.write_location(loc)
-            else:
-                self.output_device.write_status(Status.NO_TARGET_FOUND)
+            self._iteration()
 
             k = cv2.waitKey(5) & 0xFF  # escape char
             if k == 27:

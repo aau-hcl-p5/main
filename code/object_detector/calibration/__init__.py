@@ -1,4 +1,4 @@
-from calibration.model_generator import generate_model, export_model
+from calibration.model_generator import generate_model, save_model
 from calibration.read_calibration_data import read_calibration_data
 from output_devices import NxtUsb
 import matplotlib.pyplot as plt
@@ -25,6 +25,6 @@ def calibrate(usb_controller: NxtUsb):
 
         print("Accept? (y/N)")
         if input() in ['y', 'Y']:
-            export_model(model_up, "model_up")
-            export_model(model_down, "model_down")
+            save_model(model_up, "model_up")
+            save_model(model_down, "model_down")
             break
