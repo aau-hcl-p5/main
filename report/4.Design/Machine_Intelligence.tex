@@ -4,7 +4,7 @@ Before developing an intelligent device, it is important to analyze the differen
 
 In the context of this project, the agent is the \texttt{F.L.A.T}.
 Its \textit{goal} is to point at a target and fire a laser beam, whereas the \textit{ability} of agent, is to rotate its motors.
-Its only \textit{stimuli} is a webcam, as concluded in Section~\ref{sec:obj_tracking}.
+Its only \textit{stimuli} is a webcam, as defined in Section~\ref{sec:obj_tracking}.
 
 The environment is the surroundings of the turret, where the \texttt{F.L.A.T} can be considered the sole purposeful agent in the world, whereas the target can be seen as nature.
 In a more advanced case, the targets can also be considered purposeful agents.
@@ -17,25 +17,20 @@ The following subsections will explore the problems, and evaluate whether these 
 
 
 \subsection{Object localization}
-Determining where the target is relative to the agent.
-
-
 The most obvious option, and the option that was expected to be applied from the beginning of the project, is object localization, which is described in Section~\ref{sec:anal:objdet}.
 It is a problem that needs to be solved, as the agent cannot move in the direction of the target, if the target location is unknown.
 This issue would ideally be solved with online learning, to ensure that the device is able to locate the target, regardless of visual obstacles in the image.
 While the computational power required to solve this might be large, it is a required aspect of the solution, and will be further explored in Section~\ref{Design:ObjectLocalization}.
 
 \subsection{Target trajectory prediction}
-Predicting the future location of the target.
-
 In Subsection~\ref{sec:obj_tracking:sub:ML}, trajectory prediction was mentioned as a potential way to apply machine intelligence.
 The actions of the target depends on whether it is a \textit{purposeful agents} or \textit{nature}.
 
 For this project, the target is a balloon, which is an inanimate object that is not \textit{purposeful}.
-That means the movement of the target is relatively predictable, and not prone to make diverging movements from its current path.
+That means the movement of the target is relatively predictable, and not prone to making diverging movements from its current path.
 
 Even if this reduces the need for further predictions of the trajectory of objects, it is still worth consideration, especially if hitting the target is done with a projectile, as the travel time of a projectile needs to be considered.
-However, as hitting the target with a projectile, has been deemed out of scope, it is irrelevant in the scope of this project.
+However, as hitting the target with a projectile, has been deemed out of scope, it is irrelevant in this project at this point.
 
 Finally, there was the potential problem of a target moving faster than the motor could move, which would require prediction in order to hit the target.
 However, after testing the speed of the motors, as described in Section~\ref{des:sec:hwtest}, it was deemed as irrelevant, as the motor were deemed as quick enough.
@@ -52,8 +47,8 @@ This resulted in the robot requiring variable power, depending on its current po
 
 A potential solution to this problem could be to introduce a function that takes current degrees, direction and distance as input and outputs a required power to move said distance.
 This function could be found through either online or offline learning or through an design-time algorithm.
-Design-time solutions would potentially be unreliable, as movement or rewiring of the device, would modify the resistance imposed by the cables.
+Design time solutions would potentially be unreliable, as movement or rewiring of the device, would modify the resistance imposed by the cables.
 
 Online learning might not create a better solution, as the resistance should not change drastically, while the system is running, as it is not meant to be moved around.
 Due to the above reasoning, the optimal solution would be created with offline learning.
-The specific aspects of this implementation will be described in  Section~\todo{ref}.
+The specific aspects of this implementation will be described in Section~\todo{ref}.
