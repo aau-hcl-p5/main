@@ -11,3 +11,17 @@ However, should the execution time of a single task exceed one millisecond, the 
 In this case, fixed-priority scheduling is a better alternative, as it allows the scheduler to pre-empt the task in order to run the USB related task.
 
 Both the fixed priority and cyclic executive methods are a common ways to implement hard real-time systems due to their simplicity, deterministic behavior and relative ease of implementation\cite{CyclicExecutionKimLarsen}.
+
+In order to make sure that the system is schedulable an UPPAAL model of the scheduler and tasks where created. 
+The model is a mathematical prof that the system is schedulable. 
+
+\subsubsection{UPPAAL}
+UPPAAL is an integrated tool environment for modeling, validation and verification of real-time systems modeled as networks of timed automata\cite{UPPAALWebsite}. 
+Inside the UPPAAL tool an model of the tasks in the system was made. 
+On \autoref{fig:UppaalTask} the behaviour of the a task in can be seen. 
+The model is a timed automaton which is used to ensure that the task will come true to its deadline and periods. 
+\figur{0.5}{images/Task}{The figure shows the final base construction}{fig:UppaalTask}
+
+On \autoref{fig:UppaalScheduler} the model of who the scheduler works can be seen. 
+The model 
+\figur{0.5}{images/Scheduler}{The figure shows the final base construction}{fig:UppaalScheduler}
