@@ -20,17 +20,19 @@ class FlatController:
                  output_device: OutputDevice,
                  input_device: VideoController,
                  calibration_algorithm: Union[Callable[[], None], None] = None,
-                 debug=False
+                 debug=True
                  ) -> None:
         """
         Initializes the controller
 
+        :type debug: whether to open the debug view
         :param algorithm: The algorithm to use for image processing
         :param output_device: The device to send data to
         :param input_device: What type the capturing device should be.
         :param calibration_algorithm: a function that takes calibration packages,
             and handles them in some unknown way (either logs them or sends them back)
         """
+        self.debug = debug
         self.input_device = input_device
         self._algorithm = algorithm
         self.output_device = output_device
@@ -67,10 +69,13 @@ class FlatController:
         :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}
         """
         frame = self.input_device.get_current_frame()
-        timer = cv2.getTickCount()
+        if self.debug:
+            timer = cv2.getTickCount()
         res = screen_location_to_relative_location(frame, self._algorithm(frame))
-        fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
-        cv2.putText(frame, "FPS : " + str(int(fps)), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2)
-        render_debugscreen(res, frame)
+
+        if self.debug:
+            fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
+            cv2.putText(frame, "FPS : " + str(int(fps)), (100, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (50, 170, 50), 2)
+            render_debugscreen(res, frame)
         return res
 

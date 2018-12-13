@@ -6,11 +6,12 @@ It will:
 """
 from typing import Optional
 
-from algorithms import ObjectLocalizer
-from algorithms.utilities import Vector
-from cv2 import contourArea, COLOR_BGR2HSV, cvtColor, inRange, threshold, findContours, COLOR_GRAY2BGR, drawContours, \
-    moments, circle, imshow, CHAIN_APPROX_SIMPLE, RETR_TREE
 import numpy as np
+from cv2 import contourArea, COLOR_BGR2HSV, cvtColor, inRange, findContours, COLOR_GRAY2BGR, \
+    drawContours, moments, circle, imshow, CHAIN_APPROX_SIMPLE, RETR_TREE
+
+from .object_localizer import ObjectLocalizer
+from .utilities import Vector
 
 
 class ThreshMomentController(ObjectLocalizer):  # pylint: disable=too-few-public-methods
