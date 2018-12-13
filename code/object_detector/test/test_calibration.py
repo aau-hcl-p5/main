@@ -30,7 +30,7 @@ class TestCalibration(unittest.TestCase):
         self.assertIn("double sigmoid(double value)", code)
         self.assertIn(
             """
-            double WEIGHTS_LAYER_0[3][2] = {
+            static double WEIGHTS_LAYER_0[3][2] = {
                 { 1, 1 },
                 { 1, 1 },
                 { 1, 1 }

@@ -30,6 +30,7 @@ class AlgorithmType(Enum):
 def get_algorithm(algorithm_type: AlgorithmType, debug=False) -> ObjectLocalizer:
     """
 
+    :param debug:
     :param algorithm_type:
     :return: the method of the algorithm
     """
@@ -43,14 +44,15 @@ def get_algorithm(algorithm_type: AlgorithmType, debug=False) -> ObjectLocalizer
     raise NotImplementedError()
 
 
-def get_from_str(algorithm_name: str) -> ObjectLocalizer:
+def get_from_str(algorithm_name: str, debug=False) -> ObjectLocalizer:
     """
     Get an algorithm implementation based on the str name
+    :param debug:
     :param algorithm_name: the str name of the algorithm
     :return: an instance of an algorithm
     """
     algorithm_type = next(a for a in AlgorithmType if a.name.lower() == algorithm_name.lower())
 
-    return get_algorithm(algorithm_type)
+    return get_algorithm(algorithm_type, debug)
 
 
