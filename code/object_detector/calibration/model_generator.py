@@ -56,7 +56,7 @@ def _export_model(weights: List[List[List[float]]], biases: List[List[float]], n
     # Sigmoid
     output.write(
         """
-        double sigmoid(double value)
+        static double sigmoid(double value)
         {
             double x = value >= 0 ? value : value * -1;
             double x2 = x * x;
@@ -73,14 +73,15 @@ def _export_model(weights: List[List[List[float]]], biases: List[List[float]], n
         )
 
         output.write(
-            f"double WEIGHTS_LAYER_{idx}[{len(weight_layer)}]"
+            f"static double WEIGHTS_LAYER_{idx}[{len(weight_layer)}]"
             f"[{len(weight_layer[0])}] = {{\n    {stringified_array}\n}};\n")
 
     # Biases
     for idx, bias_layer in enumerate(biases):
         stringified_array = ', '.join(str(x) for x in bias_layer)
         output.write(
-            f"double BIAS_LAYER_{idx}[{len(bias_layer)}] = {{\n    {stringified_array}\n}};\n")
+            f"static double BIAS_LAYER_{idx}[{len(bias_layer)}] = "
+            f"{{\n    {stringified_array}\n}};\n")
 
     # Model execution function
     output.write(f"T_MODEL_EXECUTION_RESULT calculate_{name}(T_MODEL_INPUT input) {{\n")
