@@ -17,6 +17,48 @@ In order to make sure that the system is schedulable an UPPAAL model of the sche
 \subsubsection{UPPAAL}
 UPPAAL is an integrated tool environment for modeling, validation and verification of real-time systems modeled as networks of timed automata\cite{UPPAALWebsite}. 
 Inside the UPPAAL tool an model of the tasks in the system was made. 
+
+\paragraph{Templates}
+Then creating an UPPAAL project a templates must be made.
+The template is an model that describes a system or a part of a system.  
+The templates are then later used to make the entire system. 
+The templates can communicate via channels specified in the declarations of the project.
+
+\paragraph{Locations}
+An UPPAAL model consists of at last one \textit{location} that the system can be in. 
+A location can be specified as \textit{initial}, \textit{urgent}, \textit{committed} or none of the previously mentioned types. 
+If an location is marked initial it is defined as the start state for the system modelled. 
+A location marked as urgent is the first choice to go to in case of multiple different paths are possible. 
+A location marked as committed is an location that is preferred over an location without any type and that is overruled by a location marked as urgent. 
+If a location is not marked with an specific type the location might be taken but has the lowest priority if any other locations are also present. 
+A location can be given an \textit{invariant} that can be used to specify a condition that must be fulfilled before a location can be left. 
+
+\paragraph{Edges}
+Between locations an edge can be created. 
+The edges is used to model a shift in model state and is used to control the flow through the template. 
+On edges different methods can be used to enforce behaviour and send information between templates. 
+
+\paragraph{Declarations}
+Once the templates has been created the declaration is used to make the entire system function. 
+The declaration is can contain variables, channels and methods used in the templates and between templates. 
+Declarations can be specified on a template level and on an global level. 
+
+\paragraph{System declarations}
+The system model in the templates is initialized from the system declarations where instances of the templates are initialized and added to the system as can be seen on \autoref{snip:UPPAALSystemDeclaration}. 
+
+
+\begin{lstlisting}[label={snip:UPPAALSystemDeclaration},caption={System declaration from UPPAAL},frame=tlrb,numbers=none]
+BackgroundTask    = Task( 0 );
+UpdateDisplayTask = Task( 1 );
+MoveMotorsTask    = Task( 2 );
+ReciveDataTask    = Task( 3 );
+HandleLaserTask   = Task( 4 );
+KeepUSBAliveTask  = Task( 5 );
+
+system BackgroundTask, UpdateDisplayTask, HandleLaserTask, MoveMotorsTask, ReciveDataTask, KeepUSBAliveTask, Scheduler;
+\end{lstlisting}
+Each task in initialized and assigned to an new task which is then added to the system together with the scheduler. 
+
 On \autoref{fig:UppaalTask} the behaviour of the a task in can be seen. 
 The model is a timed automaton which is used to ensure that the task will come true to its deadline and periods. 
 The model consists of all the states a task can be in.
@@ -28,6 +70,7 @@ On \autoref{fig:UppaalScheduler} the model of how the scheduler works can be see
 Since the scheduler is responsible for running all tasks on the system it simply needs an queue of tasks ready for running. 
 It when simply needs to start the tasks as they arrive at a ready state. 
 \figur{0.5}{images/Scheduler}{The figure shows the final base construction}{fig:UppaalScheduler}
+In the template both the committed and urgent type locations are used since the tasks that is not preemptive should be be allowed to run first 
 
 Based on the model of both the task and the scheduler the system can be verified that it is schedulable using the verifier tool in UPPAAL. 
 The verifier will run a query, as can be seen on \autoref{snip:UPPAALQuery} asking that for any given state, non of the tasks is going into the state error 
