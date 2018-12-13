@@ -46,6 +46,7 @@ void user_1ms_isr_type2(void) {
 
 void stop() {
     stop_motors();
+    disable_laser();
     ecrobot_disconnect_usb();
 }
 
@@ -56,17 +57,9 @@ void stop() {
    PREEMPTIVE: YES
 */
 TASK(background_task) {
-    if(!calibrated){
-        show_init_screen();
-        while(!get_status_code(&current_status, 0));
-
-        if (current_status == READY_FOR_CALIBRATION) {
-            calibrate();
-        }
+    if(!calibrated && current_status == READY_FOR_CALIBRATION){
+        calibrate(false);
         calibrated = true;
-    }
-    if (current_status == DISCONNECTED_REQ) {
-        stop();
     }
     TerminateTask();
 }
@@ -78,6 +71,7 @@ TASK(background_task) {
    PREEMPTIVE: NO
 */
 TASK(keep_USB_alive) {
+
     GetResource(USB_Rx);
     ecrobot_process1ms_usb();
     ReleaseResource(USB_Rx);
@@ -107,7 +101,7 @@ TASK(update_display) {
 */
 
 TASK(handle_laser) {
-    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 10 && abs(last_target_location.y) < 10) {
+    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 5 && abs(last_target_location.y) < 5) {
         enable_laser();
     } else {
         disable_laser();
@@ -123,7 +117,11 @@ TASK(handle_laser) {
    PREEMPTIVE: NO
 */
 TASK(receive_data) {
-    get_status_code(&current_status, &last_target_location);
+    int updated = get_status_code(&current_status, &last_target_location);
+
+    if (updated && current_status == DISCONNECTED_REQ) {
+        stop();
+    }
     TerminateTask();
 }
 

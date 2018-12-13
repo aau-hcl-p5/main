@@ -7,11 +7,6 @@
 #include "movement.h"
 #include "usb.h"
 
-#define MIN_POWER 0
-#define MAX_POWER 100
-#define MIN_REVOLUTION_THRESHOLD 3
-#define REVOLUTION_OFFSET 55
-
 // Checks whether revolutions are the same within a margin of error of MIN_REVOLUTION_THRESHOLD
 bool revolutions_equals(T_REVOLUTION target1, T_REVOLUTION target2, T_AXIS_TYPE axis) {
     int16_t max_value, min_value;
@@ -54,8 +49,8 @@ int8_t get_power_to_move_one_degree(T_AXIS_TYPE axis, T_DIRECTION direction) {
         power++;
 
         display_calibration_status(axis_str, first_revolution, power);
-        // wait 15ms but make sure we don't move in that timeframe
-        for(int i = 0; i < 15; i++)
+        // wait 30ms but make sure we don't move in that timeframe
+        for(int i = 0; i < 30; i++)
         {
             systick_wait_ms(1);
             if (!should_stop_moving(first_revolution, power))
@@ -120,26 +115,5 @@ void calibrate() {
     // calibrate the y axis
     for (int i = 0; i < 2; i++) {
         calibrate_axis_in_direction(AXIS_Y, i % 2 == 0 ? POSITIVE : NEGATIVE);
-    }
-}
-
-/*
- * Function: get_required_power
- * ----------------------------
- *   Using get_current_revolution() and the y_axis_powers for determining
- *     the required power on a direction.
- *     for x, this is always 15.
- *
- *   axis: AXIS_X or AXIS_Y for which axis power is required
- *   positive_direction: POSITIVE or NEGATIVE for which direction, on the axis.
- *
- *   returns: the required power for moving a given direction on a given axis.
- */
-int8_t get_required_power(T_AXIS_TYPE axis, T_DIRECTION positive_direction) {
-    if (axis == AXIS_X) {
-        return 15;
-    } else {
-        T_POWER_TUPLE power_set = y_axis_powers[get_current_revolution().y + REVOLUTION_OFFSET];
-        return positive_direction ? power_set.positive : power_set.negative;
     }
 }

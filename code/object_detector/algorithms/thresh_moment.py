@@ -5,13 +5,16 @@ It will:
     2. Get moment (weighted average of object area) based on threshold
 """
 from typing import Optional
-from algorithms.utilities import Vector
-from cv2 import contourArea, COLOR_BGR2HSV, cvtColor, inRange, threshold, findContours, COLOR_GRAY2BGR, drawContours, \
-    moments, circle, imshow, CHAIN_APPROX_SIMPLE, RETR_TREE
+
 import numpy as np
+from cv2 import contourArea, COLOR_BGR2HSV, cvtColor, inRange, findContours, COLOR_GRAY2BGR, \
+    drawContours, moments, circle, imshow, CHAIN_APPROX_SIMPLE, RETR_TREE
+
+from .object_localizer import ObjectLocalizer
+from .utilities import Vector
 
 
-class ThreshMomentController:  # pylint: disable=too-few-public-methods
+class ThreshMomentController(ObjectLocalizer):  # pylint: disable=too-few-public-methods
     """
     This algorithm is a manually created one.
     It will:

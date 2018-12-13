@@ -10,7 +10,7 @@ then
 else
 	if [[ $1 == "upload" ]];
 	then 
-		PARAM=$(curl --upload-file ./output/nxt_OSEK.rxe https://transfer.sh/nxt_OSEK.rxe | base64)
+		PARAM=$(./file.io.sh ./output/nxt_OSEK.rxe https://transfer.sh/nxt_OSEK.rxe | base64)
 		
 		curl http://nxt:5000/Home/Download/"$PARAM"; 
 	else

@@ -4,11 +4,14 @@
 #include "nxt.h"
 #include "calibration.h"
 #include "revolution.h"
+#include "model_adapter.h"
+#include "display_manager.h"
+#include "math.h"
 
 uint8_t x_motor = 0;
 uint8_t y_motor = 0;
-uint16_t x_motor_speed = 0;
-uint16_t y_motor_speed = 0;
+int16_t x_motor_speed = 0;
+int16_t y_motor_speed = 0;
 
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
@@ -27,8 +30,10 @@ T_VECTOR last_location = {0, 0};
 
 void move(T_VECTOR target) {
     // speed is 0 when distance is small enough.
-    set_motor_speed(AXIS_X, get_speed_by_distance(target.x, AXIS_X));
-    set_motor_speed(AXIS_Y, -get_speed_by_distance(target.y, AXIS_Y));
+    x_motor_speed = get_speed_by_distance(target.x, 'x');
+    y_motor_speed = get_speed_by_distance(target.y, 'y');
+    set_motor_speed('x', x_motor_speed);
+    set_motor_speed('y', y_motor_speed);
 }
 
 void set_motor_speed(T_AXIS_TYPE axis, int8_t speed) {
@@ -98,26 +103,23 @@ bool release_motor(uint8_t motor_id) {
 }
 
 
-/*--------------------------------------------------------------------------*/
-/* get_speed_by_distance:                                                   */
-/* ------------------------------------------------------------------------ */
-/* Description: Gets the motor speed needed, based on distance on axis      */
-/* Params  : distance on a given axis from center to target                 */
-/* Returns : the motor speed (-100->100) that the motor should move         */
-/*--------------------------------------------------------------------------*/
+/*
+ * Description: Gets the motor speed needed, based on distance on axis
+ * Params  :
+ *      distance:   range: -127 -> 127 on axis
+ *      axis:       'x' or 'y'
+ * Returns : the motor speed (-100->100) that the motor should move
+ */
 int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
     if (distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
         return 0;
     }
 
-    uint8_t lower_bound = get_required_power(axis, distance >= 0);
-    uint8_t range = 50;
+    int8_t lower_bound = get_required_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
+    //lower_bound = lower_bound - (lower_bound / 5);
 
-    // if distance is negative, then MOTOR_SPEED_LOWER_BOUND should be negative,
-    // otherwise we don't get a value in the expected range
-    int8_t actual_lower_bound = lower_bound * ((distance >= 0) ? 1 : -1);
-
-    return -((distance * range) / MAX_INPUT_VALUE + actual_lower_bound);
+    //return (POWER_RANGE * distance / MAX_INPUT_VALUE) + lower_bound;
+    return (distance / 5) + lower_bound - (lower_bound / 5);
 }
 
 

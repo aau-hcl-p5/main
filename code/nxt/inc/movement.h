@@ -15,9 +15,9 @@
 #define AXIS_X 0
 #define AXIS_Y 1
 
-#define MAX_POWER_MODIFIER 40
+#define POWER_RANGE 25
 
-#define MOTOR_DEADZONE 1
+#define MOTOR_DEADZONE 2
 
 #define MAX_INPUT_VALUE 127
 
@@ -26,6 +26,8 @@ typedef uint8_t T_AXIS_TYPE;
 
 extern uint8_t x_lower_bound_modifier;
 extern uint8_t y_lower_bound_modifier;
+extern int16_t x_motor_speed;
+extern int16_t y_motor_speed;
 
 /*
  * Function: init_motor
