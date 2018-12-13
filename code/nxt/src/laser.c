@@ -39,6 +39,8 @@ void release_laser() {
     ecrobot_set_motor_speed(laser_id, 0);
     if (laser_id != laser_id_0) bitflip_error();
 
+    laser_state = false;
+    laser_state_0 = false;
     laser_id = 0;
     laser_id_0 = 0;
 }
