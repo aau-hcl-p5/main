@@ -28,10 +28,24 @@ This renders the resolution irrelevant.
 
 Furthermore, the framerate of the camera is irrelevant, as long as the camera provides a higher framerate, than the software processes.
 
+The chosen camera was a Logitech HD Webcam C270, as it was available, and fulfilled all of the requirements for a camera\cite{logitechwebcam}.
+
 \subsection*{Laser}
 The laser is a critical part of the system.
+
+In the early stages of the project, a laser pointer was used to represent the laser.
+However, to reduce weight a different solution was required.
+
 The criteria for the laser is that it should turn on and stay on until told otherwise. 
+
+For this purpose, a KY-008 Arduino Laser Module was purchased\cite{LaserDatasheet}.
+
 In order to verify that the laser works according to the criteria, the laser was tested with a controlled current delivered by an external power source.
 To test, the Raspberry Pi and Arduino platforms were used, since both can deliver 5 volts of direct current, which is the required amount for the laser\cite{LaserDatasheet}.
 The laser module was soldered to a proprietary Lego wire and plugged into the NXT and the laser module operated with the same effect as the conducted tests. 
 This was verified by looking at the laser when pointing at a white wall, as well as at a balloon.
+
+\subsection*{Conclusion}
+The hardware tests proved that while the hardware was mostly accurate, there were still imprecisions.
+This is to be expected, as LEGO is a toy, and cannot be held to the same standard as more expensive hardware.
+However, this means that these inaccuracies have to be accounted for in the software implementation.

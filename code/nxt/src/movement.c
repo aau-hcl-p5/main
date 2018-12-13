@@ -23,7 +23,7 @@ T_VECTOR last_location = {0, 0};
 /* move_motors:                                                             */
 /* ------------------------------------------------------------------------ */
 /* Description:                                                             */
-/* Params  : T_VECTOR target: Information about the target         */
+/* Params  : T_VECTOR target: Information about the target                  */
 /*              location.                                                   */
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
@@ -36,9 +36,9 @@ void move(T_VECTOR target) {
     set_motor_speed('y', y_motor_speed);
 }
 
-void set_motor_speed(char axis, int8_t speed) {
+void set_motor_speed(T_AXIS_TYPE axis, int8_t speed) {
     uint8_t motor = y_motor;
-    if (axis == 'x'){
+    if (axis == AXIS_X){
         motor = x_motor;
     }
 
@@ -51,21 +51,21 @@ void set_motor_speed(char axis, int8_t speed) {
 /* ------------------------------------------------------------------------ */
 /* Description: Used to initialize a motor before it is used the first time.*/
 /* Params  : motor_id: The ID of the motor. Value should be NXT_PORT_(port).*/
-/*           orientation: Specifies if the motor handles horizontal (x) or  */
-/*                        vertical (y) movement.                            */
+/*           axis: Specifies if the motor handles horizontal (x) or         */
+/*                 vertical (y) movement.                                   */
 /*           speed: The speed of the motor. Value between 0 and 100.        */
 /* Returns : None                                                           */
 /*--------------------------------------------------------------------------*/
 
-bool init_motor(uint8_t motor_id, char orientation, uint16_t speed) {
-    if (orientation == 'x') {
+bool init_motor(uint8_t motor_id, T_AXIS_TYPE axis, uint16_t speed) {
+    if (axis == AXIS_X) {
         x_motor = motor_id;
         x_motor_speed = speed;
         ecrobot_set_motor_speed(x_motor, 0);
         nxt_motor_set_count(x_motor, 0);
         last_location.x = ecrobot_get_motor_rev(motor_id);
         return true;
-    } else if(orientation == 'y') {
+    } else if(axis == AXIS_Y) {
         y_motor = motor_id;
         y_motor_speed = speed;
         ecrobot_set_motor_speed(y_motor, 0);
@@ -110,7 +110,7 @@ bool release_motor(uint8_t motor_id) {
  *      axis:       'x' or 'y'
  * Returns : the motor speed (-100->100) that the motor should move
  */
-int8_t get_speed_by_distance(int8_t distance, char axis) {
+int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
     if (distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
         return 0;
     }

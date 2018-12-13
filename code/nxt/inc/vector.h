@@ -14,7 +14,4 @@ typedef struct __attribute__((packed)) {
     uint16_t status;
 } T_TARGET_INFORMATION;
 
-
-extern bool is_locations_equals(T_VECTOR target1, T_VECTOR target2);
-
 #endif

@@ -25,8 +25,8 @@ bool calibrated = false;
 
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void) {
-    init_motor(NXT_PORT_A, 'y', 20);
-    init_motor(NXT_PORT_B, 'x', 20);
+    init_motor(NXT_PORT_A, AXIS_Y, 20);
+    init_motor(NXT_PORT_B, AXIS_X, 20);
     init_laser(NXT_PORT_C, NXT_PORT_C);
     ecrobot_init_usb(); /* init USB */
 }
@@ -109,9 +109,9 @@ TASK(handle_laser) {
     TerminateTask();
 }
 
-/* Receive data is responsible for receiving data from the USB 
+/* Receive data is responsible for receiving data from the USB
    and sets the status code of the system according to the
-   data that was received. 
+   data that was received.
 
    PRIORITY: 4
    PREEMPTIVE: NO
@@ -126,11 +126,11 @@ TASK(receive_data) {
 }
 
 /* Move motors is responsible for sending a signal to the co-processor
-   that handles movement of motors. 
-   
+   that handles movement of motors.
+
    PRIORITY: 2
    PREEMPTIVE: YES
-*/ 
+*/
 TASK(move_motors) {
     if (current_status == TARGET_FOUND) {
         move(last_target_location);
