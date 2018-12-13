@@ -67,7 +67,7 @@ Since all tasks with a higher priority have an impact on the worst-case interfer
 \begin{equation}
 I_i = \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
 \end{equation}
-When combined with Equation~\ref{eq:responsetime} it is seen we get the following recursive relation for the worst-case response time $R_i$ for $\tau_i$:
+When combined with Equation~\ref{eq:responsetime} it results in the following recursive relation for the worst-case response time $R_i$ for $\tau_i$:
 \begin{equation}
 R_i = C_i + \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
 \end{equation}
