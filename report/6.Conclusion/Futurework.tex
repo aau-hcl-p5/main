@@ -51,9 +51,12 @@ Currently, the structure is build with LEGO, which has some limitations leading 
 One of the largest sources of lacking stability are the axes.
 The LEGO gears has some spacing between each element, and introducing ball bearings might improve the quality, while also creating a sturdy structure near the moveable parts.
 A general stability could be introduced by creating a custom structure out of a moulded structure.
-
 Using more powerful motors, and motors with a higher rate of precision, both regarding power and step-size, as we are currently limited by how far away a target can be, by the inability to detect movement less than 1 degree.
 
+Likewise, the imprecision of the motors causes some issues, especially due to the fact that they can only move a whole degree per step.
+As a result of this, the movement of the laser will be imprecise at a distance.
+For example, at a distance of 30 centimeters from the laser, one degree movement will result in the laser moving 0.3 centimeters, however, at a distance of 2.5 meters, moving a single degree will result in the laser moving more than 4 centimeters.
+This limitation means that at a distance, hitting a small object is simply not viable due to the imprecisions of the motors.
 
 \subsection{Hardware Choice}
 The solution could potentially utilize a more powerful device, that could handle both image processing as well as movements, making the device more simple in nature, and also more interesting in the context of real-time systems.
