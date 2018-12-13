@@ -7,7 +7,7 @@ Because of this, it is important to look into the science of object identificati
 
 It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
 
-\subsection{Neural Networks}
+\subsection{Neural networks}
 A neural network is, as the name implies, a network of neurons.
 The idea is based on the neurons in the human brain, where the sum of the neurons are used to make more complex decisions than each individual neuron is capable of.
 The primary difference is whether it's a biological brain or an artificial one. 
@@ -18,9 +18,39 @@ Because of this, simpler solutions should also be considered when exploring whic
 One of the reasons neural networks are especially interesting in this case, is its ability to recognize patterns.
 Pattern recognition is a fundamental part of object recognition making neural networks an obvious option.
 
-\subsubsection{Convolutional Neural Network}
+\subsubsection{The structure of a neural network}
+
+A typical neural network consists of an input layer, an output layer and one or multiple hidden layers in between.
+It is the task of the hidden layers to transform the input from the input layer into the desired output onto the output layer.
+The layers consists of one or more neurons, where in a normal fully connected neural network all neurons in a layer is connected to all neurons in the previous layer.
+
+All connections in a neural network has a weight associated to it, which acts as a simple multiplier for the output from the previous neuron. Apart from the weights each neuron is assigned a bias, which is added to the sum of all inputs to the neuron. The bias is sometimes thought of as a sort of threshold indicating whether a neuron should fire.
+
+Before passing the result of a neuron on, the result is first transformed by an activation function. The activation function is required in order for the neural network to learn to solve a complex non-linear model. This will be further discussed in \ref{training-a-neural-network} about training.
+
+\paragraph{Identity}
+
+\paragraph{Perceptron}
+
+\paragraph{Sigmoid}
+
+\paragraph{RELU}
+
+\subsubsection{Calculations in a neural network}
+
+\subsubsection{Training a neural network}\label{training-a-neural-network}
+
+\paragraph{Back propagation}
+
+Solvers:
+
+\paragraph{Stochastic Gradient Descent}
+
+\paragraph{Limited Memory Breadth First Graph Search}
+
+\subsection{Convolutional Neural Network}
 \label{sec:cnn}
-Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection.
+Convolutional neural networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
 In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN \cite{ILSVRC_Results}.  
 A CNN is a neural network with three categories of layers.
 The layers are of the following types; an input layer, an output layer and a number of so called hidden layers.
@@ -47,7 +77,7 @@ Now the question is whether it can be used to figure out the position of the obj
 The answer can be found by looking into Regional Convolutional Neural Network
 
 
-\subsubsection{Regional Convolutional Neural Network}
+\subsection{Regional Convolutional Neural Network}
 A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
 It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
