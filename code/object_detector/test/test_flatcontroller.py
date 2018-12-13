@@ -21,6 +21,7 @@ class TestFlatController(unittest.TestCase):
                 FlatController(alg.locate_center,
                                output_device,
                                webcam.VideoController(webcam.CaptureDeviceType.TEST_POSITIVE),
+                               debug=False,
                                )._iteration()
             sys.stdout = sys.__stdout__
             self.assertEqual(
