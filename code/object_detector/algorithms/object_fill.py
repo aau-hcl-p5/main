@@ -7,7 +7,7 @@ It will:
     4. Use the old center coordinates to search for the object in the next frame, and the goto 2.
 """
 from collections import deque
-from typing import Optional, Set, Deque, Union, Iterator
+from typing import Optional, Set, Deque, Union, Iterator, Tuple
 
 import numpy as np
 
@@ -54,7 +54,7 @@ It will:
         self._dynamic_fill_size = dynamic_fill_size
         self._blacklisted_pixels: Set[Vector] = set()
 
-    def locate_center(self, frame: np.ndarray) -> Optional[Vector]:
+    def locate_center(self, frame: np.ndarray) -> Optional[Tuple[Vector, bool]]:
         """
         :param frame: The image to search in
         :return: The center of the object (Can be null).

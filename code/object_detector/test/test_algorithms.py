@@ -19,7 +19,7 @@ class TestZoneAvgAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.ZONE_AVG)
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
-        output = controller.locate_center(frame)
+        output, on_target = controller.locate_center(frame)
         self.assertIsNone(output)
 
     def test_detect_positive(self):
@@ -29,7 +29,7 @@ class TestZoneAvgAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.ZONE_AVG)
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
-        output = controller.locate_center(frame)
+        output, on_target = controller.locate_center(frame)
         goal = Vector(928, 306)
         self.assertEqual(output.as_int(), goal, f"{output.as_int()} (output) != {goal}")
 
@@ -43,7 +43,7 @@ class TestObjectFillAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.OBJ_FILL)
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
-        output = controller.locate_center(frame)
+        output, on_target = controller.locate_center(frame)
         self.assertIsNone(output)
 
     def test_detect_positive(self):
@@ -53,7 +53,7 @@ class TestObjectFillAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.OBJ_FILL)
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
-        output = controller.locate_center(frame)
+        output, on_target = controller.locate_center(frame)
         goal = Vector(911, 254)
         self.assertEqual(output.as_int(), goal, msg=f"{output.as_int()} (output) != {goal}")
 
@@ -70,7 +70,7 @@ class ThreshMomentAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.THRESH_MOMENT)
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
-        output = controller.locate_center(frame)
+        output, on_target = controller.locate_center(frame)
         self.assertIsNone(output)
 
     def test_detect_positive(self):
@@ -80,6 +80,6 @@ class ThreshMomentAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.THRESH_MOMENT)
         frame = VideoController(CaptureDeviceType.TEST_POSITIVE).get_current_frame()
-        output = controller.locate_center(frame)
+        output, on_target = controller.locate_center(frame)
         goal = Vector(912, 257)
         self.assertEqual(output.as_int(), goal, msg=f"{output.as_int()} (output) != {goal}")

@@ -1,4 +1,4 @@
-from typing import Callable, Union, List, Optional
+from typing import Callable, Union, List, Optional, Tuple
 
 import cv2
 import numpy as np
@@ -16,7 +16,7 @@ class FlatController:
     """
 
     def __init__(self,
-                 algorithm: Callable[[np.ndarray], Optional[Vector]],
+                 algorithm: Callable[[np.ndarray], Optional[Tuple[Vector, bool]]],
                  output_device: OutputDevice,
                  input_device: VideoController,
                  calibration_algorithm: Union[Callable[[OutputDevice], None], None] = None,
@@ -45,9 +45,10 @@ class FlatController:
         self.terminating = False
 
     def _iteration(self) -> None:
-        loc = self._get_next_location()
-        if loc is not None:
-            self.output_device.write_location(loc)
+        data = self._get_next_location()
+        if data is not None:
+            # TODO maybe refactor
+            self.output_device.write_location(data)
         else:
             self.output_device.write_status(Status.NO_TARGET_FOUND)
 
@@ -63,7 +64,7 @@ class FlatController:
             if k == 27:
                 break
 
-    def _get_next_location(self) -> Vector:
+    def _get_next_location(self) -> Optional[Tuple[Vector, bool]]:
         """
 
         :return: Vector in range {algorithms.COMMUNICATION_OUT_RANGE}

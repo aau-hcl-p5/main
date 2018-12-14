@@ -116,10 +116,10 @@ int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
     }
 
     int8_t lower_bound = get_minimum_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
-    //lower_bound = lower_bound - (lower_bound / 5);
+    lower_bound = lower_bound - (lower_bound / 8);
 
-    //return (POWER_RANGE * distance / MAX_INPUT_VALUE) + lower_bound;
-    return (distance / 5) + lower_bound - (lower_bound / 5);
+    return (POWER_RANGE * distance / MAX_INPUT_VALUE) + lower_bound;
+    //return (distance / 5) + lower_bound - (lower_bound / 5);
 }
 
 

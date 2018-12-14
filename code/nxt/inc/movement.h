@@ -6,16 +6,12 @@
 #include "vector.h"
 #include "revolution.h"
 
-#define MOTOR_RANGE_Y 10
-#define MOTOR_SPEED_LOWER_BOUND_Y 20
-
-#define MOTOR_RANGE_X 10
-#define MOTOR_SPEED_LOWER_BOUND_X 15
+#define MOTOR_SPEED_LOWER_BOUND_X 25
 
 #define AXIS_X 0
 #define AXIS_Y 1
 
-#define POWER_RANGE 25
+#define POWER_RANGE 23
 
 #define MOTOR_DEADZONE 2
 

@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from algorithms import Vector
 from .output_device import OutputDevice
 from .status import Status
@@ -10,7 +12,7 @@ class Printer(OutputDevice):
     def __exit__(self, *args):
         pass
 
-    def write_location(self, data: Vector) -> None:
+    def write_location(self, data: Tuple[Vector, bool]) -> None:
         print("Writing location", bytes([
             0,
             0,

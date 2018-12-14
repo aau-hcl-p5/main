@@ -3,7 +3,7 @@ helper methods for the algorithm module
 This contains classes and methods that can help with the action of algorithms
 
 """
-from typing import Union, Optional
+from typing import Union, Optional, Tuple
 
 import numpy as np
 
@@ -128,8 +128,11 @@ def bell(x, mid, r, a):
         return 0
 
 
-def screen_location_to_relative_location(frame: np.ndarray, position: Optional[Vector],
-                                         modifier_type: str = 'bell') -> Optional[Vector]:
+def screen_location_to_relative_location(
+        frame: np.ndarray,
+        position: Optional[Tuple[Vector, bool]],
+        modifier_type: str = 'bell'
+) -> Optional[Tuple[Vector, bool]]:
     """
     This transforms the location on the screen to a value between -127, 127
     and does this with scaling in the sense of:
@@ -143,15 +146,24 @@ def screen_location_to_relative_location(frame: np.ndarray, position: Optional[V
     if position is None:
         return None
 
+    # upack the tuple
+    position, on_target = position
+
     half_size = Vector(frame.shape[1], frame.shape[0]) // 2
 
     val = (half_size - position) / half_size
 
     # dir is used because val.x * val.x will not keep the direction (negative or positive).
     if modifier_type == "polynomial":
-        return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2)
+        return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2), on_target
     elif modifier_type == "bell":
         r = 200
-        return Vector(bell(position.x, half_size.x, r, 310), bell(position.y, half_size.y, r, 230)) * val.dir()
+        return (
+            Vector(
+                bell(position.x, half_size.x, r, 310),
+                bell(position.y, half_size.y, r, 230)
+            ) * val.dir(),
+            on_target
+        )
     else:
-        return -val * (COMMUNICATION_OUT_RANGE // 2)
+        return -val * (COMMUNICATION_OUT_RANGE // 2), on_target
