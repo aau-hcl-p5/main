@@ -101,7 +101,7 @@ TASK(update_display) {
 */
 
 TASK(handle_laser) {
-    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 5 && abs(last_target_location.y) < 5) {
+    if (current_status == FIRE_AT_TARGET) {
         enable_laser();
     } else {
         disable_laser();
@@ -132,7 +132,7 @@ TASK(receive_data) {
    PREEMPTIVE: YES
 */
 TASK(move_motors) {
-    if (current_status == TARGET_FOUND) {
+    if (current_status == TARGET_FOUND || current_status == FIRE_AT_TARGET) {
         move(last_target_location);
     } else {
         stop_motors();
