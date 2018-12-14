@@ -1,5 +1,5 @@
 \subsection{Python USB implementation}\label{sol:subsec:pythonusb}
-
+%Denne er måske alt for detaljeret
 In \autoref{sec:usbdes} the overall design of the USB communication was described.
 The following subsection will describe how the USB communication is implemented in the python part of the the solution.
 The NXT specific USB implementation will be described in \autoref{sec:nxtusbimp}.
@@ -7,7 +7,7 @@ The NXT specific USB implementation will be described in \autoref{sec:nxtusbimp}
 The USB device inherits from the OutputDevice base class.
 The implementation uses the PyUSB library, as described in \autoref{sec:usbdes}\cite{PyUSB}.
 
-\autoref{lst:PythonUSBInit} shows the initilization of the NxtUsb module, which handles the USB communication from python to the NXT.
+\autoref{lst:PythonUSBInit} shows the initialization of the NxtUsb module, which handles the USB communication from python to the NXT.
 \begin{lstlisting}[label={lst:PythonUSBInit},caption={The initialization of PyUSB{.} Comments removed}]
     def __enter__(self):
         self.device = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
@@ -24,7 +24,7 @@ The implementation uses the PyUSB library, as described in \autoref{sec:usbdes}\
         return self
 \end{lstlisting}
 Line 2 simply finds a USB device, that matches the signature of the NXT.
-%Kan ikke huske om næste linie er sandt
+\todo{Kan ikke huske om næste linie er sandt}
 The signature was found using device manager with the NXT plugged in.
 In the case there is no NXT device found, an exception is raised, shown in line 4.
 
@@ -33,7 +33,7 @@ This part is PyUSB specific, however, when the method is called without argument
 The specifics of what a configuration is do not matter for this specific use case.
 
 Line 9 sets the endpoints, meaning where to read from and where to write to.
-%Verify this
+\todo{Verify this}
 The same endpoint is used for both.
 
 At this point in the program, the NXT is waiting for a specific code, which is sent in line 10.
@@ -72,5 +72,6 @@ def write_status(self, status: Status):
         ]))
 
 \end{lstlisting}
-%En eller anden skal nok præcist forklare det her.
+\todo{En eller anden skal nok præcist forklare det her}
 Both methods send byte wise data.
+
