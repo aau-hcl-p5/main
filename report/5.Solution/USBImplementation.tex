@@ -7,8 +7,8 @@ The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
 
 \begin{lstlisting}[language=CSharp,label={lst:usbhandshake},caption={ecrobot\_device\_initialize method from nxt.c}]
     void ecrobot_device_initialize(void) {
-        init_motor(NXT_PORT_A, 'y', 20);
-        init_motor(NXT_PORT_B, 'x', 20);
+        init_motor(NXT_PORT_A, AXIS_Y, 20);
+        init_motor(NXT_PORT_B, AXIS_X, 20);
         ecrobot_init_usb();
     }
 \end{lstlisting}
@@ -51,7 +51,7 @@ It then reads the data from the USB buffer, with the \texttt{ecrobot\_read\_usb}
 After releasing the USB resource, the function checks the length of the data, which can be the length of a status code, which is defined as an unsigned 16 bit integer in the \texttt{usb.h} header file the length of \texttt{MAX\_SIZE\_OF\_USB\_DATA}.
 In the case of a status code, this code is copied to the \texttt{out\_code} which is specified as an input parameter in the form of a pointer.
 Alternatively, it can be of length \texttt{MAX\_SIZE\_OF\_USB\_DATA}, which is defined as a status code concatenated with a target vector, a data structure containing a set of $X$ and $Y$ coordinates in the form of two 16 bit integers.
-In this case, the status code is copied to the \texttt{out\_code} and the received target information is copied to the \texttt{out\_location}, which is also specified as an input parameter. 
+In this case, the status code is copied to the \texttt{out\_code} and the received target information is copied to the \texttt{out\_location}, which is also specified as an input parameter.
 If nothing is read from the USB, meaning that the length of the read data is $0$, it returns false to indicate that nothing was read.
 
 The \texttt{get\_status\_code function} is called from the \texttt{receive\_data} function in the \texttt{nxt.c} file, which contains the tasks for the device.

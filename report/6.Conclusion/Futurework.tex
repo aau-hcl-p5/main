@@ -1,6 +1,6 @@
 \section{Future work}\label{sec:futurework}
 Throughout the development of a project, there are often several ideas that are deprioritized for one reason or another.
-This section will describe the ideas that the group had, our initial thoughts, how they might have been implemented and why they were not implemented.
+This section will describe the ideas that the group had, including initial thoughts and how they might have been implemented or why they were not implemented.
 
 
 \subsection{Predict target location in x frames}
@@ -17,7 +17,7 @@ In this context, calibration could potentially also be done online, however, dep
 
 
 \subsection{Firing a projectile}
-During our MoSCoW analysis, the ability to hit a moving target with a projectile was classified as a \textbf{Could have} feature.
+During the MoSCoW analysis, the ability to hit a moving target with a projectile was classified as a \textbf{Could have} feature.
 The ability to do this requires further development of the physical aspects of the solution.
 Creating a device that can fire a projectile, and ideally not require a manual reload between each shot, requires a larger construction, which would put more weight on each motor leading to reduced precision.
 Furthermore, the solution would require a prediction algorithm.
@@ -51,9 +51,11 @@ Currently, the structure is build with LEGO, which has some limitations leading 
 One of the largest sources of lacking stability are the axes.
 The LEGO gears has some spacing between each element, and introducing ball bearings might improve the quality, while also creating a sturdy structure near the moveable parts.
 A general stability could be introduced by creating a custom structure out of a moulded structure.
-
 Using more powerful motors, and motors with a higher rate of precision, both regarding power and step-size, as we are currently limited by how far away a target can be, by the inability to detect movement less than 1 degree.
 
+Likewise, the imprecision of the motors causes some issues, especially as they can only move a full degree per step, meaning the movement of the laser will become more imprecise as the distance to the target increases.
+For example, at a distance of 30 centimeters from the laser, one degree movement will result in the laser moving 0.3 centimeters, however, at a distance of 2.5 meters, moving a single degree will result in the laser moving more than 4 centimeters.
+This limitation means that at a distance, hitting a small object is simply not viable due to the limitations of the motors.
 
 \subsection{Hardware Choice}
 The solution could potentially utilize a more powerful device, that could handle both image processing as well as movements, making the device more simple in nature, and also more interesting in the context of real-time systems.

@@ -82,9 +82,9 @@ void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_lo
     /* Power */
     display_string_at_xy(0, 4, "Power:");
     display_string_at_xy(0, 5, "X:");
-    display_int_at_xy(3, 5, get_speed_by_distance(target_last_location.x, 'x'), 4);
+    display_int_at_xy(3, 5, x_motor_speed, 4);
     display_string_at_xy(9, 5, "Y:");
-    display_int_at_xy(12, 5, get_speed_by_distance(target_last_location.y, 'y'), 4);
+    display_int_at_xy(12, 5, y_motor_speed, 4);
 
     /* Modifier */
     display_string_at_xy(0, 6, "Modifier:");

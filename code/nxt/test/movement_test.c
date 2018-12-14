@@ -7,8 +7,8 @@
 
 T_TC_RESULT test_motor_init() {
     T_TC_RESULT res = TC_SUCCESS;
-    res |= assert_bool_equals(true, init_motor(NXT_PORT_A, 'y', 20));
-    res |= assert_bool_equals(true, init_motor(NXT_PORT_B, 'x', 20));
+    res |= assert_bool_equals(true, init_motor(NXT_PORT_A, AXIS_Y, 20));
+    res |= assert_bool_equals(true, init_motor(NXT_PORT_B, AXIS_X, 20));
     T_MOTOR motor_a = get_motor_attributes(NXT_PORT_A);
     T_MOTOR motor_b = get_motor_attributes(NXT_PORT_B);
     res |= assert_num_equals(0, motor_a.speed);
@@ -24,8 +24,8 @@ T_TC_RESULT test_motor_init_illegal_axis() {
 }
 T_TC_RESULT test_stop_motors() {
     T_TC_RESULT res = TC_SUCCESS;
-    res |= assert_bool_equals(true, init_motor(NXT_PORT_A, 'y', 20));
-    res |= assert_bool_equals(true, init_motor(NXT_PORT_B, 'x', 20));
+    res |= assert_bool_equals(true, init_motor(NXT_PORT_A, AXIS_Y, 20));
+    res |= assert_bool_equals(true, init_motor(NXT_PORT_B, AXIS_X, 20));
     stop_motors();
     T_MOTOR motor_a = get_motor_attributes(NXT_PORT_A);
     T_MOTOR motor_b = get_motor_attributes(NXT_PORT_B);
@@ -37,8 +37,8 @@ T_TC_RESULT test_stop_motors() {
 }
 T_TC_RESULT test_motor_release() {
     T_TC_RESULT res = TC_SUCCESS;
-    res |= assert_bool_equals(true, init_motor(NXT_PORT_A, 'y', 20));
-    res |= assert_bool_equals(true, init_motor(NXT_PORT_B, 'x', 20));
+    res |= assert_bool_equals(true, init_motor(NXT_PORT_A, AXIS_Y, 20));
+    res |= assert_bool_equals(true, init_motor(NXT_PORT_B, AXIS_X, 20));
     release_motor(NXT_PORT_A);
     release_motor(NXT_PORT_B);
     T_MOTOR motor_a = get_motor_attributes(NXT_PORT_A);

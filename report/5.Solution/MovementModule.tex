@@ -9,8 +9,8 @@ Before using the LEGO motors, the NXT needs to know which ports are used for eac
 This is done as follows:
 \begin{lstlisting}[language=CSharp, label={lst:DeviceInit},caption={ecrobot\_device\_initialize method from movement.c}]
 void ecrobot_device_initialize(void){
-  init_motor(NXT_PORT_A, 'x', 20);
-  init_motor(NXT_PORT_B, 'y', 20);
+  init_motor(NXT_PORT_A, AXIS_X, 20);
+  init_motor(NXT_PORT_B, AXIS_Y, 20);
 }
 \end{lstlisting}
 As seen on Snippet~\ref{lst:InitMotor} the port on the NXT is specified with an orientation and an initial speed.
@@ -18,7 +18,7 @@ The \textit{init\_motor} method is declared as follows, where the different para
 
 \begin{lstlisting}[language=CSharp,label={lst:InitMotor},caption={init\_motor method from movement.c}]
 bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
-  if(orientation == 'x'){
+  if(orientation == AXIS_X){
     x_motor = motor_id;
     x_motor_speed = speed;
     ecrobot_set_motor_speed(x_motor, 0);
@@ -26,7 +26,7 @@ bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
     current_location.x = ecrobot_get_motor_rev(motor_id);
     return true;
   }
-  else if(orientation == 'y'){
+  else if(orientation == AXIS_Y){
     y_motor = motor_id;
     y_motor_speed = speed;
     ecrobot_set_motor_speed(y_motor, 0);
