@@ -30,10 +30,10 @@ T_VECTOR last_location = {0, 0};
 
 void move(T_VECTOR target) {
     // speed is 0 when distance is small enough.
-    x_motor_speed = get_speed_by_distance(target.x, 'x');
-    y_motor_speed = get_speed_by_distance(target.y, 'y');
-    set_motor_speed('x', x_motor_speed);
-    set_motor_speed('y', y_motor_speed);
+    x_motor_speed = get_speed_by_distance(target.x, AXIS_X);
+    y_motor_speed = get_speed_by_distance(target.y, AXIS_Y);
+    set_motor_speed(AXIS_X, x_motor_speed);
+    set_motor_speed(AXIS_Y, y_motor_speed);
 }
 
 void set_motor_speed(T_AXIS_TYPE axis, int8_t speed) {
