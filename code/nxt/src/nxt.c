@@ -55,6 +55,7 @@ void stop() {
 
    PRIORITY: 5
    PREEMPTIVE: YES
+   RESOURCE: USB_Rx
 */
 TASK(background_task) {
     if(!calibrated && current_status == READY_FOR_CALIBRATION){
@@ -69,6 +70,7 @@ TASK(background_task) {
 
    PRIORITY: 6
    PREEMPTIVE: NO
+   RESOURCE: USB_Rx
 */
 TASK(keep_USB_alive) {
 
@@ -115,6 +117,7 @@ TASK(handle_laser) {
 
    PRIORITY: 4
    PREEMPTIVE: NO
+   RESOURCE: USB_Rx
 */
 TASK(receive_data) {
     int updated = get_status_code(&current_status, &last_target_location);

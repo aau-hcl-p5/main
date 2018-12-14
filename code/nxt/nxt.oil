@@ -36,6 +36,7 @@ CPU ATMEL_AT91SAM7S256 {
         ACTIVATION = 1;
         SCHEDULE = NON;
         STACKSIZE = 512; /* Stack size */
+        RESOURCE = USB_Rx;
     };
 
     TASK update_display {
@@ -60,6 +61,7 @@ CPU ATMEL_AT91SAM7S256 {
         ACTIVATION = 1;
         SCHEDULE = NON;
         STACKSIZE = 512; /* Stack size */
+        RESOURCE: USB_Rx;
     };
 
     TASK move_motors {
