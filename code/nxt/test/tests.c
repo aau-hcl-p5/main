@@ -16,6 +16,9 @@ int main() {
         {"Test stop motors", test_stop_motors},
         {"Test release motor", test_motor_release},
         {"Test toggle laser", test_toggle_laser},
+        {"Test releasing laser", test_release_laser},
+        {"Test enabling laser", test_enable_laser},
+        {"Test disabling laser", test_disable_laser},
     };
     int passes = 0;
     int fails = 0;

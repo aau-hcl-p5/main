@@ -7,6 +7,9 @@ TARGET_SOURCES = \
 	./src/display_manager.c \
 	./src/calibration.c \
 	./src/laser.c \
+	./src/model_up.c \
+	./src/model_down.c \
+	./src/model_adapter.c \
 
 TOPPERS_OSEK_OIL_SOURCE = ./nxt.oil
 USER_INC_PATH = ./inc

@@ -15,10 +15,22 @@ typedef enum {
 } T_DIRECTION;
 
 #define POINTS_ON_AXIS 360
+#define MIN_POWER 0
+#define MAX_POWER 100
+#define MIN_REVOLUTION_THRESHOLD 2
+#define REVOLUTION_OFFSET 55
 
 extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 
-extern void calibrate(bool internal);
-extern int8_t get_required_power(char axis, T_DIRECTION positive_direction);
+/*
+ * Function: calibrate
+ * ----------------------------
+ *   Begins calibration on both directions, AXIS_X and AXIS_Y.
+ *
+ *   returns: void
+ */
+extern void calibrate();
+
+
 
 #endif //NXT_CALIBRATION_H

@@ -18,6 +18,12 @@ run (all commands in this document should be run with this dir as working direct
 Optional flag of "-a" can specify what algorithm. by default, it is "goturn".
 
 
+# Calibration
+
+When calibrating, the device will export some C code,
+That code is placed in the root directory of the project.
+The code has to be placed in the file called "move up" and "move down" in the NXT project.
+
 
 ## Development
 it is recommended to create en venv for working with this.
