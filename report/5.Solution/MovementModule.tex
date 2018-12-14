@@ -8,13 +8,13 @@ In the following subsections, the movement module will be elaborated upon and so
 Before using the LEGO motors, the NXT needs to know which ports are used for each motor.
 This is done as follows:
 \begin{lstlisting}[language=CSharp, label={lst:DeviceInit},caption={ecrobot\_device\_initialize method from nxt.c}]
-  /* Initializes motors with their direction */
-  void ecrobot_device_initialize(void) {
-      init_motor(NXT_PORT_A, 'y', 20);
-      init_motor(NXT_PORT_B, 'x', 20);
-      init_laser(NXT_PORT_C, NXT_PORT_C);
-      ecrobot_init_usb(); /* init USB */
-  }
+/* Initializes motors with their direction */
+void ecrobot_device_initialize(void) {
+    init_motor(NXT_PORT_A, 'y', 20);
+    init_motor(NXT_PORT_B, 'x', 20);
+    init_laser(NXT_PORT_C, NXT_PORT_C);
+    ecrobot_init_usb(); /* init USB */
+}
 \end{lstlisting}
 As seen on Snippet~\ref{lst:InitMotor} the port on the NXT is specified with an orientation and an initial speed.
 The \textit{init\_motor} method is declared as follows, where the different parameters of the motor function is set up with initial values.
