@@ -62,7 +62,7 @@ Secondly, the algorithms was improved to only accept an object if it contained a
 This helped reduce the amount of false positives from very small objects or big but not so red objects.
 If the filling algorithm reports that the object is not a valid red object, the searching algorithm will continue from where it left off, until it has searched the entire image.
 
-\subsection{Thresh Moment}
+\subsection{Thresh Moment}\label{des:thresh}
 
 The previous algorithms utilizes OpenCV to extract images from the webcam. 
 The algorithms then work with the data in a low level fashion iterating over each pixel in the image to analyze it.
