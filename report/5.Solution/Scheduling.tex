@@ -95,8 +95,8 @@ With these considerations, the cyclic execution method with equal minor and majo
 
 \subsection{Fixed Priority Scheduling}
 However, as the project progressed, parts of the machine intelligence execution was moved to the NXT for execution.
-This lead to tasks that took longer than 1 millisecond to execute, rendering the use of cyclic executive infeasible, as described in Subsection~\cite{Design:Scheduling}. 
-Due to this, the fixed-priority scheduling model was instead utilized. 
+This resulted in tasks that took longer than 1 millisecond to execute, rendering the use of cyclic executive unviable, as described in Subsection~\cite{Design:Scheduling}. 
+Instead, the fixed-priority scheduling model was utilized. 
 
 After having added machine learning to the \texttt{Move\_Motors} task the execution times are as follows:
 
@@ -135,11 +135,13 @@ TASK(background_task) {
 }
 \end{lstlisting}
 
-As seen on Snippet~\ref{lst:backgroundTask}, the task checks if the boolean value calibrated has been changed to true, meaning that the calibration has already be done.
+As seen in Snippet~\ref{lst:backgroundTask}, the task checks if the boolean value, calibrated, is true.
+Calibrated indicates if calibration is completed.
 If this is not the case, the background task ensures that the status of the motors and USB are set as disconnected using the \texttt{stop} function.
 
-In the cyclic executive model, it was ensured that the \texttt{keep\_USB\_alive} task was executed once every millisecond by running it at the beginning at each cycle with a cycle length of 1 millisecond.
-With the FPS model, this is instead handled by assigning the task the highest possible priority, ensuring that it will run regardless of whatever else is currently being executed using preemption if needed.
+In the cyclic executive model, it was ensured that the \texttt{keep\_USB\_alive} task was executed once every millisecond by running it at the beginning of each cycle, as the cycles had a length of 1 millisecond.
+With the FPS model, this is instead done by assigning the \texttt{keep\_USB\_alive} task with the highest possible priority.
+This ensures that it will run ahead of all other tasks, using preemption if needed.
 To further ensure that it runs exactly once every 1 millisecond, an alarm is specified in the OIL file, as seen on Snippet~\ref{lst:OILAlarm}.
 
 \begin{lstlisting}[language=CSharp,label={lst:OILAlarm},caption={Alarm in the OIL}]
