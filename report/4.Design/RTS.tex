@@ -55,7 +55,7 @@ ReciveDataTask    = Task( 3 );
 HandleLaserTask   = Task( 4 );
 KeepUSBAliveTask  = Task( 5 );
 
-system BackgroundTask, UpdateDisplayTask, HandleLaserTask, MoveMotorsTask, ReciveDataTask, KeepUSBAliveTask, Scheduler;
+system BackgroundTask, UpdateDisplayTask, MoveMotorsTask, ReciveDataTask, HandleLaserTask, KeepUSBAliveTask, Scheduler;
 \end{lstlisting}
 Each task in initialized and assigned to an new task which is then added to the system together with the scheduler. 
 
@@ -64,13 +64,14 @@ The model is a timed automaton which is used to ensure that the task will come t
 The model consists of all the states a task can be in.
 Each state has a number of transitions that can change the state of the task. 
 
-\figur{0.5}{images/Task}{The figure shows the final base construction}{fig:UppaalTask}
+\figur{0.5}{images/Task}{The figure shows the the task template from UPPAAAL}{fig:UppaalTask}
 
 On \autoref{fig:UppaalScheduler} the model of how the scheduler works can be seen. 
 Since the scheduler is responsible for running all tasks on the system it simply needs an queue of tasks ready for running. 
-It when simply needs to start the tasks as they arrive at a ready state. 
-\figur{0.5}{images/Scheduler}{The figure shows the final base construction}{fig:UppaalScheduler}
-In the template both the committed and urgent type locations are used since the tasks that is not preemptive should be be allowed to run first 
+The tasks in the queue are sorted then entering the queue based on their priority. 
+It when simply needs to start the tasks as they arrive at a ready state and the scheduler ready to run them.
+
+\figur{0.5}{images/Scheduler}{The figure shows the scheduler template from UPPAAL}{fig:UppaalScheduler}
 
 Based on the model of both the task and the scheduler the system can be verified that it is schedulable using the verifier tool in UPPAAL. 
 The verifier will run a query, as can be seen on \autoref{snip:UPPAALQuery} asking that for any given state, non of the tasks is going into the state error 
