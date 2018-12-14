@@ -45,18 +45,19 @@ const int P[N] = {  // Priorities
     2,   // MoveMotorsTask
     3,   // ReciveDataTask
     4,   // HandleLaserTask
-    5    // KeepUSBAliveTask
+    4    // KeepUSBAliveTask
 };
 
 const bool Pr[N] = {  // Preemptive
     true,   // BackgroundTask
     true,   // UpdateDisplayTask
     true,   // MoveMotorsTask
-    false,  // ReciveDataTask
+    true,   // ReciveDataTask
     false,  // HandleLaserTask
     false   // KeepUSBAliveTask
 }; 
 
+bool running[N];
 </declaration>
 	<template>
 		<name x="40" y="16">Task</name>
@@ -64,75 +65,79 @@ const bool Pr[N] = {  // Preemptive
 		<declaration>clock c, t;
 </declaration>
 		<location id="id0" x="32" y="416" color="#ff00ff">
-			<name x="22" y="386">Blocked</name>
-			<label kind="invariant" x="8" y="432">c'==0</label>
+			<name x="8" y="425">Blocked</name>
+			<label kind="invariant" x="8" y="442">c'==0</label>
 		</location>
 		<location id="id1" x="32" y="64">
 			<name x="22" y="34">Idle</name>
-			<label kind="invariant" x="48" y="40">t&lt;=T[id]</label>
+			<label kind="invariant" x="51" y="42">t&lt;=T[id]</label>
 		</location>
 		<location id="id2" x="32" y="192" color="#ffa500">
-			<name x="16" y="160">Ready</name>
+			<name x="42" y="170">Ready</name>
 		</location>
 		<location id="id3" x="32" y="320" color="#00ff00">
-			<name x="8" y="288">Running</name>
+			<name x="42" y="297">Running</name>
 			<label kind="invariant" x="0" y="340">c&lt;=C[id]</label>
 		</location>
-		<location id="id4" x="192" y="320">
-			<name x="176" y="288">Error</name>
+		<location id="id4" x="221" y="323">
+			<name x="173" y="300">Error</name>
 		</location>
 		<init ref="id2"/>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id4"/>
-			<label kind="guard" x="120" y="392">t&gt;D[id]</label>
-			<nail x="192" y="416"/>
+			<label kind="guard" x="156" y="419">t&gt;D[id]</label>
+			<nail x="221" y="419"/>
 		</transition>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id3"/>
-			<label kind="synchronisation" x="104" y="360">run[id]?</label>
+			<label kind="synchronisation" x="102" y="365">run[id]?</label>
+			<label kind="assignment" x="100" y="379">running[id]=true</label>
 			<nail x="96" y="416"/>
 			<nail x="96" y="360"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="-24" y="360">stop?</label>
-			<nail x="-32" y="360"/>
-			<nail x="-32" y="416"/>
+			<label kind="synchronisation" x="-34" y="365">stop?</label>
+			<label kind="assignment" x="-34" y="382">running[id]=false</label>
+			<nail x="-42" y="357"/>
+			<nail x="-42" y="416"/>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="45" y="82">t==T[id]</label>
-			<label kind="synchronisation" x="48" y="104">ready[id]!</label>
-			<label kind="assignment" x="48" y="128">t=0</label>
+			<label kind="guard" x="42" y="85">t==T[id]</label>
+			<label kind="synchronisation" x="42" y="102">ready[id]!</label>
+			<label kind="assignment" x="42" y="119">t=0</label>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="synchronisation" x="40" y="232">run[id]?</label>
-			<label kind="assignment" x="40" y="256">c=0</label>
+			<label kind="synchronisation" x="42" y="212">run[id]?</label>
+			<label kind="assignment" x="42" y="229">c=0, 
+running[id]=true</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id1"/>
-			<label kind="guard" x="-104" y="192">c==C[id]</label>
-			<label kind="synchronisation" x="-119" y="170">release[id]!</label>
+			<label kind="guard" x="-161" y="187">c==C[id]</label>
+			<label kind="synchronisation" x="-161" y="170">release[id]!</label>
+			<label kind="assignment" x="-161" y="204">running[id]=false</label>
 			<nail x="-32" y="320"/>
 			<nail x="-32" y="64"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id4"/>
-			<label kind="guard" x="112" y="168">t&gt;D[id]</label>
-			<nail x="192" y="192"/>
+			<label kind="guard" x="156" y="173">t&gt;D[id]</label>
+			<nail x="221" y="195"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id4"/>
-			<label kind="guard" x="112" y="296">t&gt;D[id]</label>
+			<label kind="guard" x="122" y="326">t&gt;D[id]</label>
 		</transition>
 	</template>
 	<template>
@@ -182,91 +187,67 @@ id_t tail()
 {
    return list[len - 1];
 }</declaration>
-		<location id="id5" x="416" y="391">
+		<location id="id5" x="161" y="170">
 		</location>
-		<location id="id6" x="306" y="391">
+		<location id="id6" x="51" y="170">
 			<committed/>
 		</location>
-		<location id="id7" x="95" y="392">
-		</location>
-		<location id="id8" x="-34" y="391">
-			<urgent/>
-		</location>
-		<location id="id9" x="192" y="256">
+		<location id="id7" x="94" y="30">
 			<committed/>
 		</location>
-		<location id="id10" x="192" y="320">
-			<name x="153" y="297">Occ</name>
+		<location id="id8" x="94" y="94">
+			<name x="55" y="71">Occ</name>
 		</location>
-		<location id="id11" x="192" y="128">
-			<name x="208" y="96">Free</name>
+		<location id="id9" x="94" y="-98">
+			<name x="110" y="-130">Free</name>
 		</location>
-		<init ref="id9"/>
+		<init ref="id7"/>
 		<transition>
 			<source ref="id5"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="306" y="340">run[front()]!</label>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="153" y="119">run[front()]!</label>
 		</transition>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id5"/>
-			<label kind="synchronisation" x="340" y="391">stop!</label>
-		</transition>
-		<transition>
-			<source ref="id10"/>
-			<target ref="id6"/>
-			<label kind="select" x="195" y="366">e : id_t</label>
-			<label kind="guard" x="195" y="416">Pr[e] == true</label>
-			<label kind="synchronisation" x="195" y="382">ready[e]?</label>
-			<label kind="assignment" x="195" y="399">enqueue(e)</label>
-		</transition>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="93" y="357">run[front()]!</label>
+			<label kind="synchronisation" x="85" y="178">stop!</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
-			<target ref="id7"/>
-			<label kind="synchronisation" x="8" y="391">stop!</label>
+			<target ref="id6"/>
+			<label kind="select" x="-34" y="102">e : id_t</label>
+			<label kind="synchronisation" x="-34" y="118">ready[e]?</label>
+			<label kind="assignment" x="-34" y="135">enqueue(e)</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="102" y="46">run[front()]!</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="select" x="198" y="-74">e : id_t</label>
+			<label kind="guard" x="198" y="-58">e == front()</label>
+			<label kind="synchronisation" x="198" y="-42">release[e]?</label>
+			<label kind="assignment" x="198" y="-26">dequeue()</label>
+			<nail x="190" y="94"/>
+			<nail x="190" y="-98"/>
 		</transition>
 		<transition>
 			<source ref="id9"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="200" y="272">run[front()]!</label>
-		</transition>
-		<transition>
-			<source ref="id10"/>
 			<target ref="id8"/>
-			<label kind="select" x="-34" y="314">e : id_t</label>
-			<label kind="guard" x="-34" y="297">Pr[e] == false</label>
-			<label kind="synchronisation" x="-34" y="331">ready[e]?</label>
-			<label kind="assignment" x="-34" y="348">enqueue(e)</label>
+			<label kind="guard" x="6" y="-58">len &gt; 0</label>
+			<label kind="synchronisation" x="6" y="-42">run[front()]!</label>
+			<nail x="-2" y="-98"/>
+			<nail x="-2" y="94"/>
 		</transition>
 		<transition>
-			<source ref="id10"/>
-			<target ref="id11"/>
-			<label kind="select" x="296" y="152">e : id_t</label>
-			<label kind="guard" x="296" y="168">e == front()</label>
-			<label kind="synchronisation" x="296" y="184">release[e]?</label>
-			<label kind="assignment" x="296" y="200">dequeue()</label>
-			<nail x="288" y="320"/>
-			<nail x="288" y="128"/>
-		</transition>
-		<transition>
-			<source ref="id11"/>
-			<target ref="id10"/>
-			<label kind="guard" x="104" y="168">len &gt; 0</label>
-			<label kind="synchronisation" x="104" y="184">run[front()]!</label>
-			<nail x="96" y="128"/>
-			<nail x="96" y="320"/>
-		</transition>
-		<transition>
-			<source ref="id11"/>
-			<target ref="id9"/>
-			<label kind="select" x="200" y="160">e : id_t</label>
-			<label kind="synchronisation" x="200" y="176">ready[e]?</label>
-			<label kind="assignment" x="200" y="192">enqueue(e)</label>
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="select" x="102" y="-66">e : id_t</label>
+			<label kind="synchronisation" x="102" y="-50">ready[e]?</label>
+			<label kind="assignment" x="102" y="-34">enqueue(e)</label>
 		</transition>
 	</template>
 	<system>BackgroundTask    = Task( 0 );
@@ -276,16 +257,14 @@ ReciveDataTask    = Task( 3 );
 HandleLaserTask   = Task( 4 );
 KeepUSBAliveTask  = Task( 5 );
 
-
-system 
-       BackgroundTask, UpdateDisplayTask, HandleLaserTask, MoveMotorsTask, ReciveDataTask, KeepUSBAliveTask, Scheduler;
+system BackgroundTask, UpdateDisplayTask, MoveMotorsTask, ReciveDataTask, HandleLaserTask, KeepUSBAliveTask, Scheduler;
 
 gantt {
     BackgroundTask    : BackgroundTask.Ready -&gt; 5,    BackgroundTask.Running -&gt; 1,    BackgroundTask.Blocked -&gt;3, BackgroundTask.Error-&gt;6; 
     UpdateDisplayTask : UpdateDisplayTask.Ready -&gt; 5, UpdateDisplayTask.Running -&gt; 1, UpdateDisplayTask.Blocked -&gt;3, UpdateDisplayTask.Error-&gt;6; 
-    HandleLaserTask   : HandleLaserTask.Ready -&gt; 5,   HandleLaserTask.Running -&gt; 1,   HandleLaserTask.Blocked -&gt;3, HandleLaserTask.Error-&gt;6; 
     MoveMotorsTask    : MoveMotorsTask.Ready -&gt; 5,    MoveMotorsTask.Running -&gt; 1,    MoveMotorsTask.Blocked -&gt;3, MoveMotorsTask.Error-&gt;6; 
     ReciveDataTask    : ReciveDataTask.Ready -&gt; 5,    ReciveDataTask.Running -&gt; 1,    ReciveDataTask.Blocked -&gt;3, ReciveDataTask.Error-&gt;6; 
+    HandleLaserTask   : HandleLaserTask.Ready -&gt; 5,   HandleLaserTask.Running -&gt; 1,   HandleLaserTask.Blocked -&gt;3, HandleLaserTask.Error-&gt;6; 
     KeepUSBAliveTask  : KeepUSBAliveTask.Ready -&gt; 5,  KeepUSBAliveTask.Running -&gt; 1,  KeepUSBAliveTask.Blocked -&gt;3, KeepUSBAliveTask.Error-&gt;6; 
 }
 </system>
@@ -330,6 +309,18 @@ gantt {
 			<formula>A[] not (BackgroundTask.Error or UpdateDisplayTask.Error or HandleLaserTask.Error or MoveMotorsTask.Error or ReciveDataTask.Error or KeepUSBAliveTask.Error)
 			</formula>
 			<comment>Check that all tasks can not go into error state.
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not  (KeepUSBAliveTask.Blocked and KeepUSBAliveTask.t &gt; 20)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] forall(i:id_t) forall(j:id_t) running[i] &amp;&amp; running[j] imply i==j
+			</formula>
+			<comment>
 			</comment>
 		</query>
 	</queries>
