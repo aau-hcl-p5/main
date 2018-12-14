@@ -1,18 +1,18 @@
-\section{Object Recognition}
-To be able to figure out where the target is, its location within the video stream has to be determined.
-It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-As mentioned in Section~\ref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
-Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
-Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
+% \section{Object Recognition}
+% To be able to figure out where the target is, its location within the video stream has to be determined.
+% It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
+% As mentioned in Section~\ref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
+% Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
+% Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
 
-It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
+% It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
 
-\section{Machine intelligence}\label{theory:MI}
-A requirement of the project is to use machine intelligence as a part of the solution.
-Machine intelligence is the study of computational agents exhibiting intelligent behaviour.
-A subtopic of machine intelligence, is machine learning with is the exercise of training a computational agent to solve a task.
+% \section{Machine intelligence}\label{theory:MI}
+% A requirement of the project is to use machine intelligence as a part of the solution.
+% Machine intelligence is the study of computational agents exhibiting intelligent behaviour.
+% A subtopic of machine intelligence, is machine learning with is the exercise of training a computational agent to solve a task.
 
-The following subsection will explore neural networks, which is a way to apply machine learning
+% The following subsection will explore neural networks, which is a way to apply machine learning
 
 \subsection{Neural networks}
 A neural network is, as the name implies, a network of neurons.
@@ -55,7 +55,8 @@ A perceptron is a neuron that has an activation function that returns a binary s
 Usually any positive value will be a one, and all negative values will be a zero.
 
 \paragraph{Logistic Sigmoid}
-The sigmoid function is a commonly used activation function in neural networks. It is defined as:
+The sigmoid function is a commonly used activation function in neural networks. 
+It is defined as:
 
 $$f(x) = \frac{1}{1 + e^{-x}}$$
 
