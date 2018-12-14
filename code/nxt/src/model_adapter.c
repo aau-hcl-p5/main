@@ -14,8 +14,8 @@ extern T_MODEL_EXECUTION_RESULT calculate_model_down(T_MODEL_INPUT input);
 extern T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input);
 
 
-int8_t get_minimum_power(char axis, T_DIRECTION direction) {
-    if (axis == 'x') {
+int8_t get_minimum_power(T_AXIS_TYPE axis, T_DIRECTION direction) {
+    if (axis == AXIS_X) {
         return 25;
     } 
     T_MODEL_INPUT input = { get_current_revolution().y + REVOLUTION_OFFSET };

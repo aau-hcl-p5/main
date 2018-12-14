@@ -1,4 +1,5 @@
 #include "calibration.h"
+#include "movement.h"
 
 /*
  * Function: get_minimum_power
@@ -11,4 +12,4 @@
  *
  *   returns: the required power for moving a given direction on a given axis.
  */
-int8_t get_minimum_power(char axis, T_DIRECTION direction);
+int8_t get_minimum_power(T_AXIS_TYPE axis, T_DIRECTION direction);
