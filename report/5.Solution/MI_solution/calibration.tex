@@ -1,0 +1,100 @@
+\section{Calibration}
+
+As the device required varying power in order to move, depending on the current revolution of the motor, the first goal was to extract these powers.
+In order to do so, a calibration function was implemented that will slowly increase the power on the motor, until it observes a revolution change. A simplified version of the function can be seen in listing~\ref{lst:GetRequiredPower}.
+
+
+\begin{lstlisting}[language=C,label={lst:GetRequiredPower},caption={Getting required power to move }]
+int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
+	int8_t power = MIN_POWER;
+	T_REVOLUTION first_revolution = get_current_revolution();
+	
+	do {
+		set_motor_speed(axis, power * (direction == POSITIVE ? 1 : -1));
+		power++;
+		
+		// wait 30ms but make sure we don't move in that timeframe
+		for(int i = 0; i < 30; i++)
+		{
+			systick_wait_ms(1);
+			if (!should_stop_moving(first_revolution, power))
+				break;
+		}
+	
+	} while(should_stop_moving(first_revolution, power));
+	
+	set_motor_speed(axis, 0);
+	
+	return power;
+}
+
+\end{lstlisting}
+
+The "should stop moving" function will determine whether the motor has moved, or if the power exceeds the maximum allowed power, meaning it is unable to move further.
+The data is sent back to a host machine over the established USB connection.
+A plot of the data for moving the motor from the lowest possible revolution to the highest can be seen in figure~\ref{fig:calib_data}.
+
+\figur{1}{images/calib_data.png}{Required power for revolution on motor}{fig:calib_data}
+
+The data is as it shows jigged, which may be a result of hardware insecurities.
+The goal is to find a function that approximates the data. 
+For this purpose, a neural network was trained on the data.
+This is a simple task, using scikit-learn for python.
+
+\figur{1}{images/calib_data_nn.png}{Sample fitting of the data}{fig:calib_data}
+
+Now this model has to be exported to the NXT. 
+In order to do so, some C code is generated based on the weights and biases from the model.
+The C code contains all the weights and biases along with the activation function and a function to calculate the output given input.
+
+The generated model is very big, but an outcast can be seen in listing~\ref{lst:exported_model}:
+
+
+\begin{lstlisting}[language=C,label={lst:exported_model},caption={Exported model for getting power to move up}]
+typedef struct {
+	double input_0;
+} T_MODEL_INPUT;
+
+typedef struct {
+	double output_0;
+} T_MODEL_EXECUTION_RESULT;
+
+// Approximated sigmoid without exp, since not working on NXT
+static double sigmoid(double value)
+{
+	double x = value >= 0 ? value : value * -1;
+	double x2 = x * x;
+	double e = 1.0f + x + x2 * 0.555f + x2 * x2 * 0.143f;
+	return 1.0f / (1.0f + (value > 0 ? 1.0f / e : e));
+}
+static double WEIGHTS_LAYER_0[1][30] = {
+	{ -0.2754047714229132, ..., 0.28265923487311884 }
+};
+static double WEIGHTS_LAYER_1[30][30] = {
+	{ 0.337562467866465, ..., -7.977009995173775 },
+	...
+	{ -0.3327450268753057, ..., -0.5111629590067429 }
+};
+static double WEIGHTS_LAYER_2[30][1] = {
+	{ 1.0582144881157733 },
+	...
+	{ 8.686207256470313 }
+};
+static double BIAS_LAYER_0[30] = {
+	-2.163581253001705, ..., 0.4272619624684243
+};
+static double BIAS_LAYER_1[30] = {
+	-0.03394434965821748, ..., -0.9310096193979974
+};
+static double BIAS_LAYER_2[1] = {
+	-3.0451938474457716
+};
+T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input) {
+	// Calculate result
+}
+
+\end{lstlisting}
+
+The calculate model function will utilize the calculations explained in section~\todo{Add ref to calculating in neural network}.
+
+
