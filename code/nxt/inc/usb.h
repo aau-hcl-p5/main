@@ -11,6 +11,7 @@
 #define NO_TARGET_FOUND 1
 #define DISCONNECTED_REQ 2
 #define READY_FOR_CALIBRATION 3
+#define FIRE_AT_TARGET 4
 
 typedef uint16_t STATUS_CODE;
 

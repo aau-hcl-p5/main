@@ -23,7 +23,11 @@ T_VECTOR last_target_location = {0, 0};
 STATUS_CODE current_status = DISCONNECTED_REQ;
 bool calibrated = false;
 
-/* Initializes motors with their direction */
+/*
+ * Function: ecrobot_device_initialize
+ * ----------------------------
+ *   Initializes motors with their direction
+ */
 void ecrobot_device_initialize(void) {
     init_motor(NXT_PORT_A, AXIS_Y, 20);
     init_motor(NXT_PORT_B, AXIS_X, 20);
@@ -31,6 +35,11 @@ void ecrobot_device_initialize(void) {
     ecrobot_init_usb(); /* init USB */
 }
 
+/*
+ * Function: ecrobot_device_terminate
+ * ----------------------------
+ *   Kills motors, and unsets their ID's
+ */
 void ecrobot_device_terminate(void) {
     release_motor(NXT_PORT_A);
     release_motor(NXT_PORT_B);
@@ -38,7 +47,11 @@ void ecrobot_device_terminate(void) {
     ecrobot_term_usb(); /* terminate USB */
 }
 
-/* nxtOSEK hook to be invoked from an ISR in category 2 */
+/*
+ * Function: user_1ms_isr_type2
+ * ----------------------------
+ *   nxtOSEK hook to be invoked from an ISR in category 2.
+ */
 void user_1ms_isr_type2(void) {
     /* Increment System Timer Count to activate periodical Tasks */
     (void)SignalCounter(SysTimerCnt);
@@ -50,25 +63,32 @@ void stop() {
     ecrobot_disconnect_usb();
 }
 
-/* The background task handles invoking the calibration and the disconnect
-   status.
-
-   PRIORITY: 5
-   PREEMPTIVE: YES
+/*
+ * Task: background_task
+ * ----------------------------
+ * The background task handles invoking the calibration and the disconnect status.
+ *
+ * PRIORITY: 5
+ * PREEMPTIVE: YES
+ * RESOURCE: USB_Rx
 */
 TASK(background_task) {
-    if(!calibrated && current_status == READY_FOR_CALIBRATION){
+    if (!calibrated && current_status == READY_FOR_CALIBRATION) {
         calibrate(false);
         calibrated = true;
     }
     TerminateTask();
 }
 
-/* Keep USB Alive is invoked every 1 millisecond and
-   handles pinging the USB connection to keep it alive.
-
-   PRIORITY: 6
-   PREEMPTIVE: NO
+/*
+ * Task: keep_USB_alive
+ * ----------------------------
+ *   Keep USB Alive is invoked every 1 millisecond and
+ *   handles pinging the USB connection to keep it alive.
+ *
+ *   PRIORITY: 6
+ *   PREEMPTIVE: NO
+ *   RESOURCE: USB_Rx
 */
 TASK(keep_USB_alive) {
 
@@ -78,11 +98,14 @@ TASK(keep_USB_alive) {
     TerminateTask();
 }
 
-/* Update Display updates the display to show current target information.
-
-   PRIORITY: 6
-   PREEMPTIVE: YES
-*/
+/*
+ * Task: update_display
+ * ----------------------------
+ *   Update Display updates the display to show current target information.
+ *
+ *   PRIORITY: 6
+ *   PREEMPTIVE: YES
+ */
 TASK(update_display) {
     if (current_status == DISCONNECTED_REQ) {
         show_init_screen();
@@ -92,16 +115,18 @@ TASK(update_display) {
     TerminateTask();
 }
 
-/* Handle Laser checks if the target is found and is within an
-   allowed distance of center.
-   In this case it enables the laser.
-
-   PRIORITY: 3
-   PREEMPTIVE: NO
-*/
-
+/*
+ * Task: handle_laser
+ * ----------------------------
+ *   Handle Laser checks if the target is found and is within an
+ *   allowed distance of center.
+ *   In this case it enables the laser.
+ *
+ *   PRIORITY: 3
+ *   PREEMPTIVE: NO
+ */
 TASK(handle_laser) {
-    if (current_status == TARGET_FOUND && abs(last_target_location.x) < 5 && abs(last_target_location.y) < 5) {
+    if (current_status == FIRE_AT_TARGET) {
         enable_laser();
     } else {
         disable_laser();
@@ -109,13 +134,17 @@ TASK(handle_laser) {
     TerminateTask();
 }
 
-/* Receive data is responsible for receiving data from the USB
-   and sets the status code of the system according to the
-   data that was received.
-
-   PRIORITY: 4
-   PREEMPTIVE: NO
-*/
+/*
+ * Task: receive_data
+ * ----------------------------
+ *   Receive data is responsible for receiving data from the USB
+ *     and sets the status code of the system according to the
+ *     data that was received.
+ *
+ *   PRIORITY: 4
+ *   PREEMPTIVE: NO
+ *   RESOURCE: USB_Rx
+ */
 TASK(receive_data) {
     int updated = get_status_code(&current_status, &last_target_location);
 
@@ -125,14 +154,17 @@ TASK(receive_data) {
     TerminateTask();
 }
 
-/* Move motors is responsible for sending a signal to the co-processor
-   that handles movement of motors.
-
-   PRIORITY: 2
-   PREEMPTIVE: YES
-*/
+/*
+ * Task: move_motors
+ * ----------------------------
+ *   Move motors is responsible for sending a signal to the co-processor
+ *     that handles movement of motors.
+ *
+ *   PRIORITY: 2
+ *   PREEMPTIVE: YES
+ */
 TASK(move_motors) {
-    if (current_status == TARGET_FOUND) {
+    if (current_status == TARGET_FOUND || current_status == FIRE_AT_TARGET) {
         move(last_target_location);
     } else {
         stop_motors();
