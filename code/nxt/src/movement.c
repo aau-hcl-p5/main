@@ -94,7 +94,7 @@ void stop_motors() {
 /* ------------------------------------------------------------------------ */
 /* Description: Used to release the motors when they are no longer in use.  */
 /* Params  : motor_id specifies witch motor is released.                    */
-/* Returns : returns true if the release was succesful.                     */
+/* Returns : returns true if the release was successful                     */
 /*--------------------------------------------------------------------------*/
 // Should probably check whether motor_id is in use. But it releases the motor.
 bool release_motor(uint8_t motor_id) {
@@ -115,7 +115,7 @@ int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
         return 0;
     }
 
-    int8_t lower_bound = get_required_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
+    int8_t lower_bound = get_minimum_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
     //lower_bound = lower_bound - (lower_bound / 5);
 
     //return (POWER_RANGE * distance / MAX_INPUT_VALUE) + lower_bound;

@@ -14,7 +14,7 @@ extern T_MODEL_EXECUTION_RESULT calculate_model_down(T_MODEL_INPUT input);
 extern T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input);
 
 
-int8_t get_required_power(char axis, T_DIRECTION direction) {
+int8_t get_minimum_power(char axis, T_DIRECTION direction) {
     if (axis == 'x') {
         return 25;
     } 
