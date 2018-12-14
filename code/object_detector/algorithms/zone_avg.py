@@ -7,6 +7,7 @@ This obviously isn't perfect but is the first iteration of object detection
 """
 from typing import Dict, Optional
 
+from .object_localizer import ObjectLocalizer
 from algorithms.utilities import Vector
 
 PIXEL_SKIPPED = 30
@@ -18,7 +19,7 @@ DEFAULT_LINES = 20
 REDNESS_THRESHOLD = 20
 
 
-class ZoneAvgController:  # pylint: disable=too-few-public-methods
+class ZoneAvgController(ObjectLocalizer):  # pylint: disable=too-few-public-methods
     """
     The controller for the algorithm looking at the level of redness in a given image.
     This holds the state of the adjusts and current lines, for dynamic adjust of precision.

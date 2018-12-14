@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "movement.h"
 #include "calibration.h"
 #include "vector.h"
 

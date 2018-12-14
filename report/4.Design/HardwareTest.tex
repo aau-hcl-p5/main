@@ -17,7 +17,7 @@ An alternative is to have a built-in correction, that will give the motors a var
 The expected result and the actual result of the test are not as surprising: The higher the speed, the more correction is required.
 However, it does not appear to be affected by the angle to which it has to aim, which is also observed in the testing; acceleration to the target speed happens rather fast.
 
-In conclusion, in case we want to achieve the highest possible aim-speed, we should take action upon the correction at higher speeds and move at lower speeds when the motor approaches the target to reduce the braking distance, thus avoiding corrections.
+In conclusion, should the desire arise to achieve the highest possible aim-speed, actions should be taken in regards to correction at higher speeds and to move at lower speeds when the motor approaches the target to reduce the braking distance, thus avoiding corrections.
 The results of the tests are therefore used to not only choose which motors to use, but also gives a hint towards what the optimal movement speed is.
 
 \subsection*{Camera}
@@ -26,14 +26,26 @@ Due to the use of the camera, the actual quality of the footage is secondary.
 The importance criteria of the camera is that it is able to keep the blur to a minimum, with a moving target on the video feed.
 This renders the resolution irrelevant.
 
-Furthermore, is the framerate irrelevant to a certain degree, depending on the speed of our software, and its capabilities, as long as the camera provides a higher framerate, than the software processes.
+Furthermore, the framerate of the camera is irrelevant, as long as the camera provides a higher framerate, than the software processes.
 
-To accommodate this, the camera test has been consistent of a manual recording of different USB webcams, and looking at moving targets, frame by frame, to find the one with the least blurry images between movements.
+The chosen camera was a Logitech HD Webcam C270, as it was available, and fulfilled all of the requirements for a camera\cite{logitechwebcam}.
 
 \subsection*{Laser}
 The laser is a critical part of the system.
+
+In the early stages of the project, a laser pointer was used to represent the laser.
+However, to reduce weight a different solution was required.
+
 The criteria for the laser is that it should turn on and stay on until told otherwise. 
+
+For this purpose, a KY-008 Arduino Laser Module was purchased\cite{LaserDatasheet}.
+
 In order to verify that the laser works according to the criteria, the laser was tested with a controlled current delivered by an external power source.
-To test, the Raspberry Pi and Arduino platforms were used, since both can deliver 5 volts of direct current, which is the required amount for the laser\cite{RaspberryPi}\cite{ArduinoUno}\cite{LaserDatasheet}.
+To test, the Raspberry Pi and Arduino platforms were used, since both can deliver 5 volts of direct current, which is the required amount for the laser\cite{LaserDatasheet}.
 The laser module was soldered to a proprietary Lego wire and plugged into the NXT and the laser module operated with the same effect as the conducted tests. 
 This was verified by looking at the laser when pointing at a white wall, as well as at a balloon.
+
+\subsection*{Conclusion}
+The hardware tests proved that while the hardware was mostly accurate, there were still imprecisions.
+This is to be expected, as LEGO is a toy, and cannot be held to the same standard as more expensive hardware.
+However, this means that these inaccuracies have to be accounted for in the software implementation.

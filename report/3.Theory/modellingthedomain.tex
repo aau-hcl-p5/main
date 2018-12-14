@@ -1,0 +1,49 @@
+\section{Modelling the domain}\label{Theory:MIModelling}
+When designing a MI system, it is important to consider the domain that the MI system will affect.
+An MI system is comprised of an agent, the input to the agent, and the actions it performs to affect the environment it acts in.
+
+\figur{0.6}{images/actualagent.png}{An agent, its input and its environment{.} Source:~\cite{ArtificialIntelligencealanpoole}}{fig:agentenvironment}
+
+
+An agent, as shown in Figure~\ref{fig:agentenvironment}, is an abstraction on an entity that acts in an environment based on its perception of said environment~\cite{ArtificialIntelligencealanpoole}.
+It might be intelligent in the context of acting purposefully, by trying to reach its goals by performing actions, or it might act un-purposefully, where actions has no relation to goals.
+The two types of agents are \textit{Purposeful Agents} and \textit{Nature}.
+
+Examples of agents could be:
+\begin{itemize}
+	\item \textbf{Software agents}, which solely operate on a computational environment, i{.}e{.} it modifies a software environment.
+	\item \textbf{Robotic agents}, which perceives the environment through sensors and performs actions on the environment through motors and other actuators.
+	\item \textbf{Human agents}, which is quite simply a human. 
+\end{itemize}
+
+An agent chooses an action based on the input it receives.
+This means that even though an agent is purposeful, it might accidentally act against its goal.
+This is caused by the fact that it cannot objectively know the effect of each action, but only try to reason about them.
+
+The different types of input are explained here:
+\begin{itemize}
+    \item \textbf{Abilities}, which are a definition of the capabilities of the agent, i{.}e{.} what actions the agent can perform.
+    \item \textbf{Goals}, which are the preferences of the agent, meaning what goal it will attempt to fulfil.
+    \item \textbf{Any prior knowledge}, which is knowledge about the agent itself and the environment it acts in.
+    \item \textbf{Stimuli}, from sensors or other observations from the environment.
+    \item \textbf{Past experience}, which is a summation of previous actions, data, and stimuli from the environment.
+\end{itemize}
+
+
+An environment is understood in the context of an agent, and can be categorized as either a physical or a computational environment.
+An environment combined with an agent is called a world, and a world might contain multiple agents.
+In a multi agent world, it can be beneficial for an agent to consider the inputs of other agents, which might be a complex task if the other agents act purposefully.
+
+When designing the system, it is important to consider the world it is a part of, so that the agent can act purposefully and reach its goals.
+When trying to reach the goals of the agent, different types of solutions can be found.
+The \textit{optimal solution} is the best solution according to some predefined measurement of quality, meaning a solution that fully satisfies an arbitrary set of goals.
+This solution is ideal, but it might not be required, and in some cases is a purely hypothetical solution, that might not be feasible in reality.
+Often the \textit{satisfactory solution} is close enough to the actual solution, to be used by the agent.
+
+
+An agent can be learned, or computed, through either design time computation, offline computation or online computation.
+Design time computations are done by the designer of the agent, during the design of the agent.
+Offline computation is performed by the agent itself, but before it has ever acted on the environment.
+This mean that the agent will not learn based on its actions on the environment, but rather based on predetermined data.
+Finally there is online computation, which happens between the agent's observations of the environment and the enactment of the agent's actions on the environment.
+Thus, the agent will learn based on the results of its previous actions, and hopefully improve its performance.
