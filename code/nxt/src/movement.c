@@ -16,7 +16,6 @@ int16_t y_motor_speed = 0;
 uint8_t x_lower_bound_modifier = 0;
 uint8_t y_lower_bound_modifier = 0;
 
-T_VECTOR last_location = {0, 0};
 
 
 /*
@@ -60,14 +59,12 @@ bool init_motor(uint8_t motor_id, T_AXIS_TYPE axis, uint16_t speed) {
         x_motor_speed = speed;
         ecrobot_set_motor_speed(x_motor, 0);
         nxt_motor_set_count(x_motor, 0);
-        last_location.x = ecrobot_get_motor_rev(motor_id);
         return true;
     } else if (axis == AXIS_Y) {
         y_motor = motor_id;
         y_motor_speed = speed;
         ecrobot_set_motor_speed(y_motor, 0);
         nxt_motor_set_count(y_motor, 0);
-        last_location.y = ecrobot_get_motor_rev(motor_id);
         return true;
     }
     return false;
@@ -114,9 +111,11 @@ int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
     }
 
     int8_t lower_bound = get_minimum_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
-    lower_bound = lower_bound - (lower_bound / 8);
+    int8_t range = axis == AXIS_X ? POWER_RANGE_X : POWER_RANGE_Y;
+    lower_bound = lower_bound - (lower_bound/3);
 
-    return (POWER_RANGE * distance / MAX_INPUT_VALUE) + lower_bound;
+    //return lower_bound;
+    return (range * distance / MAX_INPUT_VALUE) + lower_bound;
     //return (distance / 5) + lower_bound - (lower_bound / 5);
 }
 

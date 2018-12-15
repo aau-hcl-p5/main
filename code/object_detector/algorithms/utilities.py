@@ -120,10 +120,12 @@ def _is_num(val) -> bool:
     return isinstance(val, (float, int))
 
 
-def bell(x, mid, r, a):
-    b = -2
+def bell(x):
+    a = 0.6
+    r = 156
+    b = -1 # -2
     try:
-        return r / (1 + (abs((x - mid) / a) ** (2 * b))) + abs(mid - x) / 20
+        return r / (1 + (abs(x / a) ** (2 * b))) + abs(x) / 20
     except:
         return 0
 
@@ -150,18 +152,16 @@ def screen_location_to_relative_location(
     position, on_target = position
 
     half_size = Vector(frame.shape[1], frame.shape[0]) // 2
-
     val = (half_size - position) / half_size
 
     # dir is used because val.x * val.x will not keep the direction (negative or positive).
     if modifier_type == "polynomial":
         return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2), on_target
     elif modifier_type == "bell":
-        r = 200
         return (
             Vector(
-                bell(position.x, half_size.x, r, 310),
-                bell(position.y, half_size.y, r, 230)
+                bell(val.x),
+                bell(val.y)
             ) * val.dir(),
             on_target
         )

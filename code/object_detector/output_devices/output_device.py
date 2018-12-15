@@ -1,4 +1,4 @@
-from _ast import Tuple
+from typing import Tuple
 
 from algorithms import Vector
 from .status import Status

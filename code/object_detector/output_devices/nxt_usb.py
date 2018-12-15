@@ -73,7 +73,7 @@ class NxtUsb(OutputDevice):
         """
         loc, on_target = data
         self.out_endpoint.write(bytes([
-            Status.ON_TARGET if on_target else Status.TARGET_FOUND.value,
+            Status.ON_TARGET.value if on_target else Status.TARGET_FOUND.value,
             0,
             int(loc.x) & 0xFF,
             int(loc.y) & 0xFF

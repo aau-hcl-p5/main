@@ -1,6 +1,6 @@
 import io
 import os
-from typing import List
+from typing import List, Tuple
 
 from sklearn.neural_network import MLPRegressor
 
@@ -9,35 +9,63 @@ def indent(amount=1):
     return amount * 4 * " "
 
 
-def generate_model(inp: List[float], expect: List[float]) -> MLPRegressor:
+def generate_model(inp: List[float], expect: List[float], model=None) -> MLPRegressor:
     """
 
+    :param model:
     :param inp: the input of the model
     :param expect: the expected output
     :return: A trained model
     """
-    model = MLPRegressor(solver="lbfgs", activation="approx_sigmoid", hidden_layer_sizes=(30, 30),
-                         verbose=True)
+    if not model:
+        model = MLPRegressor(hidden_layer_sizes=(30, ),
+                             activation='approx_sigmoid',
+                             solver='adam',
+                             #learning_rate='constant',
+                             max_iter=100000,
+                             #learning_rate_init=0.001,
+                             #alpha=0.001,
+                             tol=0.0000001,
+                             verbose=True)
+        """model = MLPRegressor(
+            solver="adam",#solver="lbfgs",
+            activation="approx_sigmoid",
+            hidden_layer_sizes=(30,),
+            verbose=True,
+            max_iter=10000
+            -
+        )
+        """
     model.fit(inp, expect)
     return model
 
 
-def save_model(model: MLPRegressor, name: str) -> None:
+def save_model(
+        model: MLPRegressor,
+        in_min_max: Tuple[float, float],
+        out_min_max: Tuple[float, float],
+        name: str) -> None:
     """
     This method takes a method and serializes into C-code, which can then be compiled
     to be used on the NXT device.
 
+    :param in_min_max: the min max range for the input of the NN
+    :param out_min_max: the min and max range for the output of the NN
     :param model: The model to export
     :param name: the name of the file to write to
     """
     weights = model.coefs_
     biases = model.intercepts_
     with open(name + ".c", "w") as file:
-        file.write(_export_model(weights, biases, name))
+        file.write(_export_model(weights, biases, in_min_max, out_min_max, name))
 
 
-def _export_model(weights: List[List[List[float]]], biases: List[List[float]], name: str) -> str:
-
+def _export_model(
+        weights: List[List[List[float]]],
+        biases: List[List[float]],
+        in_min_max: Tuple[float, float],
+        out_min_max: Tuple[float, float],
+        name: str) -> str:
     output = io.StringIO()
     # Includes
     output.write("#include <stdint.h>\n\n")
@@ -85,16 +113,21 @@ def _export_model(weights: List[List[List[float]]], biases: List[List[float]], n
 
     # Model execution function
     output.write(f"T_MODEL_EXECUTION_RESULT calculate_{name}(T_MODEL_INPUT input) {{\n")
+    # translate to the range
+    initial_layer = ', '.join(
+        f'(input.input_{x} - {in_min_max[0][x]})/{in_min_max[1][x]-in_min_max[0][x]} * 4 - 2'
+        for x in range(len(weights[0]))
+    )
     output.write(
         "    double intermediate_result_0[] = "
-        "f{{ {', '.join(f'input.input_{x}' for x in range(len(weights[0])))} }};\n")
+        f"{{ {initial_layer} }};\n")
     for idx, weight_layer in enumerate(weights):
         function_name = 'sigmoid' if idx != len(weights) - 1 else ''
 
         output.write(
             4 * " " + f"double intermediate_result_{idx + 1}[{len(weight_layer[0])}];\n")
         output.write(indent() + f"for (int i = 0; i < {len(weight_layer[0])}; i++) {{\n")
-        output.write(indent() + "double sum = 0;\n")
+        output.write(indent(2) + "double sum = 0;\n")
         output.write(indent(2) + f"for (int j = 0; j < {len(weight_layer)}; j++) {{\n")
         output.write(
             indent(3) +
@@ -105,12 +138,19 @@ def _export_model(weights: List[List[List[float]]], biases: List[List[float]], n
             indent(2) +
             f"intermediate_result_{idx + 1}[i] = {function_name}(sum + BIAS_LAYER_{idx}[i]);\n"
         )
-        output.write(indent(2) + "}\n")
+        output.write(indent(1) + "}\n")
     output.write(indent() + "T_MODEL_EXECUTION_RESULT result;\n")
     for x in range(len(weights[-1][0])):
+
+        result = f"((intermediate_result_{len(weight)}[{x}] +2 )/ 4 ) " \
+                 f"* {out_min_max[1][x] - out_min_max[0][x]} + {out_min_max[0][x]}"
         output.write(
-            indent() + f"result.output_{x} = intermediate_result_{len(weights)}[{x}];\n")
-    output.write(indent() + "return result;\n")
+            indent() + f"result.output_{x} = {result};\n")
+
+    output.write(
+        indent() +
+        f"return result;\n"
+    )
     output.write("}\n")
 
     return output.getvalue()

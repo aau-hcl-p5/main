@@ -113,7 +113,7 @@ void calibrate_axis_in_direction(T_AXIS_TYPE axis, T_DIRECTION direction) {
  */
 void calibrate() {
     // calibrate the y axis
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 10; i++) {
         calibrate_axis_in_direction(AXIS_Y, i % 2 == 0 ? POSITIVE : NEGATIVE);
     }
 }

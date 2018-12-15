@@ -6,14 +6,15 @@
 #include "vector.h"
 #include "revolution.h"
 
-#define MOTOR_SPEED_LOWER_BOUND_X 25
+#define MOTOR_SPEED_LOWER_BOUND_X 15
 
 #define AXIS_X 0
 #define AXIS_Y 1
 
-#define POWER_RANGE 23
+#define POWER_RANGE_Y 16
+#define POWER_RANGE_X 16
 
-#define MOTOR_DEADZONE 2
+#define MOTOR_DEADZONE 1
 
 #define MAX_INPUT_VALUE 127
 
@@ -24,6 +25,7 @@ extern uint8_t x_lower_bound_modifier;
 extern uint8_t y_lower_bound_modifier;
 extern int16_t x_motor_speed;
 extern int16_t y_motor_speed;
+extern T_VECTOR last_location;
 
 /*
  * Function: init_motor

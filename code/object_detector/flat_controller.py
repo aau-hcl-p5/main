@@ -72,7 +72,7 @@ class FlatController:
         frame = self.input_device.get_current_frame()
         if self.debug:
             timer = cv2.getTickCount()
-        res = screen_location_to_relative_location(frame, self._algorithm(frame))
+        data = screen_location_to_relative_location(frame, self._algorithm(frame))
 
         if self.debug:
             fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
@@ -85,6 +85,6 @@ class FlatController:
                 (50, 170, 50),
                 2
             )
-            render_debugscreen(res, frame)
-        return res
+            render_debugscreen(data, frame)
+        return data
 
