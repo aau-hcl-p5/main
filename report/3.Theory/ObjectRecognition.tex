@@ -153,14 +153,28 @@ The loss function can be defined in multiple ways, but a simple loss function si
 Back propagation is a common way of training a neural network.
 The error from the output layer is back propagated through the network.
 In order to minimize the error at the output layer, all weights and biases are adjusted throughout the network.
-To determine how much each weight and bias should be changed, the influence of each weight and bias is calculated. 
+Back propagation is often used along with gradient descent, in order to determine how much each weight and bias should be updated.
 
+\paragraph{Gradient Descent}
+With gradient descent, GD, one can use the derivative of a function to minimize the error.
 
-\paragraph{Stochastic Gradient Descent}
+To calculate how much a weight $w$, or bias for that matter, affects the total error of the network one should find the derivative of the function with respect to $w$.
+This means that $w$ will affect the total error by:
 
+$$\frac{\partial Error}{\partial w}$$
 
+This has to be done for all weights and biases in the network.
+Once this derivative is found, weights and biases are updated.
+The value with which the weight or bias should be updated equals the negative value of the derivative multiplied by a learning rate $\alpha$.
+This will reduce the amount with which the weight or bias affects the total error, since it descents towards a minimum.
 
-\paragraph{Limited Memory Breadth First Graph Search}
+Unfortunately it is not guaranteed to move towards the global minimum, but rather a local minimum.
+This is illustrated in figure~\ref{fig:sgd} where $A$ and $B$ will descent towards the local minimum.
+
+\definecolor{xdxdff}{rgb}{0.49,0.49,1}
+\figur{0.8}{images/sgd.png}{Gradient descent illustration}{fig:sgd}
+
+Although this may not render the best results, the results gained by using gradient has proven to be good enough to be useful.
 
 \subsection{Convolutional Neural Network}
 \label{sec:cnn}
