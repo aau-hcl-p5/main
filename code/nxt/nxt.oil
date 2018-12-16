@@ -21,6 +21,14 @@ CPU ATMEL_AT91SAM7S256 {
         RESOURCEPROPERTY = STANDARD;
     };
 
+    /* Definition of events */
+
+    EVENT MoveMotorsOnEvent
+    {
+        MASK = AUTO;
+    };
+
+
     TASK background_task {
         AUTOSTART = FALSE;
         PRIORITY = 5;
@@ -65,11 +73,15 @@ CPU ATMEL_AT91SAM7S256 {
     };
 
     TASK move_motors {
-        AUTOSTART = FALSE;
+        AUTOSTART = TRUE
+            {
+                APPMODE = appmode1;
+            };
         PRIORITY = 2;
         ACTIVATION = 1;
         SCHEDULE = FULL;
         STACKSIZE = 4096; /* Stack size */
+        EVENT = MoveMotorsOnEvent;
     };
 
     /* Definition of OSEK Alarm counter: SysTimerCnt */
@@ -86,20 +98,6 @@ CPU ATMEL_AT91SAM7S256 {
         ACTION = ACTIVATETASK
             {
                 TASK = keep_USB_alive;
-            };
-        AUTOSTART = TRUE
-            {
-                ALARMTIME = 1;
-                CYCLETIME = 1; /* keep_USB_alive is executed every msec */
-                APPMODE = appmode1;
-            };
-    };
-    ALARM cyclic_move_motors
-    {
-        COUNTER = SysTimerCnt;
-        ACTION = ACTIVATETASK
-            {
-                TASK = move_motors;
             };
         AUTOSTART = TRUE
             {

@@ -18,6 +18,9 @@ DeclareTask(move_motors);
 DeclareCounter(SysTimerCnt);
 DeclareResource(USB_Rx);
 
+
+DeclareEvent(MoveMotorsOnEvent);
+
 /* Global variables */
 T_VECTOR last_target_location = {0, 0};
 STATUS_CODE current_status = DISCONNECTED_REQ;
@@ -147,7 +150,11 @@ TASK(handle_laser) {
  */
 TASK(receive_data) {
     int updated = get_status_code(&current_status, &last_target_location);
-
+    if (updated) {
+        if (current_status == TARGET_FOUND || current_status == ON_TARGET) {
+            SetEvent(move_motors, MoveMotorsOnEvent);
+        }
+    }
     if (updated && current_status == DISCONNECTED_REQ) {
         stop();
     }
@@ -164,9 +171,14 @@ TASK(receive_data) {
  *   PREEMPTIVE: YES
  */
 TASK(move_motors) {
-    if (current_status == TARGET_FOUND || current_status == ON_TARGET) {
+
+    while(1){
+        WaitEvent(MoveMotorsOnEvent);
+        ClearEvent(MoveMotorsOnEvent);
+
         move(last_target_location);
-    } else {
+        systick_wait_ms(10);
+
         stop_motors();
     }
     TerminateTask();

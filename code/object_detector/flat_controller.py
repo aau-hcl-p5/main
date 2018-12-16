@@ -37,7 +37,7 @@ class FlatController:
         self._algorithm = algorithm
         self.output_device = output_device
 
-        if calibration_algorithm and isinstance(self.output_device, NxtUsb):
+        if calibration_algorithm:
             print("Calibrate? (y/N)")
             if input() in ['y', 'Y']:
                 calibration_algorithm(self.output_device)

@@ -14,14 +14,15 @@ def normalize(data):
     scaler = preprocessing.MinMaxScaler()
     output = scaler.fit_transform(data)
     output = [[x[0]*4 - 2] for x in output]
-    return output, (scaler.data_min_, scaler.data_max_)
+    return output, (1,1)#(scaler.data_min_, scaler.data_max_)
 
     #return preprocessing.scale(data)
 
 
 def calibrate(usb_controller: NxtUsb):
-    print("generate new data? (y/N)")
-    if input() in ["y", "Y"]:
+    if usb_controller:
+        print("generate new data? (y/N)")
+    if usb_controller and input() in ["y", "Y"]:
         packages = read_calibration_data(usb_controller)
         inp, expect_up, expect_down = zip(*(([p.position], [p.power_up], [p.power_down]) for p in packages))
         inp_up, expect_up_filtered = zip(*(x for x in zip(inp, expect_up) if 7 < x[1][0] < 30))
@@ -51,7 +52,7 @@ def calibrate(usb_controller: NxtUsb):
         inp_up, inp_up_min_max = normalize(inp_up)
         expect_up_filtered, expect_up_filtered_min_max = normalize(expect_up_filtered)
         expect_down_filtered, expect_down_filtered_min_max = normalize(expect_down_filtered)
-        inp = inp_up[:len(inp_down)//5]#[[x/100] for x in range(-200, 200)]
+        inp = inp_up[:len(inp_down)//5] # [[x/100] for x in range(-200, 200)]
 
         model_up = generate_model(inp_up, expect_up_filtered)
         model_down = generate_model(inp_down, expect_down_filtered)

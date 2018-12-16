@@ -21,10 +21,7 @@ def generate_model(inp: List[float], expect: List[float], model=None) -> MLPRegr
         model = MLPRegressor(hidden_layer_sizes=(30, ),
                              activation='approx_sigmoid',
                              solver='adam',
-                             #learning_rate='constant',
                              max_iter=100000,
-                             #learning_rate_init=0.001,
-                             #alpha=0.001,
                              tol=0.0000001,
                              verbose=True)
         """model = MLPRegressor(

@@ -121,11 +121,12 @@ def _is_num(val) -> bool:
 
 
 def bell(x):
-    a = 0.6
-    r = 156
-    b = -1 # -2
+    a = 0.4
+    r = 148
+    b = -0.9 # -2
+    c = 0
     try:
-        return r / (1 + (abs(x / a) ** (2 * b))) + abs(x) / 20
+        return r / (1 + (abs(x / a) ** (2 * b))) + abs(x) / 20 + c
     except:
         return 0
 
@@ -156,7 +157,7 @@ def screen_location_to_relative_location(
 
     # dir is used because val.x * val.x will not keep the direction (negative or positive).
     if modifier_type == "polynomial":
-        return val ** 2 * - val.dir() * (COMMUNICATION_OUT_RANGE // 2), on_target
+        return val ** 2 * val.dir() * (COMMUNICATION_OUT_RANGE // 2), on_target
     elif modifier_type == "bell":
         return (
             Vector(
