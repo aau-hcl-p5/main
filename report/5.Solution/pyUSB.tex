@@ -1,0 +1,86 @@
+\subsection{Python USB implementation}\label{sol:subsec:pythonusb}
+%Denne er måske alt for detaljeret
+In \autoref{sec:usbdes} the overall design of the USB communication was described.
+The following subsection will describe how the USB communication is implemented in the python part of the the solution.
+The NXT specific USB implementation will be described in \autoref{sec:nxtusbimp}.
+
+The USB device inherits from the OutputDevice base class.
+The implementation uses the PyUSB library, as described in \autoref{sec:usbdes}\cite{PyUSB}.
+
+\autoref{lst:PythonUSBInit} shows the initialization of the NxtUsb module, which handles the USB communication from python to the NXT.
+\begin{lstlisting}[label={lst:PythonUSBInit},caption={The initialization of PyUSB{.} Comments removed}]
+    def __enter__(self):
+        self.device = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
+
+        if self.device is None:
+            raise DeviceNotFound('Device not found')
+
+        self.device.set_configuration()
+
+        self.out_endpoint, self.in_endpoint = self.device[0][(0, 0)]
+        self.out_endpoint.write(b'\x01\xFF') 
+        self.device.read(self.in_endpoint.bEndpointAddress, 8) 
+        self.initialized = True
+        return self
+\end{lstlisting}
+
+The code itself is relatively self-explanatory, and only the most interesting parts will be elaborated upon.
+
+These are lines 9, 10 and 11.
+
+Line 9 sets the endpoints, meaning where to read from and where to write to.
+\todo{Verify this}
+The same endpoint is used for both.
+
+At this point in the program, the NXT is waiting for a specific code, which is sent in line 10.
+
+When the NXT receives the code, it returns \texttt{{.}ecrobot}.
+Should that be the case, it sets its initialized field to \texttt{True} and returns.
+
+
+
+% Line 2 simply finds a USB device that matches the signature of the NXT.
+% \todo{Kan ikke huske om næste linie er sandt}
+% The signature was found using device manager with the NXT plugged in.
+% In the case there is no NXT device found, an exception is raised, as shown in line 4.
+
+% Line 7 sets the configuration of the USB device.
+% This part is PyUSB specific, however, when the method is called without arguments, the current configuration is used.
+% The specifics of what a configuration is do not matter for this specific use case.
+
+
+With the device initialized, communication can now happen.
+The communication itself is relatively simple, with the read method simply reading directly from the byte stream, as shown in \autoref{lst:PythonUSBread}.
+
+\begin{lstlisting}[label={lst:PythonUSBread},caption={Reading from the USB port connected to the NXT}]
+
+\end{lstlisting}
+
+When writing to the device, there are two options:
+The first, \texttt{write\_location}, writes a location to the USB, while the second,  \texttt{write\_status}, writes a status.
+Both are shown in \autoref{lst:PythonUSBwrite}.
+
+\begin{lstlisting}[label={lst:PythonUSBwrite},caption={Reading and writing from the USB port connected to the NXT}]
+    def read(self) -> bytes:
+    return self.device.read(self.in_endpoint.bEndpointAddress, 8)
+
+def write_location(self, data: Vector) -> None:
+        self.out_endpoint.write(bytes([
+            0,
+            0,
+            int(data.x) & 0xFF,
+            int(data.y) & 0xFF
+        ]))
+
+def write_status(self, status: Status):
+        value = status.value
+        if type(value) is tuple:
+            value = value[0]
+        self.out_endpoint.write(bytes([
+            int(value) & 0xFF,
+            0
+        ]))
+
+\end{lstlisting}
+Both methods send byte wise data.
+
