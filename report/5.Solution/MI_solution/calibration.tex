@@ -1,7 +1,8 @@
 \section{Calibration}
 
 As the device required varying power in order to move, depending on the current revolution of the motor, the first goal was to extract these powers.
-In order to do so, a calibration function was implemented that will slowly increase the power on the motor, until it observes a change in revolution. A simplified version of the function can be seen in listing~\ref{lst:GetRequiredPower}.
+In order to do so, a calibration function was implemented that will slowly increase the power on the motor, until it observes a change in revolution.
+A simplified version of the function can be seen in listing~\ref{lst:GetRequiredPower}.
 
 
 \begin{lstlisting}[language=C,label={lst:GetRequiredPower},caption={Getting required power to move }]
@@ -48,7 +49,8 @@ model = MLPRegressor(solver="lbfgs", activation="logistic", hidden_layer_sizes=(
 regressor.fit(input_values, expected_values)
 \end{lstlisting}
 
-The \texttt{MLPRegressor} has a lot of parameters that can be modified in order to tweak the neural network for your use case. In this case default values are used for everything except solver, activation and size of hidden layers.
+The \texttt{MLPRegressor} has a lot of parameters that can be modified in order to tweak the neural network for your use case.
+In this case default values are used for everything except solver, activation and size of hidden layers.
 The activation function is set to use the logistic sigmoid function, and the model is defined to have 2 hidden layers with 30 neurons in each.
 These values are obtained by trying out a lot of different values, in order to determine which values generally perform well on the data set.
 
