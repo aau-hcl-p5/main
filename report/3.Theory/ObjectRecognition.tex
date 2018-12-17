@@ -1,26 +1,178 @@
-\section{Object Recognition}
-To be able to figure out where the target is, its location within the video stream has to be determined.
-It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-As mentioned in Section~\ref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
-Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
-Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
+% \section{Object Recognition}
+% To be able to figure out where the target is, its location within the video stream has to be determined.
+% It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
+% As mentioned in \autoref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
+% Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
+% Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
 
-It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
+% It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
 
-\subsection{Neural Networks}
+% \section{Machine intelligence}\label{theory:MI}
+% A requirement of the project is to use machine intelligence as a part of the solution.
+% Machine intelligence is the study of computational agents exhibiting intelligent behaviour.
+% A subtopic of machine intelligence, is machine learning with is the exercise of training a computational agent to solve a task.
+
+% The following subsection will explore neural networks, which is a way to apply machine learning
+
+\subsection{Neural networks}
 A neural network is, as the name implies, a network of neurons.
-The idea is based on the neurons in the human brain, where the sum of the neurons are used to make more complex decisions than each individual neuron is capable of.
-The primary difference is whether it's a biological brain or an artificial one. 
-In computer science, a neuron can be seen as a function, that processes some input and then transmits the processed value to connected neurons.
+The idea is based on the neurons in the human brain, where the sum of the neurons are used to make decisions that are more complex than the decisions the individual neurons are capable of.
+The primary difference is whether it is a biological brain or an artificial one. 
+In computer science, a neuron can be seen as a function that processes some input and then emits the resulting value to connected neurons.
 
-Neural networks are a powerful but complex method of doing machine learning.
-Because of this, simpler solutions should also be considered when exploring which methods suits the task best.
-One of the reasons neural networks are especially interesting in this case, is its ability to recognize patterns.
-Pattern recognition is a fundamental part of object recognition making neural networks an obvious option.
+Neural networks are a powerful, but complex, method of doing machine learning and simpler solutions should also be considered when exploring which method is best suited for solving the task.
+One of the reasons neural networks are especially interesting in this case, lies in their ability to recognize patterns.
+%Vær opmærksom på at vi måske ændrer det her til at være mere generelt MI
+Pattern recognition is a fundamental part of object recognition, making neural networks an obvious option.
 
-\subsubsection{Convolutional Neural Network}
+\subsubsection{The structure of a neural network}
+A typical neural network consists of an input layer, an output layer and one or more hidden layers, between the input and output layers.
+It is the task of the hidden layers to transform the input from the input layer into the desired output onto the output layer, with each layer consisting of one or more neurons.
+In a normal, fully connected neural network all neurons in a layer are connected to all neurons in the previous layer.
+All connections in a neural network have a weight associated with it, which acts as a simple multiplier for the output from the previous neuron. 
+Apart from the weights, all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. 
+The bias is sometimes thought of as a threshold, which indicates if the neuron should fire or not.
+
+A simple example of a neural network can be seen in \autoref{fig:nnimag}.
+
+\figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer\cite{NeuralNetworkImage}.}{fig:nnimage}
+
+Before passing the result of a neuron on, the result is first transformed by an activation function. 
+The activation function is required in order for the neural network to learn to solve a complex non-linear model. 
+This will be further discussed in \autoref{training-a-neural-network}, which discusses the training of a neural network.
+
+The following paragraphs explains a few common activation functions.
+\paragraph{Identity}
+Identity is the simplest activation function, it is an activation function that does not alter the input. 
+This is also known as an identity function and can be used when learning simple models, but fails to learn complex non-linear models.
+
+\paragraph{Perceptron}
+A perceptron is a neuron that has an activation function that returns a binary signal, either zero or one, depending on the input value. 
+Usually any positive value will be a one, and all negative values will be a zero.
+
+\paragraph{Logistic Sigmoid}
+The sigmoid function is a commonly used activation function in neural networks.
+It is defined as:
+
+$$f(x) = \frac{1}{1 + e^{-x}}$$
+
+It maps the input value to a value between one and zero, and is especially useful for learning, due to its non-linear slope.
+A visual representation can be seen in \autoref{fig:sigmoid}.
+
+
+\definecolor{ffqqqq}{rgb}{1,0,0}
+
+\tikzimage{[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=2.5cm]
+	\draw[->,color=black] (-5,0) -- (5,0);
+	\foreach \x in {-4,-2,2,4}
+	\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+	\draw[->,color=black] (0,-3) -- (0,3);
+	\foreach \y in {-3,-2,-1,1,2}
+	\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+	\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+	\clip(-5,-3) rectangle (5,3);
+	\draw[line width=2pt,color=ffqqqq, smooth,samples=100,domain=-5.0:5.0] plot(\x,{1/(1+2.718281828^(-(\x)))});}{Logistic sigmoid function plotted from -5 to 5}{fig:sigmoid}
+
+
+\paragraph{RELU}
+Rectified linear unit is a modern, yet simple, activation function, that has proven to be very powerful in deep learning networks. 
+
+It is defined as:
+
+$$f(x) = max(0, x)$$
+
+A visual representation can be seen in \autoref{fig:relu}.
+
+\tikzimage{line cap=round,line join=round,>=triangle 45,x=1cm,y=1.3cm]
+		\draw[->,color=black] (-10,0) -- (10,0);
+		\foreach \x in {-10,-8,-6,-4,-2,2,4,6,8}
+		\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+		\draw[->,color=black] (0,-3) -- (0,10);
+		\foreach \y in {-2,2,4,6,8}
+		\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+		\clip(-10,-3) rectangle (10,10);
+		\draw [line width=2pt,color=ffqqqq] (-10,0)-- (0,0);
+		\draw [line width=2pt,color=ffqqqq] (0,0)-- (10,10);}{RELU plotted from -10 to 10}{fig:relu}
+
+
+\subsubsection{Calculations in a neural network}
+
+The output of a neuron is calculated by summing the output of all the connected neurons multiplied with the associated weight plus the bias and then passed through the activation function.
+In \autoref{fig:nntrain} the value of $h1 $ is calculated as:
+$$\phi(i_1 \cdot w_1 + i_2 \cdot w_3 + b_1)$$
+
+\figur{0.7}{images/NNTrain.png}{Calculating value of h1 \cite{NeuralNetworkImage}.}{fig:nntrain}
+
+More formally the outputs of a layer can be calculated by matrix multiplication:
+
+$$
+\phi\left(
+\begin{bmatrix}
+w_{0,0} & w_{0,1} & \dots  & w_{0,n} \\
+w_{1,0} & w_{1,1} & \dots  & w_{1,n} \\
+\vdots & \vdots & \ddots & \vdots \\
+w_{k,0} & w_{k,1} & \dots  & w_{k,n}
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+o^l_0\\
+o^l_1\\
+\vdots \\
+o^l_n
+\end{bmatrix}
++
+\begin{bmatrix}
+i^l_0\\
+i^l_1\\
+\vdots \\
+i^l_n
+\end{bmatrix}
+\right)
+$$
+
+This makes it easier to reason about the calculations of the network as a whole.
+
+\subsubsection{Training a neural network}\label{training-a-neural-network}
+When doing machine learning with a neural network, all the weights and biases are usually initialized with random values.
+Obviously, this will result in the initial run throughs returning bad results.
+
+This is solved by letting the neural network train itself, in order to learn it how to complete the desired task.
+
+The neural network should try to minimize the amount of errors on the output layer.
+The error is calculated using a loss function.
+The loss function can be defined in multiple ways, but a simple loss function simply squares the difference between the actual output and the expected output.
+
+\paragraph{Back propagation}
+Back propagation is a common way of training a neural network.
+The error from the output layer is back propagated through the network.
+In order to minimize the error at the output layer, all weights and biases are adjusted throughout the network.
+Back propagation is often used along with gradient descent, in order to determine how much each weight and bias should be updated.
+
+\paragraph{Gradient Descent}
+With gradient descent (GD) one can use the derivative of a function to minimize the error.
+
+To calculate how much a weight $w$, or bias for that matter, affects the total error of the network one should find the derivative of the function with respect to $w$.
+This means that $w$ will affect the total error by:
+
+$$\frac{\partial Error}{\partial w}$$
+
+This has to be done for all weights and biases in the network.
+Once this derivative is found, weights and biases are updated.
+The value with which the weight or bias should be updated equals the negative value of the derivative multiplied by a learning rate $\alpha$.
+This will reduce the amount with which the weight or bias affects the total error, since it descents towards a minimum.
+
+Unfortunately, it is not guaranteed to move towards the global minimum, but rather a local minimum.
+This is illustrated in \autoref{fig:sgd} where $A$ and $B$ will descent towards the local minimum.
+
+\definecolor{xdxdff}{rgb}{0.49,0.49,1}
+\figur{0.8}{images/sgd.png}{Gradient descent illustration}{fig:sgd}
+
+Although this may not render the best results, the results gained by using gradient has proven to be good enough to be useful.
+
+\subsection{Convolutional Neural Network}
 \label{sec:cnn}
-Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection.
+Convolutional neural networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
 In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN \cite{ILSVRC_Results}. 
 
 The special thing about a CNN is the addition of convolutional layers.
@@ -51,10 +203,10 @@ Some common examples of pooling is max pooling and average pooling, in which the
 
 CNNs are an effective choice for classification, meaning that it can answer whether the image is of a car.
 Now the question is whether it can be used to figure out the position of the objects within the image.
-The answer can be found by looking into Regional Convolutional Neural Network
+The answer can be found by looking into Regional Convolutional Neural Network.
 
 
-\subsubsection{Regional Convolutional Neural Network}
+\subsection{Regional Convolutional Neural Network}
 A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
 It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
@@ -78,7 +230,7 @@ The classifications scores along with the bounding box confidence is used to cal
 As a result of this a total of $S\times S\times N$ tiles are given a probability score.
 In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
 
-The process is visualized in Figure~\ref{fig:yolo}.
+The process is visualized in \autoref{fig:yolo}.
 
 \figur{0.9}{images/yolo.jpg}{A visual representation of YOLO\cite{odDetection}.}{fig:yolo}
 
@@ -95,10 +247,10 @@ For instance, if tracking a bird flying past stationary planes, it might lock on
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
-The GOTURN algorithm utilizes CNN, which is explained in Section~\ref{sec:cnn}.
+The GOTURN algorithm utilizes CNN, which is explained in \autoref{sec:cnn}.
 \figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN \cite{goturn}.}{fig:goturn-arch}
 GOTURN works by looking at two frames; the first, also known as the previous frame, and the second, also known as the current frame.
-This is also shown on Figure~\ref{fig:goturn-arch}.
+This is also shown on \autoref{fig:goturn-arch}.
 The premise is that the location of the object is known in the previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
@@ -131,7 +283,7 @@ print(b)
 print(total)
 \end{lstlisting}
 The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \ref{lis:TensorFlowPy2}]
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \autoref{lis:TensorFlowPy2}]
 Tensor("Const:0", shape=(), dtype=float32)
 Tensor("Const_1:0", shape=(), dtype=float32)
 Tensor("add:0", shape=(), dtype=float32)
@@ -182,7 +334,7 @@ The below snippet is an example of facial recognition, implemented using OpenCV.
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 \end{lstlisting}
-Snippet~\ref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
+\autoref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
 Haar-Cascade is a classifier, which has been trained to detect a specific object, in this case, faces.
 
 While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and K-Means clustering, based on images.
@@ -223,7 +375,7 @@ Below is an example of machine learning using the OpenCV library:
 	print(accuracy)
 \end{lstlisting}
 
-Snippet~\ref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
+\autoref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
 The program itself is quite simple, and the complex aspects of the program are handled by the OpenCV library.
 
 As can be seen from both examples, it is very easy to do complex image manipulation in a very simple manner.

@@ -78,7 +78,7 @@ Defining several \textit{APPMODES} allows the system to behave according to its 
 A system consists of one or more tasks, with a series of properties that defines the scheduling of the given task.
 In the example, a task is declared with name \textit{task1} which corresponds to the naming of the task in the C source code.
 The first attribute of a task is \textbf{AUTOSTART} which defines whether the task should automatically start with the initialization of the system.
-Autostart of tasks is performed before the autostart of alarms, which will be described in Subsection~\ref{Subsec:OIL:ALARMS}\cite{irisa223}.
+Autostart of tasks is performed before the autostart of alarms, which will be described in \autoref{Subsec:OIL:ALARMS}\cite{irisa223}.
 As an attribute of \textit{AUTOSTART} one or more \textit{APPMODE} can be defined which defines in which application modes the task is auto-started.\\
 The \textbf{PRIORITY} of a task determines how important the scheduling of the given task is.
 A low number means low priority and vice versa. 
@@ -152,4 +152,4 @@ TASK EventHandler
 \end{lstlisting}
 As seen in the listing above, an event has a mask property, which serves as an identifier for the given event \cite{irisa25}.
 This can either be manually defined as a 64-bit unsigned integer or can be handled by nxtOSEK by using the AUTO keyword.
-The usage of events allows definition of aperiodic tasks, as discussed in Section~\ref{Theory:RTS}.
+The usage of events allows definition of aperiodic tasks, as discussed in \autoref{Theory:RTS}.

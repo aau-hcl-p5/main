@@ -1,5 +1,5 @@
 \section{Using a camera for estimating direction}
-As mentioned in the requirements (Subsection~\ref{subsec:requirements}), a camera will be used to identify the presence of a moving target.
+As mentioned in the requirements (\autoref{subsec:requirements}), a camera will be used to identify the presence of a moving target.
 In this section, the theory of how a camera processes a three dimensional world into a two dimensional video and how this is applicable to the project will be elaborated upon.
 
 \subsection{The perspective of a camera}
@@ -8,7 +8,7 @@ This means that the camera is able to transform a world consisting of three dime
 
 \figur{0.7}{images/perspectiveprojection.jpg}{Idea behind perspective projection\cite{perspective}.}{fig:perspective}
 
-As seen on Figure~\ref{fig:perspective} the two objects that are captured in the view frustum are represented in the viewport in a two-dimensional format.
+As seen on \autoref{fig:perspective} the two objects that are captured in the view frustum are represented in the viewport in a two-dimensional format.
 For this project, using this format is advantageous since the primary focus lies in hitting a moving object with a laser.
 The concrete implementation, tailored to this solution, will be explored and elaborated on in the solution chapter.
 
@@ -18,7 +18,7 @@ The major benefit of working with a laser is that it is almost not affected by g
 Rather than having to calculate the direction of the target in a three dimensional space, meaning that the distance has to be taken into account, it is simply possible to compare two images captured by the camera.
 \figur{0.7}{images/estimate.jpg}{Estimation of next possible position.}{fig:estimate}
 
-As seen on Figure~\ref{fig:estimate} two subsequent frames, a and b, are used for used for finding a moving object with the assumption that the rest of the frame is static. 
+As seen on \autoref{fig:estimate} two subsequent frames, a and b, are used for used for finding a moving object with the assumption that the rest of the frame is static. 
 When comparing the two frames, as seen on c, it is easily seen that everything but the red ball is static.
 With this information, it is possible to estimate the next position of the ball, indicated by the blue ball in d, using the assumption that the ball keeps moving in the same direction with the same speed.
 However, this will seldom be the case, due to the acceleration of the tracked object.

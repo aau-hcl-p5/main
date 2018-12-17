@@ -1,11 +1,15 @@
-\section{Modelling the domain}\label{Theory:MIModelling}
+\section{Machine intelligence}\label{theory:machineintelligence}
+Machine intelligence (MI) is the study of computational agents, acting in an intelligent manner.
+The following subsections are all concerned with the principles needed to analyze and reason for an MI system.
+
+\subsection{Modelling the domain}\label{Theory:MIModelling}
 When designing a MI system, it is important to consider the domain that the MI system will affect.
 An MI system is comprised of an agent, the input to the agent, and the actions it performs to affect the environment it acts in.
 
-\figur{0.6}{images/actualagent.png}{An agent, its input and its environment{.} Source:~\cite{ArtificialIntelligencealanpoole}}{fig:agentenvironment}
+\figur{0.6}{images/actualagent.png}{An agent, its input and its environment{.} Source:~\cite{ArtificialIntelligencealanpoole}.}{fig:agentenvironment}
 
 
-An agent, as shown in Figure~\ref{fig:agentenvironment}, is an abstraction on an entity that acts in an environment based on its perception of said environment~\cite{ArtificialIntelligencealanpoole}.
+An agent, as shown in \autoref{fig:agentenvironment}, is an abstraction on an entity that acts in an environment based on its perception of said environment~\cite{ArtificialIntelligencealanpoole}.
 It might be intelligent in the context of acting purposefully, by trying to reach its goals by performing actions, or it might act un-purposefully, where actions has no relation to goals.
 The two types of agents are \textit{Purposeful Agents} and \textit{Nature}.
 
@@ -47,3 +51,7 @@ Offline computation is performed by the agent itself, but before it has ever act
 This mean that the agent will not learn based on its actions on the environment, but rather based on predetermined data.
 Finally there is online computation, which happens between the agent's observations of the environment and the enactment of the agent's actions on the environment.
 Thus, the agent will learn based on the results of its previous actions, and hopefully improve its performance.
+
+A way to do this is through the usage of neural networks.
+% måske section
+The theory of those will be explored in the following subsections.
