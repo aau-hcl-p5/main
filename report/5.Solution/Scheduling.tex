@@ -163,6 +163,6 @@ ALARM cyclic_keep_USB_alive
 \end{lstlisting}
 
 The \texttt{counter} attribute specifies that the system clock is used to time when the alarm should be run, and which action it should take upon activation.
-In the autostart block of the definition, it is defined that the cycletime is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which takes place once every 1 millisecond, thus ensuring that the task will run every millisecond.
+In the autostart block of the definition, it is defined that the cycle time is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which takes place once every 1 millisecond, thus ensuring that the task will run every millisecond.
 
 The remaining tasks are simply set to automatically start, and will be allowed to run based on their priority with no pre-defined release time.

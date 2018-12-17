@@ -11,7 +11,7 @@ In this case, the CE method is the perfect solution.
 However, should the execution time of a single task exceed one millisecond, the usage of CE is no longer viable, as the task to keep the USB connection alive needs to be executed once every millisecond, as required by nxtOSEK.
 In that case, FPS is a better solution, as it allows the scheduler to pre-empt the task in order to run the USB related task.
 
-Both the fixed priority and CE methods are a common ways to implement hard real-time systems due to their simplicity, deterministic behavior and relative ease of implementation\cite{CyclicExecutionKimLarsen}.
+Both the fixed priority and CE methods are a common way to implement hard real-time systems due to their simplicity, deterministic behavior and relative ease of implementation\cite{CyclicExecutionKimLarsen}.
 
 In order to ensure that the system is schedulable, an UPPAAL model of the scheduler and the tasks was created.
 
@@ -20,7 +20,7 @@ UPPAAL is an integrated tool environment for modeling, validation and verificati
 Using the UPPAAL, a model of the tasks of the system was constructed.
 
 \paragraph{Templates}
-When creating an UPPAAL project, a templates must be made.
+When creating an UPPAAL project, a template must be made.
 Templates are a model that describes a system or a part of a system, and can be reused across the project to avoid code repetition.
 The templates can communicate using channels specified in the declarations of the project.
 
@@ -56,24 +56,23 @@ KeepUSBAliveTask  = Task( 5 );
 
 system BackgroundTask, UpdateDisplayTask, MoveMotorsTask, ReciveDataTask, HandleLaserTask, KeepUSBAliveTask, Scheduler;
 \end{lstlisting}
-Each task in initialized and assigned to a new task.
-The task is added to the system, along with the scheduler.
+Each task is initialized and added to the system, along with the scheduler.
 
 The behavior of a task is shown on \autoref{fig:UppaalTask}.
-The model is a timed automaton which is used to ensure that the task will come true to its deadline and periods.
+The model is a timed automaton which is used to ensure that the task will be true to its deadline and periods.
 The model consists of all the states a task can be in.
 Each state has a number of transitions that can change the state of the task.
 
 \figur{0.5}{images/Task}{Example of a task template from UPPAAAL}{fig:UppaalTask}
 
 On \autoref{fig:UppaalScheduler} the model of how the scheduler works can be seen.
-Since the scheduler is responsible for running all tasks on the system it simply needs an queue of tasks ready for running.
+Since the scheduler is responsible for running all tasks on the system it simply needs a queue of tasks ready for running.
 The tasks in the queue are sorted, based on their priority upon entering the queue.
-It when simply needs to start the tasks in the queue.
+It then simply needs to start the tasks in the queue.
 
 \figur{0.5}{images/Scheduler}{The figure shows the scheduler template from UPPAAL}{fig:UppaalScheduler}
 
-Based on the model of both the task and the scheduler, it is verifiable that the system is schedulable using the verifier tool in UPPAAL.
+Based on the model of both the task and the scheduler, it is verifiable that the system is schedulable using the verification tool in UPPAAL.
 The verifier will run a query, asking that for any given state, none of the tasks are going into the error state.
 This is shown on \autoref{snip:UPPAALQuery}.
 \begin{lstlisting}[label={snip:UPPAALQuery},caption={Query from UPPAAL verifier},frame=tlrb,numbers=none]
