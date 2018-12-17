@@ -1,5 +1,5 @@
 \section{Firing at a moving target}
-Hitting a moving target with a projectile is difficult, as the speed of both the target and projectile needs to be considered.
+Hitting a moving target with a projectile is challenging, as the speed of both the target and projectile needs to be considered.
 
 \subsubsection{Hitting a moving target with a projectile}
 As the projectile requires time to travel, a target in motion will have moved during the time it took the projectile to reach the targets original location, meaning that the projectile has to be aimed at where the target will be, not where it currently is.
@@ -18,24 +18,23 @@ Based on the visual feed, as described in Section~\ref{sec:obj_tracking}, the pr
 This still leaves the problem of determining the distance between a target and the device.
 \subsection{Distance to target}
 Finding the distance to a target is definitely doable, and several solutions have already been explored.
-As presented in Section~\ref{sec:sensors}, an \textit{ultrasonic sensor} mounted to the camera, could be used.
+As presented in Section~\ref{sec:sensors}, an \textit{ultrasonic sensor} mounted to the camera could be used.
 
 \todo{det her er nok forkert, og det er ikke dyrt, som thomas har sagt, vi kunne bruge to webcams}
-A more expensive solution, would be using a 3D camera.
-As it is expensive, it will not be explored further.
+A more expensive solution would be using a 3D camera, but as these are relatively expensive for a project of this size, this option will not be explored any further.
 %3D cameras are quite expensive and as an alternative, using an ultrasonic sensor is a cheaper option and has a higher degree of precision, but this would require the device to actually point the sensor at the target, which is time consuming\cite{sensorsaccuracy}.
 However, even when knowing the distance, predicting where to shoot the target would be a complex exercise.
-The trajectory of a fired projectile, is highly dependent on the type of projectile.
-An actual gun would shoot bullets at a high velocity and reliably, however using a gun in a university project is not feasible, and a LEGO projectile, would most likely be unpredictable, as they are only meant as a toy, and are not designed for consistent trajectories.
+The trajectory of a fired projectile is highly dependent on the type of projectile.
+An actual gun would shoot bullets at a high velocity and reliably, however using a gun in a university project is not feasible, and a LEGO projectile would most likely be unpredictable, as they are only meant as a toy, and are not designed for consistent trajectories.
 
 %Using a LEGO gun or cannon would more feasible, though these have less consistent trajectories and speed, still that would be the most obvious choice.
 %LEGO projectiles, and other toy weapons, will have less speed, as it is created for children, which adds uncertainty and travel time for a given projectile.
 
-As the goal of the project is to explore machine intelligence in a real-time embedded system, adding the prediction of trajectories and the firing of projectiles, adds a lot of complexity to an already complex project.
+As the goal of the project is to explore machine intelligence in a real-time embedded system, adding the prediction of trajectories and the firing of projectiles adds a lot of complexity to an already complex project.
 
-An alternative to firing a projectile at an object, would be to point a laser at the target and fire when it is on target.
-Determining the distance between the device and the target, is only required if there is travel time on what is being fired at the target.
-A laser will move at the speed of light, meaning that the distance will be irrelevant.
+An alternative to firing a projectile at an object would be to point a laser at the target and toggle it on when it is on the target.
+Determining the distance between the device and the target is only required if there is a travel time on the projectile that is being fired at the target.
+A laser will move at the speed of light, rendering the distance variable irrelevant.
 
 
 %As the tests of this project will be done in the assigned group room, the distance between a target and the device will never be more than 10 meters, meaning that the travelling speed of the projectile will be near-instant. 

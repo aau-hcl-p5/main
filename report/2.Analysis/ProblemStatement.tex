@@ -1,6 +1,6 @@
 \newpage
 \section{Problem definition}
-As a conclusion to the analysis, a list of requirements, a set of test cases that can be used to verify the requirements, and a definitive problem statement will be defined.
+As a conclusion to the analysis, a list of requirements, a set of test cases that can be used to verify the requirements, and a definitive problem statement, will be defined.
 The requirements are goals defined by the group, and are primarily used to determine the success of the project, mainly in relation to the groups own requirements for the project.
 %føler ikke at vores requirements overhovedet er related til studieordningen. For den siger vitterligt bare: embedded device, med MI og/eller RTS.
 \subsection{Naming}
@@ -9,7 +9,7 @@ In future sections, the "device", will be referred to as \texttt{F.L.A.T}, short
 \subsection{Analysis takeaways}
 The primary takeaways from the analysis helped specify the specific platform and sensors that will be needed for the development of a solution, as well as reasonings for the usage of machine learning and the principles of real-time systems.
 
-The best platform choice was determined to be the NXT, because of the limited CPU, which requires more thought regarding the specifics of the implementation, but also because of its wide variety of sensors and actuators.
+The best platform choice was determined to be the NXT, because of the limited CPU, which makes the project more interesting from an RTS perspective, but also because of its wide variety of sensors and actuators.
 
 
 As explained in \autoref{anal:laser:takeaway} a laser will be used to determine a hit on the target, instead of firing a projectile.
@@ -21,7 +21,7 @@ This leads to a potential issue, as the camera will most likely be incompatible 
 
 A solution here would be to record and analyze the video data, resulting in a direction, on a secondary device, and sending the direction data to the NXT
 
-The obvious application of machine learning is object recognition, with target trajectory prediction being a potential secondary possibility.
+The obvious application of machine learning is object localization, with target trajectory prediction being a potential secondary possibility.
 
 %One will be the object recognition, i.e. determining the position of an object in an image, while the other part will be the actual prediction of the trajectory of said object.
 %This information is then transcoded into a movement of a motor on either a horizontal or vertical axis.
@@ -51,7 +51,7 @@ The problem statement is made more explicit with the following sub-problems:
 
 \todo{Er problem statment problem faktisk en ting?}
 \subsection{Requirements}\label{subsec:requirements}
-Having successfully elucidated the problem statement problem and its associated challenges, a series  of requirements will be formulated to be able to conclude upon the success of the project.
+Having successfully elucidated the problem statement and its associated challenges, a series  of requirements will be formulated to be able to conclude upon the success of the project.
 
 To formally specify the requirements, the MoSCoW analysis model will be utilized.
 MoSCoW is a model that specifies which requirements \textbf{M}ust, \textbf{S}hould, \textbf{C}ould, and \textbf{W}on't be fulfilled.
@@ -65,7 +65,7 @@ The requirements of the system are based upon the results of the points examined
 	\item ability to follow a large target being dropped from 2 meters height at a distance of 3 to 4 meters away from the device, with a laser.
 	\item move fast enough to keep the laser on a moving target in real time.
 	\item ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
-	\item enough structural stability to move without breaking
+	\item enough structural stability to move without breaking.
 \end{itemize}
 
 \textbf{Should have}
@@ -79,12 +79,12 @@ The requirements of the system are based upon the results of the points examined
 \textbf{Could have}
 \begin{itemize}
 	\item ability to determine the distance to the target.
-	\item calculate the angle and power necessary to hit the target with a projectile
+	\item calculate the angle and power necessary to hit the target with a projectile.
 \end{itemize}
 
 \textbf{Won't have}
 \begin{itemize}
-	\item ability to actually take down targets
+	\item ability to actually take down targets.
 	\item ability to differentiate between the type of object that is being observed.
 \end{itemize}
 
