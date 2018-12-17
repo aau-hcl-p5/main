@@ -18,7 +18,7 @@ def generate_model(inp: List[float], expect: List[float], model=None) -> MLPRegr
     :return: A trained model
     """
     if not model:
-        model = MLPRegressor(hidden_layer_sizes=(30, ),
+        model = MLPRegressor(hidden_layer_sizes=(30,),
                              activation='approx_sigmoid',
                              solver='adam',
                              max_iter=100000,
@@ -81,14 +81,14 @@ def _export_model(
     # Sigmoid
     output.write(
         """
-        static double sigmoid(double value)
-        {
-            double x = value >= 0 ? value : value * -1;
-            double x2 = x * x;
-            double e = 1.0f + x + x2 * 0.555f + x2 * x2 * 0.143f;
-            return 1.0f / (1.0f + (value > 0 ? 1.0f / e : e));
-        }
-        """
+static double sigmoid(double value)
+{
+    double x = value >= 0 ? value : value * -1;
+    double x2 = x * x;
+    double e = 1.0f + x + x2 * 0.555f + x2 * x2 * 0.143f;
+    return 1.0f / (1.0f + (value > 0 ? 1.0f / e : e));
+}
+"""
     )
     # Weights
     for idx, weight_layer in enumerate(weights):
@@ -112,7 +112,7 @@ def _export_model(
     output.write(f"T_MODEL_EXECUTION_RESULT calculate_{name}(T_MODEL_INPUT input) {{\n")
     # translate to the range
     initial_layer = ', '.join(
-        f'(input.input_{x} - {in_min_max[0][x]})/{in_min_max[1][x]-in_min_max[0][x]} * 4 - 2'
+        f'(input.input_{x} - {in_min_max[0][x]}) / {in_min_max[1][x]-in_min_max[0][x]} * 4 - 2'
         for x in range(len(weights[0]))
     )
     output.write(
@@ -138,8 +138,7 @@ def _export_model(
         output.write(indent(1) + "}\n")
     output.write(indent() + "T_MODEL_EXECUTION_RESULT result;\n")
     for x in range(len(weights[-1][0])):
-
-        result = f"((intermediate_result_{len(weight)}[{x}] +2 )/ 4 ) " \
+        result = f"((intermediate_result_{len(weight)}[{x}] + 2 ) / 4) " \
                  f"* {out_min_max[1][x] - out_min_max[0][x]} + {out_min_max[0][x]}"
         output.write(
             indent() + f"result.output_{x} = {result};\n")
