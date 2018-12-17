@@ -1,11 +1,11 @@
 \section{Scheduling}\label{solution:scheduling}
-As described in Subsection~\ref{Design:Scheduling}, the scheduling method is cyclic executive. 
-On Snippet~\ref{lst:MainTask} the implementation of the main task of the system is shown. 
+The scheduling of the system was first implemented as cyclic executive.
+On Snippet~\ref{lst:MainTask} the implementation of the main task of the system is shown.
 The main task is responsible for the scheduling of the system.
 
 This task consists of two loops that correspond to the two states that the system can operate in: calibrating and normal execution.
-As can be seen on Snippet~\ref{lst:MainTask} lines 3 to 12 the calibration state has to be completed before the system can start the normal execution. 
-On lines 13 to 25 the actual scheduling of the running all the methods need can be seen, these method will be called once per major cycle hence being true to the deadline. 
+As can be seen on Snippet~\ref{lst:MainTask} lines 3 to 12 the calibration state has to be completed before the system can start the normal execution.
+On lines 13 to 25 the actual scheduling of the running all the methods need can be seen, these method will be called once per major cycle hence being true to the deadline.
 
 \begin{lstlisting}[language=CSharp,label={lst:MainTask},caption={MainTaks method from logic.c}]
 TASK(MainTask)
@@ -32,15 +32,15 @@ TASK(MainTask)
             move_motors();
             handle_laser();
             update_display();
-            ClearEvent(newMajorCycleEvent); 
+            ClearEvent(newMajorCycleEvent);
         }
     }
     TerminateTask();
 }
 \end{lstlisting}
 
-In order to time the major cycle, the \textit{user\_1ms\_isr\_type2} method, that can be seen on Snippet~\ref{lst:user1msisrtype2}, is used to raise the event of the major cycle. 
-The method activated by an system interrupt ensuring that the method will be called once every millisecond. 
+In order to time the major cycle, the \textit{user\_1ms\_isr\_type2} method, that can be seen on Snippet~\ref{lst:user1msisrtype2}, is used to raise the event of the major cycle.
+The method activated by an system interrupt ensuring that the method will be called once every millisecond.
 \begin{lstlisting}[language=CSharp,label={lst:user1msisrtype2},caption={user\_1ms\_isr\_type2 method from nxt.c}]
 void user_1ms_isr_type2(void)
 {
@@ -51,19 +51,19 @@ void user_1ms_isr_type2(void)
 }
 \end{lstlisting}
 
-As part of the implementation of the cyclic executive scheduling method, an event is waiting to be raised after each cycle iteration. 
-On Snippet~\ref{lst:newMajorCycleEvent} the event is specified on the operation system level, such that it can be raised by the interrupt. 
+As part of the implementation of the cyclic executive scheduling method, an event is waiting to be raised after each cycle iteration.
+On Snippet~\ref{lst:newMajorCycleEvent} the event is specified on the operation system level, such that it can be raised by the interrupt.
 \begin{lstlisting}[language=CSharp,label={lst:newMajorCycleEvent},caption={newMajorCycleEvent event from nxt.oil}]
 EVENT newMajorCycleEvent{
     MASK = AUTO;
 };
 \end{lstlisting}
 
-The system only has one task, which is declared with the properties shown on Snippet~\ref{lst:MainTask}. 
+The system only has one task, which is declared with the properties shown on Snippet~\ref{lst:MainTask}.
 The properties specifies to the operating system how the task shall run and that the event from before is related to the task.
 \begin{lstlisting}[language=CSharp,label={lst:MainTaskoil},caption={MainTaks task from nxt.oil}]
     TASK MainTask {
-      AUTOSTART = TRUE 
+      AUTOSTART = TRUE
         {
           APPMODE = appmode1;
         };
@@ -84,9 +84,8 @@ The reasoning behind simply having as major cycle with no minor cycles is the ex
 Keep\_USB\_Alive    & 14                            \\
 Receive\_Data       & 13                            \\
 Move\_Motors        & 28                            \\
-Handle\_Lasers      & --                            \\
+Handle\_Lasers      & 30                            \\
 Update\_Display     & 480                           \\
-Stop                & --                            
 \end{tabular}
 \end{table}\label{table:executionTimes}
 
@@ -94,4 +93,76 @@ Since the execution time of all the tasks totals to a mere 535 microseconds, it 
 Likewise, there is a software limitation when using nxtOSEK, since the interrupt service routine is only run once every millisecond.
 With these considerations, the cyclic execution method with equal minor and major cycles were deemed the best solution, since the implementation of a fixed priority task would add more overhead when changing between tasks and preempting them, rather than just allowing the previous tasks to finish executing.
 
-\todo{Update handle lasers and stop times when they are implemented}
+\subsection{Fixed Priority Scheduling}
+However, as the project progressed, parts of the machine intelligence execution was moved to the NXT for execution.
+This resulted in tasks that took longer than 1 millisecond to execute, rendering the use of cyclic executive unviable, as described in Subsection~\cite{Design:Scheduling}.
+Instead, the fixed-priority scheduling model was utilized.
+
+After having added machine learning to the \texttt{Move\_Motors} task the execution times are as follows:
+
+\begin{table}[tbp]
+\begin{tabular}{lll}
+\textbf{Task name}  & \textbf{Execution time} 	& \textbf{Priority}\\
+Keep\_USB\_Alive    & 14                        & 6    \\
+Receive\_Data       & 13                        & 4   \\
+Move\_Motors        & --                        & 2   \\
+Handle\_Lasers      & 30                        & 3   \\
+Update\_Display     & 480                       & 1   \\
+Background\_Task    & -                        	& 5  \\
+\end{tabular}
+\end{table}\label{table:executionTimes}
+\todo{Add execution time of move motors and bg task}
+
+As the cyclic executive approach allowed running the calibration before entering the first major cycle, this was easily implemented.
+However, this does not work with the fixed-priority scheduling model, as the tasks are repeatedly run according to their tasks.
+To fix this, the \texttt{Background\_Task} was introduced, which has a high enough priority to preempt the other tasks on the system to allow calibration to run, while still keeping the USB connection alive.
+
+\begin{lstlisting}[language=CSharp,label={lst:backgroundTask},caption={Background task}]
+TASK(background_task) {
+  if(!calibrated) {
+    show_init_screen();
+    while(!get_status_code(&current_status, 0));
+
+    if (current_status == READY_FOR_CALIBRATION) {
+      calibrate(false);
+    }
+    calibrated = true;
+  }
+  if (current_status == DISCONNECTED_REQ) {
+    stop();
+  }
+  TerminateTask();
+}
+\end{lstlisting}
+
+As seen in Snippet~\ref{lst:backgroundTask}, the task checks if the boolean value, calibrated, is true.
+Calibrated indicates if calibration is completed.
+If this is not the case, the background task ensures that the status of the motors and USB are set as disconnected using the \texttt{stop} function.
+
+In the cyclic executive model, it was ensured that the \texttt{keep\_USB\_alive} task was executed once every millisecond by running it at the beginning of each cycle, as the cycles had a length of 1 millisecond.
+With the FPS model, this is instead done by assigning the \texttt{keep\_USB\_alive} task with the highest possible priority.
+This ensures that it will run ahead of all other tasks, using preemption if needed.
+To further ensure that it is run exactly once every 1 millisecond, an alarm is specified in the OIL file, as seen in Snippet~\ref{lst:OILAlarm}.
+
+\begin{lstlisting}[language=CSharp,label={lst:OILAlarm},caption={Alarm in the OIL}]
+/* Definition of keep_USB_alive execution timing */
+ALARM cyclic_keep_USB_alive
+{
+  COUNTER = SysTimerCnt;
+  ACTION = ACTIVATETASK
+  {
+    TASK = keep_USB_alive;
+  };
+  AUTOSTART = TRUE
+  {
+    ALARMTIME = 1;
+    CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+    APPMODE = appmode1;
+  };
+};
+\end{lstlisting}
+
+The \texttt{counter} attribute specifies that the system clock is used to time when the alarm should be run, and which action it should take upon activation.
+In the autostart block of the definition, it is defined that the cycle time is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which takes place once every 1 millisecond, thus ensuring that the task will run every millisecond.
+
+The remaining tasks are simply set to automatically start, and will be allowed to run based on their priority with no pre-defined release time.
