@@ -67,8 +67,8 @@ Each state has a number of transitions that can change the state of the task.
 
 On \autoref{fig:UppaalScheduler} the model of how the scheduler works can be seen. 
 Since the scheduler is responsible for running all tasks on the system it simply needs an queue of tasks ready for running. 
-The tasks in the queue are sorted, based on their priority. 
-It when simply needs to start the tasks as they arrive at a ready state and the scheduler ready to run them.
+The tasks in the queue are sorted, based on their priority upon entering the queue.
+It when simply needs to start the tasks in the queue.
 
 \figur{0.5}{images/Scheduler}{The figure shows the scheduler template from UPPAAL}{fig:UppaalScheduler}
 
