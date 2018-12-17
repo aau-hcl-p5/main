@@ -35,7 +35,7 @@ class ThreshMomentController(ObjectLocalizer):  # pylint: disable=too-few-public
         # Get mask from red threshold
         yellow_mask = inRange(hsv_frame, (20, 80, 10), (40, 255, 255))
         mask = inRange(hsv_frame, (0, 150, 50), (10, 255, 255)) | inRange(hsv_frame, (170, 150, 50), (180, 255, 255))
-        #mask = yellow_mask
+        mask |= yellow_mask
 
         _, contours, _ = findContours(mask, RETR_TREE, CHAIN_APPROX_SIMPLE)
         contours = [contour for contour in contours if contourArea(contour) > 50]
