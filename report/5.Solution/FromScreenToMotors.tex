@@ -1,11 +1,11 @@
 \section{Mapping computer vision to movement}\label{sec:mappingcompvis}
-When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
+When the computer locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
 Due to the resolution of the camera the screen position will be a 2-tuple of values between $0$ to $480$, on the $Y$ axis, and $0$ to $640$ on the $X$ axis, has to be translated into two values in the range $-100$ to $100$.
 Before this translation, the $X$ and $Y$ value has to be transmitted across the USB connection.
 
 Based on this problem, two functions are required.
 \begin{enumerate}
-	\item One on the Raspberry Pi, that maps the screen position to a USB-friendly byte value.
+	\item One on the computer, that maps the screen position to a USB-friendly byte value.
 	\item One on the NXT, that maps the byte value, to the power value.
 \end{enumerate}
 
