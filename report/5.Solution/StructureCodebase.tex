@@ -81,16 +81,17 @@ Figure~\ref{fig:pythonClasses} shows the dependencies of each of the actual pack
 The project also contains functions for calibration, as seen on Figure~\ref{fig:pythonClasses}, which will be covered in Section~\ref{sec:calibration}.
 
 
-\subsection{Movement}
+\subsection{NXT}
 The codebase of the NXT is separated into different files with distinct responsibilities, resulting in modularity, much like described above.
 
+The parts of the NXT code base is:
 \begin{itemize}
-	\item \texttt{tasks}
-	\item \texttt{usb}
-	\item \texttt{display}
-	\item \texttt{movement}
-	\item \texttt{calibration}
+	\item \texttt{nxt}: serves as the entry point with defining tasks
+	\item \texttt{usb}: responsible to everything related to USB communication
+	\item \texttt{display}: responsible for displaying things on the display of the NXT device
+	\item \texttt{movement}: responsible for the movement of the motors
+	\item \texttt{calibration}: responsible for the calibration of motor speed
+	\item \texttt{laser}: responsible for handling the laser
 \end{itemize}
 
-The \texttt{tasks.c} file is the entry point of the project, which creates all the tasks that should be run on the system.
-\todo{Skriv om tasks.c} 
+In the following sections, some highlights of the NXT code will be elaborated upon.
