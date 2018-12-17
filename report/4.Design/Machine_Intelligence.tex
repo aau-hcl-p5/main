@@ -1,38 +1,55 @@
-\section{Machine Intelligence}\label{Design:MI}
-Machine intelligence is a formal requirement for the project.
-This section will explore the different options for machine intelligence.
+\section{Modelling the agent}\label{Design:MI}
+Before developing an intelligent device, it is important to analyze the different aspects of the agent and the world, based on the principles described in \autoref{Theory:MIModelling}.
 
-We currently see 3 different possibilities for machine intelligence.
+
+In the context of this project, the agent is the \texttt{F.L.A.T}.
+Its \textit{goal} is to point at a target and fire a laser beam, whereas the \textit{ability} of agent, is to rotate its motors.
+Its only \textit{stimuli} is a webcam, as defined in \autoref{sec:obj_tracking}.
+
+The environment is the surroundings of the turret, where the \texttt{F.L.A.T} can be considered the sole purposeful agent in the world, whereas the target can be seen as nature.
+In a more advanced case, the targets can also be considered purposeful agents.
+An example could be how birds might flee, or incoming projectiles could be designed to elude the turret.
+
+The optimal solution consists of a set of actions that lowers the distance from the target to the center of the webcam, meaning that the target will be in the center of the webcams point of view.
+This introduces three potential problems, which were discovered in the analysis and the hardware tests.
+
+The following subsections will explore the problems, and evaluate whether these problems has a relevance in the context of developing the \texttt{F.L.A.T} system. 
+
 
 \subsection{Object localization}
-The most obvious option, and the option that we expected to apply from the beginning, is object localization.
-Object localization has already been discussed in Section~\ref{sec:anal:objdet}.
-Simply put, it would be to train an agent to recognize different objects, with the goal of returning a location.
-As this has already been explored quite extensively, it will not be elaborated further upon.
+
+The most obvious option, and the option that was expected to be applied from the beginning of the project, is object localization, which is described in \autoref{sec:anal:objdet}.
+It is a problem that needs to be solved, as the agent cannot move in the direction of the target, if the target location is unknown.
+This issue would ideally be solved with online learning, to ensure that the device is able to locate the target, regardless of visual obstacles in the image.
+While the computational power required to solve this might be large, it is a required aspect of the solution, and will be further explored in \autoref{Design:ObjectLocalization}.
 
 \subsection{Target trajectory prediction}
-In Subsection~\ref{sec:obj_tracking:sub:ML}, it was mentioned that a potential application of machine intelligence was in trajectory prediction for the located object.
-While a thrown object would be quite simple to predict, objects like birds or planes might move according to different patterns.
-An MI model would then be able to predict the movement of the object.
-This would allow the \texttt{F.L.A.T} to simply shoot at the predicted location, instead of continuously tracking the object.
-This approach would also be continuously refined, if targets hit was tracked as well.
-A disadvantage to this approach is that object classification would also be required, to allow distinction of the movement of different objects.
-This would allow for an iterative approach, assuming object classification and localization was implemented first.
+In \autoref{sec:obj_tracking:sub:ML}, trajectory prediction was mentioned as a potential way to apply machine intelligence.
+The actions of the target depends on whether it is a \textit{purposeful agents} or \textit{nature}.
+
+For this project, the target is a balloon, which is an inanimate object that is not \textit{purposeful}.
+That means the movement of the target is relatively predictable, and not prone to making diverging movements from its current path.
+
+Even if this reduces the need for further predictions of the trajectory of objects, it is still worth consideration, especially if hitting the target is done with a projectile, as the travel time of a projectile needs to be considered.
+However, as hitting the target with a projectile, has been deemed out of scope, it is irrelevant in this project at this point.
+
+Finally, there was the potential problem of a target moving faster than the motor could move, which would require prediction in order to hit the target.
+However, after testing the speed of the motors, as described in \autoref{des:sec:hwtest}, it was deemed as irrelevant, as the motor were deemed as quick enough.
+
+Therefore the implementation of movement prediction was deemed irrelevant, mainly because other problems were of a higher priority.
 
 \subsection{Variable motor power}
-An interesting result from the motor tests done in Section~\ref{des:sec:hwtest}, was that motors with more weight, required more power to move the same distance as a motor without added weight.
-This also includes the additional force of gravity, as a motor moving downwards, required less power than a motor that moved upwards.
-Additionally, the wires that connect the motors to the NXT added additional variable weight, depending on how loose or tense the wire was.
-This is a problem, as it could potentially have an impact on precision, which is important when the goal is to hit a fast moving object.
+An interesting result from the motor tests conducted in \autoref{des:sec:hwtest}, was that motors were put under more stress depending on the current angle and wanted direction.
 
-A potential solution would be to apply machine learning to this aspect of the system.
-Our initial thought is to add an additional calibration step upon startup of the \texttt{F.L.A.T}.
-This calibration step would be used to extract data from the machine.
-Based on the data, a neural network would then be trained, allowing the \texttt{F.L.A.T} to apply variable power, depending on the angle of the motor.
-The result from the model would be a prediction of the amount of power required to move the motor the given desired angle.
+This was in part due to the additional weight of the structure itself, which means that the power required to move on the $Y$-axis varied.
+On the $X$-axis, the problem was because of the wires that ran from the motor and the webcam to the NXT and the Raspberry Pi, would be fully stretched as the turret rotated.
+This was an issue that was not easily solvable with hardware.
+This resulted in the robot requiring variable power, depending on its current positions along the axes.
 
-\subsection{Conclusion}\label{Design:MI:sub:conclusion}
-All three of these options are great, as they would be viable applications of machine learning.
-However, as the target trajectory prediction method also requires object classification, we will not be looking further into it, at this moment.
-The method that we are most keen on working with is object localization.
-In the following section, we will be looking into different methods of applying object localization, as well as testing the performance on our hardware platform.
+A potential solution to this problem could be to introduce a function that takes current degrees, direction and distance as input and outputs a required power to move said distance.
+This function could be found through either online or offline learning or through a design-time algorithm.
+Design time solutions would potentially be unreliable, as movement or rewiring of the device, would modify the resistance imposed by the cables.
+
+Online learning might not create a better solution, as the resistance should not change drastically, while the system is running, as it is not meant to be moved around.
+Due to the above reasoning, the optimal solution would be created with offline learning.
+The specific aspects of this implementation will be described in Section~\todo{ref}.

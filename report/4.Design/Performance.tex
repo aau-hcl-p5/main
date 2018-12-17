@@ -1,13 +1,13 @@
 \section{Performance}\label{des:sec:performance}
-In order to be able to track an object in real time, the object localization will have to happen in real time.
+In order to track an object in real time, the object localization will have to happen in real time.
 Therefore, the algorithms should be tested in order to determine whether they will be able to execute the object localization fast enough for it to be feasible for the project.
 
 \subsection{Raspberry Pi}
 The Raspberry Pi 3B is the desired host of the MI processing, but it is very limited in the amount of resources available to it.
 It comes with a 1.2GHz Quadcore ARM Cortex-A53, 64Bit processor and 1 GB of RAM, as explored in Subsection~\cite{subsec:rpispecs}.
-The Raspberry Pi is described in more detail in subsection~\ref{platformtakeaways}.
+The Raspberry Pi is described in more detail in \autoref{platformtakeaways}.
 In relation to computation power, the Raspberry Pi is a little underwhelming compared to an average consumer computer.
-Therefore, although an algorithm might execute fast enough on a normal computer, it is essential for it to be tested whether it will also be fast enough when executed on the Raspberry Pi.
+Therefore, it is essential to test if the algorithms will be fast enough when executed on the Raspberry Pi.
 
 \subsection{Object fill algorithm}
 The object fill algorithm is limited by the frame rate of the camera on an average to high end laptop, meaning that it could serve as a good baseline for further object localization algorithms.
@@ -52,5 +52,6 @@ However, it was decided that making modifications to YOLO would likely be too te
 Since no machine learning algorithms claim to be drastically faster than YOLO, it should be safe to assume that no current machine learning object localization algorithm will be fast enough to run on a Raspberry Pi.
 
 \subsection{Conclusion}
-In conclusion, it was determined that the YOLO algorithm would not be feasible for this project.
+In conclusion, it was determined that the YOLO algorithm would not be feasible for this project, regardless of the platform it ran on.
 This also means that the machine learning application that will be further explored is the variable motor power.
+The specifics of this will be elaborated on in Section~\todo{Insert ref}.

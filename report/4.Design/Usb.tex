@@ -1,24 +1,24 @@
 \section{USB communication}
 \label{sec:usbdes}
-As described in the component diagram, Figure~\ref{fig:comparch}, the system will consist of two separate hardware platforms that need to communicate.
+As described in the component diagram, \autoref{fig:comparch}, the system will consist of two separate hardware platforms that need to communicate.
 As the NXT can only communicate with external devices using Bluetooth and USB, and Bluetooth was deemed too slow for the system, it was decided to use USB.
 According to the nxtOSEK documentation, the nxtOSEK library should also support built-in USB, through an easy to use API\cite{ecrobotUSB}.
 When the group tested this functionality, it turned out that the nxtOSEK library for USB communication was no longer functional.
 
-The group tried a few different solutions for custom NXT USB communication, but in the end, writing our own module to handle the communication was deemed the best solution.
+The group tried a few different solutions for custom NXT USB communication, but in the end, writing a new module to handle the communication was deemed the best solution.
 
-The communication is described on Figure~\ref{fig:compusb}:
+The communication is described on \autoref{fig:compusb}:
 \todo{Update image to include handshake for calibration etc.}
 \figur{1}{images/USBCommunicationDiagram}{Diagram of the USB communication}{fig:compusb}
 
 The USB communication module will consist of three parts.
 
 The initialization part, which will perform a handshake with the NXT, initiating the USB receiving.
-This part posed a bit of a challenge, as the handshake and its content was not documented.
+This part posed a bit of a challenge, as the handshake and its content were not documented.
 To determine what happened behind the scene, a USB sniffer was used.
 The USB sniffer was attached to a working compiled program, a USB test sample, which is present in the samples directory when downloading the nxtOSEK library\cite{ecrobotUSB}.
 This showed that the compiled program sent two bytes \texttt{\textbackslash{}x01}, a \texttt{1} and \texttt{\textbackslash{}xFF}, a \texttt{255}, before sending any additional data.% See https://stackoverflow.com/questions/28737829/whats-the-diffrence-between-xff-and-0xff for docs on backslash.
-Based on our own testing of the USB capabilities, it was determined that these bytes signaled the NXT that USB communication would be commencing.
+Based on the conducted tests of the USB capabilities, it was determined that these bytes signaled the NXT that USB communication would be commencing.
 
 The data writing part will perform the actual communication with the device, and will be concerned with sending the actual packets of data.
 

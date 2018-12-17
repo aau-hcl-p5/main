@@ -12,7 +12,10 @@ class AveragedList:
         return value / count
 
     def __setitem__(self, index, value):
-        gradient_range = range(max(0, index - self.gradient_size), min(self.size, index + self.gradient_size))
+        gradient_range = range(
+            max(0, index - self.gradient_size),
+            min(self.size, index + self.gradient_size)
+        )
         for i in gradient_range:
             count = self.gradient_size - abs(index - i)
             self.back_list[i] = (self.back_list[i][0] + value * count, self.back_list[i][1] + count)

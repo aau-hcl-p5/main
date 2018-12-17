@@ -21,7 +21,7 @@ A Dockerfile simply consists of lines, that describe how to build the image.
 Each line applies a layer to the Docker image, and each of these layers are cached.
 Thus if line 5 in the Dockerfile is changed, everything below line 5 is rebuilt.
 
-The Dockerfile for this project is shown below, in Subsection~\ref{subsec:dockerimplementation}.
+The Dockerfile for this project is shown below, in \autoref{subsec:dockerimplementation}.
 
 The Docker image is simply an executable, that instantiate a Docker container.
 
@@ -55,7 +55,7 @@ It also includes an additional nxtOSEK requirement, texinfo, which is the offici
 
 The version of texinfo on the apt repository was not compatible, hence why a specific version was downloaded.
 
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation2},caption={Installation of Wine and texinfo}]
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation2},caption={Installation of Wine and texinfo},firstnumber=6]
 # Install wine
 RUN dpkg --add-architecture i386
 RUN wget -nc https://dl.winehq.org/wine-builds/Release.key
@@ -73,7 +73,7 @@ RUN cd texinfo-4.13 \&\& ./configure \&\& make \&\& make install
 \end{lstlisting}
 Next, the ARM tool chain is installed.
 The tool chain is used by nxtOSEK to build for the ARM7 CPU in the NXT.
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation3},caption={Building the ARM toolchain}]
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation3},caption={Building the ARM toolchain},firstnumber=20]
 # Build arm toolchain from nxtOSEK
 COPY build_arm_toolchain.sh home/
 RUN chmod 755 home/build_arm_toolchain.sh
@@ -88,7 +88,7 @@ RUN chmod 755 ./build.sh
 Finally, the nxtOSEK files are moved to the home folder, before the entry point for the container is set to the location in the home folder.
 This means that whenever the Docker image is run, any arguments are passed along to the build file in the home directory.
 
-\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entry point}]
+\begin{lstlisting}[language=docker,label={lst:dockerimplementation4},caption={Moving the nxtOSEK files and setting the entry point},firstnumber=29]
 # Move nxtOSEK files to home folder
 RUN useradd nxtosek
 RUN usermod --password $(echo nxtosek openssl passwd -1 -stdin) nxtosek
@@ -116,7 +116,7 @@ GitHub then provides a API endpoint for marking commits and branches as passing 
 
 \figur{1.0}{images/flowchart-build.png}{Our build-flow}{fig:flowchart-build}
 
-To avoid a unmaintainable test-script, the build-process is split into sub-processes, such as the test-report script in Snippet~\ref{lst:pythonreportcheck}, that checks each line in \LaTeX{}-code for multiple sentences on a single line.
+To avoid a unmaintainable test-script, the build-process is split into sub-processes, such as the test-report script in \autoref{lst:pythonreportcheck}, that checks each line in \LaTeX{}-code for multiple sentences on a single line.
 A test for this was introduced to reduce merge conflicts, as well as increasing readability.
 
 \begin{lstlisting}[language=python,label={lst:pythonreportcheck},caption={Checking .tex files}]
@@ -157,8 +157,8 @@ exit(0) if result else exit(1)
 \end{lstlisting}
 
 One of the advantages of using a continuous integration tool is that the merging is self-testing.
-This means that when we maintain smaller code changes, that are merged into a mainline branch often, instead of monolithic merges, that have a higher likelihood of conflicting code, and long running forks.
+This means that when maintaining smaller code changes, that are merged into a mainline branch often, instead of monolithic merges, that have a higher likelihood of conflicting code, and long running forks.
 
-Overall, the continuous integration has helped to ensure that unit tests were always passing and that our mainline branch is working.
-This is done by running through the flowchart in Figure~\ref{fig:flowchart-build} every time some code needs to be build.
+Overall, the continuous integration has helped to ensure that unit tests were always passing and that the mainline branch is working.
+This is done by running through the flowchart in \autoref{fig:flowchart-build} every time some code needs to be build.
 This includes building the NxtOSEK program, ensuring no compile time errors and compile the \LaTeX{} code as well.

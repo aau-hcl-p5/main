@@ -33,6 +33,7 @@
 % TIKZ %
 \usepackage{pgf}
 \usepackage{tikz}
+\usetikzlibrary{arrows}
 \usepackage{mathrsfs}
 
 % Math %
@@ -86,7 +87,7 @@
     style=ieee,
     sortlocale=de_DE,
     natbib=true,
-    url=false,
+    url=true,
     doi=true,
     eprint=false
 ]{biblatex}
@@ -421,6 +422,17 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
       \label{#4}
     \end{figure}
 }
+
+\newcommand{\tikzimage}[3]{
+	\begin{figure}[H] \centering
+	\resizebox{.9\linewidth}{!}{\begin{tikzpicture}
+		{#1}
+	\end{tikzpicture}}
+		\caption{#2}
+		\label{#3}
+	\end{figure}
+}
+
 
 % ¤¤ Specielle tegn ¤¤ %
 \newcommand{\decC}{^{\circ}\text{C}}

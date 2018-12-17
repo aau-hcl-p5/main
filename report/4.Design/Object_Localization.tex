@@ -15,7 +15,7 @@ Likewise when the object begins moving the size of the tiles should expand.
 
 \figur{0.6}{images/zone_avg.png}{Zone average algorithm detecting red balloon.}{fig:zone_avg}
 
-Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in image \ref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
+Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in \autoref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
 
 \subsection{Object Fill}
 \label{sec:objectfilldesign}
@@ -51,7 +51,7 @@ The filling algorithm is in essence a graph search, and works as described below
  	\caption{pseudocode implementation of Object Fill}
 \end{algorithm}
 
-Figure~\ref{fig:obj_fill} is a debug view of the algorithm running.
+\autoref{fig:obj_fill} is a debug view of the algorithm running.
 The Green pixels are the bounding box of the object and the black pixels shows all the visited pixels.
 
 \figur{0.6}{images/obj_fill.png}{Object Fill algorithm detecting red balloon.}{fig:obj_fill}
@@ -62,7 +62,7 @@ Secondly, the algorithms was improved to only accept an object if it contained a
 This helped reduce the amount of false positives from very small objects or big but not so red objects.
 If the filling algorithm reports that the object is not a valid red object, the searching algorithm will continue from where it left off, until it has searched the entire image.
 
-\subsection{Thresh Moment}
+\subsection{Thresh Moment}\label{des:thresh}
 
 The previous algorithms utilizes OpenCV to extract images from the webcam. 
 The algorithms then work with the data in a low level fashion iterating over each pixel in the image to analyze it.
@@ -100,16 +100,16 @@ The algorithm consists of the following steps:
 	\item Using the moment, determine the center position of the object.
 \end{itemize}
 
-A debug view of the algorithm can be seen in figure~\ref{fig:thresh_moment}.
+A debug view of the algorithm can be seen in \autoref{fig:thresh_moment}.
 The white part is the mask and the blue outline is the contour.
 
 \figur{0.8}{images/thresh_moment.png}{Thresh Moment algorithm detecting red balloon.}{fig:thresh_moment}
 
 \subsection{YOLO}
 
-The YOLO algorithm itself is explained in the analysis section~\ref{sec:YOLOAnalysis}.
+The YOLO algorithm itself is explained in the analysis \autoref{sec:YOLOAnalysis}.
 YOLO can be run using darknet, which is an open source neural network framework written in C and CUDA\cite{darknet13}.
 It is also easily integrated into your own project, and need not be executed as a standalone program.
-In figure~\ref{fig:yolo_example} the YOLO2 Light version is executed with a simple model, that can recognize a small set of everyday items, like for instance a person.
+In \autoref{fig:yolo_example} the YOLO2 Light version is executed with a simple model, that can recognize a small set of everyday items, like for instance a person.
 
 \figur{0.6}{images/yolo_example.png}{YOLO algorithm detecting person.}{fig:yolo_example}

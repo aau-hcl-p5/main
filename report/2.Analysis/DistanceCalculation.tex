@@ -1,32 +1,42 @@
-\section{Distance to target}
-Being able to successfully hit a moving target, relies on the speed and acceleration of the target, as well as the speed and acceleration of the projectile.
-When shooting a projectile at a target, it might take several milliseconds or even seconds for the projectile to hit the target, depending on the speed of the projectile.
-But as the target is moving, it may no longer be at the location of which the projectile was shot towards.
-Because of this, the projectile has to be aimed ahead of the target, rather than its current location.
-This causes some problems regarding movement time of the motors of the device, which was covered in Section~\ref{sec:rts-intro}, in addition to issues regarding the intersection of target and projectile.
-The solution to this problem is a matter of finding a possible intersection point between the trajectory of the target, and a possible projectile, shot from the device. 
+\section{Firing at a moving target}
+Hitting a moving target with a projectile is challenging, as the speed of both the target and projectile needs to be considered.
+
+\subsubsection{Hitting a moving target with a projectile}
+As the projectile requires time to travel, a target in motion will have moved during the time it took the projectile to reach the targets original location, meaning that the projectile has to be aimed at where the target will be, not where it currently is.
+
+
+To solve this, an intersection point between the trajectory of the target, and the trajectory of a projectile, fired from the device, needs to be found.
+
+The intersection point changes, depending on the speed of both the target and the projectile, and the distance between the target and the device, as a shorter distance equals less travel time.
 This point is based on the speed of both, and the distance between the target and the device. 
 The higher velocity of the projectile, the closer to the target the intersection point is going to be.
 
-Based on the visual feed, as describes in Section~\ref{sec:obj_tracking}, it should be possible to calculate the movement of the target, however, this leaves the problem of finding the distance between target and device.
-
-This problem produced several different solutions.
-One solution, would be using a 3D camera, while another would be to use a \textit{ultrasonic sensor}, as presented in Section~\ref{sec:sensors}, and point it at the target.
-3D cameras are quite expensive and as an alternative, using an ultrasonic sensor is a cheaper option and has a higher degree of precision, but this would require the device to actually point the sensor at the target, which is time consuming\cite{sensorsaccuracy}.
-However, using this to reliably predict where to shoot, can still be difficult, depending on projectile.
-An actual gun would shoot bullets at a high velocity and reliably, however using a gun in a university project is not feasible.
-Using a LEGO gun or cannon would more feasible, though these have less consistent trajectories and speed, still that would be the most obvious choice.
-LEGO projectiles, and other toy weapons, will have less speed, as it is created for children, which adds uncertainty and travel time for a given projectile.
-
-Relying on projectiles and guns can introduce uncertainty and challenges, in a project that already seems difficult from a software perspective, which is not ideal.
-
-Even less so when considering that the main focus of the project is to explore embedded systems.
-An alternative to these challenges, based on the ultrasonic sensor solution, would be to simply point a visible laser at the target.
-The issue of distance is based on the fact that a given projectile takes a certain amount of time to reach the target, and this introduces uncertainty. 
-However, using a laser will largely remove the variable of travel time as the projectile, being the light beam, will move at the speed of light.
-As the tests of this project will be done in our group rooms, the distance between a target and the device will never be more than 10 meters, meaning that the travelling speed of the projectile will be near-instant. 
-This means that the intersection point is going to be so close to the target, that the distance will be irrelevant.
+Based on the visual feed, as described in \autoref{sec:obj_tracking}, the predicted movement of the target should be calculable.
 
 
-Based on the this reasoning, it makes sense to use a laser initially.
-Depending on the development time and success of the project, the goal might be broadened to include an actual projectile, however, the initial goal will simply be to hit the target with a laser.
+This still leaves the problem of determining the distance between a target and the device.
+\subsection{Distance to target}
+Finding the distance to a target is definitely doable, and several solutions have already been explored.
+As presented in \autoref{sec:sensors}, an \textit{ultrasonic sensor} mounted to the camera could be used.
+
+\todo{det her er nok forkert, og det er ikke dyrt, som thomas har sagt, vi kunne bruge to webcams}
+A more expensive solution would be using a 3D camera, but as these are relatively expensive and would further complicate the project, this option will not be explored any further.
+
+However, even when knowing the distance, predicting where to shoot the target would be a complex exercise.
+The trajectory of a fired projectile is highly dependent on the type of projectile.
+An actual gun would shoot bullets at a high velocity and reliably, however using a gun in a university project is not feasible, and a LEGO projectile would most likely be unpredictable, as they are only meant as a toy, and are not designed for consistent trajectories.
+
+
+As the goal of the project is to explore machine intelligence in a real-time embedded system, adding the prediction of trajectories and the firing of projectiles adds a lot of complexity to an already complex project.
+
+An alternative to firing a projectile at an object would be to point a laser at the target and toggle it on when it is on the target.
+Determining the distance between the device and the target is only required if there is a travel time on the projectile that is being fired at the target.
+A laser will move at the speed of light, rendering the distance variable irrelevant.
+
+
+\subsection{Takeaways}\label{anal:laser:takeaway}
+To reduce the complexity of the solution, and be able to reach the project deadline, it makes sense to use a laser initially. 
+
+Therefore the initial goal will be to hit the target with a laser.
+
+Depending on the time used in developing this initial solution, the scope might be broadened to include an actual projectile.
