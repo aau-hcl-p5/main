@@ -1,49 +1,49 @@
-\section{Real-time system}\label{Design:RTS} 
+\section{Real-time system}\label{Design:RTS}
 In order for the project to qualify as a real-time system it must be able to respond correctly in a timely manner.
-In the following section, the design decisions made for the project in regards to ensuring this will be elaborated upon. 
+In the following section, the design decisions made for the project in regards to ensuring this will be elaborated upon.
 
 \subsection{Scheduling}\label{Design:Scheduling}
-When choosing a scheduling method for the system, multiple methods were considered. 
+When choosing a scheduling method for the system, multiple methods were considered.
 Both fixed-priority scheduling (FPS) and cyclic executive (CE) were considered for the system as both of them would be good at handling the tasks of the system with their deadlines.
 
 At first it seemed obvious to use the CE model, as all tasks should run regularly, and they were executed fast enough to run within the major cycle
-In this case, the CE method is the perfect solution. 
+In this case, the CE method is the perfect solution.
 However, should the execution time of a single task exceed one millisecond, the usage of CE is no longer viable, as the task to keep the USB connection alive needs to be executed once every millisecond, as required by nxtOSEK.
 In that case, FPS is a better solution, as it allows the scheduler to pre-empt the task in order to run the USB related task.
 
 Both the fixed priority and CE methods are a common ways to implement hard real-time systems due to their simplicity, deterministic behavior and relative ease of implementation\cite{CyclicExecutionKimLarsen}.
 
-In order to ensure that the system is schedulable, an UPPAAL model of the scheduler and the tasks was created. 
+In order to ensure that the system is schedulable, an UPPAAL model of the scheduler and the tasks was created.
 
 \subsubsection{UPPAAL}
-UPPAAL is an integrated tool environment for modeling, validation and verification of real-time systems modeled as networks of timed automata\cite{UPPAALWebsite}. 
-Using the UPPAAL, a model of the tasks of the system was constructed. 
+UPPAAL is an integrated tool environment for modeling, validation and verification of real-time systems modeled as networks of timed automata\cite{UPPAALWebsite}.
+Using the UPPAAL, a model of the tasks of the system was constructed.
 
 \paragraph{Templates}
 When creating an UPPAAL project, a templates must be made.
-Templates are a model that describes a system or a part of a system.  
+Templates are a model that describes a system or a part of a system, and can be reused across the project to avoid code repetition.
 The templates can communicate using channels specified in the declarations of the project.
 
 \paragraph{Locations}
-An UPPAAL model consists of at least one \textit{location}, which is a state that the system can be in. 
-A location can optionally be marked as \textit{initial}, \textit{urgent}, \textit{committed}. 
-If a location is marked as initial, it is defined as the starting state for the modeled system. 
-A location marked with urgent will be the preferred destination, if there are multiple possible transitions. 
-A location marked as committed is a location that is preferred over locations without any type and is overruled by a location marked as urgent. 
-If a location is not marked with a specific type, the location has the lowest priority if any other transitions are possible. 
+An UPPAAL model consists of at least one \textit{location}, which is a state that the system can be in.
+A location can optionally be marked as \textit{initial}, \textit{urgent}, \textit{committed}.
+If a location is marked as initial, it is defined as the starting state for the modeled system.
+A location marked with urgent will be the preferred destination, if there are multiple possible transitions.
+A location marked as committed is a location that is preferred over locations without any type and is overruled by a location marked as urgent.
+If a location is not marked with a specific type, the location has the lowest priority if any other transitions are possible.
 A location can be given an \textit{invariant}, which specifies a condition that must be fulfilled before the location can be transitioned from.
 
 \paragraph{Edges}
-Between locations are edges, which are used to model a shift in model state and is used to control the flow through the template. 
-On edges different methods can be used to enforce a wanted behavior and transfer information between templates. 
+Between locations are edges, which are used to model a shift in model state and is used to control the flow through the template.
+On edges different methods can be used to enforce a wanted behavior and transfer information between templates.
 
 \paragraph{Declarations}
-Once the templates has been created, the declaration is used to verify that the entire system is functional. 
-The declaration can contain variables, channels and methods used within templates and between templates. 
-Declarations can be specified per template or globally. 
+Once the templates has been created, the declaration is used to verify that the entire system is functional.
+The declaration can contain variables, channels and methods used within templates and between templates.
+Declarations can be specified per template or globally.
 
 \paragraph{System declarations}
-The system model in the templates is initialized from the system declarations, where instances of the templates are initialized and added to the system as can be seen on \autoref{snip:UPPAALSystemDeclaration}. 
+The system model in the templates is initialized from the system declarations, where instances of the templates are initialized and added to the system as can be seen on \autoref{snip:UPPAALSystemDeclaration}.
 
 
 \begin{lstlisting}[label={snip:UPPAALSystemDeclaration},caption={System declaration from UPPAAL},frame=tlrb,numbers=none]
@@ -56,26 +56,27 @@ KeepUSBAliveTask  = Task( 5 );
 
 system BackgroundTask, UpdateDisplayTask, MoveMotorsTask, ReciveDataTask, HandleLaserTask, KeepUSBAliveTask, Scheduler;
 \end{lstlisting}
-Each task in initialized and assigned to an new task which is then added to the system along with the scheduler. 
+Each task in initialized and assigned to a new task.
+The task is added to the system, along with the scheduler.
 
 The behavior of a task is shown on \autoref{fig:UppaalTask}.
-The model is a timed automaton which is used to ensure that the task will come true to its deadline and periods. 
+The model is a timed automaton which is used to ensure that the task will come true to its deadline and periods.
 The model consists of all the states a task can be in.
-Each state has a number of transitions that can change the state of the task. 
+Each state has a number of transitions that can change the state of the task.
 
 \figur{0.5}{images/Task}{Example of a task template from UPPAAAL}{fig:UppaalTask}
 
-On \autoref{fig:UppaalScheduler} the model of how the scheduler works can be seen. 
-Since the scheduler is responsible for running all tasks on the system it simply needs an queue of tasks ready for running. 
+On \autoref{fig:UppaalScheduler} the model of how the scheduler works can be seen.
+Since the scheduler is responsible for running all tasks on the system it simply needs an queue of tasks ready for running.
 The tasks in the queue are sorted, based on their priority upon entering the queue.
 It when simply needs to start the tasks in the queue.
 
 \figur{0.5}{images/Scheduler}{The figure shows the scheduler template from UPPAAL}{fig:UppaalScheduler}
 
-Based on the model of both the task and the scheduler, it is verifiable that the system is schedulable using the verifier tool in UPPAAL. 
-The verifier will run a query, asking that for any given state, none of the tasks are going into the error state. 
+Based on the model of both the task and the scheduler, it is verifiable that the system is schedulable using the verifier tool in UPPAAL.
+The verifier will run a query, asking that for any given state, none of the tasks are going into the error state.
 This is shown on \autoref{snip:UPPAALQuery}.
 \begin{lstlisting}[label={snip:UPPAALQuery},caption={Query from UPPAAL verifier},frame=tlrb,numbers=none]
 A[] not (BackgroundTask.Error or UpdateDisplayTask.Error or HandleLaserTask.Error or MoveMotorsTask.Error or ReciveDataTask.Error or KeepUSBAliveTask.Error)
 \end{lstlisting}
-The result of this query is a proof that the system is schedulable. 
+The result of this query is a proof that the system is schedulable.
