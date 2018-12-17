@@ -10,7 +10,7 @@ For the project, the following modules are used:
 	\item Calibration
 \end{itemize}
 
-Figure~\ref{fig:pythonClasses} shows the dependencies of each of the actual packages, and how each module is split up, into multiple packages or files.
+\autoref{fig:pythonClasses} shows the dependencies of each of the actual packages, and how each module is split up, into multiple packages or files.
 
 \todo{Update this}
 \begin{figure}[H]
@@ -21,11 +21,11 @@ Figure~\ref{fig:pythonClasses} shows the dependencies of each of the actual pack
 \end{figure}
 
 
-The project also contains functions for calibration, as seen on Figure~\ref{fig:pythonClasses}, which will be covered in Section~\ref{sec:calibration}.
+The project also contains functions for calibration, as seen on \autoref{fig:pythonClasses}, which will be covered in \autoref{sec:calibration}.
 
 \subsection{Main.py}
 The entry point for the python program is \texttt{main.py}.
-The arguments for \texttt{main.py}  are shown in Snippet~\ref{lst:MainHelp}.
+The arguments for \texttt{main.py}  are shown in \autoref{lst:MainHelp}.
 \begin{lstlisting}[label={lst:MainHelp},caption={The help message of the commandline interface}]
 $ python3 main.py --help
 usage: main.py [-h] [-a [name]] [-d]
@@ -48,7 +48,7 @@ The main objective of \texttt{main.py} is to determine which arguments to pass o
 
 \subsection{FlatController}\label{flatcontrollerimplementation}
 The \texttt{FlatController} class manages the different modules of the python part of the project and ties the python part of the solution together
-The signature of the \texttt{FlatController} is shown in Snippet~\ref{lst:FlatControllerInit}.
+The signature of the \texttt{FlatController} is shown in \autoref{lst:FlatControllerInit}.
 
 \begin{lstlisting}[language=Python,label={lst:FlatControllerInit},caption={Initialization method of the \texttt{FlatController} class}]
 	def __init__(self,

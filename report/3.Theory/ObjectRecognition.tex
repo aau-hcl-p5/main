@@ -1,7 +1,7 @@
 % \section{Object Recognition}
 % To be able to figure out where the target is, its location within the video stream has to be determined.
 % It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-% As mentioned in Section~\ref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
+% As mentioned in \autoref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
 % Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
 % Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
 
@@ -33,13 +33,13 @@ All connections in a neural network have a weight associated with it, which acts
 Apart from the weights, all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. 
 The bias is sometimes thought of as a threshold, which indicates if the neuron should fire or not.
 
-A simple example of a neural network can be seen in Figure~\ref{fig:nnimag}.
+A simple example of a neural network can be seen in \autoref{fig:nnimag}.
 
 \figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer\cite{NeuralNetworkImage}.}{fig:nnimage}
 
 Before passing the result of a neuron on, the result is first transformed by an activation function. 
 The activation function is required in order for the neural network to learn to solve a complex non-linear model. 
-This will be further discussed in Subsection~\ref{training-a-neural-network}, which discusses the training of a neural network.
+This will be further discussed in \autoref{training-a-neural-network}, which discusses the training of a neural network.
 
 The following paragraphs explains a few common activation functions.
 \paragraph{Identity}
@@ -57,7 +57,7 @@ It is defined as:
 $$f(x) = \frac{1}{1 + e^{-x}}$$
 
 It maps the input value to a value between one and zero, and is especially useful for learning, due to its non-linear slope.
-A visual representation can be seen in Figure~\ref{fig:sigmoid}.
+A visual representation can be seen in \autoref{fig:sigmoid}.
 
 
 \definecolor{ffqqqq}{rgb}{1,0,0}
@@ -81,7 +81,7 @@ It is defined as:
 
 $$f(x) = max(0, x)$$
 
-A visual representation can be seen in Figure~\ref{fig:relu}.
+A visual representation can be seen in \autoref{fig:relu}.
 
 \tikzimage{line cap=round,line join=round,>=triangle 45,x=1cm,y=1.3cm]
 		\draw[->,color=black] (-10,0) -- (10,0);
@@ -99,7 +99,7 @@ A visual representation can be seen in Figure~\ref{fig:relu}.
 \subsubsection{Calculations in a neural network}
 
 The output of a neuron is calculated by summing the output of all the connected neurons multiplied with the associated weight plus the bias and then passed through the activation function.
-In Figure~\ref{fig:nntrain} the value of $h1 $ is calculated as:
+In \autoref{fig:nntrain} the value of $h1 $ is calculated as:
 $$\phi(i_1 \cdot w_1 + i_2 \cdot w_3 + b_1)$$
 
 \figur{0.7}{images/NNTrain.png}{Calculating value of h1 \cite{NeuralNetworkImage}.}{fig:nntrain}
@@ -163,7 +163,7 @@ The value with which the weight or bias should be updated equals the negative va
 This will reduce the amount with which the weight or bias affects the total error, since it descents towards a minimum.
 
 Unfortunately, it is not guaranteed to move towards the global minimum, but rather a local minimum.
-This is illustrated in Figure~\ref{fig:sgd} where $A$ and $B$ will descent towards the local minimum.
+This is illustrated in \autoref{fig:sgd} where $A$ and $B$ will descent towards the local minimum.
 
 \definecolor{xdxdff}{rgb}{0.49,0.49,1}
 \figur{0.8}{images/sgd.png}{Gradient descent illustration}{fig:sgd}
@@ -223,7 +223,7 @@ The classifications scores along with the bounding box confidence is used to cal
 As a result of this a total of $S\times S\times N$ tiles are given a probability score.
 In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
 
-The process is visualized in Figure~\ref{fig:yolo}.
+The process is visualized in \autoref{fig:yolo}.
 
 \figur{0.9}{images/yolo.jpg}{A visual representation of YOLO\cite{odDetection}.}{fig:yolo}
 
@@ -240,10 +240,10 @@ For instance, if tracking a bird flying past stationary planes, it might lock on
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
-The GOTURN algorithm utilizes CNN, which is explained in Section~\ref{sec:cnn}.
+The GOTURN algorithm utilizes CNN, which is explained in \autoref{sec:cnn}.
 \figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN \cite{goturn}.}{fig:goturn-arch}
 GOTURN works by looking at two frames; the first, also known as the previous frame, and the second, also known as the current frame.
-This is also shown on Figure~\ref{fig:goturn-arch}.
+This is also shown on \autoref{fig:goturn-arch}.
 The premise is that the location of the object is known in the previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
@@ -276,7 +276,7 @@ print(b)
 print(total)
 \end{lstlisting}
 The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \ref{lis:TensorFlowPy2}]
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \autoref{lis:TensorFlowPy2}]
 Tensor("Const:0", shape=(), dtype=float32)
 Tensor("Const_1:0", shape=(), dtype=float32)
 Tensor("add:0", shape=(), dtype=float32)
@@ -327,7 +327,7 @@ The below snippet is an example of facial recognition, implemented using OpenCV.
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 \end{lstlisting}
-Snippet~\ref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
+\autoref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
 Haar-Cascade is a classifier, which has been trained to detect a specific object, in this case, faces.
 
 While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and K-Means clustering, based on images.
@@ -368,7 +368,7 @@ Below is an example of machine learning using the OpenCV library:
 	print(accuracy)
 \end{lstlisting}
 
-Snippet~\ref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
+\autoref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
 The program itself is quite simple, and the complex aspects of the program are handled by the OpenCV library.
 
 As can be seen from both examples, it is very easy to do complex image manipulation in a very simple manner.

@@ -1,13 +1,13 @@
 \section{USB communication}
 \label{sec:usbdes}
-As described in the component diagram, Figure~\ref{fig:comparch}, the system will consist of two separate hardware platforms that need to communicate.
+As described in the component diagram, \autoref{fig:comparch}, the system will consist of two separate hardware platforms that need to communicate.
 As the NXT can only communicate with external devices using Bluetooth and USB, and Bluetooth was deemed too slow for the system, it was decided to use USB.
 According to the nxtOSEK documentation, the nxtOSEK library should also support built-in USB, through an easy to use API\cite{ecrobotUSB}.
 When the group tested this functionality, it turned out that the nxtOSEK library for USB communication was no longer functional.
 
 The group tried a few different solutions for custom NXT USB communication, but in the end, writing a new module to handle the communication was deemed the best solution.
 
-The communication is described on Figure~\ref{fig:compusb}:
+The communication is described on \autoref{fig:compusb}:
 \todo{Update image to include handshake for calibration etc.}
 \figur{1}{images/USBCommunicationDiagram}{Diagram of the USB communication}{fig:compusb}
 
