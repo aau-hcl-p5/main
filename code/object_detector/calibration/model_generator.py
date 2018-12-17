@@ -24,15 +24,6 @@ def generate_model(inp: List[float], expect: List[float], model=None) -> MLPRegr
                              max_iter=100000,
                              tol=0.0000001,
                              verbose=True)
-        """model = MLPRegressor(
-            solver="adam",#solver="lbfgs",
-            activation="approx_sigmoid",
-            hidden_layer_sizes=(30,),
-            verbose=True,
-            max_iter=10000
-            -
-        )
-        """
     model.fit(inp, expect)
     return model
 

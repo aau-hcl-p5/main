@@ -123,7 +123,7 @@ def _is_num(val) -> bool:
 def bell(x):
     a = 0.4
     r = 148
-    b = -0.9 # -2
+    b = -0.9
     c = 0
     try:
         return r / (1 + (abs(x / a) ** (2 * b))) + abs(x) / 20 + c
