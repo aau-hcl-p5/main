@@ -2,7 +2,7 @@
 \section{Problem definition}
 As a conclusion to the analysis, a list of requirements, a set of test cases that can be used to verify the requirements, and a definitive problem statement, will be defined.
 The requirements are goals defined by the group, and are primarily used to determine the success of the project, mainly in relation to the groups own requirements for the project.
-%føler ikke at vores requirements overhovedet er related til studieordningen. For den siger vitterligt bare: embedded device, med MI og/eller RTS.
+
 \subsection{Naming}
 In future sections, the "device", will be referred to as \texttt{F.L.A.T}, short for \texttt{Fixed Laser-guided Autonomous Turret}, when applicable.
 
@@ -23,8 +23,6 @@ A solution here would be to record and analyze the video data, resulting in a di
 
 The obvious application of machine learning is object localization, with target trajectory prediction being a potential secondary possibility.
 
-%One will be the object recognition, i.e. determining the position of an object in an image, while the other part will be the actual prediction of the trajectory of said object.
-%This information is then transcoded into a movement of a motor on either a horizontal or vertical axis.
 
 The object would the recognized, and its location would be found.
 The location would then be sent to the NXT, which would move the motors to the found location, and fire when at the location.
@@ -49,7 +47,7 @@ The problem statement is made more explicit with the following sub-problems:
 	\end{itemize}
 \end{center}
 
-\todo{Er problem statment problem faktisk en ting?}
+
 \subsection{Requirements}\label{subsec:requirements}
 Having successfully elucidated the problem statement and its associated challenges, a series  of requirements will be formulated to be able to conclude upon the success of the project.
 
@@ -62,7 +60,6 @@ The requirements of the system are based upon the results of the points examined
 \textbf{Must have}
 \begin{itemize}
 	\item ability to recognize and track a moving target in front of the device.
-	\item ability to follow a large target being dropped from 2 meters height at a distance of 3 to 4 meters away from the device, with a laser.
 	\item move fast enough to keep the laser on a moving target in real time.
 	\item ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
 	\item enough structural stability to move without breaking.
@@ -70,16 +67,18 @@ The requirements of the system are based upon the results of the points examined
 
 \textbf{Should have}
 \begin{itemize}
-	\item ability to hit a larger, airborne target, moving at a low speed at a distance of 3 meters.
 	\item ability to hit a small airborne target, moving at a low speed at a distance of 1 to 3 meters.
-	\item ability to predict the next location of a target moving along a non-linear path, eg{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
-	\item ability to predict the next location of a target moving solely along the horizontal axis with a constant speed.
+	\item ability to easily follow any target in its range.
+	
 \end{itemize}
 
 \textbf{Could have}
 \begin{itemize}
 	\item ability to determine the distance to the target.
 	\item calculate the angle and power necessary to hit the target with a projectile.
+	\item ability to predict the next location of a target moving along a non-linear path, eg{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
+	\item ability to predict the next location of a target moving solely along the horizontal axis with a constant speed.
+	\item ability to distinguish between different objects, such as birds, humans and planes.
 \end{itemize}
 
 \textbf{Won't have}
@@ -91,16 +90,19 @@ The requirements of the system are based upon the results of the points examined
 By fulfilling the requirements specified in the \textit{must have} section, the device will be able to track a target with a rather predictable movement pattern and use the attached laser to indicate the tracking.
 With the \textit{should have} requirements the functionality of the device is extended to track more advanced movement patterns, which in a real life scenario could be drones or birds, while still using the laser to indicate the tracking.
 If the \textit{could have} requirements are fulfilled the device will be able to determine the distance to the observed target, calculate angle and power required to hit the target and fire a ballistic projectile at it.
-Finally, the \textit{won't have} requirements are deemed outside the scope of the current project and would require more powerful projectiles in order to take down the observed target, as well as being able to differentiate between whether the object is a threat or not.
+
+Finally, the \textit{won't have} requirements are deemed outside the scope of the current project.
+These require more powerful hardware, than what is a available for a university project.
 
 \subsection{Test cases}
 To determine if the requirements have been fulfilled, a couple of test cases, or scenarios, were created.
 This subsection will present four test cases, two \textit{should have} and two \textit{could have}, corresponding with the MoSCoW naming, and argue why these are realistic and reflect the requirements.
 
-\todo{This was quite sudden}
+
 When doing these tests, it is assumed that the target is a color that contrasts the surrounding area.
 As the assigned group room primarily has white walls, a good option is red.
-\todo{fix vores balloon size, tror ikke size skal være på}
+
+
 Some test-cases will mention a balloon, which is 27 centimeters in diameter, while others mention a rubber ball, which is approximately 5-10 centimeters in diameter.
 All distances between the turret and the target are only based on the horizontal plane.
 

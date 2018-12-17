@@ -1,13 +1,12 @@
 \section{Object Tracking}
 \label{sec:obj_tracking}
 To track the location of a target, the device will require sensors that can transmit information about the position of the desired target.
-%One could imagine a couple of different sensors that could potentially gather information about the position of the target.
-As the goal is to eventually track birds, a camera with object classification, is an obvious choice, as it allows for the identification of specific objects.
-%For instance, laser and sonar could both be used to gather some information about the position of a target\cite{Sensors}.
-%However, since the system should be adaptable to a dynamic environment with potentially a lot of different objects in motion, one sensor was deemed the most obvious choice for this system; a camera.
-%Using a camera is powerful, since images can be processed in order to determine what objects are present in the image.
-%Once the location of the object is determined within the image, the direction of the target can be calculated.
-With an object located, and assuming that the camera is aimed in the same direction as the laser, the direction to aim will simply be calculated using the delta $X$ and $Y$ coordinates of the target and the center of the image.
+
+
+When an object is found, and assuming that the robot is aimed in the same direction as the laser, the direction to aim will simply be calculated using the delta $X$ and $Y$ coordinates of the target and the center of the robot.
+
+As the original idea was to target birds, a camera with object classification is an obvious choice, as it allows identification of specific objects.
+
 
 Unfortunately, the camera has a couple of disadvantages.
 First, a normal camera will not be able to determine the distance to a target.

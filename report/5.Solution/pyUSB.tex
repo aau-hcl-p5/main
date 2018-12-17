@@ -23,14 +23,10 @@ The implementation uses the PyUSB library, as described in \autoref{sec:usbdes}\
         self.initialized = True
         return self
 \end{lstlisting}
-Line 2 simply finds a USB device that matches the signature of the NXT.
-\todo{Kan ikke huske om næste linie er sandt}
-The signature was found using device manager with the NXT plugged in.
-In the case there is no NXT device found, an exception is raised, as shown in line 4.
 
-Line 7 sets the configuration of the USB device.
-This part is PyUSB specific, however, when the method is called without arguments, the current configuration is used.
-The specifics of what a configuration is do not matter for this specific use case.
+The code itself is relatively self-explanatory, and only the most interesting parts will be elaborated upon.
+
+These are lines 9, 10 and 11.
 
 Line 9 sets the endpoints, meaning where to read from and where to write to.
 \todo{Verify this}
@@ -41,19 +37,33 @@ At this point in the program, the NXT is waiting for a specific code, which is s
 When the NXT receives the code, it returns \texttt{{.}ecrobot}.
 Should that be the case, it sets its initialized field to \texttt{True} and returns.
 
-The device can now be written to and read from.
+
+
+% Line 2 simply finds a USB device that matches the signature of the NXT.
+% \todo{Kan ikke huske om næste linie er sandt}
+% The signature was found using device manager with the NXT plugged in.
+% In the case there is no NXT device found, an exception is raised, as shown in line 4.
+
+% Line 7 sets the configuration of the USB device.
+% This part is PyUSB specific, however, when the method is called without arguments, the current configuration is used.
+% The specifics of what a configuration is do not matter for this specific use case.
+
+
+With the device initialized, communication can now happen.
 The communication itself is relatively simple, with the read method simply reading directly from the byte stream, as shown in \autoref{lst:PythonUSBread}.
 
 \begin{lstlisting}[label={lst:PythonUSBread},caption={Reading from the USB port connected to the NXT}]
-def read(self) -> bytes:
-        return self.device.read(self.in_endpoint.bEndpointAddress, 8)
+
 \end{lstlisting}
 
 When writing to the device, there are two options:
 The first, \texttt{write\_location}, writes a location to the USB, while the second,  \texttt{write\_status}, writes a status.
 Both are shown in \autoref{lst:PythonUSBwrite}.
 
-\begin{lstlisting}[label={lst:PythonUSBwrite},caption={Reading from the USB port connected to the NXT}]
+\begin{lstlisting}[label={lst:PythonUSBwrite},caption={Reading and writing from the USB port connected to the NXT}]
+    def read(self) -> bytes:
+    return self.device.read(self.in_endpoint.bEndpointAddress, 8)
+
 def write_location(self, data: Vector) -> None:
         self.out_endpoint.write(bytes([
             0,
@@ -72,6 +82,5 @@ def write_status(self, status: Status):
         ]))
 
 \end{lstlisting}
-\todo{En eller anden skal nok præcist forklare det her}
 Both methods send byte wise data.
 
