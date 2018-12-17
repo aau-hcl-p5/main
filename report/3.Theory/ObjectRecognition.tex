@@ -21,11 +21,18 @@ Pattern recognition is a fundamental part of object recognition making neural ne
 \subsubsection{Convolutional Neural Network}
 \label{sec:cnn}
 Convolutional neural networks (CNN) are often used for image classification, and is the most popular type of neural network in regards to object detection.
-In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN \cite{ILSVRC_Results}.  
-A CNN is a neural network with three categories of layers.
-The layers are of the following types; an input layer, an output layer and a number of so called hidden layers.
-The goal of the hidden layers is to transform the input data into the expected output data.
-The CNN does this by doing abstractions within each layer, breaking a complex problem into smaller, more trivial, sub-problems.
+In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN \cite{ILSVRC_Results}. 
+
+The special thing about a CNN is the addition of convolutional layers.
+The convolutional layers will add convolutional filters, which main purpose is to act as a kind of feature detector.
+The filters works by combining $n \times n$ inputs into a single output.
+The output can resemble some feature found within the convolutional layer.
+
+\figur{0.8}{images/cnn}{Convolution layer illustration\cite{cnnguide}}{fig:cnn}
+
+\figur{0.8}{images/cnn-feature}{Feature identification\cite{cnnguide}}{fig:cnn_feature}
+
+The next layers in the neural network can then use these feature outputs in order to better reason about the image.
 
 An example of object recognition could be facial recognition.
 The first layer might recognize lines, edges or similar low level features.
