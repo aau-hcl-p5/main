@@ -1,12 +1,12 @@
-\section{Mapping between computer vision to movement}\label{sec:mappingcompvis}
-When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
+\section{Mapping computer vision to movement}\label{sec:mappingcompvis}
+When the computer locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
 Due to the resolution of the camera the screen position will be a 2-tuple of values between $0$ to $480$, on the $Y$ axis, and $0$ to $640$ on the $X$ axis, has to be translated into two values in the range $-100$ to $100$.
 Before this translation, the $X$ and $Y$ value has to be transmitted across the USB connection.
 
 Based on this problem, two functions are required.
 \begin{enumerate}
-	\item One on the Raspberry Pi, that maps the screen position to a USB-friendly value.
-	\item One on the NXT, that maps this 8-bit value, to the power value.
+	\item One on the computer, that maps the screen position to a USB-friendly byte value.
+	\item One on the NXT, that maps the byte value, to the power value.
 \end{enumerate}
 
 
@@ -79,4 +79,4 @@ After doing some testing with static lower and upper bounds, it was revealed tha
 For example, moving upwards on the $Y$-axis requires more power than moving down.
 The relation between the USB-data and motor-power is therefore based on the current angle of each motor.
 This relation is not constant, as this relation is based on external influences, such as gravity, weight and wires that create resistance to the movement, and these value might change dynamically.
-This problem can be solved by a calibration process, as described in Section~\ref{sec:calibration}, which will create a function, dynamically, that can create the wanted mapping.
+This problem can be solved by a calibration process, as described in \autoref{sec:calibration}, which will create a function, dynamically, that can create the wanted mapping.
