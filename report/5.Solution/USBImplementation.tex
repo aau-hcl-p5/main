@@ -1,9 +1,9 @@
-\section{USB implentation}
+\section{USB Implementation}
 \label{sec:usbimp}
 In \autoref{sec:usbdes}, a high level description of the USB communication between the computer and the NXT was described.
 This section will describe the specifics of the implementation of the USB receiver on the NXT.
 
-The USB receiver has 3 parts, which is also shown in \autoref{fig:compusb}.
+The USB receiver has 3 parts, as shown on \autoref{fig:compusb}.
 
 \begin{lstlisting}[language=CSharp,label={lst:usbhandshake},caption={ecrobot\_device\_initialize method from nxt.c}]
     void ecrobot_device_initialize(void) {
