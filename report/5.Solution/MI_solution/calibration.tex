@@ -30,16 +30,15 @@ int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 
 \end{lstlisting}
 
-The "should stop moving" function will determine whether the motor has moved, or if the power exceeds the maximum allowed power, meaning it is unable to move further.
+The \texttt{should\_stop\_moving} function will determine whether the motor has moved, or if the power exceeds the maximum allowed power, meaning it is unable to move further.
 The data is sent back to a host machine over the established USB connection.
-A plot of the data for moving the motor from the lowest possible revolution to the highest can be seen in figure~\ref{fig:calib_data}.
+A plot of the data for moving the motor from the lowest possible revolution to the highest can be seen in Figure~\ref{fig:calib_data}.
 
 \figur{1}{images/calib_data.png}{Required power for revolution on motor}{fig:calib_data}
 
-The data is as it shows jagged, which may be a result of hardware insecurities.
+The data is, as seen on the figure, jagged, which may be a result of hardware insecurities.
 The goal is to find a function that approximates the data.
-For this purpose, a neural network was trained on the data.
-This is a simple task, using scikit-learn for python.
+For this purpose, a neural network was trained on the data using scikit-learn for python.
 Listing~\ref{lst:mlpregressor} shows how to train a multi layered neural network for regression.
 
 \begin{lstlisting}[language=python,label={lst:mlpregressor},caption={Training a MLPRegressor with scikit}]
