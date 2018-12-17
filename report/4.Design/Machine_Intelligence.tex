@@ -1,10 +1,10 @@
 \section{Modelling the agent}\label{Design:MI}
-Before developing an intelligent device, it is important to analyze the different aspects of the agent and the world, based on the principles described in Section~\ref{Theory:MIModelling}.
+Before developing an intelligent device, it is important to analyze the different aspects of the agent and the world, based on the principles described in \autoref{Theory:MIModelling}.
 
 
 In the context of this project, the agent is the \texttt{F.L.A.T}.
 Its \textit{goal} is to point at a target and fire a laser beam, whereas the \textit{ability} of agent, is to rotate its motors.
-Its only \textit{stimuli} is a webcam, as defined in Section~\ref{sec:obj_tracking}.
+Its only \textit{stimuli} is a webcam, as defined in \autoref{sec:obj_tracking}.
 
 The environment is the surroundings of the turret, where the \texttt{F.L.A.T} can be considered the sole purposeful agent in the world, whereas the target can be seen as nature.
 In a more advanced case, the targets can also be considered purposeful agents.
@@ -18,13 +18,13 @@ The following subsections will explore the problems, and evaluate whether these 
 
 \subsection{Object localization}
 
-The most obvious option, and the option that was expected to be applied from the beginning of the project, is object localization, which is described in Section~\ref{sec:anal:objdet}.
+The most obvious option, and the option that was expected to be applied from the beginning of the project, is object localization, which is described in \autoref{sec:anal:objdet}.
 It is a problem that needs to be solved, as the agent cannot move in the direction of the target, if the target location is unknown.
 This issue would ideally be solved with online learning, to ensure that the device is able to locate the target, regardless of visual obstacles in the image.
-While the computational power required to solve this might be large, it is a required aspect of the solution, and will be further explored in Section~\ref{Design:ObjectLocalization}.
+While the computational power required to solve this might be large, it is a required aspect of the solution, and will be further explored in \autoref{Design:ObjectLocalization}.
 
 \subsection{Target trajectory prediction}
-In Subsection~\ref{sec:obj_tracking:sub:ML}, trajectory prediction was mentioned as a potential way to apply machine intelligence.
+In \autoref{sec:obj_tracking:sub:ML}, trajectory prediction was mentioned as a potential way to apply machine intelligence.
 The actions of the target depends on whether it is a \textit{purposeful agents} or \textit{nature}.
 
 For this project, the target is a balloon, which is an inanimate object that is not \textit{purposeful}.
@@ -34,12 +34,12 @@ Even if this reduces the need for further predictions of the trajectory of objec
 However, as hitting the target with a projectile, has been deemed out of scope, it is irrelevant in this project at this point.
 
 Finally, there was the potential problem of a target moving faster than the motor could move, which would require prediction in order to hit the target.
-However, after testing the speed of the motors, as described in Section~\ref{des:sec:hwtest}, it was deemed as irrelevant, as the motor were deemed as quick enough.
+However, after testing the speed of the motors, as described in \autoref{des:sec:hwtest}, it was deemed as irrelevant, as the motor were deemed as quick enough.
 
 Therefore the implementation of movement prediction was deemed irrelevant, mainly because other problems were of a higher priority.
 
 \subsection{Variable motor power}
-An interesting result from the motor tests conducted in Section~\ref{des:sec:hwtest}, was that motors were put under more stress depending on the current angle and wanted direction.
+An interesting result from the motor tests conducted in \autoref{des:sec:hwtest}, was that motors were put under more stress depending on the current angle and wanted direction.
 
 This was in part due to the additional weight of the structure itself, which means that the power required to move on the $Y$-axis varied.
 On the $X$-axis, the problem was because of the wires that ran from the motor and the webcam to the NXT and the Raspberry Pi, would be fully stretched as the turret rotated.

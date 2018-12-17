@@ -1,7 +1,7 @@
 \section{Object Recognition}
 To be able to figure out where the target is, its location within the video stream has to be determined.
 It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-As mentioned in Section~\ref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
+As mentioned in \autoref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
 Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
 Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
 
@@ -71,7 +71,7 @@ The classifications scores along with the bounding box confidence is used to cal
 As a result of this a total of $S\times S\times N$ tiles are given a probability score.
 In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
 
-The process is visualized in Figure~\ref{fig:yolo}.
+The process is visualized in \autoref{fig:yolo}.
 
 \figur{0.9}{images/yolo.jpg}{A visual representation of YOLO\cite{odDetection}.}{fig:yolo}
 
@@ -88,10 +88,10 @@ For instance, if tracking a bird flying past stationary planes, it might lock on
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
-The GOTURN algorithm utilizes CNN, which is explained in Section~\ref{sec:cnn}.
+The GOTURN algorithm utilizes CNN, which is explained in \autoref{sec:cnn}.
 \figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN \cite{goturn}.}{fig:goturn-arch}
 GOTURN works by looking at two frames; the first, also known as the previous frame, and the second, also known as the current frame.
-This is also shown on Figure~\ref{fig:goturn-arch}.
+This is also shown on \autoref{fig:goturn-arch}.
 The premise is that the location of the object is known in the previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
@@ -124,7 +124,7 @@ print(b)
 print(total)
 \end{lstlisting}
 The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \ref{lis:TensorFlowPy2}]
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \autoref{lis:TensorFlowPy2}]
 Tensor("Const:0", shape=(), dtype=float32)
 Tensor("Const_1:0", shape=(), dtype=float32)
 Tensor("add:0", shape=(), dtype=float32)
@@ -175,7 +175,7 @@ The below snippet is an example of facial recognition, implemented using OpenCV.
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 \end{lstlisting}
-Snippet~\ref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
+\autoref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
 Haar-Cascade is a classifier, which has been trained to detect a specific object, in this case, faces.
 
 While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and K-Means clustering, based on images.
@@ -216,7 +216,7 @@ Below is an example of machine learning using the OpenCV library:
 	print(accuracy)
 \end{lstlisting}
 
-Snippet~\ref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
+\autoref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
 The program itself is quite simple, and the complex aspects of the program are handled by the OpenCV library.
 
 As can be seen from both examples, it is very easy to do complex image manipulation in a very simple manner.

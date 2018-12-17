@@ -3,15 +3,15 @@ Being able to successfully hit a moving target, relies on the speed and accelera
 When shooting a projectile at a target, it might take several milliseconds or even seconds for the projectile to hit the target, depending on the speed of the projectile.
 But as the target is moving, it may no longer be at the location of which the projectile was shot towards.
 Because of this, the projectile has to be aimed ahead of the target, rather than its current location.
-This causes some problems regarding movement time of the motors of the device, which was covered in Section~\ref{sec:rts-intro}, in addition to issues regarding the intersection of target and projectile.
+This causes some problems regarding movement time of the motors of the device, which was covered in \autoref{sec:rts-intro}, in addition to issues regarding the intersection of target and projectile.
 The solution to this problem is a matter of finding a possible intersection point between the trajectory of the target, and a possible projectile, shot from the device. 
 This point is based on the speed of both, and the distance between the target and the device. 
 The higher velocity of the projectile, the closer to the target the intersection point is going to be.
 
-Based on the visual feed, as describes in Section~\ref{sec:obj_tracking}, it should be possible to calculate the movement of the target, however, this leaves the problem of finding the distance between target and device.
+Based on the visual feed, as describes in \autoref{sec:obj_tracking}, it should be possible to calculate the movement of the target, however, this leaves the problem of finding the distance between target and device.
 
 This problem produced several different solutions.
-One solution, would be using a 3D camera, while another would be to use a \textit{ultrasonic sensor}, as presented in Section~\ref{sec:sensors}, and point it at the target.
+One solution, would be using a 3D camera, while another would be to use a \textit{ultrasonic sensor}, as presented in \autoref{sec:sensors}, and point it at the target.
 3D cameras are quite expensive and as an alternative, using an ultrasonic sensor is a cheaper option and has a higher degree of precision, but this would require the device to actually point the sensor at the target, which is time consuming\cite{sensorsaccuracy}.
 However, using this to reliably predict where to shoot can still be difficult, depending on projectile.
 An actual gun would shoot bullets at a high velocity and reliably, however using a gun in a university project is not feasible.

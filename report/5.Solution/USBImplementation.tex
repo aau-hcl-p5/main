@@ -1,9 +1,9 @@
 \section{USB implentation}
 \label{sec:usbimp}
-In Section~\ref{sec:usbdes}, a high level description of the USB communication between the computer and the NXT was described.
+In \autoref{sec:usbdes}, a high level description of the USB communication between the computer and the NXT was described.
 This section will describe the specifics of the implementation of the USB receiver on the NXT.
 
-The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
+The USB receiver has 3 parts, which is also shown in \autoref{fig:compusb}.
 
 \begin{lstlisting}[language=CSharp,label={lst:usbhandshake},caption={ecrobot\_device\_initialize method from nxt.c}]
     void ecrobot_device_initialize(void) {
@@ -12,11 +12,11 @@ The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
         ecrobot_init_usb();
     }
 \end{lstlisting}
-Snippet~\ref{lst:usbhandshake} shows the initializing of the NXT device.
+\autoref{lst:usbhandshake} shows the initializing of the NXT device.
 \texttt{ecrobot\_device\_initialize} is invoked by nxtOSEK on program startup.
 The essential function call for function call is the \texttt{ecrobot\_init\_usb()} call.
 This function is a part of the nxtOSEK API and is required to use the NXT's USB port for communication.
-As mentioned in Section~\ref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
+As mentioned in \autoref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
 
 The next part of the USB receival is the actual continuous retrieval from the USB buffer.
 \begin{lstlisting}[language=CSharp,label={lst:usbreceive},caption={get\_status\_code method from usb.c}]

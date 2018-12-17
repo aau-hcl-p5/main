@@ -29,7 +29,7 @@ The major cycle specifies a deadline of which all process has to be completed at
 The minor cycle specifies the interval of which at least one given task should have completed once. 
 
 \figur{0.6}{images/cyclicExecutive}{An example of cyclic executive \cite{CyclicExecutionKimLarsen}}{fig:cyclicExecutive}
-As seen on Figure~\ref{fig:cyclicExecutive}, the tasks have a defined period and computation time, tasks are now placed into minor and major cycles in a way that they can all be run before their deadlines are met. 
+As seen on \autoref{fig:cyclicExecutive}, the tasks have a defined period and computation time, tasks are now placed into minor and major cycles in a way that they can all be run before their deadlines are met. 
 
 Since cyclic executives is a very simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used scheduling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
@@ -67,7 +67,7 @@ Since all tasks with a higher priority have an impact on the worst-case interfer
 \begin{equation}
 I_i = \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
 \end{equation}
-When combined with Equation~\ref{eq:responsetime} it results in the following recursive relation for the worst-case response time $R_i$ for $\tau_i$:
+When combined with \autoref{eq:responsetime} it results in the following recursive relation for the worst-case response time $R_i$ for $\tau_i$:
 \begin{equation}
 R_i = C_i + \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
 \end{equation}

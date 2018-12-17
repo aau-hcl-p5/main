@@ -21,7 +21,7 @@ A Dockerfile simply consists of lines, that describe how to build the image.
 Each line applies a layer to the Docker image, and each of these layers are cached.
 Thus if line 5 in the Dockerfile is changed, everything below line 5 is rebuilt.
 
-The Dockerfile for this project is shown below, in Subsection~\ref{subsec:dockerimplementation}.
+The Dockerfile for this project is shown below, in \autoref{subsec:dockerimplementation}.
 
 The Docker image is simply an executable, that instantiate a Docker container.
 
@@ -116,7 +116,7 @@ GitHub then provides a API endpoint for marking commits and branches as passing 
 
 \figur{1.0}{images/flowchart-build.png}{Our build-flow}{fig:flowchart-build}
 
-To avoid a unmaintainable test-script, the build-process is split into sub-processes, such as the test-report script in Snippet~\ref{lst:pythonreportcheck}, that checks each line in \LaTeX{}-code for multiple sentences on a single line.
+To avoid a unmaintainable test-script, the build-process is split into sub-processes, such as the test-report script in \autoref{lst:pythonreportcheck}, that checks each line in \LaTeX{}-code for multiple sentences on a single line.
 A test for this was introduced to reduce merge conflicts, as well as increasing readability.
 
 \begin{lstlisting}[language=python,label={lst:pythonreportcheck},caption={Checking .tex files}]
@@ -160,5 +160,5 @@ One of the advantages of using a continuous integration tool is that the merging
 This means that when maintaining smaller code changes, that are merged into a mainline branch often, instead of monolithic merges, that have a higher likelihood of conflicting code, and long running forks.
 
 Overall, the continuous integration has helped to ensure that unit tests were always passing and that the mainline branch is working.
-This is done by running through the flowchart in Figure~\ref{fig:flowchart-build} every time some code needs to be build.
+This is done by running through the flowchart in \autoref{fig:flowchart-build} every time some code needs to be build.
 This includes building the NxtOSEK program, ensuring no compile time errors and compile the \LaTeX{} code as well.
