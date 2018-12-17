@@ -116,7 +116,7 @@ CPU ATMEL_AT91SAM7S256 {
         AUTOSTART = TRUE
             {
                 ALARMTIME = 1;
-                CYCLETIME = 20; /* keep_USB_alive is executed every msec */
+                CYCLETIME = 15; /* keep_USB_alive is executed every msec */
                 APPMODE = appmode1;
             };
     };
@@ -145,7 +145,7 @@ CPU ATMEL_AT91SAM7S256 {
         AUTOSTART = TRUE
             {
                 ALARMTIME = 1;
-                CYCLETIME = 20; /* keep_USB_alive is executed every msec */
+                CYCLETIME = 15; /* keep_USB_alive is executed every msec */
                 APPMODE = appmode1;
             };
     };

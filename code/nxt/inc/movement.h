@@ -6,7 +6,7 @@
 #include "vector.h"
 #include "revolution.h"
 
-#define MOTOR_SPEED_LOWER_BOUND_X 30
+#define MOTOR_SPEED_LOWER_BOUND_X 40
 
 #define AXIS_X 0
 #define AXIS_Y 1
