@@ -14,7 +14,7 @@ The communication is described on Figure~\ref{fig:compusb}:
 The USB communication module will consist of three parts.
 
 The initialization part, which will perform a handshake with the NXT, initiating the USB receiving.
-This part posed a bit of a challenge, as the handshake and its content was not documented.
+This part posed a bit of a challenge, as the handshake and its content were not documented.
 To determine what happened behind the scene, a USB sniffer was used.
 The USB sniffer was attached to a working compiled program, a USB test sample, which is present in the samples directory when downloading the nxtOSEK library\cite{ecrobotUSB}.
 This showed that the compiled program sent two bytes \texttt{\textbackslash{}x01}, a \texttt{1} and \texttt{\textbackslash{}xFF}, a \texttt{255}, before sending any additional data.% See https://stackoverflow.com/questions/28737829/whats-the-diffrence-between-xff-and-0xff for docs on backslash.

@@ -57,3 +57,8 @@ Using more powerful motors, and motors with a higher rate of precision, both reg
 The solution could potentially utilize a more powerful device, that could handle both image processing as well as movements, making the device more simple in nature, and also more interesting in the context of real-time systems.
 However, doing the current calculations on the NXT does not appear feasible, as the calculations could not be done fast enough on the Raspberry Pi, as shown in Section~\ref{des:sec:performance}.
  
+\subsection{Machine learning for all movement}
+As of right now, machine learning is only utilized to find a minimum power required to move.
+However, a potential improvement would be to have the robot learn all the movement by itself.
+Given the current motor revolutions and the distance to the target, the robot should learn itself how much power to apply to the motors.
+This could potentially be achieved using some reinforced learning, where the reward would equal the delta distance to the target after moving.

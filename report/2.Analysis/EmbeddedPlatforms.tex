@@ -4,17 +4,15 @@
 
 \section{Embedded platform}
 The goal of the 5th semester of the bachelor in Software is to develop an embedded system, making it is relevant to look into the different relevant platforms.
-The university supplies the student groups with a LEGO Mindstorms base set, which would make it an ideal option, however it is still deemed interesting to examine the alternatives.
+The university supplies the student groups with a LEGO Mindstorms base set, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGO bricks.
+In addition, other platforms can be ordered, and a few of the alternative options will be examined.
 
 \subsection{LEGO Mindstorms}
 LEGO Mindstorms is a programmable computer kit made by the LEGO Group.
 The platform is based around a central control computer, called the Intelligent Brick, and includes a variety of sensors, motors and connection cables.
 
 The LEGO Mindstorms platform comes with a graphical drag and drop interface for programming.
-However, different compilers for a variety of programming languages exist as an alternative to the interface and as such, the choice between the different Mindstorms platforms, does not come down to language preferences.
-
-As mentioned, each group is supplied with a LEGO kit, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGO bricks.
-In addition to this, it is possible to order other platforms and sensors to use in the project as deemed necessary.
+However, different compilers for a variety of programming languages exist as an alternative to the interface and as such, the choice between the different Mindstorms platforms, does not depend on language preferences.
 
 \paragraph{LEGO Mindstorms NXT 2.0}
 The LEGO Mindstorms NXT 2.0 (NXT), as shown on Figure~\ref{fig:legonxt}, is the second generation LEGO Mindstorms kit.
@@ -22,10 +20,15 @@ The NXT Intelligent Brick is a micro computer based on the 32-bit 48 MHz ARM7 mi
 It includes a variety of sensors, such as touch, sound, light and distance sensors, as well as servo motors and lamps.
 
 A potential major disadvantage of the NXT 2.0 is its age.
-The platform was released in 2006, meaning that the software might cause problems regarding compatibility and implementation in modern day software solutions.
+The platform was released in 2006, meaning that the software might have compatibility issues with modern operating systems.
 
-\figur{0.6}{images/legonxt}{The LEGO Mindstorms NXT 2.0 \cite{nxt2ev3compare}}{fig:legonxt}
-
+\begin{figure}[!tbp]
+	\centering
+	\subfloat[The NXT 2.0 \cite{nxt2ev3compare}.]{\includegraphics[width=0.4\textwidth]{images/legonxt}\label{fig:legonxt}}
+	\hfill
+	\subfloat[The EV3 \cite{ev3userguide}]{\includegraphics[width=0.4\textwidth]{images/legoev3}\label{fig:legoev3}}
+	\caption{The LEGO Mindstorms.}
+  \end{figure}
 
 \paragraph{LEGO Mindstorms EV3}
 The  LEGO Mindstorms EV3 (EV3), as shown on Figure~\ref{fig:legoev3}, is the third generation of the LEGO Mindstorms series.
@@ -33,7 +36,6 @@ The EV3 mainly improves on the specifications of the second generation, adding a
 Furthermore, it adds remote control, WiFi capabilities, and more recently updated compilers and is fully backwards-compatible with the NXT sensors\cite{ev3nxtcompatability}.
 
 Both are more akin to general purpose computers, designed for small electronics projects and both platforms include different models, with some being more powerful than others or having different features that further set them apart.
-\figur{0.6}{images/legoev3}{The LEGO Mindstorms EV3 \cite{ev3userguide}}{fig:legoev3}
 
 
 \subsubsection{Arduino}
@@ -46,8 +48,13 @@ Differences being in processing power, as well as pins.
 The Arduino Uno is most commonly used board in the ecosystem \cite{ArduinoUno3}, and has a 12 MHz ATmega328P processor and 2 kilobytes of RAM.
 A larger version, the Arduino Due has an 84 MHz processor and 96 kilobytes of RAM \cite{ArduinoDue}, and more input/output pins and is meant for larger scale Arduino projects.
 
-\figur{0.6}{images/arduino}{Arduino Uno \cite{ArduinoUno3}}{fig:arduinouno}
-
+\begin{figure}[!tbp]
+	\centering
+	\subfloat[Arduino Uno \cite{ArduinoUno3}.]{\includegraphics[width=0.4\textwidth]{images/arduino}\label{fig:arduinouno}}
+	\hfill
+	\subfloat[Raspberry Pi 3 B+ \cite{raspberrypi}]{\includegraphics[width=0.4\textwidth]{images/raspberrypi}\label{fig:raspberrypi}}
+	\caption{Single-board computers}
+  \end{figure}
 
 \subsubsection{Raspberry Pi}\label{subsec:rpispecs}
 The Raspberry Pi, as shown on Figure~\ref{fig:raspberrypi}, is a single-board computer eco-system which, like the Arduino, consists of small computers with GPIO pins.
@@ -57,9 +64,6 @@ They also come with a larger variety of ports - both USB, HDMI and jack, adding 
 
 The newest version, Raspberry Pi 3 B+, features a 1.4 GHz quad-core CPU, with 1 gigabyte of RAM \cite{raspberrypi}.
 They released a light-weight version, called the Raspberry Pi Zero, which trades performance, having only a 1 GHz single-core CPU and 512 megabytes of RAM, for a smaller footprint, being less power consuming, and a lower cost.
-
-\figur{0.6}{images/raspberrypi}{Raspberry Pi 3 B+ \cite{raspberrypi}}{fig:raspberrypi}
-
 
 \subsection{Takeaways}
 \label{platformtakeaways}

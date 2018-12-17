@@ -1,9 +1,9 @@
-\section{USB implentation}
-\label{sec:usbimp}
+\subsection{NXT USB implentation}
+\label{sec:nxtusbimp}
 In Section~\ref{sec:usbdes}, a high level description of the USB communication between the computer and the NXT was described.
-This section will describe the specifics of the implementation of the USB receiver on the NXT.
+This section will describe the specifics of the implementation of the USB receival on the NXT.
 
-The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
+The USB receiver has 3 parts, as shown on Figure~\ref{fig:compusb}.
 
 \begin{lstlisting}[language=CSharp,label={lst:usbhandshake},caption={ecrobot\_device\_initialize method from nxt.c}]
     void ecrobot_device_initialize(void) {
@@ -12,11 +12,13 @@ The USB receiver has 3 parts, which is also shown in Figure~\ref{fig:compusb}.
         ecrobot_init_usb();
     }
 \end{lstlisting}
-Snippet~\ref{lst:usbhandshake} shows the initializing of the NXT device.
-\texttt{ecrobot\_device\_initialize} is invoked by nxtOSEK on program startup.
-The essential function call for function call is the \texttt{ecrobot\_init\_usb()} call.
-This function is a part of the nxtOSEK API and is required to use the NXT's USB port for communication.
-As mentioned in Section~\ref{sec:usbdes}, this part posed a few challenges, as it was not clearly documented.
+
+
+Snippet~\ref{lst:usbhandshake} shows the initialization of the NXT device.
+The \texttt{ecrobot\_device\_initialize} function is invoked by nxtOSEK on program startup, and initializes the motors and the usb communication, with the \texttt{ecrobot\_init\_usb()} invocation.
+
+\texttt{ecrobot\_init\_usb()} is required to use the NXT's USB port for communication.
+As mentioned in Section~\ref{sec:usbdes}, the USB initialization posed a challenge, due to lack of documentation.
 
 The next part of the USB receival is the actual continuous retrieval from the USB buffer.
 \begin{lstlisting}[language=CSharp,label={lst:usbreceive},caption={get\_status\_code method from usb.c}]
@@ -45,13 +47,21 @@ bool get_status_code(STATUS_CODE *out_code, T_VECTOR *out_location) {
 \end{lstlisting}
 The \texttt{get\_status\_code} function handles both the continuous read of the USB and setting the status code of the system.
 
-The \texttt{GetResource(USB\_Rx)} call, locks the USB resource for other processes.
-It then reads the data from the USB buffer, with the \texttt{ecrobot\_read\_usb} call, into the data unsigned integer data and releases the USB resource.
+The \texttt{GetResource(USB\_Rx)} call, locks the USB resource for other processes, while the \texttt{ecrobot\_read\_usb} call, reads the data from the USB into the \texttt{data} unsigned integer data.
+Finally, \texttt{ReleaseResource(USB\_Rx)} releases the USB resource.
 
-After releasing the USB resource, the function checks the length of the data, which can be the length of a status code, which is defined as an unsigned 16 bit integer in the \texttt{usb.h} header file the length of \texttt{MAX\_SIZE\_OF\_USB\_DATA}.
-In the case of a status code, this code is copied to the \texttt{out\_code} which is specified as an input parameter in the form of a pointer.
+
+After releasing the USB resource, the length of the data is checked.
+
+If the length the size of \texttt{STATUS\_CODE}, which is defined as an unsigned 16 bit integer in the \texttt{usb.h} header file, it is copied to the \texttt{out\_code} which is specified as an input parameter in the form of a pointer.
+
+
 Alternatively, it can be of length \texttt{MAX\_SIZE\_OF\_USB\_DATA}, which is defined as a status code concatenated with a target vector, a data structure containing a set of $X$ and $Y$ coordinates in the form of two 16 bit integers.
 In this case, the status code is copied to the \texttt{out\_code} and the received target information is copied to the \texttt{out\_location}, which is also specified as an input parameter.
-If nothing is read from the USB, meaning that the length of the read data is $0$, it returns false to indicate that nothing was read.
+
+
+If nothing is read from the USB, meaning that the length of the read data is $0$, it returns false, indicating that nothing was read.
+
+
 
 The \texttt{get\_status\_code function} is called from the \texttt{receive\_data} function in the \texttt{nxt.c} file, which contains the tasks for the device.

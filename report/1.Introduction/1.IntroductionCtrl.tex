@@ -4,33 +4,32 @@
 % This section should describe the basis of our project.
 % really where our solution originates, based on a real world problem,
 % even though our project is based on a "fun" project, it should still be possible to abstract it into real world applications
-
 \chapter{Introduction}
+\section{Initial analysis}
 Tracking airborne objects can be quite difficult, as hitting an airborne target requires tracking the object, along with its velocity and direction, as well as the calculation or prediction of its future trajectory.
 The trajectory can be impacted by a number of different factors, including gravity, wind, initial force, or any artificial acceleration.
-Furthermore, if the object is intelligent it might change its path, rendering the prediction of the trajectory moot.
-Tracking of airborne objects has multiple different applications.
-
+Furthermore, if the object is intelligent it might change its path, resulting in the predictions no longer being relevant.
+Tracking of airborne objects has different applications.
 \subsection{Airports}
-An estimated thirteen thousand \textit{bird strikes} happen each year, which is the event of a bird colliding with a vehicle, primarily aircrafts\cite{WildlifeStrikeReport}.
-Although 65\% are estimated to cause insignificant damage, the damages are estimated to cost 1.2 billion dollars each year, world-wide \cite{CostOfBirdstrikes}.
-The majority of these accidents happen at a low altitude, meaning during landing or takeoff\cite{CostOfBirdstrikes}.
-Airports utilize different methods of bird control, including killing, trapping, poison and lights\cite{BirdControlAtAirports}.
-Shooting birds is one of the most commonly utilized methods, and has been observed to be effective in combination with reinforcing other methods.
-This both eliminates the individual bird, but also scares away other birds, which serves as a form of bird strike prevention.
+An estimated thirteen thousand \textit{bird strikes} happen each year, which is the event of a bird colliding with a vehicle, primarily aircrafts\cite{WildlifeStrikeReport}, most often during landing or takeoff\cite{CostOfBirdstrikes}.
+Although 65\% of the cases result in insignificant damage, the total yearly cost is estimated at 1.2 billion dollars world-wide \cite{CostOfBirdstrikes}.
+Airports utilize different methods of bird control, including, trapping, poison, lights and shooting the birds\cite{BirdControlAtAirports}.
+Shooting the birds has been observed as being effective in combination with using other methods.
+This both eliminates individual birds, but also scares away other birds, which prevents potential bird strikes.
 However, the downside are the expenses in both salaries and effort.
 
 \subsection{Military}
-In a military setting, hitting a moving airborne target is relevant in a defense context, such as destroying incoming projectiles or shooting down hostile planes.
-Compared to the airport case, the problem can arise at a variety of locations, both on vehicles, boats, planes and tanks, but also on stationary military installations.
+In a military setting, hitting a moving airborne target is relevant in a defensive context, such as destroying incoming projectiles or shooting down hostile planes.
+Contrary to the airport case, the problem can arise at a variety of locations, both on vehicles, boats, planes and tanks, but also on stationary military installations.
 The American military developed the Phalanx CIWS, a close-in weapon system, which is a radar-guided 20mm Gatling-style rotary cannon, mounted on a base that moves on two axes.
 These are mounted on ships and can shoot incoming missiles and other airborne objects deemed a threat.
-Alternatives to the Phalanx exist, for example the Goalkeeper, so this is not a unique concept, and most of these rely on similar principles.
-Both the Goalkeeper and Phalanx are autonomous systems.
+Alternatives to the Phalanx exist, for example the Goalkeeper, and most rely on similar principles.
+Both the Phalanx and Goalkeeper are autonomous systems.
 
 \subsection{Initial Problem}
 Tracking an airborne object has multiple different problem areas, making it an interesting domain to research.
-This report will look into ways of solving the aforementioned problem on a smaller scale, in clinical examples, and to research the different parameters hereof.
+This report will examine ways of solving the aforementioned problem on a smaller scale.
+
 Before hitting an airborne target, it is important to estimate its trajectory, and the problem can therefore be split into two sub-problems:
 \begin{enumerate}
   \item Calculating the time it takes before a projectile will reach the target.
@@ -45,9 +44,9 @@ Likewise, it is a time-critical task to move a weapon so that it aims at the tar
 
 The report will use simplified targets to remove unpredictable parameters, and to remove the possibility of harming any living creatures.
 
-These considerations leads to the following initial problem, whereas the analysis will lead to a more in-depth set of requirements and a concrete problem statement:
+These considerations leads to the following initial problem:
 \label{key:initialProblem}
-
 \begin{center}
   \textit{\textbf{How can a software system track a moving airborne target?}}
 \end{center}
+The analysis will result in a more in-depth set of requirements and a concrete problem statement.
