@@ -13,30 +13,30 @@ clock time;
 // All times are in microseconds 
 
 const int T[N] = {  // Periods
-    10000, // BackgroundTask
-    10000, // UpdateDisplayTask
-    5000,  // MoveMotorsTask
-    5000,  // ReciveDataTask
+    15000, // BackgroundTask
+    15000, // UpdateDisplayTask
+    15000, // MoveMotorsTask
+    1000,  // ReciveDataTask
     1000,  // HandleLaserTask
     1000   // KeepUSBAliveTask
 };	       
 
 const int D[N] = {  // Deadlines
-    10000, // BackgroundTask
-    10000, // UpdateDisplayTask
-    5000,  // MoveMotorsTask
-    3000,  // ReciveDataTask
+    15000, // BackgroundTask
+    15000, // UpdateDisplayTask
+    15000, // MoveMotorsTask
+    1000,  // ReciveDataTask
     1000,  // HandleLaserTask
     1000   // KeepUSBAliveTask
 };	       
 
 const int C[N] = {  // Computation Times
-    5000,  // BackgroundTask
-    480,  // UpdateDisplayTask
-    28,   // MoveMotorsTask
-    500,  // ReciveDataTask
-    30,   // HandleLaserTask
-    14    // KeepUSBAliveTask
+    0,     // BackgroundTask
+    267,   // UpdateDisplayTask
+    12116, // MoveMotorsTask
+    13,    // ReciveDataTask
+    6,     // HandleLaserTask
+    16     // KeepUSBAliveTask
 };       
 
 const int P[N] = {  // Priorities
