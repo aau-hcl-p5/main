@@ -56,8 +56,6 @@ As nxtOSEK was somewhat incompatible with parts of the \texttt{math.h} library f
 
 An approximation of the sigmoid function was implemented instead, both in Python and in C.
 
-shows how to train a multi layered neural network for regression.
-
 \begin{lstlisting}[language=python,label={lst:mlpregressor},caption={Training a MLPRegressor with scikit}]
 model = MLPRegressor(
 hidden_layer_sizes=(30,),
@@ -70,7 +68,7 @@ model.fit(inp, expect)
 
 \end{lstlisting}
 
-\autoref{lst:mlpregressor} shows the initialization of the \texttt{MLPRegressor} 
+\autoref{lst:mlpregressor} shows the initialization and fitting of the \texttt{MLPRegressor} 
 A custom amount of hidden layers was required as the default argument value was 100 neurons in one layer, which was not necessary for the simple dataset.
 30 neurons in one layer was decided upon after testing different layer sizes.
 

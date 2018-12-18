@@ -65,7 +65,7 @@ The speed depends on the distance between the detected object and the center of 
 In the first if sentence, it is checked whether the distance to the target is lower than a constant \texttt{MOTOR\_DEADZONE}.
 If the distance is smaller than the lowest amount of movement possible, it will return 0 and terminate.
 Otherwise, the required power for the given axis will be calculated using the get\_required\_power method.
-\todo{update this listing and make sure the new one is explained}
+
 \begin{lstlisting}[language=CSharp,caption={get\_speed\_by\_distance method from movement.c},label={lst:getspeed}]
 int8_t get_speed_by_distance(int8_t distance, char axis) {
   if (distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
