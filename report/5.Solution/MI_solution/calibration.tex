@@ -52,7 +52,7 @@ Using this data, a neural network was trained to find the tendency of the data.
 The training was done with the Python module, scikit-learn\cite{scikit-learn}, which exposes a regressor called \texttt{MPLRegressor}, which was utilized as shown in \autoref{lst:mlpregressor}.
 
 
-As nxtOSEK was incompatible with the \texttt{math.h} library from c, a custom activation function was required.
+As nxtOSEK was somewhat incompatible with parts of the \texttt{math.h} library from c, a custom activation function was required.
 
 An approximation of the sigmoid function was implemented instead, both in Python and in C.
 
