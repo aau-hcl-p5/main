@@ -33,7 +33,7 @@ All connections in a neural network have a weight associated with it, which acts
 Apart from the weights, all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. 
 The bias is sometimes thought of as a threshold, which indicates if the neuron should fire or not.
 
-A simple example of a neural network can be seen in \autoref{fig:nnimag}.
+A simple example of a neural network can be seen in \autoref{fig:nnimage}.
 
 \figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer\cite{NeuralNetworkImage}.}{fig:nnimage}
 
@@ -195,7 +195,7 @@ The following layers then, for example, detect increasingly complicated facial f
 	\cite{CNNStructure}.}{fig:face_cnn}
 
 However, it is important to understand, that this is not necessarily the patterns that a CNN will detect within its layers.
-Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns, and a face.
+Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns and a face.
 
 CNNs are often used along with pooling.
 Pooling is a concept where multiple outputs are combined into a single neuron in the next layer.
@@ -212,7 +212,7 @@ A regional convolutional neural network (RCNN) utilizes CNN to get both a classi
 It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
 If the region contains an element recognized by the CNN, a bounding box can be drawn around the region.
-The bounding box can finally be tightened using different methods, a popular option being a linear regression model.\cite{CNNHistory}
+The bounding box can finally be tightened using different methods, a popular option being a linear regression model\cite{CNNHistory}.
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
