@@ -1,7 +1,7 @@
 \subsubsection{Object Fill algorithm}\label{solution:objfillalgo}
 
-The core of the Object Fill algorithm is the actual "filling" part.
-It can be seen in a stripped down version in listing~\ref{lst:objectfill}
+The core of the Object Fill algorithm is the actual \textit{filling} part.
+It can be seen in a stripped down version in \autoref{lst:objectfill}
 
 \begin{lstlisting}[language=Python,label={lst:objectfill},caption={Stripped down version of object fill from object\_fill.py}]
     def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
@@ -31,4 +31,4 @@ It can be seen in a stripped down version in listing~\ref{lst:objectfill}
 		    return None
 \end{lstlisting}
 
-A high level explanation of the algorithm can be found in Section~\ref{sec:objectfilldesign}.
+A high level explanation of the algorithm can be found in \autoref{sec:objectfilldesign}.

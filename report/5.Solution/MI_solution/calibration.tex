@@ -1,19 +1,24 @@
-\section{Calibration}
+\section{Calibration}\label{sec:calibration}
+As explained in \autoref{des:sec:variablemotorpower} varying power was required depending on the current revolution of each motor, and the direction of movement.
 
-As the device required varying power in order to move, depending on the current revolution of the motor, the first goal was to extract these powers.
-In order to do so, a calibration function was implemented that will slowly increase the power on the motor, until it observes a change in revolution.
-A simplified version of the function can be seen in listing~\ref{lst:GetRequiredPower}.
+To solve this problem, data was gathered for the minimum amount of power required to change the revolution.
+This data was then processed in a neural network, finding a relation between power and revolution in each direction.
+The neural network was then exported as C code and compiled on the NXT, and used as a base-value for motor power.
+
+To collect the data for the power required to move 1 degree, a function was created on the NXT.
+This function slowly increases power while checking for a change in the current revolution. 
+A simplified version of the function can be seen in \autoref{lst:GetRequiredPower}.
 
 
 \begin{lstlisting}[language=C,label={lst:GetRequiredPower},caption={Getting required power to move }]
 int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 	int8_t power = MIN_POWER;
 	T_REVOLUTION first_revolution = get_current_revolution();
-	
+
 	do {
 		set_motor_speed(axis, power * (direction == POSITIVE ? 1 : -1));
 		power++;
-		
+
 		// wait 30ms but make sure we don't move in that timeframe
 		for(int i = 0; i < 30; i++)
 		{
@@ -21,48 +26,75 @@ int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 			if (!should_stop_moving(first_revolution, power))
 				break;
 		}
-	
+
 	} while(should_stop_moving(first_revolution, power));
-	
+
 	set_motor_speed(axis, 0);
-	
+
 	return power;
 }
 
 \end{lstlisting}
 
 The \texttt{should\_stop\_moving} function will determine whether the motor has moved, or if the power exceeds the maximum allowed power, meaning it is unable to move further.
-The data is sent back to a host machine over the established USB connection.
-A plot of the data for moving the motor from the lowest possible revolution to the highest can be seen in Figure~\ref{fig:calib_data}.
+The data is sent back to the host machine over the established USB connection.
 
-\figur{1}{images/calib_data.png}{Required power for revolution on motor}{fig:calib_data}
+%The function was run multiple times, and whenever the device was modified, the calibration function was run again.
 
-The data is, as seen on the figure, jagged, which may be a result of hardware insecurities.
-The goal is to find a function that approximates the data.
-For this purpose, a neural network was trained on the data using scikit-learn for python.
-Listing~\ref{lst:mlpregressor} shows how to train a multi layered neural network for regression.
+An example data-set is shown on \autoref{fig:calibdata}.
+This dataset is based on the y-axis in an upwards direction.
+
+\figur{1}{images/calib_data.png}{Required power for revolution on motor}{fig:calibdata}
+
+There is a clear tendency in the data, as the power requirements increases as the head of the device is raised.
+
+Using this data, a neural network was trained to find the tendency of the data.
+The training was done with the Python module, scikit-learn\cite{scikit-learn}, which exposes a regressor called \texttt{MPLRegressor}, which was utilized as shown in \autoref{lst:mlpregressor}.
+
+
+As nxtOSEK was somewhat incompatible with parts of the \texttt{math.h} library from c, a custom activation function was required.
+
+An approximation of the sigmoid function was implemented instead, both in Python and in C.
 
 \begin{lstlisting}[language=python,label={lst:mlpregressor},caption={Training a MLPRegressor with scikit}]
-model = MLPRegressor(solver="lbfgs", activation="logistic", hidden_layer_sizes=(30, 30))
+model = MLPRegressor(
+hidden_layer_sizes=(30,),
+activation='approx_sigmoid',
+max_iter=100000,
+tol=0.0000001,
+verbose=True
+)
+model.fit(inp, expect)
 
-regressor.fit(input_values, expected_values)
 \end{lstlisting}
 
-The \texttt{MLPRegressor} has a lot of parameters that can be modified in order to tweak the neural network for your use case.
-In this case default values are used for everything except solver, activation and size of hidden layers.
-The activation function is set to use the logistic sigmoid function, and the model is defined to have 2 hidden layers with 30 neurons in each.
-These values are obtained by trying out a lot of different values, in order to determine which values generally perform well on the data set.
+\autoref{lst:mlpregressor} shows the initialization and fitting of the \texttt{MLPRegressor} 
+A custom amount of hidden layers was required as the default argument value was 100 neurons in one layer, which was not necessary for the simple dataset.
+30 neurons in one layer was decided upon after testing different layer sizes.
 
-\figur{1}{images/calib_data_nn.png}{Sample fitting of the data}{fig:calib_data}
+As mentioned, a custom approximation of the sigmoid function was used as the activation function, the maximum iterations was increased and the tolerance was increased, making the network run for longer, before terminating
+This makes sure the network is good enough to be used in the system.
 
-Now this model has to be exported to the NXT. 
-In order to do so, some C code is generated based on the weights and biases from the model.
-The C code contains all the weights and biases along with the activation function and a function to calculate the output given input.
+One of the networks created with 30 neurons is shown in \autoref{fig:calibdatann}, where the line is the result of the neural network.
 
-The generated model is big, but a simplified, condensed version can be seen in listing~\ref{lst:exported_model}:
+The data is normalized to better work with the SGD function, using a preprocessor exposed by the scikit-learn module.
+
+\figur{1}{images/calib_data_nn.png}{Sample fitting of the data}{fig:calibdatann}
+
+\autoref{fig:calibdatann} shows the neural network for the upwards direction, however the same process was done simultaneously for the downwards direction.
+Calibration was only done for the $Y$-axis.
+A result from two calibrations and their associated function fittings are shown on \autoref{fig:calibdatannboth}.
+
+\figur{1}{images/calib_data_nn_both.png}{Both neural networks of the $Y$ axis}{fig:calibdatannboth}
+
+The weights and biases of the neural networks, were exported as C, and compiled to the NXT, along with the rest of the NXT code.
+A simplistic version of an exported model in C is shown in \autoref{lst:exportedmodel}.
 
 
-\begin{lstlisting}[language=C,label={lst:exported_model},caption={Autogenerated model for getting power to move up}]
+\begin{lstlisting}[language=C,label={lst:exportedmodel},firstnumber={1},caption={Autogenerated model for getting power to move up}]
+#include <stdint.h>
+#include <math.h>
+
 typedef struct {
 	double input_0;
 } T_MODEL_INPUT;
@@ -71,7 +103,6 @@ typedef struct {
 	double output_0;
 } T_MODEL_EXECUTION_RESULT;
 
-// Approximated sigmoid without exp, since not working on NXT
 static double sigmoid(double value)
 {
 	double x = value >= 0 ? value : value * -1;
@@ -80,33 +111,27 @@ static double sigmoid(double value)
 	return 1.0f / (1.0f + (value > 0 ? 1.0f / e : e));
 }
 static double WEIGHTS_LAYER_0[1][30] = {
-	{ -0.2754047714229132, ..., 0.28265923487311884 }
+	{ 0.6808517232629588, ...., 4.170499471133788 }
 };
-static double WEIGHTS_LAYER_1[30][30] = {
-	{ 0.337562467866465, ..., -7.977009995173775 },
+static double WEIGHTS_LAYER_1[30][1] = {
+	{ 0.8428497309705472 },
 	...
-	{ -0.3327450268753057, ..., -0.5111629590067429 }
-};
-static double WEIGHTS_LAYER_2[30][1] = {
-	{ 1.0582144881157733 },
-	...
-	{ 8.686207256470313 }
+	{ -2.015815865114775 }
 };
 static double BIAS_LAYER_0[30] = {
-	-2.163581253001705, ..., 0.4272619624684243
+	-0.8555370213729661, ...., 3.3193827456697775
 };
-static double BIAS_LAYER_1[30] = {
-	-0.03394434965821748, ..., -0.9310096193979974
-};
-static double BIAS_LAYER_2[1] = {
-	-3.0451938474457716
+static double BIAS_LAYER_1[1] = {
+	0.09092457039425662
 };
 T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input) {
-	// Calculate result
+	//calculate result
 }
 
 \end{lstlisting}
 
-The calculate model function will utilize the calculations explained in section~\todo{Add ref to calculating in neural network} to calculate the values.
-
+The function \texttt{calculate\_model\_up} normalizes the input data, and then calculates the output as explained in \autoref{sec:calculationsNN}.
+Finally, the output value is denormalized in order to be used in the system.
+This function is used in the movement module, to calculate the base power.
+The specifics are explained in \autoref{sec:movement}.
 

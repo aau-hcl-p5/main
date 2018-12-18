@@ -1,8 +1,8 @@
 % \section{Object Recognition}
 % To be able to figure out where the target is, its location within the video stream has to be determined.
 % It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
-% As mentioned in Section~\ref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
-% Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
+% As mentioned in \autoref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
+% Although the initial target of the \texttt{F.L.A.T.} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
 % Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
 
 % It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
@@ -20,7 +20,8 @@ The idea is based on the neurons in the human brain, where the sum of the neuron
 The primary difference is whether it is a biological brain or an artificial one. 
 In computer science, a neuron can be seen as a function that processes some input and then emits the resulting value to connected neurons.
 
-Neural networks are a powerful, but complex, method of doing machine learning and simpler solutions should also be considered when exploring which method is best suited for solving the task.
+Neural networks are a powerful, but complex, method of doing machine learning.
+% and simpler solutions should also be considered when exploring which method is best suited for solving the task.
 One of the reasons neural networks are especially interesting in this case, lies in their ability to recognize patterns.
 %Vær opmærksom på at vi måske ændrer det her til at være mere generelt MI
 Pattern recognition is a fundamental part of object recognition, making neural networks an obvious option.
@@ -31,15 +32,15 @@ It is the task of the hidden layers to transform the input from the input layer 
 In a normal, fully connected neural network all neurons in a layer are connected to all neurons in the previous layer.
 All connections in a neural network have a weight associated with it, which acts as a simple multiplier for the output from the previous neuron. 
 Apart from the weights, all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. 
-The bias is sometimes thought of as a threshold, which indicates if the neuron should fire or not.
+The bias is sometimes thought of as a threshold, indicating if the neuron should fire or not.
 
-A simple example of a neural network can be seen in Figure~\ref{fig:nnimag}.
+A simple example of a neural network can be seen in \autoref{fig:nnimage}.
 
 \figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer\cite{NeuralNetworkImage}.}{fig:nnimage}
 
 Before passing the result of a neuron on, the result is first transformed by an activation function. 
 The activation function is required in order for the neural network to learn to solve a complex non-linear model. 
-This will be further discussed in Subsection~\ref{training-a-neural-network}, which discusses the training of a neural network.
+This will be further discussed in \autoref{training-a-neural-network}, which discusses the training of a neural network.
 
 The following paragraphs explains a few common activation functions.
 \paragraph{Identity}
@@ -50,14 +51,14 @@ This is also known as an identity function and can be used when learning simple 
 A perceptron is a neuron that has an activation function that returns a binary signal, either zero or one, depending on the input value. 
 Usually any positive value will be a one, and all negative values will be a zero.
 
-\paragraph{Logistic Sigmoid}
+\paragraph{Logistic sigmoid}
 The sigmoid function is a commonly used activation function in neural networks.
 It is defined as:
 
 $$f(x) = \frac{1}{1 + e^{-x}}$$
 
 It maps the input value to a value between one and zero, and is especially useful for learning, due to its non-linear slope.
-A visual representation can be seen in Figure~\ref{fig:sigmoid}.
+A visual representation can be seen in \autoref{fig:sigmoid}.
 
 
 \definecolor{ffqqqq}{rgb}{1,0,0}
@@ -75,13 +76,13 @@ A visual representation can be seen in Figure~\ref{fig:sigmoid}.
 
 
 \paragraph{RELU}
-Rectified linear unit is a modern, yet simple, activation function, that has proven to be very powerful in deep learning networks. 
+Rectified linear unit is a modern activation function, that has proven to be powerful in deep learning networks. 
 
 It is defined as:
 
 $$f(x) = max(0, x)$$
 
-A visual representation can be seen in Figure~\ref{fig:relu}.
+A visual representation can be seen in \autoref{fig:relu}.
 
 \tikzimage{line cap=round,line join=round,>=triangle 45,x=1cm,y=1.3cm]
 		\draw[->,color=black] (-10,0) -- (10,0);
@@ -96,10 +97,10 @@ A visual representation can be seen in Figure~\ref{fig:relu}.
 		\draw [line width=2pt,color=ffqqqq] (0,0)-- (10,10);}{RELU plotted from -10 to 10}{fig:relu}
 
 
-\subsubsection{Calculations in a neural network}
+\subsubsection{Calculations in a neural network}\label{sec:calculationsNN}
 
 The output of a neuron is calculated by summing the output of all the connected neurons multiplied with the associated weight plus the bias and then passed through the activation function.
-In Figure~\ref{fig:nntrain} the value of $h1 $ is calculated as:
+In \autoref{fig:nntrain} the value of $h1 $ is calculated as:
 $$\phi(i_1 \cdot w_1 + i_2 \cdot w_3 + b_1)$$
 
 \figur{0.7}{images/NNTrain.png}{Calculating value of h1 \cite{NeuralNetworkImage}.}{fig:nntrain}
@@ -134,14 +135,13 @@ $$
 This makes it easier to reason about the calculations of the network as a whole.
 
 \subsubsection{Training a neural network}\label{training-a-neural-network}
-When doing machine learning with a neural network, all the weights and biases are usually initialized with random values.
-Obviously, this will result in the initial run throughs returning bad results.
+When doing machine learning with a neural network, all the weights and biases are usually initialized with random values, which will result in the initial iterations returning bad results.
 
 This is solved by letting the neural network train itself, in order to learn it how to complete the desired task.
 
 The neural network should try to minimize the amount of errors on the output layer.
 The error is calculated using a loss function.
-The loss function can be defined in multiple ways, but a simple loss function simply squares the difference between the actual output and the expected output.
+The loss function can be defined in multiple ways, but a simple loss function squares the difference between the actual output and the expected output.
 
 \paragraph{Back propagation}
 Back propagation is a common way of training a neural network.
@@ -163,7 +163,7 @@ The value with which the weight or bias should be updated equals the negative va
 This will reduce the amount with which the weight or bias affects the total error, since it descents towards a minimum.
 
 Unfortunately, it is not guaranteed to move towards the global minimum, but rather a local minimum.
-This is illustrated in Figure~\ref{fig:sgd} where $A$ and $B$ will descent towards the local minimum.
+This is illustrated in \autoref{fig:sgd} where $A$ and $B$ will descent towards the local minimum.
 
 \definecolor{xdxdff}{rgb}{0.49,0.49,1}
 \figur{0.8}{images/sgd.png}{Gradient descent illustration}{fig:sgd}
@@ -172,22 +172,29 @@ Although this may not render the best results, the results gained by using gradi
 
 \subsection{Convolutional Neural Network}
 \label{sec:cnn}
-Convolutional neural networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
-In challenges such as LSVCR\footnote{Imagenet Large Scale Visual Recognition Challenge} the majority of the entries are done using CNN \cite{ILSVRC_Results}.  
-A CNN is a neural network with three categories of layers.
-The layers are of the following types; an input layer, an output layer and a number of so called hidden layers.
-The goal of the hidden layers is to transform the input data into the expected output data.
-The CNN does this by doing abstractions within each layer, breaking a complex problem into smaller, more trivial, sub-problems.
+Convolutional Neural Networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
+In challenges such as the Imagenet Large Scale Visual Recognition Challenge (LSVCR), the majority of the entries are done using CNN \cite{ILSVRC_Results}. 
+
+The special thing about a CNN is the addition of convolutional layers.
+The convolutional layers will add convolutional filters, that has the main purpose of acting as a kind of feature detector.
+The filters works by combining $n \times n$ inputs into a single output.
+The output can resemble some feature found within the convolutional layer.
+\autoref{fig:cnn} and \autoref{fig:cnn_feature} illustrates the concepts from CNN.
+
+\figur{0.8}{images/cnn}{Convolution layer illustration\cite{cnnguide}}{fig:cnn}
+
+\figur{0.8}{images/cnn-feature}{Feature identification\cite{cnnguide}}{fig:cnn_feature}
+
+The next layers in the neural network can then use these feature outputs in order to better reason about the image.
 
 An example of object recognition could be facial recognition.
 The first layer might recognize lines, edges or similar low level features.
-The following layers then, for example, detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
+The following layers might detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron transmits if a mouth is present.
 
-\figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN
-	\cite{CNNStructure}.}{fig:face_cnn}
+\figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN\cite{CNNStructure}.}{fig:face_cnn}
 
 However, it is important to understand, that this is not necessarily the patterns that a CNN will detect within its layers.
-Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns, and a face.
+Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns and a face.
 
 CNNs are often used along with pooling.
 Pooling is a concept where multiple outputs are combined into a single neuron in the next layer.
@@ -200,11 +207,11 @@ The answer can be found by looking into Regional Convolutional Neural Network.
 
 
 \subsection{Regional Convolutional Neural Network}
-A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
+A Regional Convolutional Neural Network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
 It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
 If the region contains an element recognized by the CNN, a bounding box can be drawn around the region.
-The bounding box can finally be tightened using different methods, a popular option being a linear regression model.\cite{CNNHistory}
+The bounding box can finally be tightened using different methods, a popular option being a linear regression model\cite{CNNHistory}.
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
@@ -218,56 +225,59 @@ Furthermore the performance of YOLO beats that of \textit{faster RCNN}\cite{odDe
 YOLO also uses CNN like RCNN, but takes a fundamentally different approach to object detection.
 YOLO will partition the image into $S\times S$ tiles, where each tile should determine $N$ bounding boxes, along with a confidence level for the given bounding box, signifying the confidence that a given bounding box actually contains an object.
 YOLO will use a CNN in order to obtain a classification score for each bounding box.
-The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box.\cite{odDetection}
+The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box\cite{odDetection}.
 
 As a result of this a total of $S\times S\times N$ tiles are given a probability score.
 In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
 
-The process is visualized in Figure~\ref{fig:yolo}.
+The process is visualized in \autoref{fig:yolo}.
 
 \figur{0.9}{images/yolo.jpg}{A visual representation of YOLO\cite{odDetection}.}{fig:yolo}
 
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
 Generic Object Tracking Using Regression Networks (GOTURN), is an algorithm based on deep learning\cite{goturn}.
-%GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, which means training the model before execution time, whereas online learning constantly improves the model during run-time.
+
 GOTURN learns about motion tracking and object identification patterns, by utilizing a large set of videos of different objects moving.
 The model is then shipped with the algorithm implementation, and therefore there is no need for online learning, making it more efficient.
+
+
 The benefit of this, is that it runs faster, as it does not have to ever modify the model or analyze whether the given result is relevant.
 However, this comes at a cost. 
+
+
 The algorithm has a tendency to favor objects within the training set, even if they remain stationary.
 For instance, if tracking a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving, if the planes were in the training set.
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
 
 
-The GOTURN algorithm utilizes CNN, which is explained in Section~\ref{sec:cnn}.
-\figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN \cite{goturn}.}{fig:goturn-arch}
+The GOTURN algorithm utilizes CNN, which is explained in \autoref{sec:cnn}.
+\figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN\cite{goturn}.}{fig:goturn-arch}
 GOTURN works by looking at two frames; the first, also known as the previous frame, and the second, also known as the current frame.
-This is also shown on Figure~\ref{fig:goturn-arch}.
+This is also shown on \autoref{fig:goturn-arch}.
 The premise is that the location of the object is known in the previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
 
-Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as the \texttt{F.L.A.T} will have idle time.
+Possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as the \texttt{F.L.A.T} will have idle time.
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
-
-\subsection{Tensorflow}
-Tensorflow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
+\subsection{TensorFlow}
+TensorFlow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
 The framework was initially developed for Python, but has recently implemented support for other languages.
 It is developed by the Google Brain team, and owned by Google Inc.\cite{tensorflow-attribution}.
-It has a high-level API, called Keras, and a low-level API, which makes it possible to use it both as at an entry-level, which makes it ideal for hobby and educational purposes, but it is also usable for complex production-level applications.
+It has a high-level API, called Keras, and a low-level API, which makes it possible to use as an entry-level user, making it ideal for hobby and educational purposes, but it is also usable for complex production-level applications.
 
-Tensorflow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
+TensorFlow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
 
 A tensor is a mathematical entity, and the mathematical definitions are outside the scope of this project.
 In the context of TensorFlow, it is enough to think of it as an entity in a mathematical process.
 This might be a constant primitive value, or a mapping from one or more primitive values to one or more primitive values.
 
-To better show the example of tensors and how Tensorflow operates, the following low-level example is used in the Tensorflow tutorial, and it seems relevant here as well.
+To better show the example of tensors and how TensorFlow operates, the low-level example in \autoref{lis:TensorFlowPy1} is used in the TensorFlow tutorial\cite{tensorflow2015-whitepaper}.
 
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a Tensorflow program]
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a TensorFlow program]
 a = tf.constant(3.0)
 b = tf.constant(4.0)
 total = a + b
@@ -275,14 +285,14 @@ print(a)
 print(b)
 print(total)
 \end{lstlisting}
-The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \ref{lis:TensorFlowPy2}]
+The reader might assume that the output would be 3,4, and 7, respectively, however the output is as seen in \autoref{lis:TensorFlowPy2}:
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \autoref{lis:TensorFlowPy2}]
 Tensor("Const:0", shape=(), dtype=float32)
 Tensor("Const_1:0", shape=(), dtype=float32)
 Tensor("add:0", shape=(), dtype=float32)
 \end{lstlisting}
 This is because the $ a + b $ outputs another tensor, which can be evaluated outputting the result 7.
-This is is because $a$ or $b$ might not be a constant, but a placeholder, which would be supplied at run-time, so building these tensors creates a model that can then be supplied data and then evaulated.
+This is is because $a$ or $b$ might not be a constant, but a placeholder, which would be supplied at run-time, so building these tensors creates a model that can then be supplied data and then evaluated.
 
 Tensors can also be tuples of different shapes, and when applying levels of abstraction, which is what Keras does, it is possible to use it for image recognition and other more complex problems.
 
@@ -327,12 +337,12 @@ The below snippet is an example of facial recognition, implemented using OpenCV.
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 \end{lstlisting}
-Snippet~\ref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
+\autoref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
 Haar-Cascade is a classifier, which has been trained to detect a specific object, in this case, faces.
 
-While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and K-Means clustering, based on images.
+While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and k-Means clustering, based on images.
 kNN is a simple classification algorithm, that attempts to group different data into different classes, by looking at the data that most closely resembles each other.
-K-Means is another classification algorithm, that instead attempts to find a ''center'', a mean, and then simply assigning all the data that lies closest to this ''center'' to that class.
+K-Means is another classification algorithm, that instead attempts to find a ''center'', a mean, and then assigning all the data that lies closest to this ''center'' to that class.
 
 The two algorithms share the trait, that they are often performed iteratively, meaning the same dataset are iterated over several times, leading to a more accurate classification, often by moving the classification of a single data-element.
 This shifts the ''weight'' of the class.
@@ -368,28 +378,10 @@ Below is an example of machine learning using the OpenCV library:
 	print(accuracy)
 \end{lstlisting}
 
-Snippet~\ref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
+\autoref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
 The program itself is quite simple, and the complex aspects of the program are handled by the OpenCV library.
 
-As can be seen from both examples, it is very easy to do complex image manipulation in a very simple manner.
+As can be seen from both examples, it is easy to do complex image manipulation in a simple manner.
 
 These two examples are just a small sample of the capabilities of OpenCV, and even without the machine learning aspect, OpenCV also provides excellent webcam interfacing, and image manipulation utilities.
 Thus, OpenCV is an excellent solution, that could potentially be used to solve the object detection aspect of this project.
-
-%Its ability to interact with other frameworks along with all of its ready to use tools makes it very relevant when dealing with various computer vision tasks.
-
-
-% Things to check / consider writing about
-% https://en.wikipedia.org/wiki/Computer_vision#Recognition
-% https://en.wikipedia.org/wiki/Video_tracking
-% Kernel-based tracking
-% Contour tracking
-% https://en.wikipedia.org/wiki/Kalman_filter
-% Particle filter
-% https://en.wikipedia.org/wiki/Outline_of_object_recognition
-% real-time: triangulate each frame and measure the persistence of selected triangles relative to their location in each successive frame. 
-% Microprocessors such as the raspberry pi are fast enough so that triangulation and triangle measurement can be done in a few milliseconds.
-% ^^ Few milliseconds (Sounds like maybe around 5ms, would allow for updating robot position 20 times a second (capture 20 fps from the camera too). 
-% Which could be a goal to aim at (RTS: scheduling bla bla, update canon position 20 times pr second...))
-% Would be cool in RTS part to integrate some functionality to handle if camera data is not ready within the 5 ms, or if the device is not ready to handle input after 5 ms. 
-% The MI part could be coded to update each 5 ms.
