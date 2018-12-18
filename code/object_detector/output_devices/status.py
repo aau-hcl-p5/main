@@ -6,3 +6,4 @@ class Status(Enum):
     NO_TARGET_FOUND = 1
     DISCONNECT_REQ = 2
     READY_FOR_CALIBRATION = 3
+    ON_TARGET = 4

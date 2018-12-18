@@ -1,13 +1,13 @@
 \subsection{Python USB implementation}\label{sol:subsec:pythonusb}
 %Denne er måske alt for detaljeret
 In \autoref{sec:usbdes} the overall design of the USB communication was described.
-The following subsection will describe how the USB communication is implemented in the python part of the the solution.
+The following subsection will describe how the USB communication is implemented in the Python part of the the solution.
 The NXT specific USB implementation will be described in \autoref{sec:nxtusbimp}.
 
 The USB device inherits from the OutputDevice base class.
 The implementation uses the PyUSB library, as described in \autoref{sec:usbdes}\cite{PyUSB}.
 
-\autoref{lst:PythonUSBInit} shows the initialization of the NxtUsb module, which handles the USB communication from python to the NXT.
+\autoref{lst:PythonUSBInit} shows the initialization of the NxtUsb module, which handles the USB communication from Python to the NXT.
 \begin{lstlisting}[label={lst:PythonUSBInit},caption={The initialization of PyUSB{.} Comments removed}]
     def __enter__(self):
         self.device = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
@@ -25,9 +25,6 @@ The implementation uses the PyUSB library, as described in \autoref{sec:usbdes}\
 \end{lstlisting}
 
 The code itself is relatively self-explanatory, and only the most interesting parts will be elaborated upon.
-
-These are lines 9, 10 and 11.
-
 Line 9 sets the endpoints, meaning where to read from and where to write to.
 \todo{Verify this}
 The same endpoint is used for both.
@@ -55,6 +52,7 @@ The communication itself is relatively simple, with the read method simply readi
 \begin{lstlisting}[label={lst:PythonUSBread},caption={Reading from the USB port connected to the NXT}]
 
 \end{lstlisting}
+\todo{tom listing}
 
 When writing to the device, there are two options:
 The first, \texttt{write\_location}, writes a location to the USB, while the second,  \texttt{write\_status}, writes a status.

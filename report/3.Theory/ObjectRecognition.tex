@@ -2,7 +2,7 @@
 % To be able to figure out where the target is, its location within the video stream has to be determined.
 % It is not enough to simply answer the binary question "is a target present?", but rather "where is the target located?", so this information can be processed and in turn move the motors to point the laser at the target.
 % As mentioned in \autoref{sec:obj_tracking}, object recognition and localization algorithms can be tedious to implement by hand, and as a result of this, machine learning algorithms will be utilized.
-% Although the initial target of the \texttt{F.L.A.T} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
+% Although the initial target of the \texttt{F.L.A.T.} may be a simple and easily recognizable object, the intent is to create a solution that can identify more complex targets, in a potentially noisy image.
 % Because of this, it is important to look into the science of object identification, which algorithms and methods exists, and what libraries are available.
 
 % It is important to mention that all mentions of object detection in the following subsections, refer to the localization of multiple objects.
@@ -33,7 +33,7 @@ All connections in a neural network have a weight associated with it, which acts
 Apart from the weights, all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. 
 The bias is sometimes thought of as a threshold, which indicates if the neuron should fire or not.
 
-A simple example of a neural network can be seen in \autoref{fig:nnimag}.
+A simple example of a neural network can be seen in \autoref{fig:nnimage}.
 
 \figur{0.7}{images/NN.png}{Illustration of a simple neural network with 2 neurons in each layer\cite{NeuralNetworkImage}.}{fig:nnimage}
 
@@ -172,7 +172,7 @@ Although this may not render the best results, the results gained by using gradi
 
 \subsection{Convolutional Neural Network}
 \label{sec:cnn}
-Convolutional neural networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
+Convolutional Neural Networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
 In challenges such as Imagenet Large Scale Visual Recognition Challenge (LSVCR), the majority of the entries are done using CNN \cite{ILSVRC_Results}. 
 
 The special thing about a CNN is the addition of convolutional layers.
@@ -191,11 +191,10 @@ An example of object recognition could be facial recognition.
 The first layer might recognize lines, edges or similar low level features.
 The following layers then, for example, detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
 
-\figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN
-	\cite{CNNStructure}.}{fig:face_cnn}
+\figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN\cite{CNNStructure}.}{fig:face_cnn}
 
 However, it is important to understand, that this is not necessarily the patterns that a CNN will detect within its layers.
-Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns, and a face.
+Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns and a face.
 
 CNNs are often used along with pooling.
 Pooling is a concept where multiple outputs are combined into a single neuron in the next layer.
@@ -208,11 +207,11 @@ The answer can be found by looking into Regional Convolutional Neural Network.
 
 
 \subsection{Regional Convolutional Neural Network}
-A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
+A Regional Convolutional Neural Network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
 It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
 If the region contains an element recognized by the CNN, a bounding box can be drawn around the region.
-The bounding box can finally be tightened using different methods, a popular option being a linear regression model.\cite{CNNHistory}
+The bounding box can finally be tightened using different methods, a popular option being a linear regression model\cite{CNNHistory}.
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
@@ -226,7 +225,7 @@ Furthermore the performance of YOLO beats that of \textit{faster RCNN}\cite{odDe
 YOLO also uses CNN like RCNN, but takes a fundamentally different approach to object detection.
 YOLO will partition the image into $S\times S$ tiles, where each tile should determine $N$ bounding boxes, along with a confidence level for the given bounding box, signifying the confidence that a given bounding box actually contains an object.
 YOLO will use a CNN in order to obtain a classification score for each bounding box.
-The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box.\cite{odDetection}
+The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box\cite{odDetection}.
 
 As a result of this a total of $S\times S\times N$ tiles are given a probability score.
 In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
@@ -249,14 +248,14 @@ This is due to the unpredictability of what the algorithm see as a correlation b
 
 
 The GOTURN algorithm utilizes CNN, which is explained in \autoref{sec:cnn}.
-\figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN \cite{goturn}.}{fig:goturn-arch}
+\figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN\cite{goturn}.}{fig:goturn-arch}
 GOTURN works by looking at two frames; the first, also known as the previous frame, and the second, also known as the current frame.
 This is also shown on \autoref{fig:goturn-arch}.
 The premise is that the location of the object is known in the previous frame, and a bounding box is present.
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
 
-Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as the \texttt{F.L.A.T} will have idle time.
+Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as the \texttt{F.L.A.T.} will have idle time.
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
@@ -339,7 +338,7 @@ The below snippet is an example of facial recognition, implemented using OpenCV.
 \autoref{lis:opencvExample} shows an example of simple facial recognition on an image, using Haar-Cascade.
 Haar-Cascade is a classifier, which has been trained to detect a specific object, in this case, faces.
 
-While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and K-Means clustering, based on images.
+While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and k-Means clustering, based on images.
 kNN is a simple classification algorithm, that attempts to group different data into different classes, by looking at the data that most closely resembles each other.
 K-Means is another classification algorithm, that instead attempts to find a ''center'', a mean, and then simply assigning all the data that lies closest to this ''center'' to that class.
 
