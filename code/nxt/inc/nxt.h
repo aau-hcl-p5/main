@@ -2,8 +2,6 @@
 #define NXT_H
 #include <stdbool.h>
 
-#define INITIAL_SPEED 20
-
 #ifndef TEST
 #include "kernel.h"
 #include "kernel_id.h"

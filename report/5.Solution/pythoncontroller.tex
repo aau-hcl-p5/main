@@ -28,21 +28,20 @@ The entry point for the python program is \texttt{main.py}.
 The arguments for \texttt{main.py}  are shown in \autoref{lst:MainHelp}.
 \begin{lstlisting}[label={lst:MainHelp},caption={The help message of the commandline interface}]
 $ python3 main.py --help
-usage: main.py [-h] [-a [name]] [-d]
+usage: main.py [-h] [-a [name]] [-n [no_usb]]
 
 Run the object detection part of the F.L.A.T system
 
 optional arguments:
 -h, --help            
 	show this help message and exit
--a [name], --algorithm [name] 
-	Choose which algorithm to run [GOTURN, YOLO, ZONE_AVG, OBJ_FILL]
-	default='obj_fill'
+  -a [name], --algorithm [name]
+	Choose which algorithm to run [ZONE_AVG, OBJ_FILL,
+	THRESH_MOMENT]. default='thresh_moment'
 -n [no_usb], --no-usb [no_usb]
 	Whether to disable USB connection with the NXT.
 	default=False
 \end{lstlisting}
-\todo{make sure these are still up to date when finishing the project}
 
 The main objective of \texttt{main.py} is to determine which arguments to pass onto the \texttt{FlatController}.
 

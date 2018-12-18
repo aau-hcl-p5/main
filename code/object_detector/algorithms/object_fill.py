@@ -166,7 +166,8 @@ It will:
 
         if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
             on_target = any(
-                math.sqrt((p.x - self.center.x) ** 2 + (p.y - self.center.y) ** 2) < self.fill_step_size
+                math.sqrt((p.x - self.center.x) ** 2 + (p.y - self.center.y) ** 2) <
+                self.fill_step_size
                 for p in self._blacklisted_pixels
             )
             return sum_outline / len(outline), on_target

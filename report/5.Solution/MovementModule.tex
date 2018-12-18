@@ -6,7 +6,7 @@ In the following subsections, the movement module will be elaborated upon and so
 
 \subsection{Initialization}
 To utilize the hardware components, they have to be initialized.
-\autoref{lst:InitMotor} shows this process in relation to the different external devices, the motors, laser, and the USB port.
+\autoref{lst:DeviceInit} shows this process in relation to the different external devices, the motors, laser, and the USB port.
 The motors and the lasers are assigned to a specific port, and the USB communication is initialized, as required by nxtOSEK.
 \begin{lstlisting}[language=CSharp, label={lst:DeviceInit},caption={ecrobot\_device\_initialize method from nxt.c}]
 void ecrobot_device_initialize(void) {
@@ -30,11 +30,9 @@ The speed is set to zero, and the initial rotation is set to zero, which results
 
 Whenever a target is acquired, the \texttt{move} function is called.
 \autoref{lst:MoveMotors} shows this function, which first fetches the required motor power and stores this in a global variable.
-A native function is called settings the power on the actual motor.
-The device will then start rotating in the direction of the target, on each axis.
+A native function is called, which makes the motor rotate with the specified power.
 The usage of a global variable, is for usage in the screen module.
-Movement, as can be seen here, is always relative to current location.
-An absolute location of the target is not known, rather the information is based on the center of the camera, and with it the laser.
+Movement, is always relative to current location, as the absolute location of the target is not known, rather the information is based on the center of the camera, and with it the laser.
 
 \begin{lstlisting}[language=CSharp,caption={move method from movement.c},label={lst:MoveMotors}]
   void move(T_VECTOR target) {
@@ -48,7 +46,7 @@ An absolute location of the target is not known, rather the information is based
 
 
 The \texttt{move} function uses the \texttt{get\_speed\_by\_distance} function to get the required speed based on the neural network discussed in \autoref{sec:calibration} and a modifier based on the length of the \texttt{target} vector.
-This feature is explained in \autoref{lst:getspeed}.
+This functionality is shown in \autoref{lst:getspeed}.
 
 \begin{lstlisting}[language=CSharp,caption={get\_speed\_by\_distance method from movement.c},label={lst:getspeed},firstnumber={109}]
 int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
@@ -64,18 +62,17 @@ int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
 }
 \end{lstlisting}
 
-If the distance to the target is suffiently small, the motors wont move, which is done by checking whether the distance is less than a constant.
+If the distance to the target is sufficiently small, the motors should not move, which is done by checking whether the distance is less than a constant.
 If this is the case, the returned speed will be zero.
 This \texttt{MOTOR\_DEADZONE} constant is by default 1, meaning that the turret as to aim directly at the target.
 
-If the the distance is larger than \texttt{MOTOR\_DEADZONE}, the function will finding the minimum power required to move in the wanted direction on the relevant axis.
+Alternatively, the function will find the minimum power required to move in the wanted direction on the relevant axis.
 The speed is then timed by $1$ or $-1$ to make sure that the lower bound has the same direction as the distance.
 
 The distance is then mapped into a range, which is a different range based on the axis, in the way described in \autoref{sec:mappingcompvis}.
 
 When the scheduler either is on target or a target cannot be seen, the speed is set to $0$.
-As the system uses the \texttt{ecrobot_set_motor_speed} function, and not the \texttt{nxt_motor_set_speed} function, the motors are automatically set to 'brake', which results in the motor locking when not moving.
-The alternative would be that the motors would power down, and go limp.
+As the system uses the \texttt{ecrobot\_set\_motor\_speed} function, and not the \texttt{nxt\_motor\_set\_speed} function, the motors are automatically set to 'brake', which results in the motor locking when not moving.
 \begin{lstlisting}[language=CSharp,label={lst:StopMotors},caption={stop\_motors method from movement.c}]
 void stop_motors(){
   ecrobot_set_motor_speed(x_motor, 0);

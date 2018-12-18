@@ -21,7 +21,13 @@ A stripped down version of the Thresh Moment algorithm can be seen in the follow
 		    # Get center x and center y coordinate based on moment
 		    cx = int(moment["m10"] / moment["m00"])
 		    cy = int(moment["m01"] / moment["m00"])
-		    return Vector(cx, cy)
+            in_center = pointPolygonTest(
+			    biggest_contour,
+			    (frame.shape[1] // 2, frame.shape[0] // 2),
+		    	False
+		    ) == 1
+		    
+		    return Vector(cx, cy), in_center
 	    return None
 \end{lstlisting}
 

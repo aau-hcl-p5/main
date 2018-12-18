@@ -50,34 +50,36 @@ With the device initialized, communication can now happen.
 The communication itself is relatively simple, with the read method simply reading directly from the byte stream, as shown in \autoref{lst:PythonUSBread}.
 
 \begin{lstlisting}[label={lst:PythonUSBread},caption={Reading from the USB port connected to the NXT}]
-
+	def read(self) -> bytes:
+		return self.device.read(self.in_endpoint.bEndpointAddress, 8)
 \end{lstlisting}
 \todo{tom listing}
 
 When writing to the device, there are two options:
-The first, \texttt{write\_location}, writes a location to the USB, while the second,  \texttt{write\_status}, writes a status.
+The first, \texttt{write\_location}, writes a location to the USB, while the second \texttt{write\_status}, writes a status.
 Both are shown in \autoref{lst:PythonUSBwrite}.
 
-\begin{lstlisting}[label={lst:PythonUSBwrite},caption={Reading and writing from the USB port connected to the NXT}]
-    def read(self) -> bytes:
-    return self.device.read(self.in_endpoint.bEndpointAddress, 8)
+\begin{lstlisting}[label={lst:PythonUSBwrite},caption={Writing from the USB port connected to the NXT}]
 
-def write_location(self, data: Vector) -> None:
-        self.out_endpoint.write(bytes([
-            0,
-            0,
-            int(data.x) & 0xFF,
-            int(data.y) & 0xFF
-        ]))
-
-def write_status(self, status: Status):
-        value = status.value
-        if type(value) is tuple:
-            value = value[0]
-        self.out_endpoint.write(bytes([
-            int(value) & 0xFF,
-            0
-        ]))
+	
+	def write_location(self, data: Tuple[Vector, bool]) -> None:
+	
+		loc, on_target = data
+		self.out_endpoint.write(bytes([
+			Status.ON_TARGET.value if on_target else Status.TARGET_FOUND.value,
+			0,
+			int(loc.x) & 0xFF,
+			int(loc.y) & 0xFF
+		]))
+	
+	def write_status(self, status: Status):
+		value = status.value
+		if type(value) is tuple:
+			value = value[0]
+		self.out_endpoint.write(bytes([
+			int(value) & 0xFF,
+			0
+		]))
 
 \end{lstlisting}
 Both methods send byte wise data.
