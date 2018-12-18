@@ -6,10 +6,10 @@ This section will enlighten the thoughts behind the critical parts of the system
 As a proof of concept, it was decided to implement bitflip fault tolerance in the laser module on the NXT, given the following rules.
 
 \begin{enumerate}
-  \item Every variable \texttt{x} must have a duplicated shadow variable \texttt{x0} \cite{errorDetectionSoft}
-  \item Every write operation performed on \texttt{x}, must also be performed on \texttt{x0} \cite{errorDetectionSoft}
-  \item After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0} \cite{errorDetectionSoft}
-  \item For every conditional, repeat test in every conditional branch (both then and else branches) \cite{errorDetectionSoft}
+  \item Every variable \texttt{x} must have a duplicated shadow variable \texttt{x0}\cite{errorDetectionSoft}
+  \item Every write operation performed on \texttt{x}, must also be performed on \texttt{x0}\cite{errorDetectionSoft}
+  \item After each read of \texttt{x}, consistency must be checked between \texttt{x} and \texttt{x0}\cite{errorDetectionSoft}
+  \item For every conditional, repeat test in every conditional branch (both then and else branches)\cite{errorDetectionSoft}
 \end{enumerate}
 
 The code in \autoref{snip:without_bitflip} and \autoref{snip:with_bitflip} is written according to these four rules and ensures that bitflips have not happened for example when reading from variables or during evaluation of if-conditions.
