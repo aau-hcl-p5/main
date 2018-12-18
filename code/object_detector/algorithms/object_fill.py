@@ -7,7 +7,7 @@ It will:
     4. Use the old center coordinates to search for the object in the next frame, and the goto 2.
 """
 from collections import deque
-from functools import reduce
+import math
 from typing import Optional, Set, Deque, Union, Iterator, Tuple
 
 import numpy as np
@@ -54,6 +54,7 @@ It will:
         self._last_center: Optional[Vector] = None
         self._dynamic_fill_size = dynamic_fill_size
         self._blacklisted_pixels: Set[Vector] = set()
+        self.center = None
 
     def locate_center(self, frame: np.ndarray) -> Optional[Tuple[Vector, bool]]:
         """
@@ -62,6 +63,7 @@ It will:
         """
 
         image_size = Vector(frame.shape[1], frame.shape[0])
+        self.center = image_size // 2
 
         # """
         new_data = None
@@ -163,9 +165,9 @@ It will:
             sum_outline += e
 
         if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
-            on_target = (
-                    min(*(e.x for e in outline)) < 0 < max(*(e.x for e in outline)) and
-                    min(*(e.y for e in outline)) < 0 < max(*(e.y for e in outline))
+            on_target = any(
+                math.sqrt((p.x - self.center.x) ** 2 + (p.y - self.center.y) ** 2) < self.fill_step_size
+                for p in self._blacklisted_pixels
             )
             return sum_outline / len(outline), on_target
         else:
