@@ -129,7 +129,7 @@ TASK(background_task) {
 }
 \end{lstlisting}
 
-As seen in \autoref{lst:backgroundTask}, the task checks if the boolean value, \texttt{calibrated}, is false and if the current status, which is sent by the Object Localization device, is set to \texttt{READY\_FOR\_CALIBRATION}.
+As seen in \autoref{lst:backgroundTask}, the task checks if the boolean value, \texttt{calibrated}, is false and if the current status, which is sent by the host, is set to \texttt{READY\_FOR\_CALIBRATION}.
 If this is the case calibration will start, and when this has finished the \texttt{calibrated} flag will be set to true.
 
 In the cyclic executive model, it was ensured that the \texttt{keep\_USB\_alive} task was executed once every millisecond by running it at the beginning of each cycle, as the cycles had a length of 1 millisecond.
