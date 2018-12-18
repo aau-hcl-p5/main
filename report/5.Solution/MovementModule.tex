@@ -47,7 +47,7 @@ The speed is set to an initialization value of $20$ which can be any given value
 Before any meaningful motion can be made it is essential to know where the turret is currently aiming and where the target is located.
 Without this information, any motion will result in a meaningless motion and should be avoided.
 
-When the machine intelligence system has observed and located the target, it will send the information to the NXT which will then begin movement towards the target.
+When the machine intelligence system has observed and located the target, it will send the information to the NXT which will then begin the movement towards the target.
 The target location is stored in an struct containing all relevant information about the target namely its coordinates and a timestamp on the information.
 The move method is responsible for the actual activation of the individual motors.
 The method can be seen on \autoref{lst:MoveMotors} and it will activate the motors according to the targets location and where it is currently aiming.
