@@ -9,7 +9,7 @@ def indent(amount=1):
     return amount * 4 * " "
 
 
-def generate_model(inp: List[float], expect: List[float], model=None) -> MLPRegressor:
+def generate_model(inp: List[List[float]], expect: List[List[float]], model=None) -> MLPRegressor:
     """
 
     :param model:
@@ -30,8 +30,8 @@ def generate_model(inp: List[float], expect: List[float], model=None) -> MLPRegr
 
 def save_model(
         model: MLPRegressor,
-        in_min_max: Tuple[float, float],
-        out_min_max: Tuple[float, float],
+        in_min_max: Tuple[List[float], List[float]],
+        out_min_max: Tuple[List[float], List[float]],
         name: str) -> None:
     """
     This method takes a method and serializes into C-code, which can then be compiled
@@ -51,8 +51,8 @@ def save_model(
 def _export_model(
         weights: List[List[List[float]]],
         biases: List[List[float]],
-        in_min_max: Tuple[float, float],
-        out_min_max: Tuple[float, float],
+        in_min_max: Tuple[List[float], List[float]],
+        out_min_max: Tuple[List[float], List[float]],
         name: str) -> str:
     output = io.StringIO()
     # Includes
@@ -83,21 +83,21 @@ static double sigmoid(double value)
     )
     # Weights
     for idx, weight_layer in enumerate(weights):
-        stringified_array = (',' + os.linesep + '    ').join(
+        str_array = (',' + os.linesep + '    ').join(
             '{ ' + ', '.join(str(weight) for weight in weights) + ' }' for weights in
             weight_layer
         )
 
         output.write(
             f"static double WEIGHTS_LAYER_{idx}[{len(weight_layer)}]"
-            f"[{len(weight_layer[0])}] = {{\n    {stringified_array}\n}};\n")
+            f"[{len(weight_layer[0])}] = {{\n    {str_array}\n}};\n")
 
     # Biases
     for idx, bias_layer in enumerate(biases):
-        stringified_array = ', '.join(str(x) for x in bias_layer)
+        str_array = ', '.join(str(x) for x in bias_layer)
         output.write(
             f"static double BIAS_LAYER_{idx}[{len(bias_layer)}] = "
-            f"{{\n    {stringified_array}\n}};\n")
+            f"{{\n    {str_array}\n}};\n")
 
     # Model execution function
     output.write(f"T_MODEL_EXECUTION_RESULT calculate_{name}(T_MODEL_INPUT input) {{\n")
@@ -129,7 +129,7 @@ static double sigmoid(double value)
         output.write(indent(1) + "}\n")
     output.write(indent() + "T_MODEL_EXECUTION_RESULT result;\n")
     for x in range(len(weights[-1][0])):
-        result = f"((intermediate_result_{len(weight)}[{x}] + 2 ) / 4) " \
+        result = f"((intermediate_result_{len(weights)}[{x}] + 2 ) / 4) " \
                  f"* {out_min_max[1][x] - out_min_max[0][x]} + {out_min_max[0][x]}"
         output.write(
             indent() + f"result.output_{x} = {result};\n")

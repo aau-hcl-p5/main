@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
 
@@ -6,7 +8,7 @@ from calibration.read_calibration_data import read_calibration_data
 from output_devices import NxtUsb
 
 
-def normalize(data):
+def normalize(data: List[List[float]]) -> Tuple[List[List[float]], Tuple[List[float], List[float]]]:
     # optionally uncomment this line and use this instead. might create better results with
     # SGD in some cases.
     # scaler = preprocessing.StandardScaler()

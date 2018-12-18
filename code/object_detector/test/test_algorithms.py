@@ -19,7 +19,7 @@ class TestZoneAvgAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.ZONE_AVG)
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
-        output, on_target = controller.locate_center(frame)
+        output = controller.locate_center(frame)
         self.assertIsNone(output)
 
     def test_detect_positive(self):
@@ -43,7 +43,7 @@ class TestObjectFillAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.OBJ_FILL)
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
-        output, on_target = controller.locate_center(frame)
+        output = controller.locate_center(frame)
         self.assertIsNone(output)
 
     def test_detect_positive(self):
@@ -70,7 +70,7 @@ class ThreshMomentAlgorithm(unittest.TestCase):
         """
         controller = get_algorithm(AlgorithmType.THRESH_MOMENT)
         frame = VideoController(CaptureDeviceType.FILES).get_current_frame()
-        output, on_target = controller.locate_center(frame)
+        output = controller.locate_center(frame)
         self.assertIsNone(output)
 
     def test_detect_positive(self):

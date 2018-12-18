@@ -133,7 +133,7 @@ def bell(x):
 
 def screen_location_to_relative_location(
         frame: np.ndarray,
-        position: Optional[Tuple[Vector, bool]],
+        data: Optional[Tuple[Vector, bool]],
         modifier_type: str = 'bell'
 ) -> Optional[Tuple[Vector, bool]]:
     """
@@ -146,11 +146,11 @@ def screen_location_to_relative_location(
     :param position: The position on the frame
     :return: The output vector in range on x -y  [-127,127]
     """
-    if position is None:
+    if data is None:
         return None
-
-    # upack the tuple
-    position, on_target = position
+    else:
+        # upack the tuple
+        position, on_target = data
 
     half_size = Vector(frame.shape[1], frame.shape[0]) // 2
     val = (half_size - position) / half_size

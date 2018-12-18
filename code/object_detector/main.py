@@ -43,7 +43,7 @@ if __name__ == "__main__":
     with Printer() if ARGS.no_usb else NxtUsb() as output_device:
         cont = FlatController(algorithms.get_from_str(ARGS.alg_name, debug=True).locate_center,
                               output_device,
-                              webcam.VideoController(webcam.CaptureDeviceType.CAMERA),
+                              webcam.VideoController(webcam.CaptureDeviceType.FILES),
                               calibration_algorithm=calibrate,
                               debug=True)
         cont.run()

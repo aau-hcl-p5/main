@@ -13,11 +13,12 @@ class Printer(OutputDevice):
         pass
 
     def write_location(self, data: Tuple[Vector, bool]) -> None:
+        location, on_target = data
         print("Writing location", bytes([
+            Status.ON_TARGET.value if on_target else Status.TARGET_FOUND.value,
             0,
-            0,
-            int(data.x) & 0xFF,
-            int(data.y) & 0xFF
+            int(location.x) & 0xFF,
+            int(location.y) & 0xFF
         ]))
 
     def write_status(self, status: Status):
