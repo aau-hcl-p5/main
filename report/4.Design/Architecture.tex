@@ -2,7 +2,7 @@
 \label{sec:architecture}
 Before the implementation and building phases can begin, it is essential to give some thought towards the design of the system, both software and hardware wise.
 In order to do so, a component architecture diagram was constructed, which can be seen on \autoref{fig:comparch}.
-\figur{1}{images/ComponentDiagram}{Component diagram for the system architecture}{fig:comparch}
+\figur{1}{images/ComponentDiagram}{Component diagram for the system architecture}{fig:comparch}\todo{Er dette stadigt korrekt?}
 As seen on the diagram, the system will consist of two platforms: the LEGO NXT for handling the real time processing, and a Raspberry Pi for handling the machine intelligence.
 Each platform is split into two groups: a hardware group containing the hardware which is connected to it and a software group containing a series of classes that must be implemented for the \texttt{F.L.A.T} to function.
 Both the hardware and software requirements are defined with a high level of abstraction, since the diagram should be accurate regardless of implementation details or choice of hardware.

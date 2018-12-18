@@ -172,7 +172,7 @@ Although this may not render the best results, the results gained by using gradi
 
 \subsection{Convolutional Neural Network}
 \label{sec:cnn}
-Convolutional neural networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
+Convolutional Neural Networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
 In challenges such as Imagenet Large Scale Visual Recognition Challenge (LSVCR), the majority of the entries are done using CNN \cite{ILSVRC_Results}. 
 
 The special thing about a CNN is the addition of convolutional layers.
@@ -191,8 +191,7 @@ An example of object recognition could be facial recognition.
 The first layer might recognize lines, edges or similar low level features.
 The following layers then, for example, detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
 
-\figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN
-	\cite{CNNStructure}.}{fig:face_cnn}
+\figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN\cite{CNNStructure}.}{fig:face_cnn}
 
 However, it is important to understand, that this is not necessarily the patterns that a CNN will detect within its layers.
 Actually it is far more likely, that the layers will recognize something that to a human has no relation to a face, but the computer will have found a correlation between these seemingly random patterns, and a face.
@@ -208,11 +207,11 @@ The answer can be found by looking into Regional Convolutional Neural Network.
 
 
 \subsection{Regional Convolutional Neural Network}
-A regional convolutional neural network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
+A Regional Convolutional Neural Network (RCNN) utilizes CNN to get both a classification along with a bounding box, which in turn can be used to determine the center of the location.
 It achieves this by applying the CNN to smaller regions of the image. 
 These regions are extracted from the image using a method called selective search.
 If the region contains an element recognized by the CNN, a bounding box can be drawn around the region.
-The bounding box can finally be tightened using different methods, a popular option being a linear regression model.\cite{CNNHistory}
+The bounding box can finally be tightened using different methods, a popular option being a linear regression model\cite{CNNHistory}.
 
 Unfortunately RCNN in itself is not viable for real time object detection.
 However, there have been a lot of modifications and improvements of RCNN that improves the performance of it.
@@ -226,7 +225,7 @@ Furthermore the performance of YOLO beats that of \textit{faster RCNN}\cite{odDe
 YOLO also uses CNN like RCNN, but takes a fundamentally different approach to object detection.
 YOLO will partition the image into $S\times S$ tiles, where each tile should determine $N$ bounding boxes, along with a confidence level for the given bounding box, signifying the confidence that a given bounding box actually contains an object.
 YOLO will use a CNN in order to obtain a classification score for each bounding box.
-The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box.\cite{odDetection}
+The classifications scores along with the bounding box confidence is used to calculate the final probability score of a class being present in a given bounding box\cite{odDetection}.
 
 As a result of this a total of $S\times S\times N$ tiles are given a probability score.
 In order to only see the most relevant ones, a threshold should be set, so only the tiles with the highest probability is shown.
@@ -249,7 +248,7 @@ This is due to the unpredictability of what the algorithm see as a correlation b
 
 
 The GOTURN algorithm utilizes CNN, which is explained in \autoref{sec:cnn}.
-\figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN \cite{goturn}.}{fig:goturn-arch}
+\figur{0.9}{images/GOTURN-architecture.jpg}{How the algorithm utilizes CNN\cite{goturn}.}{fig:goturn-arch}
 GOTURN works by looking at two frames; the first, also known as the previous frame, and the second, also known as the current frame.
 This is also shown on \autoref{fig:goturn-arch}.
 The premise is that the location of the object is known in the previous frame, and a bounding box is present.
