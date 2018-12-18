@@ -12,7 +12,7 @@
 #define AXIS_Y 1
 
 #define POWER_RANGE_Y 90
-#define POWER_RANGE_X 30
+#define POWER_RANGE_X 50
 
 #define MOTOR_DEADZONE 1
 
