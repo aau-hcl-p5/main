@@ -1,10 +1,11 @@
 \section{System Architecture}
 \label{sec:architecture}
 Before the implementation and building phases can begin, it is essential to give some thought towards the design of the system, both software and hardware wise.
-In order to do so, a component architecture diagram was constructed, which can be seen on \autoref{fig:comparch}.
 \figur{1}{images/ComponentDiagram}{Component diagram for the system architecture}{fig:comparch}
-As seen on the diagram, the system will consist of two platforms: the LEGO NXT for handling the real time processing, and a Raspberry Pi for handling the machine intelligence.
+\autoref{fig:comparch} shows the component diagram for the system.
+The system will consist of two platforms: the LEGO NXT for handling the real time processing, and a Raspberry Pi for handling the machine intelligence.
 Each platform is split into two groups: a hardware group containing the hardware which is connected to it and a software group containing a series of classes that must be implemented for the \texttt{F.L.A.T} to function.
+
 Both the hardware and software requirements are defined with a high level of abstraction, since the diagram should be accurate regardless of implementation details or choice of hardware.
 
 \subsection*{Dependencies}
@@ -18,13 +19,14 @@ Since the Raspberry Pi is responsible for the machine intelligence part of the s
 \item Send result data to NXT
 \end{enumerate}
 
-Due to the dependencies of these methods, none of them can run independently without the result of the prior method, since it would simply lead to re-sending the same information twice.
+Due to the dependencies of these methods, none of them can run independently without the result of the prior method, since it would simply lead to resending the same information twice.
 Furthermore, it is important to notice that the diagram contains methods for both shooting a laser, and a projectile as mentioned in the requirements, \autoref{subsec:requirements}.
 As the projectile firing model requires additional calculations, the device will function with merely the laser methods and hardware. 
 
 With the architecture in place, it is now possible to focus on the details of what is required for implementing each part of the architecture.
 In the following part, the details regarding the target information structure will be eluded upon.
 
+\todo{Syntes stadig det her er sjovt placeret}
 \subsection{Target information}
 A target information structure has been defined internally to store relevant target information.
 This data is calculated on the Raspberry Pi host and the structure is then transferred onto the NXT, using the NXT's USB port.
@@ -45,7 +47,7 @@ typedef struct __attribute__((packed)) {
 } T_TARGET_INFORMATION;
 \end{lstlisting}
 
-The structures uses the packed attribute in order to keep the size at 4 bytes, and 3 status codes are defined with information about whether a target has been found, and whether the host has requested termination of the connection.
+The structures uses the packed attribute in order to keep the size at 4 bytes, and 4 status codes are defined with information about whether a target has been found, the device is on target, and whether the host has requested termination of the connection.
 
 Furthermore, a location structure is kept with information regarding the $X$ and $Y$ distance relative to the target.
 The $X$ and $Y$ values are based on the distance to the target from the center of the webcam image and the values are processed on the host such that they can be transformed into a value ranging from -127 to 127 as described in \autoref{sec:mappingcompvis}.

@@ -29,7 +29,7 @@ class VideoController:
 
     def __init__(self, camera_type: CaptureDeviceType) -> None:
         if camera_type is CaptureDeviceType.CAMERA:
-            input_device: Union[str, int] = 2
+            input_device: Union[str, int] = 1
         elif camera_type is CaptureDeviceType.FILES:
             input_device = 'webcam/testing_videos/fall_video.mp4'
         elif camera_type is CaptureDeviceType.TEST_POSITIVE:

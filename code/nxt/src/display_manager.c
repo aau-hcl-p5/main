@@ -74,10 +74,11 @@ void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_lo
 
     /* Position */
     display_string_at_xy(0, 2, "Position");
+    T_REVOLUTION position = get_current_revolution();
     display_string_at_xy(0, 3, "X:");
-    display_int_at_xy(3, 3, target_last_location.x, 4);
+    display_int_at_xy(3, 3, position.x, 4);
     display_string_at_xy(9, 3, "Y:");
-    display_int_at_xy(12, 3, target_last_location.y, 4);
+    display_int_at_xy(12, 3, position.y, 4);
 
     /* Power */
     display_string_at_xy(0, 4, "Power:");
@@ -87,12 +88,12 @@ void display_target_information(STATUS_CODE status_code, T_VECTOR target_last_lo
     display_int_at_xy(12, 5, y_motor_speed, 4);
 
     /* Modifier */
-    display_string_at_xy(0, 6, "Modifier:");
+    display_string_at_xy(0, 6, "Distance:");
     display_string_at_xy(0, 7, "X:");
-    display_int_at_xy(3, 7, x_lower_bound_modifier, 4);
+    display_int_at_xy(3, 7, target_last_location.x, 4);
 
     display_string_at_xy(9, 7, "Y:");
-    display_int_at_xy(12, 7, y_lower_bound_modifier, 4);
+    display_int_at_xy(12, 7, target_last_location.y, 4);
 
     display_update();
 }

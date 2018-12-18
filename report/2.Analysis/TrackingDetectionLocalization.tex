@@ -1,16 +1,14 @@
 \section{Object detection, localization and tracking}\label{sec:anal:objdet}
-Before examining the different ways to look for objects using computer vision, it is important to ensure the correct understanding of the terminology used when working with objects in images.
-
-
+Before examining the different ways to look for objects using computer vision, it is important to ensure a correct understanding of the terminology used when working with objects in images.
 Object recognition is the discipline of computers working with objects in images.
-Object detection, localization and tracking, are all subtasks of object recognition.
+Object detection, localization and tracking are all subtasks of object recognition.
+\todo{can the previous two lines be combined to one?}
 
-
-The difference between localization, detection,and tracking is subtle, yet essential\cite{objecttrackdetect}.
+The difference between localization, detection, and tracking is subtle, yet essential\cite{objecttrackdetect}.
 \begin{description}
-    \item[Object classification:]identifying objects in an image.
-    \item[Object localization:]finding the location of a single object in an image{.} Here it is irrelevant whether it is a bounding box for the object, an actual outline, or just an average location. 
-    \item[Object detection:]finding the location of multiple objects in an image{.} Usually the location of each individual object will be outlined with a bounding box, to ensure clarity as to which pixels represent each object.
-    \item[Object tracking:] doing object localization or detection over time, and optionally storing the previous locations.
-    \item[Object recognition:]finding objects in an image, regardless of it being detection, localization, tracking or classification. 
+    \item[Object classification:] Identifying objects in an image.
+    \item[Object localization:] Finding the location of a single object in an image{.} Here it is irrelevant whether it is a bounding box for the object, an actual outline, or just an average location. 
+    \item[Object detection:] Finding the location of multiple objects in an image{.} Usually the location of each individual object will be outlined with a bounding box, to ensure clarity as to which pixels represent each object.
+    \item[Object tracking:] Doing object localization or detection over time, and optionally storing the previous locations.
+    \item[Object recognition:] Finding objects in an image, regardless of it being detection, localization, tracking or classification. 
 \end{description}

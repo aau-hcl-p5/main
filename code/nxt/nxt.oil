@@ -21,9 +21,17 @@ CPU ATMEL_AT91SAM7S256 {
         RESOURCEPROPERTY = STANDARD;
     };
 
+    /* Definition of events */
+
+    EVENT MoveMotorsOnEvent
+    {
+        MASK = AUTO;
+    };
+
+
     TASK background_task {
         AUTOSTART = FALSE;
-        PRIORITY = 5;
+        PRIORITY = 1;
         ACTIVATION = 1;
         SCHEDULE = FULL;
         STACKSIZE = 512; /* Stack size */
@@ -32,15 +40,16 @@ CPU ATMEL_AT91SAM7S256 {
 
     TASK keep_USB_alive {
         AUTOSTART = FALSE;
-        PRIORITY = 6;
+        PRIORITY = 5;
         ACTIVATION = 1;
         SCHEDULE = NON;
         STACKSIZE = 512; /* Stack size */
+        RESOURCE = USB_Rx;
     };
 
     TASK update_display {
         AUTOSTART = FALSE;
-        PRIORITY = 3;
+        PRIORITY = 2;
         ACTIVATION = 1;
         SCHEDULE = FULL;
         STACKSIZE = 512; /* Stack size */
@@ -48,7 +57,7 @@ CPU ATMEL_AT91SAM7S256 {
 
     TASK handle_laser {
         AUTOSTART = FALSE;
-        PRIORITY = 4;
+        PRIORITY = 5;
         ACTIVATION = 1;
         SCHEDULE = NON;
         STACKSIZE = 512; /* Stack size */
@@ -60,14 +69,19 @@ CPU ATMEL_AT91SAM7S256 {
         ACTIVATION = 1;
         SCHEDULE = NON;
         STACKSIZE = 512; /* Stack size */
+        RESOURCE = USB_Rx;
     };
 
     TASK move_motors {
-        AUTOSTART = FALSE;
-        PRIORITY = 2;
+        AUTOSTART = TRUE
+            {
+                APPMODE = appmode1;
+            };
+        PRIORITY = 3;
         ACTIVATION = 1;
         SCHEDULE = FULL;
         STACKSIZE = 4096; /* Stack size */
+        EVENT = MoveMotorsOnEvent;
     };
 
     /* Definition of OSEK Alarm counter: SysTimerCnt */
@@ -92,20 +106,6 @@ CPU ATMEL_AT91SAM7S256 {
                 APPMODE = appmode1;
             };
     };
-    ALARM cyclic_move_motors
-    {
-        COUNTER = SysTimerCnt;
-        ACTION = ACTIVATETASK
-            {
-                TASK = move_motors;
-            };
-        AUTOSTART = TRUE
-            {
-                ALARMTIME = 1;
-                CYCLETIME = 1; /* keep_USB_alive is executed every msec */
-                APPMODE = appmode1;
-            };
-    };
     ALARM cyclic_update_display
     {
         COUNTER = SysTimerCnt;
@@ -116,7 +116,7 @@ CPU ATMEL_AT91SAM7S256 {
         AUTOSTART = TRUE
             {
                 ALARMTIME = 1;
-                CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+                CYCLETIME = 15; /* keep_USB_alive is executed every msec */
                 APPMODE = appmode1;
             };
     };
@@ -145,7 +145,7 @@ CPU ATMEL_AT91SAM7S256 {
         AUTOSTART = TRUE
             {
                 ALARMTIME = 1;
-                CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+                CYCLETIME = 15; /* keep_USB_alive is executed every msec */
                 APPMODE = appmode1;
             };
     };
