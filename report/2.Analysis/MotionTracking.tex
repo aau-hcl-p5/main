@@ -3,7 +3,7 @@
 To track the location of a target, the device will require sensors that can transmit information about the position of the desired target.
 
 
-When an object is found, and assuming that the robot is aimed in the same direction as the laser, the direction to aim will simply be calculated using the delta $X$ and $Y$ coordinates of the target and the center of the robot.
+When an object is found, and assuming that the robot is aimed in the same direction as the laser, the direction to aim will be calculated using the delta $X$ and $Y$ coordinates of the target and the center of the robot.
 
 As the original idea was to target birds, a camera with object classification is an obvious choice, as it allows identification of specific objects.
 
@@ -33,6 +33,7 @@ This is what is referred to as machine learning.
 Machine learning is a common term used when a computer learns itself to solve a given task\cite{ArtificialIntelligencealanpoole}.
 
 There are a wide variety of tasks that are very complicated to solve using algorithms, but comparatively easier to solve by letting the computer learn how to solve them.
+
 There are many ways to apply machine learning to a problem, such as object localization, object detection, object classification, which were already discussed in \autoref{sec:anal:objdet}, as well as speech recognition or learning the best tactics of games like chess.
 
 Machine learning is highly relevant for this system, as it can be used both to locate objects, but also when tracking and predicting where the object is and will be.

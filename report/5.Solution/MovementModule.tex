@@ -85,7 +85,7 @@ int8_t get_speed_by_distance(int8_t distance, char axis) {
 
 Once the turret is aiming at the target, the motion should be terminated.
 If the power is removed from the motors, they will lose their stiffness and the entire turret will power down.
-To avoid this, the motors have a function to simply set the speed of the motors to $0$, resulting in the motors locking themselves in position.
+To avoid this, the motors have a function to set the speed of the motors to $0$, resulting in the motors locking themselves in position.
 As shown on \autoref{lst:StopMotors} this method is very simple but effective.
 \begin{lstlisting}[language=CSharp,label={lst:StopMotors},caption={stop\_motors method from movement.c}]
 void stop_motors(){
