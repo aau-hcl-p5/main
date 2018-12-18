@@ -76,7 +76,7 @@ The properties specifies to the operating system how the task shall run and that
 };
 \end{lstlisting}
 
-The reasoning behind simply having as major cycle with no minor cycles is the execution time of the individual methods, which can be seen on \autoref{table:executionTimes1}.
+The reasoning behind having a major cycle with no minor cycles is the execution time of the individual methods, which can be seen on \autoref{table:executionTimes1}.
 
 \begin{table}[H]
 \begin{tabular}{lll}
@@ -111,7 +111,7 @@ Handle\_Lasers      & 6                         & 4   \\
 Update\_Display     & 267                       & 1   \\
 Background\_Task    & 0                         & 0   
 \end{tabular}
-\end{table}\label{table:executionTimes}
+\end{table}\label{table:executionTimes1}
 
 As the cyclic executive approach allowed running the calibration before entering the first major cycle, this was easily implemented.
 However, this does not work with the fixed-priority scheduling model, as the tasks are repeatedly run according to their tasks.
@@ -165,4 +165,4 @@ ALARM cyclic_keep_USB_alive
 The \texttt{counter} attribute specifies that the system clock is used to time when the alarm should be run, and which action it should take upon activation.
 In the autostart block, it is defined that the cycle time is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which happens once every 1 millisecond, thus ensuring that the task will run every millisecond.
 
-The remaining tasks are simply set to automatically start, and will be allowed to run based on their priority with no pre-defined release time.
+The remaining tasks are set to automatically start, and will be allowed to run based on their priority with no pre-defined release time.

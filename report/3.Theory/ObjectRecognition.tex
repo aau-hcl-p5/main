@@ -76,7 +76,7 @@ A visual representation can be seen in \autoref{fig:sigmoid}.
 
 
 \paragraph{RELU}
-Rectified linear unit is a modern activation function, that has proven to be very powerful in deep learning networks. 
+Rectified linear unit is a modern activation function, that has proven to be powerful in deep learning networks. 
 
 It is defined as:
 
@@ -141,7 +141,7 @@ This is solved by letting the neural network train itself, in order to learn it 
 
 The neural network should try to minimize the amount of errors on the output layer.
 The error is calculated using a loss function.
-The loss function can be defined in multiple ways, but a simple loss function simply squares the difference between the actual output and the expected output.
+The loss function can be defined in multiple ways, but a simple loss function squares the difference between the actual output and the expected output.
 
 \paragraph{Back propagation}
 Back propagation is a common way of training a neural network.
@@ -263,23 +263,21 @@ Possible problems with this algorithm is that the location of the target is unkn
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
-\todo{overvej om denne faktisk skal med}
-\subsection{Tensorflow}
-Tensorflow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
+\subsection{TensorFlow}
+TensorFlow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
 The framework was initially developed for Python, but has recently implemented support for other languages.
 It is developed by the Google Brain team, and owned by Google Inc.\cite{tensorflow-attribution}.
 It has a high-level API, called Keras, and a low-level API, which makes it possible to use as an entry-level user, making it ideal for hobby and educational purposes, but it is also usable for complex production-level applications.
 
-Tensorflow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
+TensorFlow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
 
 A tensor is a mathematical entity, and the mathematical definitions are outside the scope of this project.
 In the context of TensorFlow, it is enough to think of it as an entity in a mathematical process.
 This might be a constant primitive value, or a mapping from one or more primitive values to one or more primitive values.
 
-\todo{Below line}
-To better show the example of tensors and how Tensorflow operates, the following low-level example is used in the Tensorflow tutorial, and it seems relevant here as well.
+To better show the example of tensors and how TensorFlow operates, the low-level example in \autoref{lis:TensorFlowPy1} is used in the TensorFlow tutorial\cite{tensorflow2015-whitepaper}.
 
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a Tensorflow program]
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a TensorFlow program]
 a = tf.constant(3.0)
 b = tf.constant(4.0)
 total = a + b
@@ -287,7 +285,7 @@ print(a)
 print(b)
 print(total)
 \end{lstlisting}
-The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
+The reader might assume that the output would be 3,4, and 7, respectively, however the output is as seen in \autoref{lis:TensorFlowPy2}:
 \begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \autoref{lis:TensorFlowPy2}]
 Tensor("Const:0", shape=(), dtype=float32)
 Tensor("Const_1:0", shape=(), dtype=float32)
@@ -344,7 +342,7 @@ Haar-Cascade is a classifier, which has been trained to detect a specific object
 
 While OpenCV is not a machine learning library, it does include different machine learning elements, for example k-Nearest Neighbor (kNN) classification and k-Means clustering, based on images.
 kNN is a simple classification algorithm, that attempts to group different data into different classes, by looking at the data that most closely resembles each other.
-K-Means is another classification algorithm, that instead attempts to find a ''center'', a mean, and then simply assigning all the data that lies closest to this ''center'' to that class.
+K-Means is another classification algorithm, that instead attempts to find a ''center'', a mean, and then assigning all the data that lies closest to this ''center'' to that class.
 
 The two algorithms share the trait, that they are often performed iteratively, meaning the same dataset are iterated over several times, leading to a more accurate classification, often by moving the classification of a single data-element.
 This shifts the ''weight'' of the class.
@@ -383,9 +381,7 @@ Below is an example of machine learning using the OpenCV library:
 \autoref{lis:opencvMLExample} shows a working ML agent that detects different letters, based on a feature data-set.
 The program itself is quite simple, and the complex aspects of the program are handled by the OpenCV library.
 
-As can be seen from both examples, it is very easy to do complex image manipulation in a very simple manner.
+As can be seen from both examples, it is easy to do complex image manipulation in a simple manner.
 
 These two examples are just a small sample of the capabilities of OpenCV, and even without the machine learning aspect, OpenCV also provides excellent webcam interfacing, and image manipulation utilities.
 Thus, OpenCV is an excellent solution, that could potentially be used to solve the object detection aspect of this project.
-
-\todo{Skriv om scikit}

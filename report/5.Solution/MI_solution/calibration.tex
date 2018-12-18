@@ -14,11 +14,11 @@ A simplified version of the function can be seen in \autoref{lst:GetRequiredPowe
 int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 	int8_t power = MIN_POWER;
 	T_REVOLUTION first_revolution = get_current_revolution();
-	
+
 	do {
 		set_motor_speed(axis, power * (direction == POSITIVE ? 1 : -1));
 		power++;
-		
+
 		// wait 30ms but make sure we don't move in that timeframe
 		for(int i = 0; i < 30; i++)
 		{
@@ -26,11 +26,11 @@ int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 			if (!should_stop_moving(first_revolution, power))
 				break;
 		}
-	
+
 	} while(should_stop_moving(first_revolution, power));
-	
+
 	set_motor_speed(axis, 0);
-	
+
 	return power;
 }
 
@@ -129,9 +129,9 @@ T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input) {
 }
 
 \end{lstlisting}
+
 The function \texttt{calculate\_model\_up} normalizes the input data, and then calculates the output as explained in \autoref{sec:calculationsNN}.
 Finally, the output value is denormalized in order to be used in the system.
 This function is used in the movement module, to calculate the base power.
 The specifics are explained in \autoref{sec:movement}.
-
 

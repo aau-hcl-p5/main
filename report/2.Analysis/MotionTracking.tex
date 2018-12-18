@@ -3,7 +3,7 @@
 To track the location of a target, the device will require sensors that can transmit information about the position of the desired target.
 
 
-When an object is found, and assuming that the robot is aimed in the same direction as the laser, the direction to aim will simply be calculated using the delta $X$ and $Y$ coordinates of the target and the center of the robot.
+When an object is found, and assuming that the robot is aimed in the same direction as the laser, the direction to aim will be calculated using the delta $X$ and $Y$ coordinates of the target and the center of the robot.
 
 As the original idea was to target birds, a camera with object classification is an obvious choice, as it allows identification of specific objects.
 
@@ -12,7 +12,7 @@ Unfortunately, the camera has a couple of disadvantages.
 First, a normal camera will not be able to determine the distance to a target.
 This could be solved with a distance sensor, as described in \autoref{anal:distance}.
 Secondly, the camera will output redundant information, which will have to be processed, in order to only keep the relevant information.
-Third, any relevant information is only deduced from the image. 
+Third, any relevant information is only deduced from the image.
 
 \subsection{Image processing}
 To determine the location of the object in the image, the image needs to be processed.
@@ -21,7 +21,7 @@ Generally speaking, there are two approaches to this problem: Hand coded feature
 \subsubsection{Hand coded features}
 Writing an object recognition algorithm by hand is a tedious task, if the object to detect is complex.
 However, if the object has distinct features, it becomes simpler.
-Imagine that an algorithm were to detect a red ball. 
+Imagine that an algorithm were to detect a red ball.
 Given the two features \textit{round} and \text{red}, it would be a manageable task to implement an algorithm that would detect a red ball.
 
 Although the hand coded algorithms may be usable given a few distinct features, it will quickly fall short when given the task to detect a face or a bird.
@@ -30,9 +30,10 @@ Although the hand coded algorithms may be usable given a few distinct features, 
 Rather than trying to describe a complex object using an algorithm, an oft-used alternative is to let the computer figure out the features of the object itself.
 This is what is referred to as machine learning.
 
-Machine learning is a common term used when a computer teaches itself to solve a given task\cite{ArtificialIntelligencealanpoole}.
-\todo{teaches vs learns med MI}
-There are a wide variety of tasks that are very complicated to solve using algorithms, but comparatively easier to solve by letting the computer learn how to solve them. 
+Machine learning is a common term used when a computer learns itself to solve a given task\cite{ArtificialIntelligencealanpoole}.
+
+There are a wide variety of tasks that are very complicated to solve using algorithms, but comparatively easier to solve by letting the computer learn how to solve them.
+
 There are many ways to apply machine learning to a problem, such as object localization, object detection, object classification, which were already discussed in \autoref{sec:anal:objdet}, as well as speech recognition or learning the best tactics of games like chess.
 
 Machine learning is highly relevant for this system, as it can be used both to locate objects, but also when tracking and predicting where the object is and will be.
