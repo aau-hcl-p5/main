@@ -1,5 +1,5 @@
-\section{Calibration}
-As explained in \autoref{des:sec:variable_motor_power}, movement required different amount of power depending on the current position on each axis, and the direction of movement.
+\section{Calibration}\label{sec:calibration}
+As explained in \autoref{des:sec:variablemotorpower}, movement required different amount of power depending on the current position on each axis, and the direction of movement.
 
 
 To solve this problem, data was gathered regarding the minimum amount of power.
@@ -42,11 +42,11 @@ The data is sent back to a host machine over the established USB connection.
 
 The function was run multiple times, and whenever rebuilding parts of the machine, the calibration function was run again.
 
-On of these data-sets, where the calibration process was run 5 times, can be seen in \autoref{fig:calib_data}.
+On of these data-sets, where the calibration process was run 5 times, can be seen in \autoref{fig:calibdata}.
 This data-set is based on the y-axis, in an upwards direction.
 
 
-\figur{1}{images/calib_data.png}{Required power for revolution on motor}{fig:calib_data}
+\figur{1}{images/calib_data.png}{Required power for revolution on motor}{fig:calibdata}
 
 There is a clear tendency in the data, even though it has some noise, which is presumably due to the quality of the motors.
 The tendency seems reasonable regarding the upwards motion, where it initially requires low effort, but the requirement increases as it is reaching the top.
@@ -57,7 +57,7 @@ A custom modified version of the module was created, to be able to use a custom 
 This was done because of issues with the NXT-OSEK system, regarding the usage of the \texttt{math.h} library in C, which was bugged for some unknown reason.
 Researching the bug did not give us any answers, and this seemed to be a known bug based on dialogue with other study groups.
 Because of these issues, it was a requirement that custom implementations of math functions could be used, and a custom implementation of the \texttt{exp} function, was an unnecessary difficult task, so an approximation function was used instead.
-\todo{Do we cover math.h issue anywhere else? we prolly should}
+\todo{Do we cover math.h issue anywhere else we prolly should}
 
 \autoref{lst:mlpregressor} shows how to train a multi layered neural network for regression.
 
@@ -80,26 +80,26 @@ A larger hidden layer did not improve the quality, however smaller networks seem
 
 The system also utilized the custom implementation of the sigmoid function, and increased max iterations, and lowered the tolerance to make the network run for a longer time before stopping, to make sure the best possible network was reached.
 
-One of the networks created with 30 neurons is shown in \autoref{fig:calib_data_nn}, where the line is the result of the neural network.
+One of the networks created with 30 neurons is shown in \autoref{fig:calibdatann}, where the line is the result of the neural network.
 The data is normalized to better work with the SGD function, using a preprocessor exposed by the scikit-learn module.
-Optimally a \textit{Gaussian distribution}, with zero mean and unit variance, would have been used, but due to the problems with \texttt{math.h}, this was not feasible.
+Optimally a \textit{Gaussian distribution}, with zero mean and unit variance, would have been used, but due to the problems with \texttt{math{.}h}, this was not feasible.
 
-\figur{1}{images/calib_data_nn.png}{Sample fitting of the data}{fig:calib_data_nn}
+\figur{1}{images/calib_data_nn.png}{Sample fitting of the data}{fig:calibdatann}
 
-\autoref{fig:calib_data_nn} shows the neural network for the upwards direction, however the same process was done simultaneously for the downwards direction.
+\autoref{fig:calibdatann} shows the neural network for the upwards direction, however the same process was done simultaneously for the downwards direction.
 Calibration was only done for the $Y$-axis.
-The two separate neural networks, produced at another calibration test, can be seen in \autoref{fig:calib_data_nn_both}.
+The two separate neural networks, produced at another calibration test, can be seen in \autoref{fig:calibdatannboth}.
 
 
-\figur{1}{images/calib_data_nn_both.png}{Both neural networks of the $Y$ axis}{fig:calib_data_nn_both}
+\figur{1}{images/calib_data_nn_both.png}{Both neural networks of the $Y$ axis}{fig:calibdatannboth}
 
 These neural networks had to be used to calculate the base value of a motion at a given angle at a given time.
 To solve this, the weight and biases of the neural networks had to be exported to the NXT device.
-This was done by generating the C code needed to replicate the behaviour.
-A simplistic version of such a file can be seen in \autoref{lst:exported_model}.
+This was done by generating the C code needed to replicate the behavior.
+A simplistic version of such a file can be seen in \autoref{lst:exportedmodel}.
 
 
-\begin{lstlisting}[language=C,label={lst:exported_model},firstnumber={1},caption={Autogenerated model for getting power to move up}]
+\begin{lstlisting}[language=C,label={lst:exportedmodel},firstnumber={1},caption={Autogenerated model for getting power to move up}]
 #include <stdint.h>
 #include <math.h>
 
