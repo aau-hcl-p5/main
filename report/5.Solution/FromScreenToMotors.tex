@@ -10,6 +10,7 @@ Based on this problem, two functions are required.
 	\item One on the NXT, that maps the byte value, to the power value.
 \end{enumerate}
 
+\todo{this ends very abruptly}
 
 \subsection{Translating screen-position to the communication layer}
 This function will take a a 2-tuple named \textit{pos} as input, which is going to be the screen position.
@@ -72,11 +73,11 @@ However, it is undesirable to use a power value of 100, as the movement will be 
 \todo{Fix det her, det er lidt forkert/ irrellevant efter calibration}
 \todo{Den burde nok bare lide direkte ind i noget calibration}
 Therefore, a function is required that maps between $-127$ and $127$ and some unknown lower and upper bounds.
-This function can then be used like the previously used function, which translated the screen position into a USB-friendly value.
+This function can then be used like the previously used function, which translated the screen position into a USB friendly value.
 
 After doing some testing with static lower and upper bounds, it was revealed that this did not result in accurate movement, as the motors require a different amount of power to move the same distance, depending on the angle of the machine.
-For example, moving upwards on the $Y$-axis requires more power than moving down.
-The relation between the USB-data and motor-power is therefore based on the current angle of each motor.
+For example, moving upwards on the $Y$ axis requires more power than moving down.
+The relation between the USB data and motor power is therefore based on the current angle of each motor.
 This relation is not constant, as this relation is based on external influences, such as gravity, weight and wires that create resistance to the movement, and these value might change dynamically.
-/todo{Fix denne reference}
+\todo{Fix denne reference}
 This problem can be solved by a calibration process, as described in \autoref{sec:calibration}, which will create a function, dynamically, that can create the wanted mapping.

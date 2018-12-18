@@ -60,10 +60,10 @@ Status specifies the level of error checking, which can be set to either \textit
 
 \subsubsection*{Hook routines}
 The OS has a series of boolean hook routines, meaning that they can either be enabled or disabled. 
-\textbf{STARTUPHOOKS} is the first routine to be called with the OS starts, where the user can place initialization procedures, during this hook routine all user interrupts are disabled \cite{irisa223}.
+\textbf{STARTUPHOOKS} is the first routine to be called with the OS starts, where the user can place initialization procedures, during this hook routine all user interrupts are disabled\cite{irisa223}.
 The \textbf{ERRORHOOK} routine is called in case of application errors, with the purpose of treating status information in a centralized manner. 
 The \textbf{SHUTDOWNHOOK} routine is called by the operating system when the OS service \textit{ShutdownOS} has been called, meaning during the shutdown of the system. 
-The two task routines, \textbf{PRETASKHOOK} and \textbf{POSTTASKHOOK} are called on task context switches, meaning that they can be used for debugging or time measurement, including context switch time \cite{irisa223}.
+The two task routines, \textbf{PRETASKHOOK} and \textbf{POSTTASKHOOK} are called on task context switches, meaning that they can be used for debugging or time measurement, including context switch time\cite{irisa223}.
 As implied by the names, the \textit{PostTaskHook} is called each time before the task leaves the \textit{RUNNING} state; likewise the \textit{PreTaskHook} is called directly before a new task enters the \textit{RUNNING} state\cite{irisa223}.
 
 \subsubsection*{Macros and scheduler as resource}
@@ -86,7 +86,7 @@ A low number means low priority and vice versa.
 The \textbf{ACTIVATION} attribute defines the maximum number of queued activation requests for the given task.
 A value of \textit{1} in the \textit{activation} attribute means that only a single activation is permitted at any time for this task.\\
 The \textbf{SCHEDULE} attribute defines the preemptability of the task, and can be set as either \textit{FULL} meaning that the task can be preempted or \textit{NON} meaning that it cannot.
-If the attribute is set to \textit{NON} no internal resources may be assigned to the task \cite{irisa25}.
+If the attribute is set to \textit{NON} no internal resources may be assigned to the task\cite{irisa25}.
 Finally, the attribute \textbf{STACKSIZE} defines the stack size for the given task.
 
 \subsection{COUNTERS and ALARMS}\label{Subsec:OIL:ALARMS}
@@ -116,14 +116,14 @@ An example of an alarm and counter can be seen below \cite{rms}:
       APPMODE = appmode1;
     };
   };
-\end{lstlisting}
+\end{lstlisting}\todo{Fix indent}
 
 The first thing that is defined in the alarm is the \textbf{counter} assigned to the alarm.
 At least one counter has to be assigned to the alarm.
 The \textbf{ACTION} of the alarm is parametrized with either \textit{ActivateTask}, \textit{SetEvent}, or \textit{AlarmCallback}\cite{irisa25}.
 In this example \textit{ActivateTask} meaning that a task, in this case \textit{Task1}, has to be activated when the alarm expires. 
 Like a task, the alarm has to define whether it should auto-start or not.
-The auto-start has a property \textit{AlarmTime} which defines the time when the alarm shall expire first and \textit{CycleTime} defining the cycle time of a cyclic alarm \cite{irisa25}.
+The auto-start has a property \textit{AlarmTime} which defines the time when the alarm shall expire first and \textit{CycleTime} defining the cycle time of a cyclic alarm\cite{irisa25}.
 
 \subsection{RESOURCE}
 In order to prevent multiple tasks from accessing the same critical region simultaneously, resources can be declared.
@@ -132,7 +132,7 @@ A resource has a tribute called \textit{ResourceProperty}, which can be set as e
 \begin{itemize}
 \item \textbf{Standard} meaning that the resource is not linked to another resource and is not an internal resource.
 \item \textbf{Linked} meaning that the resource is linked with another resource with the property \textit{standard} or \textit{linked}.
-\item \textbf{Internal} resource that cannot be accessed by the application \cite{irisa25}.
+\item \textbf{Internal} resource that cannot be accessed by the application\cite{irisa25}.
 \end{itemize}
 
 \subsection{EVENTS}
@@ -151,6 +151,6 @@ TASK EventHandler
   ...
 };
 \end{lstlisting}
-As seen in the listing above, an event has a mask property, which serves as an identifier for the given event \cite{irisa25}.
+As seen in the listing above, an event has a mask property, which serves as an identifier for the given event\cite{irisa25}.
 This can either be manually defined as a 64-bit unsigned integer or can be handled by nxtOSEK by using the AUTO keyword.
 The usage of events allows definition of aperiodic tasks, as discussed in \autoref{Theory:RTS}.

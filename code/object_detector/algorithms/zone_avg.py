@@ -5,7 +5,7 @@ As the target (in the simplest of cases) is a red ball
 or ballon, the reddest spot on the image must be the balloon.
 This obviously isn't perfect but is the first iteration of object detection
 """
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 from .object_localizer import ObjectLocalizer
 from algorithms.utilities import Vector
@@ -34,7 +34,7 @@ class ZoneAvgController(ObjectLocalizer):  # pylint: disable=too-few-public-meth
         self.adjust_counter = 0
         self.last_best_zone: Optional[Vector] = None
 
-    def locate_center(self, frame) -> Optional[Vector]:
+    def locate_center(self, frame) -> Optional[Tuple[Vector,bool]]:
         """
         Takes a frame in a video feed and figures out where a target is, based on color.
         This takes the zone (subset of image) with the most distinct red color.
@@ -61,7 +61,7 @@ class ZoneAvgController(ObjectLocalizer):  # pylint: disable=too-few-public-meth
 
         self._draw_zones(frame, size_of_zone, image_size)
         self._adjust_lines(zone)
-        return loc
+        return (loc, loc == (0, 0)) if loc is not None else None
 
     def _adjust_lines(self, best_zone: Optional[Vector]) -> None:
         if MAX_ADJUST_COUNTER == -1:

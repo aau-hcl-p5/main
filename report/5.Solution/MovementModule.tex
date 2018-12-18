@@ -46,8 +46,9 @@ The speed can be any value between $0$ and $100$.
 
 \subsection{The motion}
 When a target has been located, the computer will send the information to the NXT.
-The NXT will then begin movement towards the target.
+The NXT will then begin its movement towards the target.
 The target location is stored in a struct containing all relevant information about the target namely its coordinates and a timestamp on the information.
+
 The move method is responsible for the actual activation of the individual motors.
 The method can be seen on \autoref{lst:MoveMotors} and it will activate the motors according to the targets location and where it is currently aiming.
 \begin{lstlisting}[language=CSharp,caption={move method from movement.c},label={lst:MoveMotors}]

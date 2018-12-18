@@ -12,7 +12,7 @@ This complicated things a bit, as none of the group members were interested in i
 Docker is a way to deploy a consistent environment for applications to run in, also known as containerization\cite{dockerdocstart}.
 A Docker deployment consists of three different concepts, the Docker file, the container and an image.
 \begin{description}
-    \item [Dockerfile], which is a definition of a Docker image.
+    \item [Dockerfile] which is a definition of a Docker image.
     \item [Images] are executables that includes all the required information to instantiate containers.
     \item[Containers] are the runtime instances of an image, the running process of an image.
 \end{description}
@@ -38,7 +38,7 @@ This proved to be a non-issue, as modifying dependencies, and some tweaking, nxt
 \subsection{Docker implementation}\label{subsec:dockerimplementation}
 The actual Docker build process is somewhat obscure.
 
-The first step is relatively straightforward with \textit{FROM ubuntu:14.04} simply specifying the base ubuntu image to use.
+The first step is relatively straightforward with \textit{FROM ubuntu:14.04} simply specifying the base Ubuntu image to use.
 The next bit simply installs the packages required by nxtOSEK.
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation1},caption={Version definition and installation of packages required by nxtOSEK}]
 FROM ubuntu:14.04

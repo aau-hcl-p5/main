@@ -1,11 +1,11 @@
 \section{System Architecture}
 \label{sec:architecture}
 Before the implementation and building phases can begin, it is essential to give some thought towards the design of the system, both software and hardware wise.
-
 \figur{1}{images/ComponentDiagram}{Component diagram for the system architecture}{fig:comparch}
 \autoref{fig:comparch} shows the component diagram for the system.
 The system will consist of two platforms: the LEGO NXT for handling the real time processing, and a Raspberry Pi for handling the machine intelligence.
 Each platform is split into two groups: a hardware group containing the hardware which is connected to it and a software group containing a series of classes that must be implemented for the \texttt{F.L.A.T} to function.
+
 Both the hardware and software requirements are defined with a high level of abstraction, since the diagram should be accurate regardless of implementation details or choice of hardware.
 
 \subsection*{Dependencies}
@@ -19,7 +19,7 @@ Since the Raspberry Pi is responsible for the machine intelligence part of the s
 \item Send result data to NXT
 \end{enumerate}
 
-Due to the dependencies of these methods, none of them can run independently without the result of the prior method, since it would simply lead to re-sending the same information twice.
+Due to the dependencies of these methods, none of them can run independently without the result of the prior method, since it would simply lead to resending the same information twice.
 Furthermore, it is important to notice that the diagram contains methods for both shooting a laser, and a projectile as mentioned in the requirements, \autoref{subsec:requirements}.
 As the projectile firing model requires additional calculations, the device will function with merely the laser methods and hardware. 
 
