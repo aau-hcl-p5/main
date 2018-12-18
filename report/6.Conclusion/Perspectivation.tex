@@ -32,7 +32,7 @@ The should have requirements were as follows:
 
 As mentioned in the must have conclusion, the robot is able to track a balloon falling at a distance of 3 meters.
 The robot is also able to track a large object, such as a balloon, being moved at a slow speed with unpredictable movement patterns.
-At a distance of 1 meters, an object with a size of at least \todo{size of what we can hit at 1 meters distance} centimeters in diameter can be tracked with a good amount of precision.
+At a distance of 1 meters, an object with a size of at least 15 centimeters in diameter can be tracked with a good amount of precision.
 Being able to track smaller objects would require more precise motors as the imprecision of the motors causes some issues, as they can only move a full degree per step, meaning the movement of the laser will become more imprecise as the distance to the target increases.
 For example, at a distance of 30 centimeters from the laser, one degree movement will result in the laser moving 0.3 centimeters, however, at a distance of 2.5 meters, moving a single degree will result in the laser moving more than 4 centimeters.
 This limitation means that at a distance, hitting a small object is simply not viable due to the limitations of the motors.
@@ -69,18 +69,18 @@ Along with the MoSCoW analysis, four test cases were presented:
 
 The first case, dropping a ball, was already presented in the MoSCoW conclusion and deemed successful.
 The test was conducted with a heart shaped, red balloon with a diameter of 30 centimeters, which was dropped at a distance of 4 meters and a height of 2 meters. 
-\texttt{F.L.A.T} was able to keep it's laser on the target most of the time during the fall. 
-For the second case with rolling a ball, \texttt{F.L.A.T} was roughly able to keep it's laser on a ball with a diameter of 52 mm successfully. 
+\texttt{F.L.A.T.} was able to keep it's laser on the target most of the time during the fall. 
+For the second case with rolling a ball, \texttt{F.L.A.T.} was roughly able to keep it's laser on a ball with a diameter of 52 mm successfully. 
 However, the final two cases with a throwing a ball and shooting a balloon were not accomplished, as the device was not fast enough to process the speed of the object, and does not have the capabilities to shoot a balloon.
 
 \subsection{Machine intelligence}
 Several observations were made during the development of the MI aspect of the solution.
 Initially, the idea for the project was to recognize objects in real-time using machine learning, however as described in \autoref{des:sec:performance}, the object recognition algorithms available, were not performant enough given the hardware limitations.
 Instead, the variable motor power problem, described in \autoref{subsec:variable_motor_power}, turned out to be an excellent way to utilize MI for the solution.
-The calibration module was implemented using a neural network, which ran on the NXT.
+The calibration module was implemented using a neural network, which was executed on the NXT.
 This proved to be an excellent solution to the variable motor power problem, and a great way to use MI in the solution.
 
-An important lesson learned from this project, was that the usage of MI required thought about the domain in which the MI is applied to.
+An important lesson learned from this project was that the usage of MI required thought about the domain in which the MI is applied to.
 
 
 \subsection{Real-time requirements}
@@ -95,3 +95,8 @@ In a real world implementation of \texttt{F.L.A.T.} there are two alternative ap
 The most obvious solution would be to use a device with a less powerful CPU to avoid that the CPU is idle, or alternatively use a much more powerful device, allowing the whole machine intelligence part of the system to be run on the same device, instead of offloading it to another machine.
 
 In addition to the problems with the CPU utilization, a real world implementation should make use of better components to allow for better precision.
+
+\subsection{Summary}
+The primary problems that were experienced during the project period were attributed to the LEGO NXT platform and the nxtOSEK operating system.
+Likewise, the initial thoughts for the machine intelligence were deemed infeasible due to the processing power required to perform object recognition and classification. 
+In conclusion, the project should be possible to apply to a real world situation given the right hardware.
