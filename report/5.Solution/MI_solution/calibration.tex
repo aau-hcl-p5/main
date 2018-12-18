@@ -9,11 +9,11 @@ A simplified version of the function can be seen in \autoref{lst:GetRequiredPowe
 int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 	int8_t power = MIN_POWER;
 	T_REVOLUTION first_revolution = get_current_revolution();
-	
+
 	do {
 		set_motor_speed(axis, power * (direction == POSITIVE ? 1 : -1));
 		power++;
-		
+
 		// wait 30ms but make sure we don't move in that timeframe
 		for(int i = 0; i < 30; i++)
 		{
@@ -21,11 +21,11 @@ int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 			if (!should_stop_moving(first_revolution, power))
 				break;
 		}
-	
+
 	} while(should_stop_moving(first_revolution, power));
-	
+
 	set_motor_speed(axis, 0);
-	
+
 	return power;
 }
 
@@ -55,7 +55,7 @@ These values are obtained by trying out a lot of different values, in order to d
 
 \figur{1}{images/calib_data_nn.png}{Sample fitting of the data}{fig:calib_data}
 
-Now this model has to be exported to the NXT. 
+Now this model has to be exported to the NXT.
 In order to do so, some C code is generated based on the weights and biases from the model.
 The C code contains all the weights and biases along with the activation function and a function to calculate the output given input.
 
@@ -108,5 +108,3 @@ T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input) {
 \end{lstlisting}
 
 The calculate model function will utilize the calculations explained in section~\todo{Add ref to calculating in neural network} to calculate the values.
-
-
