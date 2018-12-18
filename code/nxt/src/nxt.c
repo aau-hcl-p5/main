@@ -32,8 +32,17 @@ bool calibrated = false;
  *   Initializes motors with their direction
  */
 void ecrobot_device_initialize(void) {
-    init_motor(NXT_PORT_A, AXIS_Y, 20);
-    init_motor(NXT_PORT_B, AXIS_X, 20);
+    x_motor = NXT_PORT_A;
+    x_motor_speed = 0;
+    y_motor = NXT_PORT_B;
+    y_motor_speed = 0;
+
+
+    ecrobot_set_motor_speed(x_motor, 0);
+    nxt_motor_set_count(x_motor, 0);
+    ecrobot_set_motor_speed(y_motor, 0);
+    nxt_motor_set_count(y_motor, 0);
+
     init_laser(NXT_PORT_C, NXT_PORT_C);
     ecrobot_init_usb(); /* init USB */
 }
@@ -154,9 +163,9 @@ TASK(receive_data) {
         if (current_status == TARGET_FOUND || current_status == ON_TARGET) {
             SetEvent(move_motors, MoveMotorsOnEvent);
         }
-    }
-    if (updated && current_status == DISCONNECTED_REQ) {
-        stop();
+        if (current_status == DISCONNECTED_REQ) {
+            stop();
+        }
     }
     TerminateTask();
 }

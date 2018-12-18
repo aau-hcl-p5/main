@@ -52,6 +52,7 @@ void set_motor_speed(T_AXIS_TYPE axis, int8_t speed) {
  *   axis: Specifies if the motor handles horizontal (x) or
  *         vertical (y) movement.
  *   speed: The speed of the motor. Value between 0 and 100.
+ *   DEPRECATED
  */
 bool init_motor(uint8_t motor_id, T_AXIS_TYPE axis, uint16_t speed) {
     if (axis == AXIS_X) {
@@ -76,8 +77,10 @@ bool init_motor(uint8_t motor_id, T_AXIS_TYPE axis, uint16_t speed) {
  */
 
 void stop_motors() {
-    nxt_motor_set_speed(x_motor, 0, 1);
-    nxt_motor_set_speed(y_motor, 0, 1);
+// the ecrobot function has brake set to true by default, as described by the
+// documentation http://lejos-osek.sourceforge.net/ecrobot_c_api.htm
+    ecrobot_set_motor_speed(x_motor, 0);
+    ecrobot_set_motor_speed(y_motor, 0);
 }
 
 /*
@@ -112,12 +115,8 @@ int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
 
     int8_t lower_bound = get_minimum_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
     int8_t range = axis == AXIS_X ? POWER_RANGE_X : POWER_RANGE_Y;
-    // minus magic number as the lowerbound on the y axis is a bit high
-    //lower_bound = lower_bound - (lower_bound/5);
 
-    //return lower_bound;
     return (range * distance / MAX_INPUT_VALUE) + lower_bound;
-    //return (distance / 5) + lower_bound - (lower_bound / 5);
 }
 
 /*

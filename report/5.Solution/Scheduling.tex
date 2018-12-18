@@ -104,40 +104,33 @@ After having added machine learning to the \texttt{Move\_Motors} task the execut
 \begin{table}[H]
 \begin{tabular}{lll}
 \textbf{Task name}  & \textbf{Execution time} 	& \textbf{Priority}\\
-Keep\_USB\_Alive    & 16                        & 4   \\
-Receive\_Data       & 13                        & 3   \\
-Move\_Motors        & 12116                     & 2   \\
-Handle\_Lasers      & 6                         & 4   \\
-Update\_Display     & 267                       & 1   \\
-Background\_Task    & 0                         & 0   
+Keep\_USB\_Alive    & 16                        & 5   \\
+Receive\_Data       & 13                        & 4   \\
+Move\_Motors        & 12116                     & 3   \\
+Handle\_Lasers      & 6                         & 5   \\
+Update\_Display     & 267                       & 2   \\
+Background\_Task    & 0                         & 1   
 \end{tabular}
 \end{table}\label{table:executionTimes}
 
-As the cyclic executive approach allowed running the calibration before entering the first major cycle, this was easily implemented.
+The cyclic executive approach allowed running the calibration before entering the first major cycle, this was easily implemented.
 However, this does not work with the fixed-priority scheduling model, as the tasks are repeatedly run according to their tasks.
-To fix this, the \texttt{Background\_Task} was introduced, which has a high enough priority to preempt the other tasks on the system to allow calibration to run, while still keeping the USB connection alive.
+To fix this, the \texttt{Background\_Task} was introduced, which handles the calibration.
+This task, as seen in \autoref{lst:backgroundTask}, checks whether calibration has already run, and whether the system is ready for calibration.
+The low priority makes sure that usb is still kept alive, and as other events in theory should overrule calibration.
 
 \begin{lstlisting}[language=CSharp,label={lst:backgroundTask},caption={Background task}]
 TASK(background_task) {
-  if(!calibrated) {
-    show_init_screen();
-    while(!get_status_code(&current_status, 0));
-
-    if (current_status == READY_FOR_CALIBRATION) {
-      calibrate(false);
-    }
-    calibrated = true;
-  }
-  if (current_status == DISCONNECTED_REQ) {
-    stop();
-  }
-  TerminateTask();
+	if (!calibrated && current_status == READY_FOR_CALIBRATION) {
+		calibrate(false);
+		calibrated = true;
+	}
+	TerminateTask();
 }
 \end{lstlisting}
 
-As seen in \autoref{lst:backgroundTask}, the task checks if the boolean value, calibrated, is true.
-Calibrated indicates if calibration is completed.
-If this is not the case, the background task ensures that the status of the motors and USB are set as disconnected using the \texttt{stop} function.
+As seen in \autoref{lst:backgroundTask}, the task checks if the boolean value, \texttt{calibrated}, is false and if the current status, which is sent by the Object Localization device, is set to \texttt{READY\_FOR\_CALIBRATION}.
+If this is the case calibration will start, and when this has finished the \texttt{calibrated} flag will be set to true.
 
 In the cyclic executive model, it was ensured that the \texttt{keep\_USB\_alive} task was executed once every millisecond by running it at the beginning of each cycle, as the cycles had a length of 1 millisecond.
 With the FPS model, this is instead done by assigning the \texttt{keep\_USB\_alive} task with the highest possible priority.
@@ -145,7 +138,6 @@ This ensures that it will run ahead of all other tasks, using preemption if need
 To further ensure that it is run exactly once every 1 millisecond, an alarm is specified in the OIL file, as seen in \autoref{lst:OILAlarm}.
 
 \begin{lstlisting}[language=CSharp,label={lst:OILAlarm},caption={Alarm in the OIL}]
-/* Definition of keep_USB_alive execution timing */
 ALARM cyclic_keep_USB_alive
 {
   COUNTER = SysTimerCnt;
@@ -165,4 +157,25 @@ ALARM cyclic_keep_USB_alive
 The \texttt{counter} attribute specifies that the system clock is used to time when the alarm should be run, and which action it should take upon activation.
 In the autostart block, it is defined that the cycle time is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which happens once every 1 millisecond, thus ensuring that the task will run every millisecond.
 
-The remaining tasks are simply set to automatically start, and will be allowed to run based on their priority with no pre-defined release time.
+The remaining tasks are also running on a ALARM, with the exception of move, and will be allowed to run based on their priority with no pre-defined release time.
+
+Move is run using an event, which is fired in the \texttt{Receive\_Data} task.
+This is done to make sure that the turret is only rotating when required, and make sure that movement is not happening based on outdated information.
+\autoref{lst:receivedata} illustrates this practice, where the \texttt{get\_status\_code} function updates the current status of the system as reported by the USB-connected device.
+If a new status is received the function returns a boolean value, as covered in \autoref{sec:nxtusbimp}.
+
+\begin{lstlisting}[language=CSharp,label={lst:receivedata},caption={The function handling fetching data}]
+TASK(receive_data) {
+	int updated = get_status_code(&current_status, &last_target_location);
+	if (updated) {
+		if (current_status == TARGET_FOUND || current_status == ON_TARGET) {
+			SetEvent(move_motors, MoveMotorsOnEvent);
+		}
+		if (current_status == DISCONNECTED_REQ) {
+			stop();
+		}
+	}
+	TerminateTask();
+}
+\end{lstlisting}
+
