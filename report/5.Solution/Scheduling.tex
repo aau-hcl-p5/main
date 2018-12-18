@@ -76,7 +76,7 @@ TASK MainTask {
 };
 \end{lstlisting}
 
-The reasoning behind simply having as major cycle with no minor cycles is the execution time of the individual methods, which can be seen on \autoref{table:executionTimes}.
+The reasoning behind having a major cycle with no minor cycles is that the execution time of the individual methods, which can be seen on \autoref{table:executionTimes1}.
 
 \begin{table}[H]
 \begin{tabular}{lll}
@@ -88,7 +88,7 @@ Handle\_Lasers      & 6        & 1000                    \\
 Update\_Display     & 267      & 15000                   \\
 Background\_Task	 & 0	    & 15000					   \\
 \end{tabular}
-\end{table}\label{table:executionTimes}
+ \end{table}\label{table:executionTimes1}
 
 Since the execution time of all the tasks totals to a mere 535 microseconds, it was deemed non-essential to include minor cycles, as the tasks all depend on receiving new data from the USB, and this will not occur more than once every millisecond due to hardware limitations.
 Likewise, there is a software limitation when using nxtOSEK, since the interrupt service routine is only run once every millisecond.
@@ -157,10 +157,10 @@ ALARM cyclic_keep_USB_alive
 The \texttt{counter} attribute specifies that the system clock is used to time when the alarm should be run, and which action it should take upon activation.
 In the autostart block, it is defined that the cycle time is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which happens once every 1 millisecond, thus ensuring that the task will run every millisecond.
 
-The remaining tasks are also running on a ALARM, with the exception of move, and will be allowed to run based on their priority with no pre-defined release time.
+The remaining tasks are also running on an ALARM, with the exception of move, and will be allowed to run based on their priority with no pre-defined release time.
 
 Move is run using an event, which is fired in the \texttt{Receive\_Data} task.
-This is done to make sure that the turret is only rotating when required, and make sure that movement is not happening based on outdated information.
+This is done to make sure that the turret only rotates when required, and make sure that movement is not happening based on outdated information.
 \autoref{lst:receivedata} illustrates this practice, where the \texttt{get\_status\_code} function updates the current status of the system as reported by the USB-connected device.
 If a new status is received the function returns a boolean value, as covered in \autoref{sec:nxtusbimp}.
 

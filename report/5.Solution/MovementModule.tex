@@ -7,10 +7,11 @@ In this section, the movement module will be elaborated upon and some of the pri
 To utilize the hardware components, they have to be initialized with the speed set to zero, and the initial rotation is set to zero, which results in the starting point being the global zero of the device.
 
 Whenever a target is acquired, the \texttt{move} function is called.
-\autoref{lst:MoveMotors} shows this function, which first fetches the required motor power and stores this in a global variable.
+ \autoref{lst:MoveMotors} shows the function, which fetches the required motor power and stores this in a global variable.
 A native function is called, which makes the motor rotate with the specified power.
 The usage of a global variable, is for usage in the screen module.
-Movement, is always relative to current location, as the absolute location of the target is not known, rather the information is based on the center of the camera, and with it the laser.
+Movement is always relative to current location, as the absolute location of the target is unknown
+Rather the information is based on the center of the camera, and with it the laser.
 
 \begin{lstlisting}[language=CSharp,caption={move method from movement.c},label={lst:MoveMotors}]
 void move(T_VECTOR target) {
@@ -46,4 +47,4 @@ Alternatively, the function will find the minimum power required to move in the 
 The speed is then timed by $1$ or $-1$ to make sure that the lower bound has the same direction as the distance.
 
 The distance is then mapped into a range, which is a different range based on the axis, in the way described in \autoref{sec:mappingcompvis}.
-When the turrets aim is either on target or a target cannot be seen, the speed is set to $0$.
+When the turret is either on target or a target cannot found, the speed is set to $0$.
