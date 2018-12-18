@@ -1,13 +1,11 @@
 \section{System Architecture}
 \label{sec:architecture}
 Before the implementation and building phases can begin, it is essential to give some thought towards the design of the system, both software and hardware wise.
-In order to do so, a component architecture diagram was constructed, which can be seen on \autoref{fig:comparch}.
-
 \figur{1}{images/ComponentDiagram}{Component diagram for the system architecture}{fig:comparch}
-\todo{opdater system architecture billede}
+\autoref{fig:comparch} shows the component diagram for the system.
+The system will consist of two platforms: the LEGO NXT for handling the real time processing, and a Raspberry Pi for handling the machine intelligence.
+Each platform is split into two groups: a hardware group containing the hardware which is connected to it and a software group containing a series of classes that must be implemented for the \texttt{F.L.A.T} to function.
 
-As seen on the diagram, the system will consist of two platforms: the LEGO NXT for handling the real time processing, and a Raspberry Pi for handling the machine intelligence.
-Each platform is split into two groups: a hardware group containing the hardware which is connected to it and a software group containing a series of classes that must be implemented for the \texttt{F.L.A.T.} to function.
 Both the hardware and software requirements are defined with a high level of abstraction, since the diagram should be accurate regardless of implementation details or choice of hardware.
 
 \subsection*{Dependencies}
@@ -28,6 +26,7 @@ As the projectile firing model requires additional calculations, the device will
 With the architecture in place, it is now possible to focus on the details of what is required for implementing each part of the architecture.
 In the following part, the details regarding the target information structure will be eluded upon.
 
+\todo{Syntes stadig det her er sjovt placeret}
 \subsection{Target information}
 A target information structure has been defined internally to store relevant target information.
 This data is calculated on the Raspberry Pi host and the structure is then transferred onto the NXT, using the NXT's USB port.

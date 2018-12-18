@@ -5,7 +5,7 @@ The main task is responsible for the scheduling of the system.
 
 This task consists of two loops that correspond to the two states that the system can operate in: calibrating and normal execution.
 As can be seen on \autoref{lst:MainTask} lines 3 to 12 the calibration state has to be completed before the system can start the normal execution.
-On lines 13 to 25 the actual scheduling of the running all the methods need can be seen, these method will be called once per major cycle hence being true to the deadline.
+On lines 13 to 25 the actual scheduling of all the needed methods can be seen, these method will be called once per major cycle hence being true to the deadline.
 
 \begin{lstlisting}[language=CSharp,label={lst:MainTask},caption={MainTaks method from logic.c}]
 TASK(MainTask)
@@ -40,7 +40,7 @@ TASK(MainTask)
 \end{lstlisting}
 
 In order to time the major cycle, the \textit{user\_1ms\_isr\_type2} method, that can be seen on \autoref{lst:user1msisrtype2}, is used to raise the event of the major cycle.
-The method activated by an system interrupt ensuring that the method will be called once every millisecond.
+The method is activated by a system interrupt, ensuring that the method will be called once every millisecond.
 \begin{lstlisting}[language=CSharp,label={lst:user1msisrtype2},caption={user\_1ms\_isr\_type2 method from nxt.c}]
 void user_1ms_isr_type2(void)
 {
@@ -163,6 +163,6 @@ ALARM cyclic_keep_USB_alive
 \end{lstlisting}
 
 The \texttt{counter} attribute specifies that the system clock is used to time when the alarm should be run, and which action it should take upon activation.
-In the autostart block of the definition, it is defined that the cycle time is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which takes place once every 1 millisecond, thus ensuring that the task will run every millisecond.
+In the autostart block, it is defined that the cycle time is 1, meaning that the task will run once every 1 update of the SysTimerCnt, which happens once every 1 millisecond, thus ensuring that the task will run every millisecond.
 
 The remaining tasks are simply set to automatically start, and will be allowed to run based on their priority with no pre-defined release time.

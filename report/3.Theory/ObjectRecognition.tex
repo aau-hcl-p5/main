@@ -20,7 +20,8 @@ The idea is based on the neurons in the human brain, where the sum of the neuron
 The primary difference is whether it is a biological brain or an artificial one. 
 In computer science, a neuron can be seen as a function that processes some input and then emits the resulting value to connected neurons.
 
-Neural networks are a powerful, but complex, method of doing machine learning and simpler solutions should also be considered when exploring which method is best suited for solving the task.
+Neural networks are a powerful, but complex, method of doing machine learning.
+% and simpler solutions should also be considered when exploring which method is best suited for solving the task.
 One of the reasons neural networks are especially interesting in this case, lies in their ability to recognize patterns.
 %Vær opmærksom på at vi måske ændrer det her til at være mere generelt MI
 Pattern recognition is a fundamental part of object recognition, making neural networks an obvious option.
@@ -31,7 +32,7 @@ It is the task of the hidden layers to transform the input from the input layer 
 In a normal, fully connected neural network all neurons in a layer are connected to all neurons in the previous layer.
 All connections in a neural network have a weight associated with it, which acts as a simple multiplier for the output from the previous neuron. 
 Apart from the weights, all neurons, except for input neurons, are assigned a bias, which is added to the sum of all inputs to the neuron. 
-The bias is sometimes thought of as a threshold, which indicates if the neuron should fire or not.
+The bias is sometimes thought of as a threshold, indicating if the neuron should fire or not.
 
 A simple example of a neural network can be seen in \autoref{fig:nnimage}.
 
@@ -50,7 +51,7 @@ This is also known as an identity function and can be used when learning simple 
 A perceptron is a neuron that has an activation function that returns a binary signal, either zero or one, depending on the input value. 
 Usually any positive value will be a one, and all negative values will be a zero.
 
-\paragraph{Logistic Sigmoid}
+\paragraph{Logistic sigmoid}
 The sigmoid function is a commonly used activation function in neural networks.
 It is defined as:
 
@@ -75,7 +76,7 @@ A visual representation can be seen in \autoref{fig:sigmoid}.
 
 
 \paragraph{RELU}
-Rectified linear unit is a modern, yet simple, activation function, that has proven to be very powerful in deep learning networks. 
+Rectified linear unit is a modern activation function, that has proven to be very powerful in deep learning networks. 
 
 It is defined as:
 
@@ -134,8 +135,7 @@ $$
 This makes it easier to reason about the calculations of the network as a whole.
 
 \subsubsection{Training a neural network}\label{training-a-neural-network}
-When doing machine learning with a neural network, all the weights and biases are usually initialized with random values.
-Obviously, this will result in the initial run throughs returning bad results.
+When doing machine learning with a neural network, all the weights and biases are usually initialized with random values, which will result in the initial iterations returning bad results.
 
 This is solved by letting the neural network train itself, in order to learn it how to complete the desired task.
 
@@ -173,7 +173,7 @@ Although this may not render the best results, the results gained by using gradi
 \subsection{Convolutional Neural Network}
 \label{sec:cnn}
 Convolutional Neural Networks (CNN) are often used for image classification, and is a popular type of neural network in regards to object detection and image processing.
-In challenges such as Imagenet Large Scale Visual Recognition Challenge (LSVCR), the majority of the entries are done using CNN \cite{ILSVRC_Results}. 
+In challenges such as the Imagenet Large Scale Visual Recognition Challenge (LSVCR), the majority of the entries are done using CNN \cite{ILSVRC_Results}. 
 
 The special thing about a CNN is the addition of convolutional layers.
 The convolutional layers will add convolutional filters, that has the main purpose of acting as a kind of feature detector.
@@ -189,7 +189,7 @@ The next layers in the neural network can then use these feature outputs in orde
 
 An example of object recognition could be facial recognition.
 The first layer might recognize lines, edges or similar low level features.
-The following layers then, for example, detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron to transmit if a mouth is present.
+The following layers might detect increasingly complicated facial features, ending at some layer, in which one neuron would transmit a signal if a nose is present in the image, and another neuron transmits if a mouth is present.
 
 \figur{0.6}{images/cnn_face}{A simplified example of the abstractions within a CNN\cite{CNNStructure}.}{fig:face_cnn}
 
@@ -237,11 +237,15 @@ The process is visualized in \autoref{fig:yolo}.
 \subsection{GOTURN}
 % https://www.learnopencv.com/goturn-deep-learning-based-object-tracking/
 Generic Object Tracking Using Regression Networks (GOTURN), is an algorithm based on deep learning\cite{goturn}.
-%GOTURN is different than the majority of algorithms presented in this section, in that it uses offline learning, which means training the model before execution time, whereas online learning constantly improves the model during run-time.
+
 GOTURN learns about motion tracking and object identification patterns, by utilizing a large set of videos of different objects moving.
 The model is then shipped with the algorithm implementation, and therefore there is no need for online learning, making it more efficient.
+
+
 The benefit of this, is that it runs faster, as it does not have to ever modify the model or analyze whether the given result is relevant.
 However, this comes at a cost. 
+
+
 The algorithm has a tendency to favor objects within the training set, even if they remain stationary.
 For instance, if tracking a bird flying past stationary planes, it might lock onto the planes rather than the bird, even though the planes are not moving, if the planes were in the training set.
 This is due to the unpredictability of what the algorithm see as a correlation between video and a correct answer.
@@ -255,11 +259,11 @@ The premise is that the location of the object is known in the previous frame, a
 Based on the bounding box of the previous frame, the current frame is cropped to two times the size of the previous bounding box.
 A CNN is then trained to predict the bounding box in the second frame.
 
-Some possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as the \texttt{F.L.A.T.} will have idle time.
+Possible problems with this algorithm is that the location of the target is unknown initially, as the target will not necessarily be in the picture at startup time, and will eventually leave the image feed again, as the \texttt{F.L.A.T} will have idle time.
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
-
+\todo{overvej om denne faktisk skal med}
 \subsection{Tensorflow}
 Tensorflow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
 The framework was initially developed for Python, but has recently implemented support for other languages.
@@ -290,7 +294,7 @@ Tensor("Const_1:0", shape=(), dtype=float32)
 Tensor("add:0", shape=(), dtype=float32)
 \end{lstlisting}
 This is because the $ a + b $ outputs another tensor, which can be evaluated outputting the result 7.
-This is is because $a$ or $b$ might not be a constant, but a placeholder, which would be supplied at run-time, so building these tensors creates a model that can then be supplied data and then evaulated.
+This is is because $a$ or $b$ might not be a constant, but a placeholder, which would be supplied at run-time, so building these tensors creates a model that can then be supplied data and then evaluated.
 
 Tensors can also be tuples of different shapes, and when applying levels of abstraction, which is what Keras does, it is possible to use it for image recognition and other more complex problems.
 
@@ -384,20 +388,4 @@ As can be seen from both examples, it is very easy to do complex image manipulat
 These two examples are just a small sample of the capabilities of OpenCV, and even without the machine learning aspect, OpenCV also provides excellent webcam interfacing, and image manipulation utilities.
 Thus, OpenCV is an excellent solution, that could potentially be used to solve the object detection aspect of this project.
 
-%Its ability to interact with other frameworks along with all of its ready to use tools makes it very relevant when dealing with various computer vision tasks.
-
-
-% Things to check / consider writing about
-% https://en.wikipedia.org/wiki/Computer_vision#Recognition
-% https://en.wikipedia.org/wiki/Video_tracking
-% Kernel-based tracking
-% Contour tracking
-% https://en.wikipedia.org/wiki/Kalman_filter
-% Particle filter
-% https://en.wikipedia.org/wiki/Outline_of_object_recognition
-% real-time: triangulate each frame and measure the persistence of selected triangles relative to their location in each successive frame. 
-% Microprocessors such as the raspberry pi are fast enough so that triangulation and triangle measurement can be done in a few milliseconds.
-% ^^ Few milliseconds (Sounds like maybe around 5ms, would allow for updating robot position 20 times a second (capture 20 fps from the camera too). 
-% Which could be a goal to aim at (RTS: scheduling bla bla, update canon position 20 times pr second...))
-% Would be cool in RTS part to integrate some functionality to handle if camera data is not ready within the 5 ms, or if the device is not ready to handle input after 5 ms. 
-% The MI part could be coded to update each 5 ms.
+\todo{Skriv om scikit}
