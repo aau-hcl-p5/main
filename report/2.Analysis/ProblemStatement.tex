@@ -23,9 +23,8 @@ A solution here would be to record and analyze the video data, resulting in a di
 
 The obvious application of machine learning is object localization, with target trajectory prediction being a potential secondary possibility.
 
-\todo{Below line}
-The object would the recognized, and its location would be found.
-The location would then be sent to the NXT, which would move the motors to the found location, and fire when at the location.
+The object would then be recognized, and its location would be found.
+Followed by the location being sent to the NXT, which would move the motors to the found location, and fire if on target.
 
 
 All these steps should happen in a timely manner, which creates interesting problems in regards to real-time systems.
@@ -56,36 +55,34 @@ MoSCoW is a model that specifies which requirements \textbf{M}ust, \textbf{S}hou
 Throughout this analysis, the term \textit{target} will refer to respectively; a small inanimate target, eg{.} a ball with a diameter of approximately 10 centimeters, or a large inanimate target, eg{.} an inflated balloon.
 The requirements of the system are based upon the results of the points examined in the problem analysis.
 
-\todo{capital in list below}
-
 \textbf{Must have}
 \begin{itemize}
-	\item ability to recognize and track a moving target in front of the device.
-	\item move fast enough to keep the laser on a moving target in real time.
-	\item ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
-	\item enough structural stability to move without breaking.
+	\item Ability to recognize and track a moving target in front of the device.
+	\item Move fast enough to keep the laser on a moving target in real time.
+	\item Ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
+	\item Enough structural stability to move without breaking.
 \end{itemize}
 
 \textbf{Should have}
 \begin{itemize}
-	\item ability to hit a small airborne target, moving at a low speed at a distance of 1 to 3 meters.
-	\item ability to easily follow any target in its range.
+	\item Ability to hit a small airborne target, moving at a low speed at a distance of 1 to 3 meters.
+	\item Ability to easily follow any target in its range.
 	
 \end{itemize}
 
 \textbf{Could have}
 \begin{itemize}
-	\item ability to determine the distance to the target.
-	\item calculate the angle and power necessary to hit the target with a projectile.
-	\item ability to predict the next location of a target moving along a non-linear path, eg{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
-	\item ability to predict the next location of a target moving solely along the horizontal axis with a constant speed.
-	\item ability to distinguish between different objects, such as birds, humans and planes.
+	\item Ability to determine the distance to the target.
+	\item Calculate the angle and power necessary to hit the target with a projectile.
+	\item Ability to predict the next location of a target moving along a non-linear path, eg{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
+	\item Ability to predict the next location of a target moving solely along the horizontal axis with a constant speed.
+	\item Ability to distinguish between different objects, such as birds, humans and planes.
 \end{itemize}
 
 \textbf{Won't have}
 \begin{itemize}
-	\item ability to actually take down targets.
-	\item ability to differentiate between the type of object that is being observed.
+	\item Ability to actually take down targets.
+	\item Ability to differentiate between the type of object that is being observed.
 \end{itemize}
 
 By fulfilling the requirements specified in the \textit{must have} section, the device will be able to track a target with a rather predictable movement pattern and use the attached laser to indicate the tracking.

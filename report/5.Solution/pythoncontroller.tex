@@ -28,21 +28,19 @@ The entry point for the python program is \texttt{main.py}.
 The arguments for \texttt{main.py}  are shown in \autoref{lst:MainHelp}.
 \begin{lstlisting}[label={lst:MainHelp},caption={The help message of the commandline interface}]
 $ python3 main.py --help
-usage: main.py [-h] [-a [name]] [-d]
+usage: main.py [-h] [-a [name]] [-n [no_usb]]
 
 Run the object detection part of the F.L.A.T system
 
 optional arguments:
--h, --help
-	show this help message and exit
+-h, --help            show this help message and exit
 -a [name], --algorithm [name]
-	Choose which algorithm to run [GOTURN, YOLO, ZONE_AVG, OBJ_FILL]
-	default='obj_fill'
+Choose which algorithm to run [ZONE_AVG, OBJ_FILL,
+THRESH_MOMENT]. default='thresh_moment'
 -n [no_usb], --no-usb [no_usb]
-	Whether to disable USB connection with the NXT.
-	default=False
+Whether to disable USB connection with the NXT.
+default=False
 \end{lstlisting}
-\todo{make sure these are still up to date when finishing the project}
 
 The main objective of \texttt{main.py} is to determine which arguments to pass onto the \texttt{FlatController}.
 
@@ -65,7 +63,7 @@ The order of the parameters are not an indication of their relevance, but is rat
 The method takes a function, \texttt{algorithm} with an array as input and a vector as output.
 The function is a specification of the specific algorithm to use for image recognition.
 The array is the array of pixels in a given frame, while the vector is the center of the found object in the image.
-\todo{ovenstående er dårligt formuleret; help python ppl pls}
+
 The \texttt{output\_device} parameter, specifies how to output the location data.
 This can be direct transmission of data to the NXT or it can use a video feed, which is used for debugging and getting the video output of the what the \texttt{F.L.A.T}'s camera.
 
@@ -75,7 +73,7 @@ The video file option was primarily used for testing.
 
 The \texttt{calibration\_algorithm} is relevant when connected to an NXT and calibration is needed.
 The calibration algorithm will send a request to the NXT, asking it to begin calibrating, after which the \texttt{calibration\_algorithm} will wait for the arrival of the calibration data from the NXT.
-\todo{What is meant with implementation}
+
 The \texttt{calibration\_algorithm} handles this information depending on implementation, the default implementation is simply storing this data for later usage.
 
 Finally, the \texttt{debug} parameter specifies whether the program is in debug mode.

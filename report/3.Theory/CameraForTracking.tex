@@ -10,8 +10,6 @@ This means that the camera is able to transform a world consisting of three dime
 
 \autoref{fig:perspective} shows the two objects that are captured in the view frustum and how they are represented in the viewport in a two-dimensional format.
 For this project, using this format is advantageous since the primary focus is to hit a moving object with a laser.
-\todo{Føler det er irrelevant}
-\todo{The concrete implementation, tailored to this solution, will be explored and elaborated on in the solution chapter.}
 
 \subsection{Hitting a target with a laser}
 The primary benefit of using a laser, is that its trajectory is practically linear, and the target is hit instantly.
@@ -25,9 +23,6 @@ Frame d shows the next predicted location.
 The predicted location is calculated based on the difference in time between frame a and frame b, and the distance the red ball has moved between the two frames.
 
 This assumes that the red ball moves at a constant speed, which will seldom be the case, as the object is likely to be accelerating or decelerating.
-
-\todo{føler næste er ligegyldig}
-%Since this variable will likely be based upon experience, a solution to estimate the next position of the ball is to use a neural network for object recognition.
 
 As the first version of the system will use a laser as its shooting mechanism, the only information needed to hit the object is the relative distance between two frames in the image stream provided by the camera. 
 When knowing the relative distance between frames, it should simply be a matter of moving the robot according to the relative distance.
