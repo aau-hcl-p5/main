@@ -74,11 +74,14 @@ For the second case with rolling a ball, \texttt{F.L.A.T} was roughly able to ke
 However, the final two cases with a throwing a ball and shooting a balloon were not accomplished, as the device was not fast enough to process the speed of the object, and does not have the capabilities to shoot a balloon.
 
 \subsection{Machine intelligence}
-% MI discussion
-%% MI guys go here
-%% Training to detect birds / drones rather than a red color would require MI and more powerful hardware 
-%% online learning for movement
-%calibration was made due to heavy weight of head, which proved irrelevant later on - but will be relevant again if a projectile is added, as that will add weight.
+Several observations were made during the development of the MI aspect of the solution.
+Initially, the idea for the project was to recognize objects in real-time using machine learning, however as described in \autoref{des:sec:performance}, the object recognition algorithms available, were not performant enough given the hardware limitations.
+Instead, the variable motor power problem, described in \autoref{subsec:variable_motor_power}, turned out to be an excellent way to utilize MI for the solution.
+The calibration module was implemented using a neural network, which ran on the NXT.
+This proved to be an excellent solution to the variable motor power problem, and a great way to use MI in the solution.
+
+An important lesson learned from this project, was that the usage of MI required thought about the domain in which the MI is applied to.
+
 
 \subsection{Real-time requirements}
 For the real-time part of the system, several observations were made during the development of the project.
