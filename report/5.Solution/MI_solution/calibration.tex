@@ -1,10 +1,9 @@
 \section{Calibration}\label{sec:calibration}
-As explained in \autoref{des:sec:variablemotorpower}, movement required different amount of power depending on the current position on each axis, and the direction of movement.
+As explained in \autoref{des:sec:variablemotorpower} varying power was required depending on the current revolution of each motor, and the direction of movement.
 
-
-To solve this problem, data was gathered regarding the minimum amount of power.
-This data was then processed in a neural network, finding a relation between power and angle in each direction.
-This neural network was then compiled on the NXT, and used as a base-value for power.
+To solve this problem, data was gathered for the minimum amount of power required to change the revolution.
+This data was then processed in a neural network, finding a relation between power and revolution in each direction.
+The neural network was then exported to C code and compiled on the NXT, and used as a base-value for motor power.
 
 To collect the data regarding the required power, a function was created on the NXT.
 This function slowly increases power while checking for a change in the current revolution. 
@@ -40,24 +39,22 @@ int8_t get_power_to_move(T_AXIS_TYPE axis, T_DIRECTION direction) {
 The \texttt{should\_stop\_moving} function will determine whether the motor has moved, or if the power exceeds the maximum allowed power, meaning it is unable to move further.
 The data is sent back to a host machine over the established USB connection.
 
-The function was run multiple times, and whenever rebuilding parts of the machine, the calibration function was run again.
+The function was run multiple times, and whenever the device was modified, the calibration function was run again.
 
-On of these data-sets, where the calibration process was run 5 times, can be seen in \autoref{fig:calibdata}.
+One of these data-sets, where the calibration process was run 5 times, can be seen in \autoref{fig:calibdata}.
 This data-set is based on the y-axis, in an upwards direction.
 
 
 \figur{1}{images/calib_data.png}{Required power for revolution on motor}{fig:calibdata}
 
-There is a clear tendency in the data, even though it has some noise, which is presumably due to the quality of the motors.
-The tendency seems reasonable regarding the upwards motion, where it initially requires low effort, but the requirement increases as it is reaching the top.
+There is a clear tendency in the data, even though it has some noise, which is presumably due to motor insecurities.
+The tendency seems reasonable regarding the upwards motion, where it initially requires low effort, but the requirement increases as it is reaching horizontal level.
 
 Using this data, a neural network was trained to find the tendency of the data.
 The training was done with the Python module, scikit-learn\cite{scikit-learn}, which exposes a regressor called \texttt{MPLRegressor}, which was utilized as shown in \autoref{lst:mlpregressor}.
 A custom modified version of the module was created, to be able to use a custom activation function.
-This was done because of issues with the NXT-OSEK system, regarding the usage of the \texttt{math.h} library in C, which was bugged for some unknown reason.
-Researching the bug did not give us any answers, and this seemed to be a known bug based on dialogue with other study groups.
-Because of these issues, it was a requirement that custom implementations of math functions could be used, and a custom implementation of the \texttt{exp} function, was an unnecessary difficult task, so an approximation function was used instead.
-\todo{Do we cover math.h issue anywhere else we prolly should}
+This was done because of issues with the nxtOSEK system, regarding the usage of the \texttt{math.h} library in C, which was not usable for among others the \texttt{exp} function.
+Because of this an approximation of the sigmoid function was implemented.
 
 \autoref{lst:mlpregressor} shows how to train a multi layered neural network for regression.
 
@@ -73,16 +70,17 @@ model.fit(inp, expect)
 
 \end{lstlisting}
 
-The \texttt{MLPRegressor} has a lot of parameters that can be modified in order to tweak the neural network for your use case.
-A custom amount of hidden layers was required as a the default argument is 100 neurons in one layer, which was not necessary for the rather simple data.
+The \texttt{MLPRegressor} has a lot of parameters that can be modified in order to tweak the neural network for the required use case.
+A custom amount of hidden layers was required as the default argument value was 100 neurons in one layer, which was not necessary for the rather simple data.
 30 neurons in one layer was decided upon after testing different sizes.
 A larger hidden layer did not improve the quality, however smaller networks seemed to decrease precision.
 
-The system also utilized the custom implementation of the sigmoid function, and increased max iterations, and lowered the tolerance to make the network run for a longer time before stopping, to make sure the best possible network was reached.
+The system also utilized the custom implementation of the sigmoid function, and increased max iterations, and lowered the tolerance to make the network run for a longer time before stopping.
+This makes sure the network is presumably good enough to be used in the system.
 
 One of the networks created with 30 neurons is shown in \autoref{fig:calibdatann}, where the line is the result of the neural network.
 The data is normalized to better work with the SGD function, using a preprocessor exposed by the scikit-learn module.
-Optimally a \textit{Gaussian distribution}, with zero mean and unit variance, would have been used, but due to the problems with \texttt{math{.}h}, this was not feasible.
+Optimally a \textit{Gaussian distribution}, with zero mean and unit variance, would have been used, but due to the problems with \texttt{math.h}, this was not feasible.
 
 \figur{1}{images/calib_data_nn.png}{Sample fitting of the data}{fig:calibdatann}
 
@@ -93,7 +91,7 @@ The two separate neural networks, produced at another calibration test, can be s
 
 \figur{1}{images/calib_data_nn_both.png}{Both neural networks of the $Y$ axis}{fig:calibdatannboth}
 
-These neural networks had to be used to calculate the base value of a motion at a given angle at a given time.
+These neural networks had to be used to calculate the base value of a motion at a given revolution at a given time.
 To solve this, the weight and biases of the neural networks had to be exported to the NXT device.
 This was done by generating the C code needed to replicate the behavior.
 A simplistic version of such a file can be seen in \autoref{lst:exportedmodel}.
@@ -137,7 +135,8 @@ T_MODEL_EXECUTION_RESULT calculate_model_up(T_MODEL_INPUT input) {
 }
 
 \end{lstlisting}
-The function \texttt{calculate\_model\_up} first normalizes the input data, and then calculates the output with matrix multiplication to calculate the output value, which is denormalized again.
+The function \texttt{calculate\_model\_up} first normalizes the input data, and then calculates the output as explained in \ref{sec:calculationsNN}.
+At last the output value is denormalized in order to be used in the system.
 This function is used in the movement module, to calculate the base power.
 This is explained in detail in \autoref{sec:movement}.
 
