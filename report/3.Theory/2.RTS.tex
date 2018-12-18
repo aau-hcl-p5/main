@@ -9,7 +9,7 @@ Likewise, a deadline is specified by the requirements of the system and defines 
 Multiple methods can be used to determine whether a system is schedulable or not, but the base principle of all the methods is the same. 
 There are tree main aspects that most general purpose scheduling algorithms emphasize:
 \paragraph{Fairness} meaning that in general purpose systems it is important that all processes are granted execution time thus preventing starvation of a given process. 
-\paragraph{Efficiency} meaning that since the scheduler is invoked very often in a general purpose operation system it needs to be efficient in order avoid wasting execution time on the CPU. 
+\paragraph{Efficiency} meaning that since the scheduler is invoked often in a general purpose operation system it needs to be efficient in order avoid wasting execution time on the CPU. 
 \paragraph{Throughput} of a system, meaning the number of processes that are completed during a given time period.
 This aspect is related to efficiency since the CPU should be idle as little as possible. 
 
@@ -30,12 +30,12 @@ The minor cycle specifies the interval of which at least one given task should h
 \figur{0.6}{images/cyclicExecutive}{An example of cyclic executive\cite{CyclicExecutionKimLarsen}}{fig:cyclicExecutive}
 As seen on \autoref{fig:cyclicExecutive}, the tasks have a defined period and computation time, tasks are now placed into minor and major cycles in a way that they can all be run before their deadlines are met. 
 
-Since cyclic executives is a very simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used scheduling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
+Since cyclic executives is a simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used scheduling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
 \subsubsection{Task-based scheduling}
 Another method of scheduling, is to divide the program into tasks, and use a scheduler to determine which task should be run next.
 The most commonly used task-based scheduler is the fixed-priority scheduling method (FPS), which is based on each task having a fixed priority, where the priority is assigned before run-time and cannot be changed at run-time\cite{RealTimeEmbeddedSystems}.
-The priority of a task is not an indication of the importance of the task and is simply a priority to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
+The priority of a task is not an indication of the importance of the task and is only used to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
