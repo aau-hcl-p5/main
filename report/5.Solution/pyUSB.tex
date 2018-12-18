@@ -9,19 +9,19 @@ The implementation uses the PyUSB library, as described in \autoref{sec:usbdes}\
 
 \autoref{lst:PythonUSBInit} shows the initialization of the NxtUsb module, which handles the USB communication from Python to the NXT.
 \begin{lstlisting}[label={lst:PythonUSBInit},caption={The initialization of PyUSB{.} Comments removed}]
-    def __enter__(self):
-        self.device = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
+def __enter__(self):
+    self.device = usb.core.find(idVendor=ID_VENDOR_LEGO, idProduct=ID_PRODUCT_NXT)
 
-        if self.device is None:
-            raise DeviceNotFound('Device not found')
+    if self.device is None:
+        raise DeviceNotFound('Device not found')
 
-        self.device.set_configuration()
+    self.device.set_configuration()
 
-        self.out_endpoint, self.in_endpoint = self.device[0][(0, 0)]
-        self.out_endpoint.write(b'\x01\xFF') 
-        self.device.read(self.in_endpoint.bEndpointAddress, 8) 
-        self.initialized = True
-        return self
+    self.out_endpoint, self.in_endpoint = self.device[0][(0, 0)]
+    self.out_endpoint.write(b'\x01\xFF') 
+    self.device.read(self.in_endpoint.bEndpointAddress, 8) 
+    self.initialized = True
+    return self
 \end{lstlisting}
 
 The code itself is relatively self-explanatory, and only the most interesting parts will be elaborated upon.
