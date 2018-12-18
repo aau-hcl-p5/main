@@ -15,12 +15,12 @@ Likewise when the object begins moving the size of the tiles should expand.
 
 \figur{0.6}{images/zone_avg.png}{Zone average algorithm detecting red balloon.}{fig:zone_avg}
 
-Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in \autoref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
+Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in \autoref{fig:zone_avg} where multiple tiles could be red, but not necessarily in the center of the image.
 
 \subsection{Object Fill}
 \label{sec:objectfilldesign}
 Following Zone Average a new algorithm called \textit{Object Fill} was created.
-Object Fills purpose was to render very accurate position results, with the initial limitation of only being able to locate a single colored object.
+Object Fills purpose was to render accurate position results, with the initial limitation of only being able to locate a single colored object.
 The algorithm consists of two main parts:
 \begin{itemize}
 	\item Locate the object
@@ -59,7 +59,7 @@ The green pixels are the bounding box of the object and the black pixels shows a
 The algorithm was later improved in a couple of aspects.
 First, the initial search for the red object would start its search based on the last center of the red object.
 Secondly, the algorithms was improved to only accept an object if it contained a certain amount of redness.
-This helped reduce the amount of false positives from very small objects or big but not so red objects.
+This helped reduce the amount of false positives from small objects or big but not so red objects.
 If the filling algorithm reports that the object is not a valid red object, the searching algorithm will continue from where it left off, until it has searched the entire image.
 
 \subsection{Thresh Moment}\label{des:thresh}
