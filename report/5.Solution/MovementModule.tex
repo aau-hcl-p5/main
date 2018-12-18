@@ -5,8 +5,8 @@ The module consists of multiple methods which is responsible for minor areas of 
 In the following subsections, the movement module will be elaborated upon and some of the primary methods will be explained.
 
 \subsection{The motors}
-Before using the LEGO motors, the NXT needs to know which ports are used for each motor.
-This is done as follows:
+\autoref{lst:InitMotor} shows the initialization of the ports on the NXT.
+The motors and the lasers are assigned to ports, and the USB communication is initialized, as required by nxtOSEK.
 \begin{lstlisting}[language=CSharp, label={lst:DeviceInit},caption={ecrobot\_device\_initialize method from nxt.c}]
 /* Initializes motors with their direction */
 void ecrobot_device_initialize(void) {
@@ -16,8 +16,7 @@ void ecrobot_device_initialize(void) {
     ecrobot_init_usb(); /* init USB */
 }
 \end{lstlisting}
-As seen on \autoref{lst:InitMotor} the port on the NXT is specified with an orientation and an initial speed.
-The \textit{init\_motor} method is declared as follows, where the different parameters of the motor function is set up with initial values.
+
 \begin{lstlisting}[language=CSharp,label={lst:InitMotor},caption={init\_motor method from movement.c}]
 bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
   if(orientation == AXIS_X){
@@ -39,16 +38,16 @@ bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
   return false;
 }
 \end{lstlisting}
-As it can be seen on \autoref{lst:DeviceInit} lines 2 and 3, the parameter for the motor\_id is the port id on the NXT device.
-The character parameter, called orientation, is used used to distinguish between the two motors connected to the NXT.
-The speed is set to an initialization value of $20$ which can be any given value between $0$ and $100$.
+\autoref{lst:DeviceInit} shows the \texttt{init\_motor} method.
+The method checks for the initialization.
+The method is branched, based on the axis that is given as a parameter.
+The orientation parameter is used used to distinguish between the two motors connected to the NXT.
+The speed can be any value between $0$ and $100$.
 
 \subsection{The motion}
-Before any meaningful motion can be made it is essential to know where the turret is currently aiming and where the target is located.
-Without this information, any motion will result in a meaningless motion and should be avoided.
-
-When the machine intelligence system has observed and located the target, it will send the information to the NXT which will then begin movement towards the target.
-The target location is stored in an struct containing all relevant information about the target namely its coordinates and a timestamp on the information.
+When a target has been located, the computer will send the information to the NXT.
+The NXT will then begin movement towards the target.
+The target location is stored in a struct containing all relevant information about the target namely its coordinates and a timestamp on the information.
 The move method is responsible for the actual activation of the individual motors.
 The method can be seen on \autoref{lst:MoveMotors} and it will activate the motors according to the targets location and where it is currently aiming.
 \begin{lstlisting}[language=CSharp,caption={move method from movement.c},label={lst:MoveMotors}]
