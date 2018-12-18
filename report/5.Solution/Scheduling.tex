@@ -95,7 +95,7 @@ Likewise, there is a software limitation when using nxtOSEK, since the interrupt
 With these considerations, the cyclic execution method with equal minor and major cycles were deemed the best solution, since the implementation of a fixed priority task would add more overhead when changing between tasks and preempting them, rather than just allowing the previous tasks to finish executing.
 
 \subsection{Fixed Priority Scheduling}
-However, as the project progressed, parts of the machine intelligence execution was moved to the NXT for execution.
+However, as the project progressed, parts of the machine intelligence execution were moved to the NXT for execution.
 This resulted in tasks that took longer than 1 millisecond to execute, rendering the use of cyclic executive unviable, as described in \autoref{Design:Scheduling}.
 Instead, the fixed-priority scheduling model was utilized.
 
