@@ -18,7 +18,7 @@ typedef enum {
 #define MIN_POWER 0
 #define MAX_POWER 100
 #define MIN_REVOLUTION_THRESHOLD 2
-#define REVOLUTION_OFFSET 55
+#define REVOLUTION_OFFSET 20
 
 extern T_POWER_TUPLE y_axis_powers[POINTS_ON_AXIS];
 

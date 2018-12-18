@@ -26,7 +26,7 @@ class TestFlatController(unittest.TestCase):
             sys.stdout = sys.__stdout__
             self.assertEqual(
                 capturedOutput.getvalue(),
-                "Writing location b'\\x00\\x00\\x9d\\x03'\n"
+                "Writing location b'\\x00\\x00\\xaf\\x15'\n"
             )
 
     def test_status_cannot_see_target(self):
@@ -34,11 +34,12 @@ class TestFlatController(unittest.TestCase):
             alg = algorithms.get_algorithm(algorithms.AlgorithmType.ZONE_AVG)
             sys.stdout = capturedOutput  # and redirect stdout.
             with Printer() as output_device:
-                FlatController(alg.locate_center,
-                               output_device,
-                               webcam.VideoController(webcam.CaptureDeviceType.FILES),
-                               debug=False
-                               )._iteration()
+                FlatController(
+                    alg.locate_center,
+                    output_device,
+                    webcam.VideoController(webcam.CaptureDeviceType.FILES),
+                    debug=False
+                )._iteration()
             sys.stdout = sys.__stdout__
             self.assertEqual(
                 capturedOutput.getvalue(),

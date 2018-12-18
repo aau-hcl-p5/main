@@ -44,5 +44,6 @@ if __name__ == "__main__":
         cont = FlatController(algorithms.get_from_str(ARGS.alg_name, debug=True).locate_center,
                               output_device,
                               webcam.VideoController(webcam.CaptureDeviceType.CAMERA),
-                              calibration_algorithm=calibrate)
+                              calibration_algorithm=calibrate,
+                              debug=True)
         cont.run()
