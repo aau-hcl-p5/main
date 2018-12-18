@@ -6,6 +6,7 @@
 An nxtOSEK program consists of two parts: A series of C/C++ files defining the behavior of the system and an OIL (OSEK Implementation Language) file which describes the architecture of the scheduler and tasks.
 In this section the content of the OIL file will be elaborated upon in order to clarify how it relates to defining a scheduler and tasks for later use.
 Below, an example of a hello world application for nxtOSEK can be seen:
+\todo{uptodate?}
 \begin{lstlisting}[caption=OIL]
 #include "implementation.oil"
 CPU ATMEL_AT91SAM7S256 {
@@ -54,7 +55,7 @@ The first thing specified in the OIL file is the CPU, which serves as a containe
 After the CPU, an OS is specified which is the object used to defined the setup of the operating system of the OSEK application.
 A CPU has to have exactly one OS object defined.
 The OS has a series of attributes: 
-\subsubsection*{Status}
+\subsubsection{Status}
 Status specifies the level of error checking, which can be set to either \textit{standard} or \textit{extended}, where extended allows for additional return values for tasks, such as \textit{task is invalid} or \textit{task still occupies resources} \cite{irisa223}.\\
 
 \subsubsection*{Hook routines}
