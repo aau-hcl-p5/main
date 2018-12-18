@@ -67,16 +67,16 @@ The above function now maps from the screen position to a smaller range, but wit
 
 \subsection{From USB to motors}
 The NXT receives a 2-tuple in the range $-127$ to $127$ for both the $X$ and the $Y$ value.
-This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corresponds to a percentage-wise speed in either a positive or negative direction.
+This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corresponds to a percentagewise speed in either a positive or negative direction.
 
 The output of the USB is an 8-bit signed integer, and the input of the motor is also an integer.
 The easiest way to do these calculations is by simply mapping the ranges directly onto one another.
 However, it is undesirable to use a power value of 100, as the movement will be too extreme, likewise, a speed of 0 will oftentimes cause the motors to not move at all until reaching a power level of 10 or 20 due to the resistance created by the weight of the attached LEGO components.
 Therefore, a function is required that maps between $-127$ and $127$ and some unknown lower and upper bounds.
-This function can then be used like the previously used function, which translated the screen position into a USB-friendly value.
+This function can then be used like the previously used function, which translated the screen position into a USB friendly value.
 
 After doing some testing with static lower and upper bounds, it was revealed that this did not result in accurate movement, as the motors require a different amount of power to move the same distance, depending on the angle of the machine.
-For example, moving upwards on the $Y$-axis requires more power than moving down.
-The relation between the USB-data and motor-power is therefore based on the current angle of each motor.
+For example, moving upwards on the $Y$ axis requires more power than moving down.
+The relation between the USB data and motor power is therefore based on the current angle of each motor.
 This relation is not constant, as this relation is based on external influences, such as gravity, weight and wires that create resistance to the movement, and these value might change dynamically.
 This problem can be solved by a calibration process, as described in \autoref{sec:calibration}, which will create a function, dynamically, that can create the wanted mapping.

@@ -12,7 +12,7 @@ As a proof of concept, it was decided to implement bitflip fault tolerance in th
   \item For every conditional, repeat test in every conditional branch (both then and else branches) \cite{errorDetectionSoft}
 \end{enumerate}
 
-The code in \autoref{snip:without_bitflip} and \autoref{snip:with_bitflip} is written according to these four rules and ensures that bitflips have not happened for example when reading from variables or during evaluation of if-conditions.
+The code in \autoref{snip:without_bitflip} and \autoref{snip:with_bitflip} is written according to these four rules and ensures that bitflips have not happened for example when reading from variables or during evaluation of if conditions.
 
 \noindent\begin{minipage}{.45\textwidth}
 \begin{lstlisting}[label={snip:without_bitflip},caption={Without~bitflip-security},frame=tlrb,numbers=none]

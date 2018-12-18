@@ -41,13 +41,13 @@ Therefore the implementation of movement prediction was deemed irrelevant, mainl
 \subsection{Variable motor power}
 An interesting result from the motor tests conducted in \autoref{des:sec:hwtest}, was that motors were put under more stress depending on the current angle and wanted direction.
 
-This was in part due to the additional weight of the structure itself, which means that the power required to move on the $Y$-axis varied.
-On the $X$-axis, the problem was because of the wires that ran from the motor and the webcam to the NXT and the Raspberry Pi, would be fully stretched as the turret rotated.
+This was in part due to the additional weight of the structure itself, which means that the power required to move on the $Y$ axis varied.
+On the $X$ axis, the problem was because of the wires that ran from the motor and the webcam to the NXT and the Raspberry Pi, would be fully stretched as the turret rotated.
 This was an issue that was not easily solvable with hardware.
 This resulted in the robot requiring variable power, depending on its current positions along the axes.
 
 A potential solution to this problem could be to introduce a function that takes current degrees, direction and distance as input and outputs a required power to move said distance.
-This function could be found through either online or offline learning or through a design-time algorithm.
+This function could be found through either online or offline learning or through a design time algorithm.
 Design time solutions would potentially be unreliable, as movement or rewiring of the device, would modify the resistance imposed by the cables.
 
 Online learning might not create a better solution, as the resistance should not change drastically, while the system is running, as it is not meant to be moved around.
