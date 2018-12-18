@@ -26,28 +26,11 @@ As the projectile firing model requires additional calculations, the device will
 With the architecture in place, it is now possible to focus on the details of what is required for implementing each part of the architecture.
 In the following part, the details regarding the target information structure will be eluded upon.
 
-\todo{Syntes stadig det her er sjovt placeret}
 \subsection{Target information}
-A target information structure has been defined internally to store relevant target information.
-This data is calculated on the Raspberry Pi host and the structure is then transferred onto the NXT, using the NXT's USB port.
-The structure can be seen in \autoref{lst:TargetInformation}.
-\begin{lstlisting}[language=C, label={lst:TargetInformation},caption={Target information structure from target\_location.h}]
-#define TARGET_FOUND 0
-#define NO_TARGET_FOUND 1
-#define DISCONNECT_REQ 2
+A target information record has been defined internally to store relevant target information and a status code.
+This data is calculated on the Raspberry Pi host and the record is then transferred onto the NXT, using the NXT's USB port.
 
-typedef struct __attribute__((packed)) {
-	int16_t x : 8;
-	int16_t y : 8;
-} T_TARGET_LOCATION;
-
-typedef struct __attribute__((packed)) {
-	T_TARGET_LOCATION location;
-	uint16_t status;
-} T_TARGET_INFORMATION;
-\end{lstlisting}
-
-The structures uses the packed attribute in order to keep the size at 4 bytes, and 4 status codes are defined with information about whether a target has been found, the device is on target, and whether the host has requested termination of the connection.
+The 4 status codes are defined with information about whether a target has been found, the device is on target, or whether the host has requested termination of the connection.
 
 Furthermore, a location structure is kept with information regarding the $X$ and $Y$ distance relative to the target.
 The $X$ and $Y$ values are based on the distance to the target from the center of the webcam image and the values are processed on the host such that they can be transformed into a value ranging from -127 to 127 as described in \autoref{sec:mappingcompvis}.

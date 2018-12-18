@@ -3,7 +3,7 @@
 
 
 \section{Embedded platform}
-The goal of the 5th semester of the bachelor in Software is to develop an embedded system, making it is relevant to look into the different relevant platforms.\todo{making it is relevant fix}
+The goal of the 5th semester of the bachelor in Software is to develop an embedded system, therefore it is relevant to look into the different embedded platforms.
 The university supplies the student groups with a LEGO Mindstorms base set, consisting of both a LEGO Mindstorms NXT 2.0 kit and a LEGO Mindstorms EV3 kit, as well as an assortment of sensors, motors and LEGO bricks.
 In addition, other platforms can be ordered, and a few of the alternative options will be examined.
 
@@ -23,8 +23,7 @@ It includes a variety of sensors, such as touch, sound, light and distance senso
 A potential major disadvantage of the NXT 2.0 is its age.
 The platform was released in 2006, meaning that the software might have compatibility issues with modern operating systems.
 
-\todo{Fix placing of figure}
-\begin{figure}[!tbp]
+\begin{figure}[H]
 	\centering
 	\subfloat[The NXT 2.0\cite{nxt2ev3compare}.]{\includegraphics[width=0.4\textwidth]{images/legonxt}\label{fig:LEGOnxt}}
 	\hfill
@@ -50,7 +49,7 @@ Differences being in processing power, as well as pins.
 The Arduino Uno is most commonly used board in the ecosystem\cite{ArduinoUno3}, and has a 12 MHz ATmega328P processor and 2 kilobytes of RAM.
 A larger version, the Arduino Due has an 84 MHz processor and 96 kilobytes of RAM\cite{ArduinoDue}, and more input/output pins and is meant for larger scale Arduino projects.
 
-\begin{figure}[!tbp]
+\begin{figure}[H]
 	\centering
 	\subfloat[Arduino Uno\cite{ArduinoUno3}]{\includegraphics[width=0.4\textwidth]{images/arduino}\label{fig:arduinouno}}
 	\hfill
@@ -68,7 +67,6 @@ They also come with a larger variety of ports; both USB, HDMI and jack, adding m
 The newest version, Raspberry Pi 3 B+, features a 1.4 GHz quad-core CPU, with 1 gigabyte of RAM\cite{raspberrypi}.
 They released a lightweight version, called the Raspberry Pi Zero, which trades performance, having only a 1 GHz single-core CPU and 512 megabytes of RAM, for a smaller footprint, being less power consuming, and a lower cost.
 
-\subsection{Takeaways}
 \label{platformtakeaways}
 There are multiple platforms on which to build an embedded system.
 This data is summed up in the following table.
@@ -87,11 +85,6 @@ This data is summed up in the following table.
 	\end{tabular}
 \end{adjustbox}
 \end{table}
-
-\todo{Rephrase below}
-The Raspberry Pi system can be quite powerful a project regarding embedded systems, which can also be said about the EV3.
-This can be a disadvantage, as it does not allow full control of the execution order.
-This issue will be analyzed in detail when looking into real-time systems.
 
 The Arduino and NXT both have less processing power than the Raspberry Pi and EV3, and thus making them more interesting choices, by limiting the hardware capabilities.
 The disadvantage of the Arduino is that it has fewer supported programming languages, and the fact that the GPIO ports make for hardware related challenges, which is not the purpose of this semester.

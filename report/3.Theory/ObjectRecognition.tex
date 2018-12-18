@@ -263,23 +263,21 @@ Possible problems with this algorithm is that the location of the target is unkn
 Another possible issue would be depending on the speed of the given target and the frame-rate of the camera, as the object might have left the cropped area. 
 This could be solved by a larger crop, however this makes it less relevant.
 
-\todo{overvej om denne faktisk skal med}
-\subsection{Tensorflow}
-Tensorflow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
+\subsection{TensorFlow}
+TensorFlow is a framework for working with machine learning\cite{tensorflow2015-whitepaper}.
 The framework was initially developed for Python, but has recently implemented support for other languages.
 It is developed by the Google Brain team, and owned by Google Inc.\cite{tensorflow-attribution}.
 It has a high-level API, called Keras, and a low-level API, which makes it possible to use as an entry-level user, making it ideal for hobby and educational purposes, but it is also usable for complex production-level applications.
 
-Tensorflow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
+TensorFlow uses the concept of tensors to abstract the basis of computation, and makes it possible to write machine learning and machine intelligence with fewer steps.
 
 A tensor is a mathematical entity, and the mathematical definitions are outside the scope of this project.
 In the context of TensorFlow, it is enough to think of it as an entity in a mathematical process.
 This might be a constant primitive value, or a mapping from one or more primitive values to one or more primitive values.
 
-\todo{Below line}
-To better show the example of tensors and how Tensorflow operates, the following low-level example is used in the Tensorflow tutorial, and it seems relevant here as well.
+To better show the example of tensors and how TensorFlow operates, the low-level example in \autoref{lis:TensorFlowPy1} is used in the TensorFlow tutorial\cite{tensorflow2015-whitepaper}.
 
-\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a Tensorflow program]
+\begin{lstlisting}[language=Python,label=lis:TensorFlowPy1,caption=Example of a TensorFlow program]
 a = tf.constant(3.0)
 b = tf.constant(4.0)
 total = a + b
@@ -287,7 +285,7 @@ print(a)
 print(b)
 print(total)
 \end{lstlisting}
-The reader might assume that the output would be 3,4, and 7, respectively, however the output is the following:
+The reader might assume that the output would be 3,4, and 7, respectively, however the output is as seen in \autoref{lis:TensorFlowPy2}:
 \begin{lstlisting}[language=Python,label=lis:TensorFlowPy2,caption=Output of example \autoref{lis:TensorFlowPy2}]
 Tensor("Const:0", shape=(), dtype=float32)
 Tensor("Const_1:0", shape=(), dtype=float32)
@@ -387,5 +385,3 @@ As can be seen from both examples, it is easy to do complex image manipulation i
 
 These two examples are just a small sample of the capabilities of OpenCV, and even without the machine learning aspect, OpenCV also provides excellent webcam interfacing, and image manipulation utilities.
 Thus, OpenCV is an excellent solution, that could potentially be used to solve the object detection aspect of this project.
-
-\todo{Skriv om scikit}

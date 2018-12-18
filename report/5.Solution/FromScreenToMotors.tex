@@ -1,4 +1,3 @@
-\todo{Burde dette ikke være design}
 \section{Mapping computer vision to movement}\label{sec:mappingcompvis}
 When the computer locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
 Due to the resolution of the camera the screen position will be a 2-tuple of values between $0$ to $480$, on the $Y$ axis, and $0$ to $640$ on the $X$ axis, has to be translated into two values in the range $-100$ to $100$.
@@ -9,8 +8,6 @@ Based on this problem, two functions are required.
 	\item One on the computer, that maps the screen position to a USB-friendly byte value.
 	\item One on the NXT, that maps the byte value, to the power value.
 \end{enumerate}
-
-\todo{this ends very abruptly}
 
 \subsection{Translating screen-position to the communication layer}
 This function will take a a 2-tuple named \textit{pos} as input, which is going to be the screen position.
@@ -62,7 +59,7 @@ $$
 The above function maps from the screen position to a smaller range, without losing much precision.
 
 \subsection{From USB to motors}
-\todo{Er det stadig bare en 2-tuple?}
+%\todo{Er det stadig bare en 2-tuple?}% - Ja; out_endpoint.write får int(loc.x) + int(loc.y).. godt nok med noget andet info også.
 The NXT receives a 2-tuple in the range $-127$ to $127$ for both the $X$ and the $Y$ value.
 This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis.
 The number should correspond to a percentage-wise speed in either a positive or negative direction.
@@ -70,14 +67,12 @@ The number should correspond to a percentage-wise speed in either a positive or 
 The output of the USB is an 8-bit signed integer, and the input of the motor is also an integer.
 The easiest way to do these calculations is to map the ranges directly onto one another.
 However, it is undesirable to use a power value of 100, as the movement will be too extreme, likewise, a speed of 0 will cause the motors to not move at all, due to the resistance created by the weight of the attached LEGO components.
-\todo{Fix det her, det er lidt forkert/ irrellevant efter calibration}
-\todo{Den burde nok bare lide direkte ind i noget calibration}
-Therefore, a function is required that maps between $-127$ and $127$ and some unknown lower and upper bounds.
+Therefore, a function is required that maps the value to a value between $-127$ and $127$.
 This function can then be used like the previously used function, which translated the screen position into a USB friendly value.
 
 After doing some testing with static lower and upper bounds, it was revealed that this did not result in accurate movement, as the motors require a different amount of power to move the same distance, depending on the angle of the machine.
 For example, moving upwards on the $Y$ axis requires more power than moving down.
 The relation between the USB data and motor power is therefore based on the current angle of each motor.
 This relation is not constant, as this relation is based on external influences, such as gravity, weight and wires that create resistance to the movement, and these value might change dynamically.
-\todo{Fix denne reference}
+%\todo{Fix denne reference}% reffer til 5.Solution/MI_solution/calibration.tex.. er det ikke fint?
 This problem can be solved by a calibration process, as described in \autoref{sec:calibration}, which will create a function, dynamically, that can create the wanted mapping.
