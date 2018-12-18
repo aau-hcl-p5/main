@@ -15,7 +15,7 @@ This aspect is related to efficiency since the CPU should be idle as little as p
 
 All these aspects are related to general purpose schedulers found in the most commonly used operating systems. 
 However, these aspects are not relevant for real-time systems since the main focus of those systems is the \textit{timing} requirements of each process.
-In order to determine the schedulability of a real-time system it needs to have a fixed set of processes in order to determine that it is schedulable.
+In order to determine the schedulability of a real-time system it needs to have a fixed set of processes in order to determine whether it is schedulable.
 
 In the following part, some of the different methods will be elaborated. 
 
@@ -23,8 +23,7 @@ In the following part, some of the different methods will be elaborated.
 One of the simplest scheduling methods is the cyclic executives method, which is also known as timeline scheduling.
 This method only allows one process or task to be executed at a time. 
 When using this method, the schedule of which a process is executed is determined by a \textit{major cycle} and a \textit{minor cycle}.
-The \textit{major cycle} is specified by calculating the Greatest Common Divisor (GCD) of all task periods in the system.
-While the \textit{minor cycle} is defined by the Least Common Multiple (LCD) of all task periods in the system. 
+The \textit{major cycle} is specified by calculating the Greatest Common Divisor (GCD) of all task periods in the system, whereas the \textit{minor cycle} is defined by the Least Common Multiple (LCD) of all task periods in the system. 
 The major cycle specifies a deadline of which all process has to be completed at least once.
 The minor cycle specifies the interval of which at least one given task should have completed once. 
 
@@ -50,7 +49,7 @@ Like fixed-priority scheduling, the tasks can be pre-empted, however, the absolu
 \section{Response time analysis}
 Response time analysis is an exact schedulability test for a fixed-priority assignment scheme on a single-processor system. 
 The response time analysis allows for prediction of the worst-case response time for each task which depends on the interference due to execution of higher priority tasks. 
-The worst-case response times are then compared to the corresponding tasks deadlines to evaluate whether all tasks meets their deadlines. 
+The worst-case response times are then compared to the corresponding tasks deadlines to evaluate whether all tasks meet their deadline.
 
 During the execution of a task, the task can be pre-empted if a higher priority task is released, thereby delaying the response time of the task since it will enter a waiting state. 
 For this reason the response time of lower priority tasks suffer a certain amount of interference from the higher priority tasks during their execution. 

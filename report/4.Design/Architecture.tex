@@ -47,7 +47,7 @@ typedef struct __attribute__((packed)) {
 } T_TARGET_INFORMATION;
 \end{lstlisting}
 
-The structures uses the packed attribute in order to keep the size at 4 bytes, and 3 status codes are defined with information about whether a target has been found, and whether the host has requested termination of the connection.
+The structures uses the packed attribute in order to keep the size at 4 bytes, and 4 status codes are defined with information about whether a target has been found, the device is on target, and whether the host has requested termination of the connection.
 
 Furthermore, a location structure is kept with information regarding the $X$ and $Y$ distance relative to the target.
 The $X$ and $Y$ values are based on the distance to the target from the center of the webcam image and the values are processed on the host such that they can be transformed into a value ranging from -127 to 127 as described in \autoref{sec:mappingcompvis}.
