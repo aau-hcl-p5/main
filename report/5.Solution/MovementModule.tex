@@ -27,7 +27,7 @@ The \texttt{move} function uses the \texttt{get\_speed\_by\_distance} function t
 This functionality is shown in \autoref{lst:getspeed}.
 
 \begin{lstlisting}[language=CSharp,caption={get\_speed\_by\_distance method from movement.c},label={lst:getspeed},firstnumber={109}]
-  int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
+int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
     if (distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
         return 0;
     }

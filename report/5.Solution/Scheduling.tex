@@ -62,17 +62,17 @@ EVENT newMajorCycleEvent{
 The system only has one task, which is declared with the properties shown on \autoref{lst:MainTask}.
 The properties specifies to the operating system how the task shall run and that the event from before is related to the task.
 \begin{lstlisting}[language=CSharp,label={lst:MainTaskoil},caption={MainTaks task from nxt.oil}]
-    TASK MainTask {
-      AUTOSTART = TRUE
-        {
-          APPMODE = appmode1;
-        };
-      PRIORITY = 1;
-      ACTIVATION = 1;
-      SCHEDULE = FULL;
-      STACKSIZE = 512;
-      RESOURCE = USB_Rx;
-      EVENT = newMajorCycleEvent;
+TASK MainTask {
+    AUTOSTART = TRUE
+    {
+        APPMODE = appmode1;
+    };
+    PRIORITY = 1;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+    RESOURCE = USB_Rx;
+    EVENT = newMajorCycleEvent;
 };
 \end{lstlisting}
 
