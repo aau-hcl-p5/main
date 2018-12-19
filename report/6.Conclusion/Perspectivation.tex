@@ -16,7 +16,7 @@ The must have requirements were as follows:
 	\item Enough structural stability to be able to move without breaking.
 \end{itemize}
 
-The robot is able to recognize and track a red balloon being dropped from a height of 2 meters at distance of 3 meters from the device in real-time, with the laser being toggled off as soon as the balloon leaves its field of view. 
+The robot is able to recognize and track a red balloon being dropped from a height of 2 meters at distance of 3 meters from the device in real-time, with the laser being toggled off as soon as the turret no longer aims at the balloon.
 The robot is able to move approximately 270 degrees on the horizontal axis, allowing a movement of about 135 degrees in each direction from the point of origin.
 On the vertical axis, it is able to move a total of 140 degrees, allowing 70 degrees movement in each vertical direction from the point of origin.
 Finally, the robot is able to do the above without causing instability or breakage in the model, resulting in all five \textit{must have} being accomplished.
@@ -80,8 +80,11 @@ Initially, the idea for the project was to recognize objects in real-time using 
 Instead, the variable motor power problem, described in \autoref{subsec:variable_motor_power}, turned out to be an excellent way to utilize MI for the solution.
 The calibration module was implemented using a neural network, which was executed on the NXT.
 This proved to be an excellent solution to the variable motor power problem, and a great way to use MI in the solution.
-
-An important lesson learned from this project was that the usage of MI required thought about the domain in which the MI is applied to.
+The solution was primarily limited by the hardware used.
+A more powerful CPU would make the image-recognition feasible, and this would change the outcome of the system.
+In a real world situation, object classification would be important, as actual targets are more difficult to track than red balloons, which have pretty simple attributes.
+However, in a real world environment, the hardware would be be more powerful, and in turn making object classification possible.
+An important lesson learned from this project was that the usage of MI required analysis of the domain in which the MI is applied to.
 
 
 \subsection{Real-time requirements}
