@@ -40,12 +40,12 @@ const int C[N] = {  // Computation Times
 };       
 
 const int P[N] = {  // Priorities
-    0,   // BackgroundTask
-    1,   // UpdateDisplayTask
-    2,   // MoveMotorsTask
-    3,   // ReciveDataTask
-    4,   // HandleLaserTask
-    4    // KeepUSBAliveTask
+    1,   // BackgroundTask
+    2,   // UpdateDisplayTask
+    3,   // MoveMotorsTask
+    4,   // ReciveDataTask
+    5,   // HandleLaserTask
+    5    // KeepUSBAliveTask
 };
 
 const bool Pr[N] = {  // Preemptive
