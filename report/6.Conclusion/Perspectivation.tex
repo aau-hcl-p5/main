@@ -9,11 +9,11 @@ In order for the project to be deemed successful, all of the \textit{must have} 
 \subsubsection{Must have}
 The must have requirements were as follows:
 \begin{itemize}
-	\item ability to recognize and track a moving target in front of the device
-	\item ability to follow a large target being dropped from 2 meters height at a distance of 3 to 4 meters away from the device, with a laser
-	\item move fast enough to keep the laser on a moving target in real time
-	\item ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
-	\item enough structural stability to be able to move without breaking
+	\item Ability to recognize and track a moving target in front of the device
+	\item Ability to follow a large target being dropped from 2 meters height at a distance of 3 to 4 meters away from the device, with a laser
+	\item Move fast enough to keep the laser on a moving target in real time
+	\item Ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
+	\item Enough structural stability to be able to move without breaking
 \end{itemize}
 
 The robot is able to recognize and track a red balloon being dropped from a height of 2 meters at distance of 3 meters from the device in real-time, with the laser being toggled off as soon as the balloon leaves its field of view. 
@@ -25,10 +25,10 @@ Finally, the robot is able to do the above without causing instability or breaka
 \subsubsection{Should have}
 The should have requirements were as follows:
 \begin{itemize}
-	\item ability to hit a larger moving target in the air at a low speed at a distance of 3 meters
-	\item ability to hit a small moving target in the air at a low speed at a distance of 1 to 3 meters
-	\item ability to predict the next location of the object moving along a non-linear path, eg{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
-	\item ability to predict the next location of the object moving solely along the horizontal axis with a constant speed
+	\item Ability to hit a larger moving target in the air at a low speed at a distance of 3 meters
+	\item Ability to hit a small moving target in the air at a low speed at a distance of 1 to 3 meters
+	\item Ability to predict the next location of the object moving along a non-linear path, eg{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
+	\item Ability to predict the next location of the object moving solely along the horizontal axis with a constant speed
 \end{itemize}
 
 As mentioned in the must have conclusion, the robot is able to track a balloon falling at a distance of 3 meters.
@@ -43,14 +43,14 @@ Thus, 2 of the 4 \textit{should have} requirements have been fulfilled.
 \subsubsection{Could have and won't have}
 From the \textit{could have} section, the following requirements are formulated:
 \begin{itemize}
-	\item ability to calculate the distance to the target object
-	\item calculate the angle and power necessary to hit the target with a projectile
+	\item Ability to calculate the distance to the target object
+	\item Calculate the angle and power necessary to hit the target with a projectile
 \end{itemize}
 
 And in the \textit{won't have}:
 \begin{itemize}
-	\item ability to actually take down targets
-	\item ability to differentiate between the type of object that is being observed
+	\item Ability to actually take down targets
+	\item Ability to differentiate between the type of object that is being observed
 \end{itemize}
 
 None of these requirements have been fulfilled, as they are largely related to firing a projectile.
@@ -90,7 +90,7 @@ First of all, the amount of tasks that were running on the NXT in order to make 
 In order to optimize the utilization time, parts of the machine intelligence calculations responsible for calculating the amount of power required to move were moved to the NXT for execution.
 This resulted in the cyclic executive model being unfeasible, as there was a task that took more than 1 millisecond to run while another task had a deadline of 1 millisecond, thus making it unschedulable. 
 To fix this, the scheduling model was changed to fixed priority scheduling with preemption.
-The optimal choice for a system like this would be the earliest deadline first scheduling model, but this is not implementable in the NXTOSEK operating system, as this is a fixed priority operating system.
+The optimal choice for a system like this would be the earliest deadline first scheduling model, but this is not implementable in the nxtOSEK operating system, as this is a fixed priority operating system.
 
 In a real world implementation of \texttt{F.L.A.T.} there are two alternative approaches that makes more sense in terms of CPU utilization: \\
 The most obvious solution would be to use a device with a less powerful CPU to avoid that the CPU is idle, or alternatively use a much more powerful device, allowing the whole machine intelligence part of the system to be run on the same device, instead of offloading it to another machine.
