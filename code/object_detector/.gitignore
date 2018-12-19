@@ -2,3 +2,4 @@ htmlcov
 .mypy_cache
 
 .vscode/
+*.result

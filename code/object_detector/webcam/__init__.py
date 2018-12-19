@@ -8,8 +8,9 @@ This need to serve one frame at a time.
 from enum import Enum
 from typing import Union
 
-import cv2 # pylint: disable=import-error
+import cv2  # pylint: disable=import-error
 import numpy as np
+
 
 class CaptureDeviceType(Enum):
     """
@@ -28,7 +29,7 @@ class VideoController:
 
     def __init__(self, camera_type: CaptureDeviceType) -> None:
         if camera_type is CaptureDeviceType.CAMERA:
-            input_device: Union[str, int] = 0
+            input_device: Union[str, int] = 1
         elif camera_type is CaptureDeviceType.FILES:
             input_device = 'webcam/testing_videos/fall_video.mp4'
         elif camera_type is CaptureDeviceType.TEST_POSITIVE:

@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,fleqn,oneside,openright]{memoir}   % Openright aabner kapitler paa hoejresider (openany begge)
+\documentclass[a4paper,12pt,fleqn,oneside,openright]{memoir}   % Openright aabner kapitler paa hoejresider
 
 \makeatletter
 %%%% PAKKER %%%%
@@ -7,12 +7,21 @@
 \usepackage[utf8]{inputenc}          % Input-indkodning af tegnsaet (UTF8)
 \usepackage[english]{babel}          % Dokumentets sprog
 \usepackage[T1]{fontenc}          % Output-indkodning af tegnsaet (T1)
-\usepackage{ragged2e,anyfontsize}      % Justering af elementer
+\usepackage{ragged2e,anyfontsize}      % Justering af (openany begge)
+\usepackage[]{algorithm2e}      % show pseudo code
+
+
+\pdfoptionpdfminorversion=6          % Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
+
+\DeclareUnicodeCharacter{0301}{\'{e}}
+
+\usepackage{parcolumns}
 
 \usepackage{amsmath}
 \usepackage{mathtools}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\pdfoptionpdfminorversion=6          % Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
 
 \usepackage[colorinlistoftodos]{todonotes}
 
@@ -24,6 +33,7 @@
 % TIKZ %
 \usepackage{pgf}
 \usepackage{tikz}
+\usetikzlibrary{arrows}
 \usepackage{mathrsfs}
 
 % Math %
@@ -70,12 +80,23 @@
 
 % ¤¤ Referencer og kilder ¤¤ %
 \usepackage[danish]{varioref}        % Muliggoer bl.a. krydshenvisninger med sidetal (\vref)
-\usepackage[numbers]{natbib}              % Udvidelse med naturvidenskabelige citationsmodeller
+\usepackage{csquotes}
+\usepackage{url}
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sortlocale=de_DE,
+    natbib=true,
+    url=true,
+    doi=true,
+    eprint=false
+]{biblatex}
+
 \usepackage[colorlinks]{hyperref}
-\setcitestyle{number}
 
 % ¤¤ Misc. ¤¤ %
 \usepackage{listings}            % Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
+\usepackage{listingsutf8}
 % Kode-style
 \lstdefinestyle{Kotlin}{language=kotlin, frame=lr, rulecolor=\color{blue!80!black}}
 \renewcommand{\lstlistingname}{Snippet}
@@ -113,6 +134,52 @@
   stringstyle=\color{black}\ttfamily,
   morestring=[b]",
 }
+
+\lstdefinelanguage{docker}{
+  keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinelanguage{docker-compose}{
+  keywords={image, environment, ports, container_name, ports, volumes, links},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinelanguage{docker-compose-2}{
+  keywords={version, volumes, services},
+  keywordstyle=\color{blue}\bfseries,
+  keywords=[2]{image, environment, ports, container_name, ports, links, build},
+  keywordstyle=[2]\color{olive}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue},
+  inputencoding=utf8,
+  extendedchars=true
+}
+
 
 
 \lstdefinestyle{CSharp}{language=[sharp]c, frame=lr, rulecolor=\color{blue!80!black}}
@@ -166,7 +233,7 @@ columns=fixed,
 showstringspaces=false,
 extendedchars=true,
 breaklines=true,
-escapeinside=||,
+escapeinside={(*@}{@*)},
 prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
 frame=single,
 showtabs=false,
@@ -204,7 +271,6 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
 %\usepackage[shortlabels]{enumitem}      % Muliggoer enkelt konfiguration af lister
 \usepackage{pdfpages}            % Goer det muligt at inkludere pdf-dokumenter med kommandoen \includepdf[pages={x-y}]{fil.pdf}
 \usepackage{longtable}                      % Goer det muligt at have longtables
-\pdfoptionpdfminorversion=6          % Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
 \pretolerance=2500               % Justering af afstand mellem ord (hoejt tal, mindre orddeling og mere luft mellem ord)
 
 % Kommentarer og rettelser med \fxnote. Med 'final' i stedet for 'draft' udloeser hver note en error i den faerdige rapport.
@@ -226,13 +292,10 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
 % ¤¤ Litteraturlisten ¤¤ %
 %\bibpunct[,]{[}{]}{;}{a}{,}{,}         % Definerer de 6 parametre ved Harvard henvisning (bl.a. parantestype og seperatortegn)
 
-%\bibliographystyle{bibtex/harvard}      % Udseende af litteraturlisten.
-\bibliographystyle{bibtex/IEEEtran}      % Udseende af litteraturlisten.
-
 % ¤¤ Indholdsfortegnelse ¤¤ %
 \setsecnumdepth{subsection}           % Dybden af nummerede overkrifter (part/chapter/section/subsection)
 \maxsecnumdepth{subsection}          % Dokumentklassens graense for nummereringsdybde
-\settocdepth{subsection}           % Dybden af indholdsfortegnelsen
+\settocdepth{section}           % Dybden af indholdsfortegnelsen
 
 % ¤¤ Lister ¤¤ %
 \setlist{
@@ -240,6 +303,7 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
   itemsep=-1ex,                % Vertikal afstand mellem items
 }
 
+\SetKwInOut{Input}{Input}
 
 \newcommand{\pair}[2]{\textbf{#1}: \text{#2}\\}
 
@@ -358,6 +422,17 @@ stringstyle=\color[rgb]{0.639,0.082,0.082},
       \label{#4}
     \end{figure}
 }
+
+\newcommand{\tikzimage}[3]{
+	\begin{figure}[H] \centering
+	\resizebox{.9\linewidth}{!}{\begin{tikzpicture}
+		{#1}
+	\end{tikzpicture}}
+		\caption{#2}
+		\label{#3}
+	\end{figure}
+}
+
 
 % ¤¤ Specielle tegn ¤¤ %
 \newcommand{\decC}{^{\circ}\text{C}}

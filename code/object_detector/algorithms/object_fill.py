@@ -7,11 +7,13 @@ It will:
     4. Use the old center coordinates to search for the object in the next frame, and the goto 2.
 """
 from collections import deque
-from typing import Optional, Set, Deque, Union, Iterator
+import math
+from typing import Optional, Set, Deque, Union, Iterator, Tuple
 
 import numpy as np
 
-from algorithms.utilities import Vector
+from .object_localizer import ObjectLocalizer
+from .utilities import Vector
 
 DEFAULT_FIND_STEP_SIZE = 4
 DEFAULT_FILL_STEP_SIZE = 2
@@ -21,10 +23,12 @@ DEFAULT_MIN_TOTAL_REDNESS = 3000  # value of my mouth
 
 
 def _redness(x: Union[int, float], y: Union[int, float], frame: np.ndarray) -> int:
-    return frame.item(int(y), int(x), 2) - frame.item(int(y), int(x), 1) - frame.item(int(y), int(x), 0)
+    return frame.item(int(y), int(x), 2) - \
+           frame.item(int(y), int(x), 1) - \
+           frame.item(int(y), int(x), 0)
 
 
-class ObjectFillController:  # pylint: disable=too-few-public-methods
+class ObjectFillController(ObjectLocalizer):  # pylint: disable=too-few-public-methods
     """
 This algorithm is a manually created one.
 It will:
@@ -40,7 +44,7 @@ It will:
                  required_steps_for_find: int = DEFAULT_REQUIRED_STEPS_FOR_FIND,
                  red_threshold: int = DEFAULT_RED_THRESHOLD,
                  debug: bool = False,
-                 dynamic_fill_size: bool =True
+                 dynamic_fill_size: bool = True
                  ) -> None:
         self.find_step_size = find_step_size
         self.fill_step_size = fill_step_size
@@ -50,51 +54,63 @@ It will:
         self._last_center: Optional[Vector] = None
         self._dynamic_fill_size = dynamic_fill_size
         self._blacklisted_pixels: Set[Vector] = set()
+        self.center = None
 
-    def locate_center(self, frame: np.ndarray) -> Optional[Vector]:
+    def locate_center(self, frame: np.ndarray) -> Optional[Tuple[Vector, bool]]:
         """
         :param frame: The image to search in
         :return: The center of the object (Can be null).
         """
 
         image_size = Vector(frame.shape[1], frame.shape[0])
+        self.center = image_size // 2
 
         # """
-        new_center = None
+        new_data = None
         for object_position in self._locate_object(frame, image_size):
-            new_center = self._fill_get_center(object_position, frame, image_size)
-            if new_center is not None:
+            new_data = self._fill_get_center(object_position, frame, image_size)
+            if new_data is not None:
                 break
         if self.debug:
             for pixel in self._blacklisted_pixels:
                 if pixel is not None:
                     frame[pixel.y, pixel.x] = [0, 0, 0]
-        self._last_center = new_center
+        # get location from tuple
+
+        self._last_center = new_data[0] if new_data else None
         self._blacklisted_pixels = set()
-        if new_center is None:
+        if new_data is None:
             self.fill_step_size = DEFAULT_FILL_STEP_SIZE
 
-        return self._last_center
+        return new_data
+
+    @property
+    def _bound(self) -> int:
+        return self.find_step_size * 2 + 1
+
+    def _all_pixels_around_point_are_red(self, x: int, y:int, frame: np.ndarray) -> bool:
+        return all(
+            Vector(current_x, y) not in self._blacklisted_pixels and
+            self._is_red(current_x, y, frame)
+            for current_x in range(x, x + self._bound, self.find_step_size)
+        )
 
     def _locate_object(self, frame: np.ndarray, image_size: Vector) -> Iterator[Vector]:
         step_size = self.find_step_size
-        bound = step_size * 2 + 1
         # set to center if not already set. We this is from where we need to search,
         # so if we have no where to search then just use the center
         if not self._last_center:
             self._last_center = Vector(image_size.x / 2, image_size.y / 2)
 
-        for y in range(0, int(image_size.y), step_size):
-            for x in range(0, int(image_size.x) - 3 * step_size, bound):
+        for y in range(0, int(image_size.y), self.find_step_size):
+            for x in range(0, int(image_size.x) - 3 * self.find_step_size, self._bound):
                 if y + self._last_center.y < image_size.y:
-                    current_y = int(y + self._last_center.y)
-                    if all(Vector(z, current_y) not in self._blacklisted_pixels and self._is_red(z, current_y, frame)
-                           for z in range(x, x + bound, step_size)):
+                    current_y = int(self._last_center.y + y)
+                    if self._all_pixels_around_point_are_red(x, current_y, frame):
                         yield Vector(x + step_size, current_y)
                 if self._last_center.y - y > 0:
                     current_y = int(self._last_center.y - y)
-                    if all(Vector(z, current_y) not in self._blacklisted_pixels and self._is_red(z, current_y, frame)
-                           for z in range(x, x + bound, step_size)):
+                    if self._all_pixels_around_point_are_red(x, current_y, frame):
                         yield Vector(x + step_size, current_y)
 
     def _is_pixel_on_border(self, pixel: Vector, image_size: Vector) -> bool:
@@ -115,21 +131,21 @@ It will:
             pixel + y_dir_offset
         }
 
-    def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
+    def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> \
+            Optional[Tuple[Vector,bool]]:
         queue: Deque = deque()
         queue.append(object_position)
         self._blacklisted_pixels.add(object_position)
-        sum_outline = Vector(0, 0)
         sum_redness = 0
-        sum_elements_in_outline = 0
+        # used to calculate whether the bounding box covers the center
+        outline = []
 
         while queue:
             element = queue.popleft()
             pixel_redness = _redness(element.x, element.y, frame)
             # is a bounding pixel
             if pixel_redness < self.red_threshold:
-                sum_outline += element
-                sum_elements_in_outline += 1
+                outline.append(element)
                 if self.debug:
                     frame[int(element.y), int(element.x)] = [0, 255, 0]
                 continue
@@ -140,16 +156,22 @@ It will:
                 queue.append(neighbour)
 
         if self._dynamic_fill_size:
-            self.fill_step_size = max(DEFAULT_FILL_STEP_SIZE,
-                                      int(sum_elements_in_outline * self.fill_step_size / 75))
+            self.fill_step_size = max(
+                DEFAULT_FILL_STEP_SIZE,
+                int(len(outline) * self.fill_step_size / 75)
+            )
+        sum_outline = Vector(0, 0)
+        for e in outline:
+            sum_outline += e
 
         if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
-            return sum_outline / sum_elements_in_outline
+            on_target = any(
+                math.sqrt((p.x - self.center.x) ** 2 + (p.y - self.center.y) ** 2) < self.fill_step_size
+                for p in self._blacklisted_pixels
+            )
+            return sum_outline / len(outline), on_target
         else:
             return None
-        # else:
-        # self._blacklisted_pixels = self._blacklisted_pixels | visited
-        #    return None
 
     def _is_red(self, x: int, y: int, frame: np.ndarray) -> bool:
 

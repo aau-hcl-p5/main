@@ -4,8 +4,8 @@
 \begin{document}
 
 \begin{titlingpage}
-    \include{titlepage}
-    \input{Titelblad.tex}
+  \include{titlepage}
+  \input{Titelblad.tex}
 \end{titlingpage}
 
 \input{1.Introduction/0.PrefaceCtrl}
@@ -16,20 +16,18 @@
 \input{4.Design/0.DesignCtrl}
 \input{5.Solution/0.SolutionCtrl}
 \input{6.Conclusion/0.ConclusionCtrl}
-\input{7.MetaProject/0.MetaProjectCtrl}
 
 \begingroup
-  \raggedright
-  %\bibliographystyle{bibtex/harvard}
-  \bibliography{bibtex/litteratur}
+	\raggedright
+	%\bibliographystyle{bibtex/harvard}
+  \printbibliography
 \endgroup
 \cleardoublepage
 
 \begin{appendices}
-
+\chapter{Appendix}
 \input{Appendix/0.AppendixCtrl}
 
 \end{appendices}
-\listoftodos[Fejl og mangler]
 \end{document}
 

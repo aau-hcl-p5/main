@@ -3,35 +3,36 @@
 %rms: http://lejos-osek.sourceforge.net/rms.htm
 
 \section{OSEK Implementation Language}
-An NXTOSEK program consists of two parts: A series of C/C++ files defining the behavior of the system and an OIL (OSEK Implementation Language) file which describes the architecture of the scheduler and tasks.
+An nxtOSEK program consists of two parts: A series of C/C++ files defining the behavior of the system and an OIL (OSEK Implementation Language) file which describes the architecture of the scheduler and tasks.
 In this section the content of the OIL file will be elaborated upon in order to clarify how it relates to defining a scheduler and tasks for later use.
-Below, an example of a hello world application for NXTOSEK can be seen:
+Below, an example of a hello world application for nxtOSEK can be seen:
+%\todo{uptodate?} % Det er vel bare et eksempel? Theory; Ikke i solution.
 \begin{lstlisting}[caption=OIL]
 #include "implementation.oil"
 CPU ATMEL_AT91SAM7S256 {
-  OS LEJOS_OSEK {
-    STATUS = EXTENDED;
-    STARTUPHOOKS = FALSE;
-    ERRORHOOK = FALSE;
-    SHUTDOWNHOOK = FALSE;
-    PRETASKHOOK = FALSE;
-    POSTTASKHOOK = FALSE;
-    USEGETSERVICEID = FALSE;
-    USEPARAMETERACCESS = FALSE;
-    USERESSCHEDULER = FALSE;
-  };
-  
-  APPMODE appmode1{};
-
-  TASK task1 {
-    AUTOSTART = TRUE {
-      APPMODE = appmode1;    
+    OS LEJOS_OSEK {
+        STATUS = EXTENDED;
+        STARTUPHOOKS = FALSE;
+        ERRORHOOK = FALSE;
+        SHUTDOWNHOOK = FALSE;
+        PRETASKHOOK = FALSE;
+        POSTTASKHOOK = FALSE;
+        USEGETSERVICEID = FALSE;
+        USEPARAMETERACCESS = FALSE;
+        USERESSCHEDULER = FALSE;
     };
-    PRIORITY = 1;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512;
-  }
+
+    APPMODE appmode1{};
+
+    TASK task1 {
+        AUTOSTART = TRUE {
+            APPMODE = appmode1;
+        };
+        PRIORITY = 1;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 512;
+    };
 }
 \end{lstlisting}
 
@@ -41,11 +42,11 @@ CPU ATMEL_AT91SAM7S256 {
 
 void user_1ms_isr_type2(void){}
 
-TASK(task1){
-  while(1){
-    ecrobot_status_monitor("Hello, World!");
-    systick_wait_ms(500);
-  }
+TASK(task1) {
+    while(1) {
+        ecrobot_status_monitor("Hello, World!");
+        systick_wait_ms(500);
+    }
 }
 \end{lstlisting}
 
@@ -53,21 +54,21 @@ TASK(task1){
 The first thing specified in the OIL file is the CPU, which serves as a container for all other objects\cite{irisa25}.
 After the CPU, an OS is specified which is the object used to defined the setup of the operating system of the OSEK application.
 A CPU has to have exactly one OS object defined.
-The OS has a series of attributes: 
-\subsubsection*{Status}
+The OS has a series of attributes:
+\subsubsection{Status}
 Status specifies the level of error checking, which can be set to either \textit{standard} or \textit{extended}, where extended allows for additional return values for tasks, such as \textit{task is invalid} or \textit{task still occupies resources} \cite{irisa223}.\\
 
 \subsubsection*{Hook routines}
-The OS has a series of boolean hook routines, meaning that they can either be enabled or disabled. 
-\textbf{STARTUPHOOKS} is the first routine to be called with the OS starts, where the user can place initialization procedures, during this hook routine all user interrupts are disabled \cite{irisa223}.
-The \textbf{ERRORHOOK} routine is called in case of application errors, with the purpose of treating status information in a centralized manner. 
-The \textbf{SHUTDOWNHOOK} routine is called by the operating system when the OS service \textit{ShutdownOS} has been called, meaning during the shutdown of the system. 
-The two task routines, \textbf{PRETASKHOOK} and \textbf{POSTTASKHOOK} are called on task context switches, meaning that they can be used for debugging or time measurement, including context switch time \cite{irisa223}.
+The OS has a series of boolean hook routines, meaning that they can either be enabled or disabled.
+\textit{STARTUPHOOKS} is the first routine to be called with the OS starts, where the user can place initialization procedures, during this hook routine all user interrupts are disabled\cite{irisa223}.
+The \textit{ERRORHOOK} routine is called in case of application errors, with the purpose of treating status information in a centralized manner.
+The \textit{SHUTDOWNHOOK} routine is called by the operating system when the OS service \textit{ShutdownOS} has been called, meaning during the shutdown of the system.
+The two task routines, \textit{PRETASKHOOK} and \textit{POSTTASKHOOK} are called on task context switches, meaning that they can be used for debugging or time measurement, including context switch time\cite{irisa223}.
 As implied by the names, the \textit{PostTaskHook} is called each time before the task leaves the \textit{RUNNING} state; likewise the \textit{PreTaskHook} is called directly before a new task enters the \textit{RUNNING} state\cite{irisa223}.
 
 \subsubsection*{Macros and scheduler as resource}
-Finally, \textbf{USEGETSERVICEID} and \textbf{USEPARAMETERACCESS} allows the usage access macros to get the service ID and context-related information in the error hook.\\
-\textbf{USERESSCHEDULER} defines whether the resource \textit{RES\_SCHEDULER} is used within the application, which allows the scheduler to be used as a resource in the application, allowing the prevention of rescheduling tasks\cite{irisa223}.
+Finally, \textit{USEGETSERVICEID} and \textit{USEPARAMETERACCESS} allows the usage access macros to get the service ID and context-related information in the error hook.\\
+\textit{USERESSCHEDULER} defines whether the resource \textit{RES\_SCHEDULER} is used within the application, which allows the scheduler to be used as a resource in the application, allowing the prevention of rescheduling tasks\cite{irisa223}.
 
 \subsection{APPMODE}
 The OSEK OS allows the definition of application modes.
@@ -77,52 +78,52 @@ Defining several \textit{APPMODES} allows the system to behave according to its 
 \subsection{TASK}
 A system consists of one or more tasks, with a series of properties that defines the scheduling of the given task.
 In the example, a task is declared with name \textit{task1} which corresponds to the naming of the task in the C source code.
-The first attribute of a task is \textbf{AUTOSTART} which defines whether the task should automatically start with the initialization of the system.
-Autostart of tasks is performed before the autostart of alarms, which will be described in Subsection~\ref{Subsec:OIL:ALARMS}\cite{irisa223}.
+The first attribute of a task is \textit{AUTOSTART} which defines whether the task should automatically start with the initialization of the system.
+Autostart of tasks is performed before the autostart of alarms, which will be described in \autoref{Subsec:OIL:ALARMS}\cite{irisa223}.
 As an attribute of \textit{AUTOSTART} one or more \textit{APPMODE} can be defined which defines in which application modes the task is auto-started.\\
-The \textbf{PRIORITY} of a task determines how important the scheduling of the given task is.
-A low number means low priority and vice versa. 
-The \textbf{ACTIVATION} attribute defines the maximum number of queued activation requests for the given task.
+The \textit{PRIORITY} of a task determines how important the scheduling of the given task is.
+A low number means low priority and vice versa.
+The \textit{ACTIVATION} attribute defines the maximum number of queued activation requests for the given task.
 A value of \textit{1} in the \textit{activation} attribute means that only a single activation is permitted at any time for this task.\\
-The \textbf{SCHEDULE} attribute defines the preemptability of the task, and can be set as either \textit{FULL} meaning that the task can be preempted or \textit{NON} meaning that it cannot.
-If the attribute is set to \textit{NON} no internal resources may be assigned to the task \cite{irisa25}.
-Finally, the attribute \textbf{STACKSIZE} defines the stack size for the given task.
+The \textit{SCHEDULE} attribute defines the preemptability of the task, and can be set as either \textit{FULL} meaning that the task can be preempted or \textit{NON} meaning that it cannot.
+If the attribute is set to \textit{NON} no internal resources may be assigned to the task\cite{irisa25}.
+Finally, the attribute \textit{STACKSIZE} defines the stack size for the given task.
 
 \subsection{COUNTERS and ALARMS}\label{Subsec:OIL:ALARMS}
 In addition to the regularly occurring tasks described above, OSEK provides an alarm functionality which can be used to asynchronously inform or activate a specific task.
 An example of an alarm and counter can be seen below \cite{rms}:
 \begin{lstlisting}
-   /* Definition of OSEK Alarm Counter */
-  COUNTER SysTimerCnt
-  {
+/* Definition of OSEK Alarm Counter */
+COUNTER SysTimerCnt
+{
     MINCYCLE = 1;
     MAXALLOWEDVALUE = 10000;
     TICKSPERBASE = 1; /* One tick is equal to 1msec */
-  };
+};
 
-  /* Definition of Task1 execution timing */
-  ALARM cyclic_alarm1
-  {
+/* Definition of Task1 execution timing */
+ALARM cyclic_alarm1
+{
     COUNTER = SysTimerCnt;
     ACTION = ACTIVATETASK
     {
-      TASK = Task1;
+        TASK = Task1;
     };
     AUTOSTART = TRUE
     {
-      ALARMTIME = 1;
-      CYCLETIME = 1; /* Task1 is executed every 1msec */
-      APPMODE = appmode1;
+        ALARMTIME = 1;
+        CYCLETIME = 1; /* Task1 is executed every 1msec */
+        APPMODE = appmode1;
     };
-  };
+};
 \end{lstlisting}
 
-The first thing that is defined in the alarm is the \textbf{counter} assigned to the alarm.
+The first thing that is defined in the alarm is the \textit{counter} assigned to the alarm.
 At least one counter has to be assigned to the alarm.
-The \textbf{ACTION} of the alarm is parametrised with either \textit{ActivateTask}, \textit{SetEvent}, or \textit{AlarmCallback}\cite{irisa25}.
-In this example \textit{ActivateTask} meaning that a task, in this case \textit{Task1}, has to be activated when the alarm expires. 
+The \textit{ACTION} of the alarm is parametrized with either \textit{ActivateTask}, \textit{SetEvent}, or \textit{AlarmCallback}\cite{irisa25}.
+In this example \textit{ActivateTask} meaning that a task, in this case \textit{Task1}, has to be activated when the alarm expires.
 Like a task, the alarm has to define whether it should auto-start or not.
-The auto-start has a property \textit{AlarmTime} which defines the time when the alarm shall expire first and \textit{CycleTime} defining the cycle time of a cyclic alarm \cite{irisa25}.
+The auto-start has a property \textit{AlarmTime} which defines the time when the alarm shall expire first and \textit{CycleTime} defining the cycle time of a cyclic alarm\cite{irisa25}.
 
 \subsection{RESOURCE}
 In order to prevent multiple tasks from accessing the same critical region simultaneously, resources can be declared.
@@ -130,26 +131,26 @@ Resources work as a semaphore and can be acquired and released in the code.
 A resource has a tribute called \textit{ResourceProperty}, which can be set as either:
 \begin{itemize}
 \item \textbf{Standard} meaning that the resource is not linked to another resource and is not an internal resource.
-\item \textbf{Linked} meaning that the resource is linked with another resource with the property \textit{standard} or \textit{linked}
-\item \textbf{Internal} resource that cannot be accessed by the application \cite{irisa25}
+\item \textbf{Linked} meaning that the resource is linked with another resource with the property \textit{standard} or \textit{linked}.
+\item \textbf{Internal} resource that cannot be accessed by the application\cite{irisa25}.
 \end{itemize}
 
 \subsection{EVENTS}
 Finally, OSEK allows the definition of events, which can be used to handle when tasks are called.
-To do so, the event must be defined and the task that should be called based on the occurence of an event, must have the event property attached:
+To do so, the event must be defined and the task that should be called based on the occurrence of an event, must have the event property attached:
 \begin{lstlisting}
 EVENT EventName
 {
-  MASK = AUTO;
+    MASK = AUTO;
 };
 
 TASK EventHandler
 {
-  ...
-  EVENT = EventName;
-  ...
+    ...
+    EVENT = EventName;
+    ...
 };
 \end{lstlisting}
-As seen in the listing above, an event has a mask property, which serves as an identifier for the given event \cite{oil25}.
-This can either be manually defined as a 64-bit unsigned int or can be handled by OSEK by using the AUTO keyword.
-The usage of events allows definition of aperiodic tasks, as discussed in Section~\ref{Theory:RTS}.
+As seen in the listing above, an event has a mask property, which serves as an identifier for the given event\cite{irisa25}.
+This can either be manually defined as a 64-bit unsigned integer or can be handled by nxtOSEK by using the AUTO keyword.
+The usage of events allows definition of aperiodic tasks, as discussed in \autoref{Theory:RTS}.

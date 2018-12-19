@@ -1,0 +1,57 @@
+\section{Discussion and perspectivation}
+To conclude upon the success of the project, the MoSCoW analysis and the test cases formulated in Subsection~\ref{subsec:requirements} will be used.
+
+\subsection{MoSCoW conclusion}
+In the MoSCoW analysis, a set of prioritized requirements were formulated.
+In order for the project to be deemed successful, all of the \textit{must have} requirements must be fulfilled and most of the \textit{should have} requirements as well.
+%MOSCOW
+
+\subsubsection{Must have}
+The must have requirements were as follows:
+\begin{itemize}
+	\item Ability to recognize and track a moving target in front of the device.
+	\item Ability to follow a large target being dropped from 2 meters height at a distance of 3 to 4 meters away from the device, with a laser.
+	\item Move fast enough to keep the laser on a moving target in real time.
+	\item Ability to move the laser at least 60 degrees in both horizontal and vertical directions from the origin.
+	\item Enough structural stability to be able to move without breaking.
+\end{itemize}
+
+The robot is able to recognize and track a red balloon being dropped from a height of 2 meters at distance of 3 meters from the device in real-time, with the laser being toggled off as soon as the turret no longer aims at the balloon.
+The robot is able to move approximately 270 degrees on the horizontal axis, allowing a movement of about 135 degrees in each direction from the point of origin.
+On the vertical axis, it is able to move a total of 140 degrees, allowing 70 degrees movement in each vertical direction from the point of origin.
+Finally, the robot is able to do the above without causing instability or breakage in the model, resulting in all five \textit{must have} being accomplished.
+
+
+\subsubsection{Should have}
+The should have requirements were as follows:
+\begin{itemize}
+	\item Ability to hit a larger moving target in the air at a low speed at a distance of 3 meters.
+	\item Ability to hit a small moving target in the air at a low speed at a distance of 1 to 3 meters.
+	\item Ability to predict the next location of the object moving along a non-linear path, e{.}g{.} a target that continuously moves back and forth on the vertical axis while moving linearly on the horizontal axis.
+	\item Ability to predict the next location of the object moving solely along the horizontal axis with a constant speed.
+\end{itemize}
+
+As mentioned in the must have conclusion, the robot is able to track a balloon falling at a distance of 3 meters.
+The robot is also able to track a large object, such as a balloon, being moved at a slow speed with unpredictable movement patterns.
+At a distance of 1 meters, an object with a size of at least 15 centimeters in diameter can be tracked with a good amount of precision.
+Tracking smaller objects would require more precise motors as the imprecision of the motors causes some issues, as they can only move a full degree per step, meaning the movement of the laser will become more imprecise as the distance to the target increases.
+For example, at a distance of 30 centimeters from the laser, one degree movement will result in the laser moving 0.3 centimeters, however, at a distance of 2.5 meters, moving a single degree will result in the laser moving more than 4 centimeters.
+This limitation means that at a distance, hitting a small object is simply not viable due to the limitations of the motors.
+Likewise, the ability to predict the next location of an object was relinquished as it was not deemed necessary when not firing a projectile.
+Thus, 2 of the 4 \textit{should have} requirements have been fulfilled.
+
+\subsubsection{Could have and won't have}
+From the \textit{could have} section, the following requirements are formulated:
+\begin{itemize}
+	\item Ability to calculate the distance to the target object.
+	\item Calculate the angle and power necessary to hit the target with a projectile.
+\end{itemize}
+
+And in the \textit{won't have}:
+\begin{itemize}
+	\item Ability to actually take down targets.
+	\item Ability to differentiate between the type of object that is being observed.
+\end{itemize}
+
+None of these requirements have been fulfilled, as they are largely related to firing a projectile.
+

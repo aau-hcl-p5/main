@@ -1,84 +1,50 @@
 \section{Movement module}
 \label{sec:movement}
-The movement module is responsible for making the turret move according towards a target specified by the machine intelligence part of the system.
-The module consists of multiple methods which is responsible for minor areas of the overall function.
-In the following subsections, the movement module will be elaborated upon and some of the primary methods will be explained.
+The movement module is responsible for making the turret rotate with the intent of aiming at the target.
+The module consists of multiple methods each responsibility of a subset of the overall functionality.
+In this section, the movement module will be elaborated upon and some of the primary methods will be explained.
 
-\subsection{The motors}
-Before using the LEGO motors, the NXT needs to know which ports are used for each motor.
-This is done as follows:
-\begin{lstlisting}[language=CSharp, label={lst:DeviceInit},caption={ecrobot\_device\_initialize method from movement.c}]
-void ecrobot_device_initialize(void){
-  init_motor(NXT_PORT_A, 'x', 20);
-  init_motor(NXT_PORT_B, 'y', 20);
-}
-\end{lstlisting}
-As seen on Snippet~\ref{lst:InitMotor} the port on the NXT is specified with an orientation and an initial speed.
-The \textit{init\_motor} method is declared as follows, where the different parameters of the motor function is set up with initial values.
+To utilize the hardware components, they have to be initialized with the speed set to zero, and the initial rotation is set to zero, which results in the starting point being the global zero of the device.
 
-\begin{lstlisting}[language=CSharp,label={lst:InitMotor},caption={init\_motor method from movement.c}]
-bool init_motor(uint8_t motor_id, char orientation, uint16_t speed){
-  if(orientation == 'x'){
-    x_motor = motor_id;
-    x_motor_speed = speed;
-    ecrobot_set_motor_speed(x_motor, 0);
-    nxt_motor_set_count(x_motor, 0);
-    current_location.x = ecrobot_get_motor_rev(motor_id);
-    return true;
-  }
-  else if(orientation == 'y'){
-    y_motor = motor_id;
-    y_motor_speed = speed;
-    ecrobot_set_motor_speed(y_motor, 0);
-    nxt_motor_set_count(y_motor, 0);
-    current_location.y = ecrobot_get_motor_rev(motor_id);
-    return true;
-  }
-  return false;
-}
-\end{lstlisting}
-As it can be seen on Snippet~\ref{lst:DeviceInit} lines 2 and 3, the parameter for the motor\_id is the port id on the NXT device.
-The character parameter, called orientation, is used used to distinguish between the two motors connected to the NXT.
-The speed is set to an initialization value of $20$ which can be any given value between $0$ and $100$.
+Whenever a target is acquired, the \texttt{move} function is called.
+ \autoref{lst:MoveMotors} shows the function, which fetches the required motor power and stores this in a global variable.
+A native function is called, which makes the motor rotate with the specified power.
+The usage of a global variable, is for usage in the screen module.
+Movement is always relative to current location, as the absolute location of the target is unknown
+Rather the information is based on the center of the camera, and with it the laser.
 
-\subsection{The motion}
-Before any meaningful motion can be made it is essential to know where the turret is currently aiming and where the target is located.
-Without this information any motion will result in a meaningless motion and should therefore be avoided.
-
-When the machine intelligence system has found and located the target it will send the information to the NXT and the NXT will then start to move towards the target.
-The target location is stored in an struct containing all relevant information about the target namely its coordinates and a timestamp on the information.
-The move\_motors method is responsible for the actual activation of the individual motors.
-The method can be seen on Snippet~\ref{lst:MoveMotors} and it will activate the motors according to the targets location and where it is currently aiming.
-\begin{lstlisting}[language=CSharp,caption={move\_motors method from movement.c},label={lst:MoveMotors}]
-void move_motors(){
-  current_location.x = ecrobot_get_motor_rev(x_motor);
-  current_location.y = ecrobot_get_motor_rev(y_motor);
-
-  if(current_location.x > target_location.x){
-    ecrobot_set_motor_speed(x_motor, -x_motor_speed);
-  }
-  else if(current_location.x < target_location.x){
-    ecrobot_set_motor_speed(x_motor, x_motor_speed);
-  }
-  if(current_location.y > target_location.y){
-    ecrobot_set_motor_speed(y_motor, -y_motor_speed);
-  }
-  else if(current_location.y < target_location.y){
-    ecrobot_set_motor_speed(y_motor, y_motor_speed);
-  }
-}
-\end{lstlisting}
-Once the motors have engaged and the turret is aiming at the target, the motion should be stopped.
-If power is simply removed from the motors, they will lose their stiffness and the entire turret will power down.
-To avoid this, the motors have a function to simply set the speed of the motors to $0$, resulting in the motors locking up since they will actively try to counteract any motion.
-As shown on Snippet~\ref{lst:StopMotors} this method is very simple but effective.
-\begin{lstlisting}[language=CSharp,label={lst:StopMotors},caption={stop\_motors method from movement.c}]
-void stop_motors(){
-  nxt_motor_set_speed(x_motor, 0, 1);
-  nxt_motor_set_speed(y_motor, 0, 1);
+\begin{lstlisting}[language=CSharp,caption={move method from movement.c},label={lst:MoveMotors}]
+void move(T_VECTOR target) {
+    x_motor_speed = get_speed_by_distance(target.x, AXIS_X);
+    y_motor_speed = get_speed_by_distance(target.y, AXIS_Y);
+    set_motor_speed(AXIS_X, x_motor_speed);
+    set_motor_speed(AXIS_Y, y_motor_speed);
 }
 \end{lstlisting}
 
-\subsection{Summary}
-Based on the methods described above, the LEGO turret is able to move based on the input given by the machine intelligence.
-Hence the purpose of the movement module is to facilitate the movement of the turret which has thereby been accomplished.
+
+The \texttt{move} function uses the \texttt{get\_speed\_by\_distance} function to get the required speed based on the neural network discussed in \autoref{sec:calibration} and a modifier based on the length of the \texttt{target} vector.
+This functionality is shown in \autoref{lst:getspeed}.
+
+\begin{lstlisting}[language=CSharp,caption={get\_speed\_by\_distance method from movement.c},label={lst:getspeed},firstnumber={109}]
+int8_t get_speed_by_distance(int8_t distance, T_AXIS_TYPE axis) {
+    if (distance < MOTOR_DEADZONE && distance > -MOTOR_DEADZONE) {
+        return 0;
+    }
+
+    int8_t lower_bound = get_minimum_power(axis, distance >= 0) * ((distance >= 0) ? 1 : -1);
+    int8_t range = axis == AXIS_X ? POWER_RANGE_X : POWER_RANGE_Y;
+
+    return (range * distance / MAX_INPUT_VALUE) + lower_bound;
+}
+\end{lstlisting}
+
+If the distance to the target is sufficiently small, the motors should not move, which is done by checking whether the distance is less than a constant called \texttt{MOTOR\_DEADZONE}.
+If this is the case, the returned speed will be zero.
+This constant is by default 1, meaning that the turret has to aim directly at the target.
+
+Alternatively, the function will find the minimum power required to move in the wanted direction on the relevant axis.
+The speed is then timed by $1$ or $-1$ to make sure that the lower bound has the same direction as the distance.
+
+The distance is then mapped into a range, which is a different range based on the axis, in the way described in \autoref{sec:mappingcompvis}.
+When the turret is either on target or a target cannot found, the speed is set to $0$.

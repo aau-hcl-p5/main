@@ -1,83 +1,78 @@
-\section{Mapping between computer vision to movement}
-When the Raspberry Pi locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
-Due to the resolution of the camera the screen position will be a 2-tuple of values between $0$ to $480$, on the Y axis, and $0$ to $640$ on the X axis, has to be translated into two values in the range $-100$ to $100$.
-Before this translation, the X and Y value has to be transmitted across the USB connection.
+\section{Mapping computer vision to movement}\label{sec:mappingcompvis}
+When the computer locates a target, this information needs to be transmitted to the NXT and be translated into a power which dictates how much the motors should move on the X and Y axis.
+Due to the resolution of the camera the screen position will be a 2-tuple of values between $0$ to $480$, on the $Y$ axis, and $0$ to $640$ on the $X$ axis, has to be translated into two values in the range $-100$ to $100$.
+Before this translation, the $X$ and $Y$ value has to be transmitted across the USB connection.
 
 Based on this problem, two functions are required.
 \begin{enumerate}
-	\item One on the Raspberry Pi, that maps the screen position to a USB-friendly value.
-	\item One on the NXT, that maps this 8-bit value, to the power value.
+	\item One on the computer, that maps the screen position to a USB-friendly byte value.
+	\item One on the NXT, that maps the byte value, to the power value.
 \end{enumerate}
-
 
 \subsection{Translating screen-position to the communication layer}
 This function will take a a 2-tuple named \textit{pos} as input, which is going to be the screen position.
 The output values is going to be a 2-tuple of 8-bit values.
-The reasoning behind 8-bit values, lies in the fact that this gives us about the same range as possible on the motor.
+8-bit values allows for a range that is roughly equal to the range of the motors.
 
 As stated, the range of the input, is $0$ to $480$ on the vertical axis and $0$ to $640$ on the horizontal axis.
-The ranges of the output is per default between $0$ and $255$, because $2^8 = 256 $ where one value is used to represent the zero.
-It is beneficial to shift the range, so it is possible to represent negative values, to be able to represent both direction on each axis.
-Therefore the range is shifted to center around zero, meaning the range will be $-127$ to $127$ on both axes, dropping the one value of 128 to centre the values evenly.
+The ranges of the output are between $0$ and $255$, because $2^8 = 256$ where one value is used to represent the zero.
+It is beneficial to shift the range, so it is possible to represent negative values, so as to represent both directions on each axis.
+Therefore the range is shifted to center around zero, meaning the range will be $-127$ to $127$ on both axes, dropping the one value of 128 to center the values evenly.
 
 With this in mind, the input-range and output-range constants can be defined:\\
 $$in_\text{max} = (480,640)$$\\
 $$out_\text{max} = 127$$
-
-First the screen position needs to be centred around the zero.
+First the screen position needs to be centered around the zero.
 This is done by taking each max-value divided by two, to get half that value, minus the actual screen position:
-
 $$
 in_\text{max}/2 - pos
 $$
-
 Now the values should be between $-240$ to $240$, and $-230$ to $230$.
 This needs to translated to $-127$ to $127$.
 This is done by normalizing the value, to a range of $-1$ to $1$.
-
 $$
-in_\text{max}/2 - pos)/(in_\text{max}/2
+(in_\text{max}/2 - pos)/(in_\text{max}/2)
 $$
-
 
 This value is then multiplied with the $out_\text{max}$:
 $$
 (in_\text{max}/2 - pos)/(in_\text{max}/2) \cdot out_\text{max}
 $$
 
-This results in a value between $-127$ and $127$, which was the desired output.
-
+The result is a value between $-127$ and $127$.
 
 This means that when the target is close, the same amount of power will be applied, as when it is far away.
 This is a problem since only minor, but more precise, adjustments will be needed, when closer to the target.
-This problem can be solved by the principles on which floating-point precision is build upon, and can be solved by making a quadratic function:
+This problem can be solved by the principles on which floating-point precision is built upon, and can be solved by making a quadratic function:
 
 $$
 f(pos) = ((in_\text{max}/2 - pos)/(in_\text{max}/2))^2 \cdot out_\text{max}
 $$
 
-However, a minor problem with this formula is that taking the position to the power of 2 removes the direction of the given axis due to the effect of squaring a negative number.
-To solve this, the result is multiplied with ether $-1$ or $1$ on each axis to retain the direction.
+However, a minor problem with this formula is that taking the position to the power of 2, removes the direction of the given axis due to the squaring of a negative number.
+To solve this, the result is multiplied with either $-1$ or $1$ on each axis to retain the direction.
 
 $$
 f(pos) = ((in_\text{max}/2 - pos)/(in_\text{max}/2))^2 \cdot dir(pos) \cdot out_\text{max}
 $$
 
-The above function now maps from the screen position to a smaller range, but without losing much precision.
+The above function maps from the screen position to a smaller range, without losing much precision.
 
 \subsection{From USB to motors}
-The NXT receives a 2-tuple in the range $-127$ to $127$ for both the X and the Y value.
-This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis where the number corresponds to a percentage-wise speed in either a positive or negative direction.
+%\todo{Er det stadig bare en 2-tuple?}% - Ja; out_endpoint.write får int(loc.x) + int(loc.y).. godt nok med noget andet info også.
+The NXT receives a 2-tuple in the range $-127$ to $127$ for both the $X$ and the $Y$ value.
+This 2-tuple should be mapped to the speed of the motor which is a value between $-100$ and $100$ on each axis.
+The number should correspond to a percentage-wise speed in either a positive or negative direction.
 
 The output of the USB is an 8-bit signed integer, and the input of the motor is also an integer.
-The easiest way to do these calculations is by simply mapping the ranges directly onto one another.
-However, it is undesirable to use a power value of 100, as the movement will be too extreme, likewise, a speed of 0 will oftentimes cause the motors to not move at all until reaching a power level of 10 or 20 due to the resistance created by the weight of the attached LEGO components.
-Therefore, a function is required that maps between $-127$ and $127$ and some unknown lower and upper bounds.
-This function can then be used like the previously used function, which translated the screen position into a USB-friendly value.
+The easiest way to do these calculations is to map the ranges directly onto one another.
+However, it is undesirable to use a power value of 100, as the movement will be too extreme, likewise, a speed of 0 will cause the motors to not move at all, due to the resistance created by the weight of the attached LEGO components.
+Therefore, a function is required that maps the value to a value between $-127$ and $127$.
+This function can then be used like the previously used function, which translated the screen position into a USB friendly value.
 
 After doing some testing with static lower and upper bounds, it was revealed that this did not result in accurate movement, as the motors require a different amount of power to move the same distance, depending on the angle of the machine.
-For example, moving upwards on the Y-axis requires more power than moving down.
-The relation between the USB-data and motor-power is therefore based on the current angle of each motor.
+For example, moving upwards on the $Y$ axis requires more power than moving down.
+The relation between the USB data and motor power is therefore based on the current angle of each motor.
 This relation is not constant, as this relation is based on external influences, such as gravity, weight and wires that create resistance to the movement, and these value might change dynamically.
-This problem can be solved by a calibration process, which will create a function, dynamically, that can create the wanted mapping.
-\todo{reference to documentation of calibration}
+%\todo{Fix denne reference}% reffer til 5.Solution/MI_solution/calibration.tex.. er det ikke fint?
+This problem can be solved by a calibration process, as described in \autoref{sec:calibration}, which will create a function, dynamically, that can create the wanted mapping.

@@ -1,4 +1,48 @@
 \section{Robot Design}\label{Design:Robot}
-% TODO This section is thought to just be a collection of our thoughts regarding the design of the robot.
-% TODO Potentially it makes sense to put the Motor test section here.
-% TODO Potentially describe webcam here?
+In order to design a turret that could fulfill the requirements of the project, a stable hardware platform for the system to operate on is required. 
+In this section the physical components will be referred to as \textit{the robot}.
+The construction of the robot has changed several times, and in the following subsections the different changes will be elaborated upon and the design criteria will be explained. 
+
+\subsection{Design criteria}
+Before the development of the robot can be done, the design criteria should be agreed upon. 
+These are as follows:
+\begin{itemize}
+    \item Robustness, meaning that the robot should be sturdy while moving.
+    \item Simplicity, meaning that the robot should be simple in its design.
+    \item Ease of access to components, in order to easy maintenance and development.
+    \item Correctness, meaning the robot must move correctly.
+\end{itemize}
+
+\subsection{The base support}
+In order to achieve both \textit{robustness} and \textit{correctness}, the robot should have a stable base of support. 
+The base should tie in to all essential parts of the robot, grounding them to a common fixed ground.
+The base should be as wide as feasible to ensure stability of the robot. 
+
+Since the project is based on the LEGO NXT, the simple solution is to make the base with standard LEGO Technic parts made available by the university. 
+\figur{1}{images/BaseFinal}{The figure shows the final base construction}{fig:RobotBaseFinal}
+
+\subsection{The turret}
+Once the base of the robot has been crafted, the turret can be developed in order to achieve the design criteria of \textit{correctness} and \textit{robustness}, in order to fulfill the must have requirement regarding structural stability from the MoSCoW analysis, conducted in \autoref{subsec:requirements}. 
+
+The turret has been through different iterations during the development. 
+On \autoref{fig:TurretEarly}, the first iteration of the turret can be seen.
+The goal of the first iteration was to get a working turret that could move its head at least 60 degrees on both the $X$ and $Y$ axes, as this was likewise a requirement from the must have section of the MoSCoW analysis.
+Additionally, the head had a laser pointer attached with rubber bands, which had a button that could be manually pressed to fire the laser.
+This laser was mostly to demonstrate the idea of the robot, and was not intended for use in the final version of the device.
+There were multiple problems with this early design, first of all, the top part of the turret was not stable enough for the robot to achieve the wanted \textit{robustness}.
+\figur{0.4}{images/TurretEarly}{The figure shows the first iteration of the turret design}{fig:TurretEarly}
+
+After the first iteration, a second attempt was made in order to address these issues. 
+On \autoref{fig:TurretMiddle}, the top part of the turret turned out to be too heavy for the motor to handle. 
+\figur{0.4}{images/TurretMiddle}{The figure shows the second iteration of the turret design}{fig:TurretMiddle}
+
+To solve this, the next iteration introduced a lighter model, as seen on \autoref{fig:TurretFinal}.
+The top of the turret has been significantly reduced in both complexity and weight. 
+The most significant reduction on the turret being the new laser, that is mounted on the webcam.
+Likewise, the camera has been moved closer to the rotating axis, resulting in a reduction of the power needed to move the turret. 
+\figur{0.4}{images/flat_final}{The figure shows the final iteration of the turret design}{fig:TurretFinal}
+
+\subsection{Cable management}
+In order to make the robot comply to the criteria of \textit{correctness} and \textit{robustness}, the cables attached to the different components of the robot should have good cable management. 
+The cable management should make the robot able to move without unplugging any cable.
+However, since the robot is constructed primarily using LEGO Technic, the cables are robust and hard to manage, resulting in only the cables from the webcam and laser being manageable. 

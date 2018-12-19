@@ -1,24 +1,24 @@
 #include <stdio.h>
 
 #include "test_framework.h"
-#include "logic_test.h"
-#include "data_receive_test.h"
+#include "laser_test.h"
+#include "usb_test.h"
 #include "movement_test.h"
 
 int main() {
     T_TEST testcases[] = {
         {"Ensure sizeof target_information is 4 byte", test_target_information_size},
-        {"Ensure sizeof target_location is 2 byte", test_target_location_size},
-        {"Test read from usb", test_usb_read},
-        {"Test usb disconnect", test_usb_disconnect},
+        {"Ensure sizeof target_location is 2 byte", test_t_vector_size},
+        //{"Test read from usb", test_usb_read},
+        //{"Test usb disconnect", test_usb_disconnect},
         {"Test motor initialization", test_motor_init},
         {"Test motor init fails on illegal axis", test_motor_init_illegal_axis},
         {"Test stop motors", test_stop_motors},
         {"Test release motor", test_motor_release},
         {"Test toggle laser", test_toggle_laser},
-        {"Test go to standby", test_standby},
-        {"Test get distance to target", test_get_distance},
-        {"Test predict trajectory", test_predict_trajectory},
+        {"Test releasing laser", test_release_laser},
+        {"Test enabling laser", test_enable_laser},
+        {"Test disabling laser", test_disable_laser},
     };
     int passes = 0;
     int fails = 0;

@@ -3,21 +3,19 @@ In order to guarantee that a computer system is able to function in a time criti
 In the following section, the different methods related to real-time systems will be elaborated.
 
 \subsection{Scheduling}
-When creating a real-time systems an essential part of making such systems is the ability to make the system schedulable.
-Being scheduable means that all tasks have to be true to their deadlines and their periods. 
+When creating a real-time systems, an essential part is the ability ensure that the system is schedulable, meaning that all tasks are true to their deadlines. 
 The period is specified by the requirements of the system and specifies how often a given task shall be completed.
 Likewise, a deadline is specified by the requirements of the system and defines how far into the period the task must be completed.
 Multiple methods can be used to determine whether a system is schedulable or not, but the base principle of all the methods is the same. 
 There are tree main aspects that most general purpose scheduling algorithms emphasize:
 \paragraph{Fairness} meaning that in general purpose systems it is important that all processes are granted execution time thus preventing starvation of a given process. 
-\paragraph{Efficiency} meaning that since the scheduler is invoked very often in a general purpose operation system it needs to be efficient in order avoid wasting execution time on the CPU. 
-\paragraph{Throughput} of a system, meaning the number of processes that are completed doing a given time period.
+\paragraph{Efficiency} meaning that since the scheduler is invoked often in a general purpose operation system it needs to be efficient in order avoid wasting execution time on the CPU. 
+\paragraph{Throughput} of a system, meaning the number of processes that are completed during a given time period.
 This aspect is related to efficiency since the CPU should be idle as little as possible. 
 
 All these aspects are related to general purpose schedulers found in the most commonly used operating systems. 
 However, these aspects are not relevant for real-time systems since the main focus of those systems is the \textit{timing} requirements of each process.
-In order to determine the schedulability of a real-time system it needs to have a fixed set of processes which needs to be periodic in order to determine that it is schedulable.
-
+In order to determine the schedulability of a real-time system it needs to have a fixed set of processes in order to determine whether it is schedulable.
 
 In the following part, some of the different methods will be elaborated. 
 
@@ -25,33 +23,34 @@ In the following part, some of the different methods will be elaborated.
 One of the simplest scheduling methods is the cyclic executives method, which is also known as timeline scheduling.
 This method only allows one process or task to be executed at a time. 
 When using this method, the schedule of which a process is executed is determined by a \textit{major cycle} and a \textit{minor cycle}.
-The \textit{major cycle} is specified by calculating the Greatest Common Divisor (GCD) of all task periods in the system.
-While the \textit{minor cycle} is defined by the Least Common Multiple (LCD) of all task periods in the system. 
+The \textit{major cycle} is specified by calculating the Greatest Common Divisor (GCD) of all task periods in the system, whereas the \textit{minor cycle} is defined by the Least Common Multiple (LCD) of all task periods in the system. 
 The major cycle specifies a deadline of which all process has to be completed at least once.
 The minor cycle specifies the interval of which at least one given task should have completed once. 
 
-Since cyclic executives is a very simple scheduling method it is easy to implement and analyse, likewise it is also one of the most commonly used schedueling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
+\figur{0.6}{images/cyclicExecutive}{An example of cyclic executive\cite{CyclicExecutionKimLarsen}}{fig:cyclicExecutive}
+As seen on \autoref{fig:cyclicExecutive}, the tasks have a defined period and computation time, tasks are now placed into minor and major cycles in a way that they can all be run before their deadlines are met. 
+
+Since cyclic executives is a simple scheduling method it is easy to implement and analyze, likewise it is also one of the most commonly used scheduling methods in real-time systems\cite{RealTimeEmbeddedSystems}. 
 
 \subsubsection{Task-based scheduling}
-Another commonly used scheduling method in real-time systems is the task-based method. 
-This method is based on tasks that each have a given priority.
-
-When using the task-based priority scheduling method, each task is given a fixed priority before run-time which can not be changed.
-The priority of a task is not an indication of the importance of the task it is a simply a priority to make the system scheduable\cite{RealTimeEmbeddedSystems}. 
-The priority of a task can be set by using a method called \textit{Earliest deadline first}.
-\textbf{Earliest deadline first} means that it is the task with the earliest deadline that is allowed to execute first.
-The next task to execute is the one with nearest upcoming deadline.
+Another method of scheduling, is to divide the program into tasks, and use a scheduler to determine which task should be run next.
+The most commonly used task-based scheduler is the fixed-priority scheduling method (FPS), which is based on each task having a fixed priority, where the priority is assigned before run-time and cannot be changed at run-time\cite{RealTimeEmbeddedSystems}.
+The priority of a task is not an indication of the importance of the task and is only used to make the system schedulable\cite{RealTimeEmbeddedSystems}. 
 
 This scheduling method can work both with and without pre-emption of tasks, meaning that a running task can be set on hold when a higher priority task is ready to run.
 When using this method for scheduling, a task with a low priority is allowed to run if no other task with a higher priority is ready to run. 
 Given that a low priority task is running and a higher priority task is marked as ready, the low priority task will be pre-empted in order to allow the higher priority to run.
 
-\section{Response time analysis}
+Other task-based scheduling models include the earliest deadline first (EDF) model.
+This model determines which task to run next based on the absolute deadlines of queued tasks, meaning that the next process to run is the one with the nearest deadline \cite{RealTimeEmbeddedSystems}.
+Like fixed-priority scheduling, the tasks can be pre-empted, however, the absolute deadlines are computed at run-time, making it a dynamic scheduling model unlike FPS, which is a static scheduling model.
+
+\subsection{Response time analysis}
 Response time analysis is an exact schedulability test for a fixed-priority assignment scheme on a single-processor system. 
 The response time analysis allows for prediction of the worst-case response time for each task which depends on the interference due to execution of higher priority tasks. 
-The worst-case response times are then compared to the corresponding tasks deadlines to evaluate whether all tasks meets their deadlines. 
+The worst-case response times are then compared to the corresponding tasks deadlines to evaluate whether all tasks meet their deadline.
 
-During execution of a task, the task can be pre-empted if a higher priority task is released thereby delaying the response time of the task. 
+During the execution of a task, the task can be pre-empted if a higher priority task is released, thereby delaying the response time of the task since it will enter a waiting state. 
 For this reason the response time of lower priority tasks suffer a certain amount of interference from the higher priority tasks during their execution. 
 Therefore the worst-case response time $R_i$ of a task $\tau_i$ is computed as the sum of its computation time $C_i$ and the worst-case interference $I_i$ it experiences, this is represented as follows:
 \begin{equation}\label{eq:responsetime}
@@ -63,11 +62,11 @@ The exact number of releases can be computed by means of the ceiling function an
 \begin{equation}
 \ceil*{\frac{R_i}{T_j}} \cdot C_j
 \end{equation}
-Since all tasks with a higher priority have an impact on the worst-case interference of a lower priority task all the higher priority tasks interference need to be taken into account thus resulting in the following equation:
+Since all tasks with a higher priority have an impact on the worst-case interference of a lower priority task, all the higher priority tasks interference needs to be taken into account, resulting in the following equation:
 \begin{equation}
 I_i = \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
 \end{equation}
-When combined with Equation~\ref{eq:responsetime} it is seen we get the following recursive relation for the worst-case response time $R_i$ for $\tau_i$:
+When combined with \autoref{eq:responsetime} it results in the following recursive relation for the worst-case response time $R_i$ for $\tau_i$:
 \begin{equation}
 R_i = C_i + \sum_{j\in hp(i)} \cdot \ceil*{\frac{R_i}{T_j}} \cdot C_j
 \end{equation}
@@ -76,7 +75,7 @@ The simplest way of solving this recursive equation is by transforming it into t
 \begin{equation}
 w^{(k+1)}_{i} = C_i + \sum_{j\in hp(i)} \cdot \ceil*{\frac{w^{k}_{i}}{T_j}} \cdot C_j
 \end{equation}
-When using this recurrence relationship to evaluate the worst-case response time the result from the latest evaluation is fed back into the recurrence relationship until a fix point has been found where the input is equal to the output. 
+When using this recurrence relationship to evaluate the worst-case response time the result from the latest evaluation is placed back into the recurrence relationship until a fix point has been found where the input is equal to the output. 
 
 When the worst-case response time has been calculated for all given tasks of a system, the worst-case response times are verified against the deadlines of the task itself.
-If any worst-case response time of a task is greater than the deadline of that task the task is not schedulable, hence the entire system is not schedulable. 
+If any worst-case response time of a task is greater than the deadline of that task, the task is not schedulable, hence the entire system is not schedulable. 

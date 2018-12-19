@@ -1,139 +1,168 @@
 #include "implementation.oil"
 
-CPU ATMEL_AT91SAM7S256
-{
-  OS LEJOS_OSEK
-  {
-    STATUS = EXTENDED;
-    STARTUPHOOK = FALSE;
-    ERRORHOOK = FALSE;
-    SHUTDOWNHOOK = FALSE;
-    PRETASKHOOK = FALSE;
-    POSTTASKHOOK = FALSE;
-    USEGETSERVICEID = FALSE;
-    USEPARAMETERACCESS = FALSE;
-    USERESSCHEDULER = FALSE;
-  };
+CPU ATMEL_AT91SAM7S256 {
+    OS LEJOS_OSEK {
+        STATUS = EXTENDED;
+        STARTUPHOOK = FALSE;
+        ERRORHOOK = FALSE;
+        SHUTDOWNHOOK = FALSE;
+        PRETASKHOOK = FALSE;
+        POSTTASKHOOK = FALSE;
+        USEGETSERVICEID = FALSE;
+        USEPARAMETERACCESS = FALSE;
+        USERESSCHEDULER = FALSE;
+    };
 
-  /* Definition of application mode */
-  APPMODE appmode1{}; 
+    /* Definition of application mode */
+    APPMODE appmode1{};
 
-  /* Definition of events */ 
-  EVENT MoveMotorsOnEvent
-  {
-    MASK = AUTO;
-  };
+    /* Definition of resource */
+    RESOURCE USB_Rx {
+        RESOURCEPROPERTY = STANDARD;
+    };
 
-  EVENT MoveMotorsOffEvent
-  {
-    MASK = AUTO;
-  };
+    /* Definition of events */
 
-  EVENT LaserOnEvent
-  {
-    MASK = AUTO;
-  };
-
-  EVENT LaserOffEvent
-  {
-    MASK = AUTO;
-  };
-
-  /* Definition of resource */
-  RESOURCE USB_Rx
-  {
-    RESOURCEPROPERTY = STANDARD;
-  };
-
-
-  /* Definition of tasks */
-  TASK ReceiveData
-  {
-    AUTOSTART = FALSE;
-    PRIORITY = 3;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512; /* Stack size */
-    RESOURCE = USB_Rx;
-  };
-
-  TASK UpdateDisplay
-  {
-    AUTOSTART = FALSE;
-    PRIORITY = 2;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512;
-  };
-
-  TASK ToggleLaser
-  {
-    AUTOSTART = TRUE
+    EVENT MoveMotorsOnEvent
     {
-      APPMODE = appmode1;
+        MASK = AUTO;
     };
-    PRIORITY = 2;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512;
-    EVENT = LaserOnEvent;
-    EVENT = LaserOffEvent;
-  };
 
-  TASK MoveMotors
-  {
-    AUTOSTART = TRUE
+
+    TASK background_task {
+        AUTOSTART = FALSE;
+        PRIORITY = 1;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 512; /* Stack size */
+        RESOURCE = USB_Rx;
+    };
+
+    TASK keep_USB_alive {
+        AUTOSTART = FALSE;
+        PRIORITY = 5;
+        ACTIVATION = 1;
+        SCHEDULE = NON;
+        STACKSIZE = 512; /* Stack size */
+        RESOURCE = USB_Rx;
+    };
+
+    TASK update_display {
+        AUTOSTART = FALSE;
+        PRIORITY = 2;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 512; /* Stack size */
+    };
+
+    TASK handle_laser {
+        AUTOSTART = FALSE;
+        PRIORITY = 5;
+        ACTIVATION = 1;
+        SCHEDULE = NON;
+        STACKSIZE = 512; /* Stack size */
+    };
+
+    TASK receive_data {
+        AUTOSTART = FALSE;
+        PRIORITY = 4;
+        ACTIVATION = 1;
+        SCHEDULE = NON;
+        STACKSIZE = 512; /* Stack size */
+        RESOURCE = USB_Rx;
+    };
+
+    TASK move_motors {
+        AUTOSTART = TRUE
+            {
+                APPMODE = appmode1;
+            };
+        PRIORITY = 3;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 4096; /* Stack size */
+        EVENT = MoveMotorsOnEvent;
+    };
+
+    /* Definition of OSEK Alarm counter: SysTimerCnt */
+    COUNTER SysTimerCnt {
+        MINCYCLE = 1; /* lowest priority */
+        MAXALLOWEDVALUE = 10000;
+        TICKSPERBASE = 1;
+    };
+
+    /* Definition of keep_USB_alive execution timing */
+    ALARM cyclic_keep_USB_alive
     {
-      APPMODE = appmode1;
+        COUNTER = SysTimerCnt;
+        ACTION = ACTIVATETASK
+            {
+                TASK = keep_USB_alive;
+            };
+        AUTOSTART = TRUE
+            {
+                ALARMTIME = 1;
+                CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+                APPMODE = appmode1;
+            };
     };
-    PRIORITY = 2;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512;
-    EVENT = MoveMotorsOnEvent;
-    EVENT = MoveMotorsOffEvent;
-  };
-
-
-  /* Definition of OSEK Alarm counter: SysTimerCnt */
-  COUNTER SysTimerCnt
-  {
-    MINCYCLE = 1; /* lowest priority */
-    MAXALLOWEDVALUE = 10000;
-    TICKSPERBASE = 1;
-  };
-
-
-  /* Definition of alarms */ 
-  ALARM CyclicReceiveData
-  {
-    COUNTER = SysTimerCnt;
-    ACTION = ACTIVATETASK
+    ALARM cyclic_update_display
     {
-      TASK = ReceiveData;
+        COUNTER = SysTimerCnt;
+        ACTION = ACTIVATETASK
+            {
+                TASK = update_display;
+            };
+        AUTOSTART = TRUE
+            {
+                ALARMTIME = 1;
+                CYCLETIME = 15; /* keep_USB_alive is executed every msec */
+                APPMODE = appmode1;
+            };
     };
-    AUTOSTART = TRUE
-    { 
-      ALARMTIME = 1; /* called every 1 ms */
-      CYCLETIME = 1;
-      APPMODE = appmode1;
+    ALARM cyclic_receive_data
+    {
+        COUNTER = SysTimerCnt;
+        ACTION = ACTIVATETASK
+            {
+                TASK = receive_data;
+            };
+        AUTOSTART = TRUE
+            {
+                ALARMTIME = 1;
+                CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+                APPMODE = appmode1;
+            };
     };
-  };
 
-  ALARM CyclicUpdateDisplay
-  {
-    COUNTER = SysTimerCnt;
-    ACTION = ACTIVATETASK
+    ALARM cyclic_background_task
     {
-      TASK = UpdateDisplay;
+        COUNTER = SysTimerCnt;
+        ACTION = ACTIVATETASK
+            {
+                TASK = background_task;
+            };
+        AUTOSTART = TRUE
+            {
+                ALARMTIME = 1;
+                CYCLETIME = 15; /* keep_USB_alive is executed every msec */
+                APPMODE = appmode1;
+            };
     };
-    AUTOSTART = TRUE
+
+    ALARM cyclic_handle_laser
     {
-      ALARMTIME = 1;
-      CYCLETIME = 500;
-      APPMODE = appmode1;
+        COUNTER = SysTimerCnt;
+        ACTION = ACTIVATETASK
+            {
+                TASK = handle_laser;
+            };
+        AUTOSTART = TRUE
+            {
+                ALARMTIME = 1;
+                CYCLETIME = 1; /* keep_USB_alive is executed every msec */
+                APPMODE = appmode1;
+            };
     };
-  };
 
 };
-
