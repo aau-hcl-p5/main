@@ -4,31 +4,39 @@ The core of the Object Fill algorithm is the actual \textit{filling} part.
 It can be seen in a stripped down version in \autoref{lst:objectfill}
 
 \begin{lstlisting}[language=Python,label={lst:objectfill},caption={Stripped down version of object fill from object\_fill.py}]
-    def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Vector]:
-	    queue: Deque = deque()
-	    queue.append(object_position)
-	    self._blacklisted_pixels.add(object_position)
-	    sum_outline = Vector(0, 0)
-	    sum_redness = 0
-	    sum_elements_in_outline = 0
-	    
-	    while queue:
-		    element = queue.popleft()
-		    pixel_redness = _redness(element.x, element.y, frame)
-		    # is a bounding pixel
-		    if pixel_redness < self.red_threshold:
-			    sum_outline += element
-			    sum_elements_in_outline += 1
-		    
-		    for neighbour in self._get_neighbours(element, image_size) - self._blacklisted_pixels:
-			    sum_redness += pixel_redness
-			    self._blacklisted_pixels.add(neighbour)
-			    queue.append(neighbour)
-	    
-	    if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
-		    return sum_outline / sum_elements_in_outline
-	    else:
-		    return None
+def _fill_get_center(self, object_position: Vector, frame: np.ndarray, image_size: Vector) -> Optional[Tuple[Vector,bool]]:
+	queue: Deque = deque()
+	queue.append(object_position)
+	self._blacklisted_pixels.add(object_position)
+	sum_redness = 0
+	# used to calculate whether the bounding box covers the center
+	outline = []
+	
+	while queue:
+		element = queue.popleft()
+		pixel_redness = _redness(element.x, element.y, frame)
+		# is a bounding pixel
+		if pixel_redness < self.red_threshold:
+			outline.append(element)
+			continue
+		
+		for neighbour in self._get_neighbours(element, image_size) - self._blacklisted_pixels:
+			sum_redness += pixel_redness
+			self._blacklisted_pixels.add(neighbour)
+			queue.append(neighbour)
+	
+	sum_outline = Vector(0, 0)
+	for e in outline:
+		sum_outline += e
+	
+	if sum_redness > DEFAULT_MIN_TOTAL_REDNESS:
+		on_target = any(
+			math.sqrt((p.x - self.center.x) ** 2 + (p.y - self.center.y) ** 2) < self.fill_step_size
+			for p in self._blacklisted_pixels
+		)
+		return sum_outline / len(outline), on_target
+	else:
+		return None
 \end{lstlisting}
 
 A high level explanation of the algorithm can be found in \autoref{sec:objectfilldesign}.
