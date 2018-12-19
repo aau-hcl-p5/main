@@ -2,6 +2,7 @@
 Used for USB output_devices with the NXT
 based on: https://github.com/walac/pyusb/blob/master/docs/tutorial.rst
 """
+from typing import Tuple
 
 import usb.core
 import usb.util
@@ -64,17 +65,18 @@ class NxtUsb(OutputDevice):
         """
         return self.device.read(self.in_endpoint.bEndpointAddress, 8)
 
-    def write_location(self, data: Vector) -> None:
+    def write_location(self, data: Tuple[Vector, bool]) -> None:
         """
         Send a package of data which the NXT
         should react upon by moving the turret
         :param data: a result data
         """
+        loc, on_target = data
         self.out_endpoint.write(bytes([
+            Status.ON_TARGET.value if on_target else Status.TARGET_FOUND.value,
             0,
-            0,
-            int(data.x) & 0xFF,
-            int(data.y) & 0xFF
+            int(loc.x) & 0xFF,
+            int(loc.y) & 0xFF
         ]))
 
     def write_status(self, status: Status):

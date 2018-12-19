@@ -4,7 +4,7 @@ Therefore since object localization using machine learning algorithms requires a
 This section will elaborate on these algorithms.
 
 \subsection{Zone Average}
-Initially an object detection algorithm dubbed "Zone Average" was developed.
+Initially an object detection algorithm dubbed \textit{Zone Average} was developed.
 Zone Average locates the most red object in an image.
 It works by splitting the image into $N\times N$ tiles, and determining the total redness within each tile.
 The tile that contains the most red is determined to contain the object, and the location of that tile is returned as a result.
@@ -15,12 +15,12 @@ Likewise when the object begins moving the size of the tiles should expand.
 
 \figur{0.6}{images/zone_avg.png}{Zone average algorithm detecting red balloon.}{fig:zone_avg}
 
-Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in \autoref{fig:zone_avg} where multiple tiles could be very red, but not necessarily in the center.
+Zone Average worked well as a starting point, but it lacked accuracy as also illustrated in \autoref{fig:zone_avg} where multiple tiles could be red, but not necessarily in the center of the image.
 
 \subsection{Object Fill}
 \label{sec:objectfilldesign}
-Following Zone Average a new algorithm called "Object Fill" was created.
-Object Fills purpose was to render very accurate position results, with the initial limitation of only being able to locate a single colored object.
+Following Zone Average a new algorithm called \textit{Object Fill} was created.
+Object Fills purpose was to render accurate position results, with the initial limitation of only being able to locate a single colored object.
 The algorithm consists of two main parts:
 \begin{itemize}
 	\item Locate the object
@@ -52,14 +52,14 @@ The filling algorithm is in essence a graph search, and works as described below
 \end{algorithm}
 
 \autoref{fig:obj_fill} is a debug view of the algorithm running.
-The Green pixels are the bounding box of the object and the black pixels shows all the visited pixels.
+The green pixels are the bounding box of the object and the black pixels shows all the visited pixels.
 
 \figur{0.6}{images/obj_fill.png}{Object Fill algorithm detecting red balloon.}{fig:obj_fill}
 
 The algorithm was later improved in a couple of aspects.
 First, the initial search for the red object would start its search based on the last center of the red object.
-Secondly, the algorithms was improved to only accept an object if it contained a certain amount of "redness".
-This helped reduce the amount of false positives from very small objects or big but not so red objects.
+Secondly, the algorithms was improved to only accept an object if it contained a certain amount of redness.
+This helped reduce the amount of false positives from small objects or big but not so red objects.
 If the filling algorithm reports that the object is not a valid red object, the searching algorithm will continue from where it left off, until it has searched the entire image.
 
 \subsection{Thresh Moment}\label{des:thresh}
@@ -67,7 +67,7 @@ If the filling algorithm reports that the object is not a valid red object, the 
 The previous algorithms utilizes OpenCV to extract images from the webcam. 
 The algorithms then work with the data in a low level fashion iterating over each pixel in the image to analyze it.
 However, OpenCV comes with a huge amount of functions for image processing, that can be utilized in order to create a simple performant algorithm for this use case. 
-The algorithm was dubbed "Thresh Moment" since the core algorithm relies on threshold and image moment.
+The algorithm was dubbed \textit{Thresh Moment} since the core algorithm relies on threshold and image moment.
 
 A couple of concepts used by the algorithm are worth mentioning beforehand.
 
@@ -80,7 +80,7 @@ This makes it easier to recognize both dark and light red, since the redness is 
 Contours are almost identical to edges.
 They are outlines that follows all continuous points along a boundary of an object.
 Continuous points are determined based on color and intensity.
-In this case it will essentially help determine the outline of the red object.\cite{contours}
+In this case it will essentially help determine the outline of the red object\cite{contours}.
 
 \paragraph{Image moment}
 The moment is the weighted average of an objects pixel intensities.

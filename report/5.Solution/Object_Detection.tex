@@ -1,6 +1,15 @@
 \subsection{Object Localization}\label{solution:ObjectLocalization}
 As mentioned in \autoref{flatcontrollerimplementation} there are multiple implemented options for object localization algorithms.
-%Hjælp den her sætning vvvv.
+The object localization has to return the direction in which the target is, and whether target is covering the center of the screen.
+This is used for determining whether the laser should be turned on or off.
 This subsection will describe the two primary algorithms, that were used throughout the development of the project.
+They all implement the \texttt{ObjectLocalizer} interface, which can be seen in \autoref{lst:objectlocalizer}.
+
+\begin{lstlisting}[language=Python,label={lst:objectlocalizer},caption={The interface of all object localization algorithms}] 
+class ObjectLocalizer:
+	def locate_center(self, frame: np.ndarray) -> Optional[Tuple[Vector, bool]]:
+		raise NotImplementedError
+\end{lstlisting}
+This interface exposes a single function, namely the \texttt{locate\_center} function, taking an image as input and returning a nullable tuple, including a vector, the target direction, and a bool stating whether the target covers the center.
 \input{5.Solution/MI_solution/object_fill_algorithm.tex}
 \input{5.Solution/MI_solution/thres_moment.tex}

@@ -12,18 +12,18 @@ This complicated things a bit, as none of the group members were interested in i
 Docker is a way to deploy a consistent environment for applications to run in, also known as containerization\cite{dockerdocstart}.
 A Docker deployment consists of three different concepts, the Docker file, the container and an image.
 \begin{description}
-    \item [Dockerfile], which is a definition of a Docker image.
+    \item [Dockerfile] which is a definition of a Docker image.
     \item [Images] are executables that includes all the required information to instantiate containers.
     \item[Containers] are the runtime instances of an image, the running process of an image.
 \end{description}
 
-A Dockerfile simply consists of lines, that describe how to build the image.
+A Dockerfile consists of lines, that describe how to build the image.
 Each line applies a layer to the Docker image, and each of these layers are cached.
 Thus if line 5 in the Dockerfile is changed, everything below line 5 is rebuilt.
 
 The Dockerfile for this project is shown below, in \autoref{subsec:dockerimplementation}.
 
-The Docker image is simply an executable, that instantiate a Docker container.
+The Docker image is an executable, that instantiate a Docker container.
 
 A Docker container is in broad strokes the same as a virtual machine, although a Docker container only uses the required resources, while a virtual machine is allowed access to more resources than is typically needed.
 Docker runs natively on Linux, and takes no more memory than other executables.
@@ -38,8 +38,8 @@ This proved to be a non-issue, as modifying dependencies, and some tweaking, nxt
 \subsection{Docker implementation}\label{subsec:dockerimplementation}
 The actual Docker build process is somewhat obscure.
 
-The first step is relatively straightforward with \textit{FROM ubuntu:14.04} simply specifying the base ubuntu image to use.
-The next bit simply installs the packages required by nxtOSEK.
+The first step is relatively straightforward with \textit{FROM ubuntu:14.04} specifying the base Ubuntu image to use.
+The next bit installs the packages required by nxtOSEK.
 \begin{lstlisting}[language=docker,label={lst:dockerimplementation1},caption={Version definition and installation of packages required by nxtOSEK}]
 FROM ubuntu:14.04
 

@@ -16,7 +16,8 @@ class Package:
         self.power_down = power_down
 
     def __str__(self):
-        return f"{{position:{self.position}, axis:{self.axis}, power_up:{self.power_up}, power_down:{self.power_down}}}"
+        return f"{{position:{self.position}, axis:{self.axis}, " \
+               f"power_up:{self.power_up}, power_down:{self.power_down}}}"
 
     def is_x(self):
         return self.axis
