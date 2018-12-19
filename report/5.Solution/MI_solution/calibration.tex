@@ -58,11 +58,11 @@ An approximation of the sigmoid function was implemented instead, both in Python
 
 \begin{lstlisting}[language=python,label={lst:mlpregressor},caption={Training a MLPRegressor with scikit}]
 model = MLPRegressor(
-hidden_layer_sizes=(30,),
-activation='approx_sigmoid',
-max_iter=100000,
-tol=0.0000001,
-verbose=True
+  hidden_layer_sizes=(30,),
+  activation='approx_sigmoid',
+  max_iter=100000,
+  tol=0.0000001,
+  verbose=True
 )
 model.fit(inp, expect)
 

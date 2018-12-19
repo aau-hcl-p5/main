@@ -21,14 +21,14 @@ def locate_center(self, frame: np.ndarray) -> Optional[Vector]:
 		# Get center x and center y coordinate based on moment
 		cx = int(moment["m10"] / moment["m00"])
 		cy = int(moment["m01"] / moment["m00"])
-	in_center = pointPolygonTest(
-		biggest_contour,
-		(frame.shape[1] // 2, frame.shape[0] // 2),
-		False
-	) == 1
+    in_center = pointPolygonTest(
+        biggest_contour,
+        (frame.shape[1] // 2, frame.shape[0] // 2),
+        False
+    ) == 1
 	
-	return Vector(cx, cy), in_center
-return None
+    return Vector(cx, cy), in_center
+  return None
 \end{lstlisting}
 
 A general detailed explanation of thresh moment was described in \autoref{des:thresh}.

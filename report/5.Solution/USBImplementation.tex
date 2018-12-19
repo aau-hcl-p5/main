@@ -6,11 +6,11 @@ This section will describe the specifics of the implementation of the USB receiv
 The USB receiver has 3 parts, as shown on \autoref{fig:compusb}.
 
 \begin{lstlisting}[language=CSharp,label={lst:usbhandshake},caption={ecrobot\_device\_initialize method from nxt.c}]
-    void ecrobot_device_initialize(void) {
-        init_motor(NXT_PORT_A, AXIS_Y, 20);
-        init_motor(NXT_PORT_B, AXIS_X, 20);
-        ecrobot_init_usb();
-    }
+void ecrobot_device_initialize(void) {
+    init_motor(NXT_PORT_A, AXIS_Y, 20);
+    init_motor(NXT_PORT_B, AXIS_X, 20);
+    ecrobot_init_usb();
+}
 \end{lstlisting}
 
 
