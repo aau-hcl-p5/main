@@ -1,5 +1,5 @@
 \section{Discussion and perspectivation}
-In order to conclude upon the success of the project, the MoSCoW analysis and the test cases formulated in Subsection~\ref{subsec:requirements} will be used.
+To conclude upon the success of the project, the MoSCoW analysis and the test cases formulated in Subsection~\ref{subsec:requirements} will be used.
 
 \subsection{MoSCoW conclusion}
 In the MoSCoW analysis, a set of prioritized requirements were formulated.
@@ -16,8 +16,9 @@ The must have requirements were as follows:
 	\item enough structural stability to be able to move without breaking
 \end{itemize}
 
-The robot is able to recognize and track a red balloon being dropped at a height of 2 meters at distance of 3 meters from the device in real-time, with the laser being toggled off as soon as the balloon leaves its field of view. 
-The robot is able to move approximately 270 degrees on the horizontal axis, allowing a movement of about 135 degrees in each direction from the point of origin and the vertical axis, it is able to move a total of 140 degrees, allowing 70 degrees movement in each vertical direction from the point of origin.
+The robot is able to recognize and track a red balloon being dropped from a height of 2 meters at distance of 3 meters from the device in real-time, with the laser being toggled off as soon as the balloon leaves its field of view. 
+The robot is able to move approximately 270 degrees on the horizontal axis, allowing a movement of about 135 degrees in each direction from the point of origin.
+On the vertical axis, it is able to move a total of 140 degrees, allowing 70 degrees movement in each vertical direction from the point of origin.
 Finally, the robot is able to do the above without causing instability or breakage in the model, resulting in all five \textit{must have} being accomplished.
 
 
@@ -33,7 +34,7 @@ The should have requirements were as follows:
 As mentioned in the must have conclusion, the robot is able to track a balloon falling at a distance of 3 meters.
 The robot is also able to track a large object, such as a balloon, being moved at a slow speed with unpredictable movement patterns.
 At a distance of 1 meters, an object with a size of at least 15 centimeters in diameter can be tracked with a good amount of precision.
-Being able to track smaller objects would require more precise motors as the imprecision of the motors causes some issues, as they can only move a full degree per step, meaning the movement of the laser will become more imprecise as the distance to the target increases.
+Tracking smaller objects would require more precise motors as the imprecision of the motors causes some issues, as they can only move a full degree per step, meaning the movement of the laser will become more imprecise as the distance to the target increases.
 For example, at a distance of 30 centimeters from the laser, one degree movement will result in the laser moving 0.3 centimeters, however, at a distance of 2.5 meters, moving a single degree will result in the laser moving more than 4 centimeters.
 This limitation means that at a distance, hitting a small object is simply not viable due to the limitations of the motors.
 Likewise, the ability to predict the next location of an object was relinquished as it was not deemed necessary when not firing a projectile.
@@ -70,7 +71,7 @@ Along with the MoSCoW analysis, four test cases were presented:
 The first case, dropping a ball, was already presented in the MoSCoW conclusion and deemed successful.
 The test was conducted with a heart shaped, red balloon with a diameter of 30 centimeters, which was dropped at a distance of 4 meters and a height of 2 meters. 
 \texttt{F.L.A.T.} was able to keep it's laser on the target most of the time during the fall. 
-For the second case with rolling a ball, \texttt{F.L.A.T.} was roughly able to keep it's laser on a ball with a diameter of 52 mm successfully. 
+For the rolling a ball test case, \texttt{F.L.A.T.} was able to roughly keep it's laser on a ball with a diameter of 52 mm successfully. 
 However, the final two cases with a throwing a ball and shooting a balloon were not accomplished, as the device was not fast enough to process the speed of the object, and does not have the capabilities to shoot a balloon.
 
 \subsection{Machine intelligence}
