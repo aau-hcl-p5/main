@@ -3,6 +3,7 @@
 <nta>
 	<declaration>const int 	N = 6;         // Number of tasks
 typedef int[0,N-1] id_t;
+const int factor = 1;
 
 broadcast chan		    release[N], ready[N], stop;
 urgent broadcast chan 	run[N];
@@ -13,30 +14,30 @@ clock time;
 // All times are in microseconds 
 
 const int T[N] = {  // Periods
-    15000, // BackgroundTask
-    15000, // UpdateDisplayTask
-    15000, // MoveMotorsTask
-    1000,  // ReciveDataTask
-    1000,  // HandleLaserTask
+    1000000, // BackgroundTask
+    500000, // UpdateDisplayTask
+    30000, // MoveMotorsTask
+    30000,  // ReciveDataTask
+    15000,  // HandleLaserTask
     1000   // KeepUSBAliveTask
 };	       
 
 const int D[N] = {  // Deadlines
-    15000, // BackgroundTask
-    15000, // UpdateDisplayTask
-    15000, // MoveMotorsTask
-    1000,  // ReciveDataTask
-    1000,  // HandleLaserTask
+    1000000, // BackgroundTask
+    500000, // UpdateDisplayTask
+    30000,  // MoveMotorsTask
+    30000,  // ReciveDataTask
+    15000,  // HandleLaserTask
     1000   // KeepUSBAliveTask
 };	       
 
 const int C[N] = {  // Computation Times
-    0,     // BackgroundTask
-    267,   // UpdateDisplayTask
-    12116, // MoveMotorsTask
-    13,    // ReciveDataTask
-    6,     // HandleLaserTask
-    16     // KeepUSBAliveTask
+    8*factor,       // BackgroundTask
+    90*factor,      // UpdateDisplayTask
+    26417*factor,   // MoveMotorsTask
+    72*factor,      // ReciveDataTask
+    37*factor,      // HandleLaserTask
+    32*factor       // KeepUSBAliveTask
 };       
 
 const int P[N] = {  // Priorities
@@ -47,15 +48,6 @@ const int P[N] = {  // Priorities
     5,   // HandleLaserTask
     5    // KeepUSBAliveTask
 };
-
-const bool Pr[N] = {  // Preemptive
-    true,   // BackgroundTask
-    true,   // UpdateDisplayTask
-    true,   // MoveMotorsTask
-    true,   // ReciveDataTask
-    false,  // HandleLaserTask
-    false   // KeepUSBAliveTask
-}; 
 
 bool running[N];
 </declaration>
